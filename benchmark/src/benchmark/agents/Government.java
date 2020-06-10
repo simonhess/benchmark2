@@ -18,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import benchmark.StaticValues;
@@ -136,7 +137,7 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 			collectTaxes(event.getSimulationController());
 			break;
 		case StaticValues.TIC_BONDINTERESTS:
-			payInterests();
+			payInterests(event.getSimulationController());
 			break;
 		case StaticValues.TIC_BONDSUPPLY:
 			determineBondsInterestRate();
@@ -203,9 +204,15 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	/**
 	 * Pays bonds interests to their asset holder
 	 */
-	protected void payInterests() {
+	protected void payInterests(SimulationController simulationController) {
 		List<Item> bonds=this.getItemsStockMatrix(false, StaticValues.SM_BONDS);
 		Item deposit=this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+		MacroPopulation populations = (MacroPopulation)simulationController.getPopulation();
+		Collection <Agent> bpop = populations.getPopulation(StaticValues.BANKS_ID).getAgents();
+		Collection <BondDemander> banks = new ArrayList<BondDemander>(); // Create list with all banks
+		for (Agent i:bpop){
+			banks.add((BondDemander)i); // Cast Bank Agents to BondDemanders
+		}
 		double interestsBonds=0;
 		for(Item b:bonds){
 			Bond bond=(Bond)b;
@@ -223,6 +230,10 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 					}
 				}
 				else if(holder instanceof Bank){
+					// Remove bond holding banks from list
+					if (banks.contains(holder)) {
+					banks.remove(holder); // Remove all banks which hold bonds
+					}
 					Item hDep = holder.getItemStockMatrix(true, StaticValues.SM_RESERVES);
 					hDep.setValue(hDep.getValue()+bond.getValue()*bond.getInterestRate());
 					deposit.setValue(deposit.getValue()-bond.getValue()*bond.getInterestRate());
@@ -233,6 +244,10 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 					}
 				}
 			}
+		}
+		// set BondInterestRecieved of all banks which hold no bonds to zero
+		for (BondDemander i:banks){
+			i.setBondInterestsReceived(0.00);
 		}
 		totInterestsBonds=interestsBonds;
 	}

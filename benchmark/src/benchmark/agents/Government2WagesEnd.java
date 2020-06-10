@@ -44,7 +44,7 @@ public class Government2WagesEnd extends Government implements LaborDemander, Bo
 			collectTaxes(event.getSimulationController());
 			break;
 		case StaticValues.TIC_BONDINTERESTS:
-			payInterests();
+			payInterests(event.getSimulationController());
 			break;
 		case StaticValues.TIC_BONDSUPPLY:
 			determineBondsInterestRate();

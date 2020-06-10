@@ -596,7 +596,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		case StaticValues.MKT_CREDIT:
 			return Double.POSITIVE_INFINITY;
 		case StaticValues.MKT_DEPOSIT:
-			return this.advancesInterestRate;
+			return this.advancesInterestRate-this.targetedLiquidityRatio*this.advancesInterestRate+this.targetedLiquidityRatio*this.reserveInterestRate;
 		}
 		return 0;
 	}

@@ -153,6 +153,11 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			Deposit dep = new Deposit(hhDep, hh, bank, this.iDep);
 			hh.addItemStockMatrix(dep, true, StaticValues.SM_DEP);
 			bank.addItemStockMatrix(dep, false, StaticValues.SM_DEP);
+			
+			//Central Bank Deposit Holdings
+			Deposit hhRes = new Deposit(0,(SimpleAbstractAgent)hh,(SimpleAbstractAgent)cb,0);
+			hh.addItemStockMatrix(hhRes, true, StaticValues.SM_RESERVES);
+			cb.addItemStockMatrix(hhRes, false, StaticValues.SM_RESERVES);
 
 			//Make sure there are no employer
 			hh.setEmployer(null);
@@ -228,6 +233,10 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			DepositSupplier previousBankDeposit= (DepositSupplier) banks.getAgentList().get(bankId);
 			depositStrategy.setPreviousDepositSupplier(previousBankDeposit);
 
+			//Central Bank Deposit Holdings
+			Deposit kRes = new Deposit(0,(SimpleAbstractAgent)k,(SimpleAbstractAgent)cb,0);
+			k.addItemStockMatrix(kRes, true, StaticValues.SM_RESERVES);
+			cb.addItemStockMatrix(kRes, false, StaticValues.SM_RESERVES);
 
 			//Cash
 			Cash cash = new Cash(0,(SimpleAbstractAgent)k,(SimpleAbstractAgent)cb);
@@ -358,6 +367,11 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			Cash cash = new Cash(0,(SimpleAbstractAgent)c,(SimpleAbstractAgent)cb);
 			c.addItemStockMatrix(cash, true, StaticValues.SM_CASH);
 			cb.addItemStockMatrix(cash, false, StaticValues.SM_CASH);
+			
+			//Central Bank Deposit Holdings
+			Deposit cRes = new Deposit(0,(SimpleAbstractAgent)c,(SimpleAbstractAgent)cb,0);
+			c.addItemStockMatrix(cRes, true, StaticValues.SM_RESERVES);
+			cb.addItemStockMatrix(cRes, false, StaticValues.SM_RESERVES);
 
 			//Loans
 			bankLoanIterator=bankId;

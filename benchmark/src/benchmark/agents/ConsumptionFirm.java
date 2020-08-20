@@ -83,6 +83,13 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	protected double interestReceived;
 	protected double turnoverLabor;
 	protected double expectedVariableCosts;
+	protected double preferenceDeposits;
+	protected double preferenceCash;
+	protected double preferenceReserves;
+	private double cashAmount;
+	private double depositAmount;
+	private double reservesAmount;
+	
 
 //TODO check whether targetStock and its getters/setters are really used.
 	/**
@@ -767,6 +774,45 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		return 0;
 	}
 
+	public double getPreferenceDeposits() {
+		return preferenceDeposits;
+	}
+
+	public void setPreferenceDeposits(double preferenceDeposits) {
+		this.preferenceDeposits = preferenceDeposits;
+	}
+
+	public double getPreferenceCash() {
+		return preferenceCash;
+	}
+
+	public void setPreferenceCash(double preferenceCash) {
+		this.preferenceCash = preferenceCash;
+	}
+
+	public double getPreferenceReserves() {
+		return preferenceReserves;
+	}
+
+	public void setPreferenceReserves(double preferenceReserves) {
+		this.preferenceReserves = preferenceReserves;
+	}
+
+	public double getReservesAmount() {
+		return reservesAmount;
+	}
+
+	public void setReservesAmount(double reservesAmount) {
+		this.reservesAmount = reservesAmount;
+	}
+
+	public void setCashAmount(double cashAmount) {
+		this.cashAmount = cashAmount;
+	}
+
+	public void setDepositAmount(double depositAmount) {
+		this.depositAmount = depositAmount;
+	}
 	
 
 	/* (non-Javadoc)

@@ -58,8 +58,12 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	private double demand;
 	private double cashAmount;
 	private double depositAmount;
+	private double reservesAmount;
 	private int employmentWageLag;
 	protected double shareDeposits;
+	protected double preferenceDeposits;
+	protected double preferenceCash;
+	protected double preferenceReserves;
 	protected double interestsReceived;
 	protected double dividendsReceived;
 	
@@ -127,6 +131,37 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 		return this.cashAmount;
 	}
 	
+	public double getReservesAmount() {
+		return reservesAmount;
+	}
+
+	public void setReservesAmount(double reservesAmount) {
+		this.reservesAmount = reservesAmount;
+	}
+
+	public double getPreferenceDeposits() {
+		return preferenceDeposits;
+	}
+
+	public void setPreferenceDeposits(double preferenceDeposits) {
+		this.preferenceDeposits = preferenceDeposits;
+	}
+
+	public double getPreferenceCash() {
+		return preferenceCash;
+	}
+
+	public void setPreferenceCash(double preferenceCash) {
+		this.preferenceCash = preferenceCash;
+	}
+
+	public double getPreferenceReserves() {
+		return preferenceReserves;
+	}
+
+	public void setPreferenceReserves(double preferenceReserves) {
+		this.preferenceReserves = preferenceReserves;
+	}
 	
 
 	/**

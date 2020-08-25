@@ -83,9 +83,9 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	protected double interestReceived;
 	protected double turnoverLabor;
 	protected double expectedVariableCosts;
-	protected double preferenceDeposits;
-	protected double preferenceCash;
-	protected double preferenceReserves;
+	protected double preferredDepositRatio;
+	protected double preferredCashRatio;
+	protected double preferredReserveRatio;
 	private double cashAmount;
 	private double depositAmount;
 	private double reservesAmount;
@@ -774,28 +774,28 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		return 0;
 	}
 
-	public double getPreferenceDeposits() {
-		return preferenceDeposits;
+	public double getPreferredDepositRatio() {
+		return preferredDepositRatio;
 	}
 
-	public void setPreferenceDeposits(double preferenceDeposits) {
-		this.preferenceDeposits = preferenceDeposits;
+	public void setPreferredDepositRatio(double preferredDepositRatio) {
+		this.preferredDepositRatio = preferredDepositRatio;
 	}
 
-	public double getPreferenceCash() {
-		return preferenceCash;
+	public double getPreferredCashRatio() {
+		return preferredCashRatio;
 	}
 
-	public void setPreferenceCash(double preferenceCash) {
-		this.preferenceCash = preferenceCash;
+	public void setPreferredCashRatio(double preferredCashRatio) {
+		this.preferredCashRatio = preferredCashRatio;
 	}
 
-	public double getPreferenceReserves() {
-		return preferenceReserves;
+	public double getPreferredReserveRatio() {
+		return preferredReserveRatio;
 	}
 
-	public void setPreferenceReserves(double preferenceReserves) {
-		this.preferenceReserves = preferenceReserves;
+	public void setPreferredReserveRatio(double preferredReserveRatio) {
+		this.preferredReserveRatio = preferredReserveRatio;
 	}
 
 	public double getReservesAmount() {

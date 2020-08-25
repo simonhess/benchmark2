@@ -78,6 +78,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="bondMarket2Tic" />
 				<ref bean="reservesDemandBaselTic" />
 				<ref bean="reservesMarketBaselTic" />
+				<ref bean="rebalanceLiquidAssetsTic" />
 				<ref bean="nominalGDPReportTic" />
 				<ref bean="cAvPriceReportTic" />
 				<ref bean="kAvPriceReportTic" />
@@ -635,6 +636,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	<bean id="populationHandlerTic" class="jmab.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_POPULATIONHANDLER" /></property>
+	</bean>
+	<bean id="rebalanceLiquidAssetsTic" class="jmab.events.MacroTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_REBALANCELIQUIDASSETS" /></property>
 	</bean>
 	
 	<bean id="serializationTic" class="jmab.events.SerializationTicEvent">
@@ -1473,6 +1477,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_DIVIDENDS"/>
 				<util:constant static-field="benchmark.StaticValues.TIC_DEPOSITDEMAND"/>
 				<util:constant static-field="benchmark.StaticValues.TIC_UPDATEEXPECTATIONS"/>
+				<util:constant static-field="benchmark.StaticValues.TIC_REBALANCELIQUIDASSETS"/>
 			</list>
 		</property>
 		<property name="expectations"> 
@@ -1933,6 +1938,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_DIVIDENDS"/>
 				<util:constant static-field="benchmark.StaticValues.TIC_DEPOSITDEMAND"/>
 				<util:constant static-field="benchmark.StaticValues.TIC_UPDATEEXPECTATIONS"/>
+				<util:constant static-field="benchmark.StaticValues.TIC_REBALANCELIQUIDASSETS"/>
 			</list>
 		</property>
 		<property name="expectations"> 
@@ -2619,6 +2625,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_CONSUMPTIONDEMAND"/>
 				<util:constant static-field="benchmark.StaticValues.TIC_DEPOSITDEMAND"/>
 				<util:constant static-field="benchmark.StaticValues.TIC_UPDATEEXPECTATIONS"/>
+				<util:constant static-field="benchmark.StaticValues.TIC_REBALANCELIQUIDASSETS"/>
 			</list>
 		</property>
 		<property name="expectations"> 

@@ -230,9 +230,16 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 		case StaticValues.TIC_UPDATEEXPECTATIONS:
 			updateExpectations();
 			break;
+		case StaticValues.TIC_REBALANCELIQUIDASSETS:
+			rebalanceLiquidAssets();
+			break;
 		}
 	}
 	
+	private void rebalanceLiquidAssets() {
+		// TODO Auto-generated method stub
+	}
+
 	/**
 	 * 
 	 */

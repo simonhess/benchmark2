@@ -231,12 +231,9 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 		if(otherBank.getAgentId()==this.getAgentId()){
 			paying.setValue(paying.getValue()-amount);
 			receiving.setValue(receiving.getValue()+amount);
-		//If the central bank is doing Government transfers, then it needs to update the reserve account of the government,
+		//If the central bank is the payer and a bank is the receiver, then it needs to update the reserve account of the government/ household/ firm
 		// the deposit account of the receiver and the reserve account of the bank holding the deposit
-		}else if(paying.getAssetHolder().getPopulationId()==StaticValues.GOVERNMENT_ID ||
-				paying.getAssetHolder().getPopulationId()==StaticValues.CAPITALFIRMS_ID||
-				paying.getAssetHolder().getPopulationId()==StaticValues.CONSUMPTIONFIRMS_ID||
-				paying.getAssetHolder().getPopulationId()==StaticValues.HOUSEHOLDS_ID){
+		}else if(receiving.getLiabilityHolder().getPopulationId()==StaticValues.BANKS_ID){
 			paying.setValue(paying.getValue()-amount);
 			receiving.setValue(receiving.getValue()+amount);
 			Item oBankRes = otherBank.getCounterpartItem(receiving, paying);

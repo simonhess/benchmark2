@@ -222,7 +222,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	/**
 	 * This is overriden because the central bank is having special cases.
 	 * a. In the case of a transfer of reserves between two banks
-	 * b. In the case of doing Government transfers
+	 * b. In the case of doing Government transfers or transfers by households and firms
 	 */
 	@Override
 	public void transfer(Item paying, Item receiving, double amount){
@@ -233,7 +233,10 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 			receiving.setValue(receiving.getValue()+amount);
 		//If the central bank is doing Government transfers, then it needs to update the reserve account of the government,
 		// the deposit account of the receiver and the reserve account of the bank holding the deposit
-		}else if(paying.getAssetHolder().getPopulationId()==StaticValues.GOVERNMENT_ID){
+		}else if(paying.getAssetHolder().getPopulationId()==StaticValues.GOVERNMENT_ID ||
+				paying.getAssetHolder().getPopulationId()==StaticValues.CAPITALFIRMS_ID||
+				paying.getAssetHolder().getPopulationId()==StaticValues.CONSUMPTIONFIRMS_ID||
+				paying.getAssetHolder().getPopulationId()==StaticValues.HOUSEHOLDS_ID){
 			paying.setValue(paying.getValue()-amount);
 			receiving.setValue(receiving.getValue()+amount);
 			Item oBankRes = otherBank.getCounterpartItem(receiving, paying);

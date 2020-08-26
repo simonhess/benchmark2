@@ -868,7 +868,31 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		this.bailoutCost = bailoutCost;
 	}
 	
-	
+	@Override
+	public void transfer(Item paying, Item receiving, double amount){
+		MacroAgent otherBank = receiving.getLiabilityHolder();
+		Item BankRes = this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+		// Check if there is enough liquidity to perform the transfer
+		if(BankRes.getValue()>=amount){
+		}else {
+			//get loan
+		}
+		//If the payer and the receiver is a bank
+		if(otherBank.getPopulationId()==StaticValues.BANKS_ID){
+		Item otherBalancingItem = otherBank.getItemStockMatrix(true, this.depositCounterpartId);
+		Item balancingItem = this.getItemStockMatrix(true, this.depositCounterpartId);
+		paying.setValue(paying.getValue()-amount);
+		balancingItem.setValue(balancingItem.getValue()-amount);
+		receiving.setValue(receiving.getValue()+amount);
+		otherBalancingItem.setValue(otherBalancingItem.getValue()+amount);
+		//If the central bank is the receiver there is no otherBalancingItem
+		}else if(otherBank.getPopulationId()==StaticValues.CB_ID) {
+			paying.setValue(paying.getValue()-amount);
+			receiving.setValue(receiving.getValue()+amount);
+			BankRes.setValue(BankRes.getValue()-amount);
+		}
+		
+	}
 
 	/**
 	 * Populates the agent characteristics using the byte array content. The structure is as follows:

@@ -55,6 +55,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	//Households
 	private double hhsDep;
 	private double hhsCash;
+	private double hhsRes;
 	//Cap Firms
 	private double ksDep;
 	private int ksInv;
@@ -137,6 +138,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		//Households
 		double hhDep = this.hhsDep/hhSize;
 		double hhCash = this.hhsCash/hhSize;
+		double hhRes = this.hhsCash/hhSize;
 		double hhCons = this.csSales/(hhSize*cPrice);
 		for(int i = 0; i<hhSize; i++){
 			Households hh = (Households) households.getAgentList().get(i);
@@ -155,9 +157,9 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			bank.addItemStockMatrix(dep, false, StaticValues.SM_DEP);
 			
 			//Central Bank Deposit Holdings
-			Deposit hhRes = new Deposit(0,(SimpleAbstractAgent)hh,(SimpleAbstractAgent)cb,0);
-			hh.addItemStockMatrix(hhRes, true, StaticValues.SM_RESERVES);
-			cb.addItemStockMatrix(hhRes, false, StaticValues.SM_RESERVES);
+			Deposit res = new Deposit(hhRes,(SimpleAbstractAgent)hh,(SimpleAbstractAgent)cb,0);
+			hh.addItemStockMatrix(res, true, StaticValues.SM_RESERVES);
+			cb.addItemStockMatrix(res, false, StaticValues.SM_RESERVES);
 
 			//Make sure there are no employer
 			hh.setEmployer(null);
@@ -559,6 +561,14 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		this.hhsCash = hhsCash;
 	}
 
+	public double getHhsRes() {
+		return hhsRes;
+	}
+
+	public void setHhsRes(double hhsRes) {
+		this.hhsRes = hhsRes;
+	}
+	
 	/**
 	 * @return the ksDep
 	 */

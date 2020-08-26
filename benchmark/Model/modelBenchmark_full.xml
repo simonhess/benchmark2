@@ -1539,6 +1539,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="minWageDiscount" value="1"/>
 		<property name="turnoverLabor" ref="turnoverVal"/>
 		<property name="prng" ref="prng" />
+		<property name="preferredDepositRatio" value="1"/>
+		<property name="preferredCashRatio" value="0"/>
+		<property name="preferredReserveRatio" value="0"/>
 	</bean>
 	
 	<bean id="expSales" class="jmab.expectations.SimpleAdaptiveExpectation"
@@ -2003,6 +2006,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="prng" ref="prng" /> 
 		<property name="shareOfExpIncomeAsDeposit" value="1" />
 		<property name="minWageDiscount" value="1" />
+		<property name="preferredDepositRatio" value="1"/>
+		<property name="preferredCashRatio" value="0"/>
+		<property name="preferredReserveRatio" value="0"/>
 		
 	</bean>
 	
@@ -2659,6 +2665,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" /> </property>
 		<!-- From Households -->
 		<property name="shareDeposits" value="1"/>
+		<property name="preferredDepositRatio" value="1"/>
+		<property name="preferredCashRatio" value="0"/>
+		<property name="preferredReserveRatio" value="0"/>
 		<property name="employmentWageLag" value="4" />
 	</bean>
 	

@@ -204,7 +204,17 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 	public Item getPayableStock(int idGood) {
 		switch(idGood){
 		case StaticValues.MKT_CAPGOOD:
+			// Determine most preferred payment method based on liquidity preferences
+			double preferredPayableStock = Math.max(Math.max(preferredDepositRatio,preferredCashRatio),preferredReserveRatio);
+			if (preferredPayableStock == preferredDepositRatio) {
 			return this.getItemStockMatrix(true, StaticValues.SM_DEP);
+			} else if (preferredPayableStock == preferredCashRatio){
+			return this.getItemStockMatrix(true, StaticValues.SM_CASH);
+			} else if (preferredPayableStock == preferredReserveRatio){
+			return this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+			}
+			else
+			return null;
 		}
 		return null;
 	}

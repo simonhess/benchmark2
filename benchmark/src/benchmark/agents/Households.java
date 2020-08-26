@@ -25,6 +25,7 @@ import jmab.agents.DepositDemander;
 import jmab.agents.GoodDemander;
 import jmab.agents.IncomeTaxPayer;
 import jmab.agents.LaborSupplier;
+import jmab.agents.LiabilitySupplier;
 import jmab.agents.MacroAgent;
 import jmab.agents.WageSetterWithTargets;
 import jmab.events.MacroTicEvent;
@@ -375,10 +376,8 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 			deposit.setValue(taxes);
 		}
 		this.addValue(StaticValues.LAG_TAXES, taxes);
-		Item res = deposit.getLiabilityHolder().getItemStockMatrix(true,account.getSMId());
-		res.setValue(res.getValue()-taxes);
-		deposit.setValue(depValue-taxes);
-		account.setValue(account.getValue()+taxes);
+		LiabilitySupplier payingSupplier = (LiabilitySupplier) deposit.getLiabilityHolder();
+		payingSupplier.transfer((Item)deposit, account, taxes);
 		double nW=this.getNetWealth();
 		this.addValue(StaticValues.LAG_NETWEALTH, nW);
 		this.dividendsReceived=0;

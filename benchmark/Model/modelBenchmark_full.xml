@@ -66,6 +66,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="advInterestTic" />
 				<ref bean="taxesTic" />
 				<ref bean="dividendsTic" />
+				<ref bean="rebalanceLiquidAssetsTic" />
 				<ref bean="depDemandTic" />
 				<ref bean="depMarketTic" />
 				<ref bean="bankruptcyTic" />
@@ -78,7 +79,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="bondMarket2Tic" />
 				<ref bean="reservesDemandBaselTic" />
 				<ref bean="reservesMarketBaselTic" />
-				<ref bean="rebalanceLiquidAssetsTic" />
 				<ref bean="nominalGDPReportTic" />
 				<ref bean="cAvPriceReportTic" />
 				<ref bean="kAvPriceReportTic" />

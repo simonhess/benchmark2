@@ -49,6 +49,7 @@ import jmab.strategies.InterestRateStrategy;
 import jmab.strategies.SpecificCreditSupplyStrategy;
 import jmab.strategies.SupplyCreditStrategy;
 import jmab.strategies.TaxPayerStrategy;
+import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
 import net.sourceforge.jabm.event.AgentArrivalEvent;
 import net.sourceforge.jabm.event.RoundFinishedEvent;
@@ -873,9 +874,13 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		MacroAgent otherBank = receiving.getLiabilityHolder();
 		Item BankRes = this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
 		// Check if there is enough liquidity to perform the transfer
-		if(BankRes.getValue()>=amount){
-		}else {
-			//get loan
+		if(BankRes.getValue()<amount){
+			this.advancesDemand =+ amount-BankRes.getValue();
+			SimulationController controller = (SimulationController)this.getScheduler();
+			MacroSimulation ms = (MacroSimulation) controller.getSimulation();
+			MacroPopulation populations = (MacroPopulation)controller.getPopulation();
+			MacroAgent cb = (MacroAgent) populations.getPopulation(StaticValues.CB_ID).getAgentList().get(0);
+			ms.getMarket(benchmark.StaticValues.MKT_ADVANCES).commit((MacroAgent) this, cb, benchmark.StaticValues.MKT_ADVANCES);
 		}
 		//If the payer and the receiver is a bank
 		if(otherBank.getPopulationId()==StaticValues.BANKS_ID){
@@ -891,7 +896,6 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			receiving.setValue(receiving.getValue()+amount);
 			BankRes.setValue(BankRes.getValue()-amount);
 		}
-		
 	}
 
 	/**

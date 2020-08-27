@@ -78,7 +78,7 @@ public class GovernmentAntiCyclical extends Government implements LaborDemander,
 			collectTaxes(event.getSimulationController());
 			break;
 		case StaticValues.TIC_BONDINTERESTS:
-			payInterests(event.getSimulationController());
+			payInterests();
 			break;
 		case StaticValues.TIC_BONDSUPPLY:
 			receiveCBProfits();

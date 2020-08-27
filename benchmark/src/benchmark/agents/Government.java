@@ -137,7 +137,7 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 			collectTaxes(event.getSimulationController());
 			break;
 		case StaticValues.TIC_BONDINTERESTS:
-			payInterests(event.getSimulationController());
+			payInterests();
 			break;
 		case StaticValues.TIC_BONDSUPPLY:
 			determineBondsInterestRate();
@@ -204,9 +204,10 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	/**
 	 * Pays bonds interests to their asset holder
 	 */
-	protected void payInterests(SimulationController simulationController) {
+	protected void payInterests() {
 		List<Item> bonds=this.getItemsStockMatrix(false, StaticValues.SM_BONDS);
 		Item deposit=this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+		SimulationController simulationController = (SimulationController)this.getScheduler();
 		MacroPopulation populations = (MacroPopulation)simulationController.getPopulation();
 		Collection <Agent> bpop = populations.getPopulation(StaticValues.BANKS_ID).getAgents();
 		Collection <BondDemander> banks = new ArrayList<BondDemander>(); // Create list with all banks

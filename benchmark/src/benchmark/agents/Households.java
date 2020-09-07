@@ -328,12 +328,21 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	public List<Item> getPayingStocks(int idGood, Item payableStock) {
 		List<Item> result = new ArrayList<Item>();
 		if(payableStock instanceof Deposit){
-			result.addAll(this.getItemsStockMatrix(true, StaticValues.SM_DEP));
-			result.addAll(this.getItemsStockMatrix(true, StaticValues.SM_CASH));
+			if(payableStock.getLiabilityHolder().getPopulationId()==StaticValues.BANKS_ID) {
+				result.addAll(this.getItemsStockMatrix(true, StaticValues.SM_DEP));
+				result.addAll(this.getItemsStockMatrix(true, StaticValues.SM_CASH));
+				result.addAll(this.getItemsStockMatrix(true, StaticValues.SM_RESERVES));
+			}else {
+				result.addAll(this.getItemsStockMatrix(true, StaticValues.SM_RESERVES));
+				result.addAll(this.getItemsStockMatrix(true, StaticValues.SM_DEP));
+				result.addAll(this.getItemsStockMatrix(true, StaticValues.SM_CASH));
+			}		
 		}else{
 			result.addAll(this.getItemsStockMatrix(true, StaticValues.SM_CASH));
-			result.addAll(this.getItemsStockMatrix(true, StaticValues.SM_DEP));			
+			result.addAll(this.getItemsStockMatrix(true, StaticValues.SM_DEP));
+			result.addAll(this.getItemsStockMatrix(true, StaticValues.SM_RESERVES));
 		}
+		
 		return result;
 	}
 

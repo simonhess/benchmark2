@@ -290,8 +290,8 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	 */
 	private void computeLiquidAssetsAmounts() {
 		double liquidAssets=0;
-		List<Item> deposits=this.getItemsStockMatrix(true, StaticValues.SM_CASH);
-		List<Item> cash=this.getItemsStockMatrix(true, StaticValues.SM_DEP);
+		List<Item> deposits=this.getItemsStockMatrix(true, StaticValues.SM_DEP);
+		List<Item> cash=this.getItemsStockMatrix(true, StaticValues.SM_CASH);
 		List<Item> reserves=this.getItemsStockMatrix(true, StaticValues.SM_RESERVES);
 		for (Item i: deposits){
 			liquidAssets+=i.getValue();

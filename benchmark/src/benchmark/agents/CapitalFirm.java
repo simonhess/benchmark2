@@ -257,17 +257,9 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 			break;
 		case StaticValues.TIC_UPDATEEXPECTATIONS:
 			updateExpectations();
-		case StaticValues.TIC_REBALANCELIQUIDASSETS:
-			rebalanceLiquidAssets();
-			break;
 		}
 
 
-	}
-
-	private void rebalanceLiquidAssets() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	/**

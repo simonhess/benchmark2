@@ -161,7 +161,6 @@ public interface StaticValues {
 	public static int TIC_CRSALESEXPERRORREPORT=138;
 	public static int TIC_KRSALESEXPERRORREPORT=139;
 	public static int TIC_HHPRICESEXPERRORREPORT=140;
-	public static int TIC_REBALANCELIQUIDASSETS=141;
 	
 	public static int TIC_POPULATIONHANDLER=1000;
 	public static int TIC_UPDATEEXPECTATIONS=1001;

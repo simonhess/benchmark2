@@ -249,6 +249,8 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	
 	private void rebalanceLiquidAssets() {
 		// TODO Auto-generated method stub
+		// Rebalance liquid assets according to preferences
+		
 	}
 
 	/**
@@ -299,14 +301,19 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 		double liquidAssets=0;
 		List<Item> deposits=this.getItemsStockMatrix(true, StaticValues.SM_CASH);
 		List<Item> cash=this.getItemsStockMatrix(true, StaticValues.SM_DEP);
+		List<Item> reserves=this.getItemsStockMatrix(true, StaticValues.SM_RESERVES);
 		for (Item i: deposits){
 			liquidAssets+=i.getValue();
 		}
 		for (Item i: cash){
 			liquidAssets+=i.getValue();
 		}
-		this.setDepositAmount(this.shareDeposits*liquidAssets);
-		this.setCashAmount(liquidAssets-this.getDepositAmount());	
+		for (Item i: reserves){
+			liquidAssets+=i.getValue();
+		}
+		this.setDepositAmount(this.preferredDepositRatio*liquidAssets);
+		this.setCashAmount(this.preferredCashRatio*liquidAssets);
+		this.setReservesAmount(this.preferredReserveRatio*liquidAssets);
 		this.setActive(true, StaticValues.MKT_DEPOSIT);
 	}
 

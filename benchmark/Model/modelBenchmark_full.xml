@@ -415,6 +415,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		scope="simulation">
 		<property name="idCashSM"><util:constant static-field="benchmark.StaticValues.SM_CASH" /></property>
 		<property name="idDepositsSM"><util:constant static-field="benchmark.StaticValues.SM_DEP" /></property>
+		<property name="idReservesSM"><util:constant static-field="benchmark.StaticValues.SM_RESERVES" /></property>
 	</bean>
 	
 	

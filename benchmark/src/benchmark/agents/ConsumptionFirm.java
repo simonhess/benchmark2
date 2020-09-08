@@ -654,46 +654,49 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	 * are distributed to creditors, proportionally to the amount of debt held by each creditor.
 	 */
 	protected void payInterests() {
-		//First, we need to determine the total amount to be paid (interests+capital)
+		// First, we need to determine the total amount to be paid (interests+capital)
 		this.computeDebtPayments();
-		//Then determine the amount of liquid assets the firm has
+		// Then determine the amount of liquid assets the firm has
 		List<Item> deposits = this.getItemsStockMatrix(true, StaticValues.SM_DEP);
-		//1. If more than one deposit account (at max 2)
-		Deposit deposit = (Deposit)deposits.get(0);
-		if(deposits.size()==2){
-			Item deposit2 = deposits.get(1);
-			LiabilitySupplier supplier = (LiabilitySupplier) deposit2.getLiabilityHolder();
-			supplier.transfer(deposit2, deposit, deposit2.getValue());
-		}
-		//2. If cash holdings
-		Cash cash = (Cash) this.getItemStockMatrix(true, StaticValues.SM_CASH);
-		if(cash.getValue()>0){
-			LiabilitySupplier bank = (LiabilitySupplier)deposit.getLiabilityHolder();
-			Item bankCash = bank.getCounterpartItem(deposit, cash);
-			bankCash.setValue(bankCash.getValue()+cash.getValue());
-			deposit.setValue(deposit.getValue()+cash.getValue());
-			cash.setValue(0);
-		}
-		double liquidity = deposit.getValue();
-		
-		List<Item> loans=this.getItemsStockMatrix(false, StaticValues.SM_LOAN);
-		//If enough liquidity, all is well
-		if(liquidity>=this.debtBurden){
-			for(int i=0;i<loans.size();i++){
-				Loan loan = (Loan) loans.get(i);
-				double amountToPay=this.debtPayments[i][0]+debtPayments[i][1];
-				deposit.setValue(deposit.getValue()-amountToPay);
-				if(loan.getAssetHolder()!=deposit.getLiabilityHolder()){
-					Item lBankRes = loan.getAssetHolder().getItemStockMatrix(true,StaticValues.SM_RESERVES);
-					lBankRes.setValue(lBankRes.getValue()+amountToPay);
-					Item dBankRes = deposit.getLiabilityHolder().getItemStockMatrix(true, StaticValues.SM_RESERVES);
-					dBankRes.setValue(dBankRes.getValue()-amountToPay);
-				}
-				loan.setValue(loan.getValue()-debtPayments[i][1]);
+		// 1. If more than one deposit account (at max 2)
+		Deposit deposit = (Deposit) deposits.get(0);
+
+		List<Item> loans = this.getItemsStockMatrix(false, StaticValues.SM_LOAN);
+
+		// Prepare the re-allocation of funds
+		// 1 Get the payable stock
+		Item payableStock = deposit;
+		// 2 Get the paying stocks
+		List<Item> payingStocks = this.getPayingStocks(StaticValues.MKT_LABOR, payableStock);
+		// 3 Get the first occurrence of an item of the same sort than the payable stock
+		// within the paying stocks
+		Item targetStock = null;
+		for (Item item : payingStocks) {
+			if (item.getSMId() == payableStock.getSMId()) {
+				targetStock = item;
+				break;
 			}
-		//Else, the firm defaults
-		}else{
-			System.out.println("Default " + this.getAgentId() +" due to debt service");
+		}
+		// Reallocate
+		reallocateLiquidity(this.debtBurden, payingStocks, targetStock);
+
+		// If enough liquidity, all is well
+		if (Math.round(targetStock.getValue()) >= Math.round(this.debtBurden)) {
+			for (int i = 0; i < loans.size(); i++) {
+				Loan loan = (Loan) loans.get(i);
+				double amountToPay = this.debtPayments[i][0] + this.debtPayments[i][1];
+				deposit.setValue(deposit.getValue() - amountToPay);
+				if (loan.getAssetHolder() != deposit.getLiabilityHolder()) {
+					Item lBankRes = loan.getAssetHolder().getItemStockMatrix(true, StaticValues.SM_RESERVES);
+					lBankRes.setValue(lBankRes.getValue() + amountToPay);
+					Item dBankRes = deposit.getLiabilityHolder().getItemStockMatrix(true, StaticValues.SM_RESERVES);
+					dBankRes.setValue(dBankRes.getValue() - amountToPay);
+				}
+				loan.setValue(loan.getValue() - this.debtPayments[i][1]);
+			}
+			// Else, the firm defaults
+		} else {
+			System.out.println("Default " + this.getAgentId() + " due to debt service");
 			this.bankruptcy();
 		}
 	}

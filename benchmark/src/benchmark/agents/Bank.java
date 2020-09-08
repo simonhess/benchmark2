@@ -884,15 +884,15 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			MacroAgent cb = (MacroAgent) populations.getPopulation(StaticValues.CB_ID).getAgentList().get(0);
 			ms.getMarket(benchmark.StaticValues.MKT_ADVANCES).commit((MacroAgent) this, cb, benchmark.StaticValues.MKT_ADVANCES);
 		}
-		//If the payer and the receiver is a bank
-		if(otherBank.getPopulationId()==StaticValues.BANKS_ID){
 		Item otherBalancingItem = otherBank.getItemStockMatrix(true, this.depositCounterpartId);
 		Item balancingItem = this.getItemStockMatrix(true, this.depositCounterpartId);
+		//If the payer and the receiver is a bank
+		if(otherBank.getPopulationId()==StaticValues.BANKS_ID){
 		paying.setValue(paying.getValue()-amount);
 		balancingItem.setValue(balancingItem.getValue()-amount);
 		receiving.setValue(receiving.getValue()+amount);
 		otherBalancingItem.setValue(otherBalancingItem.getValue()+amount);
-		//If the central bank is the receiver there is no otherBalancingItem
+		//If the central bank is the receiver (in cash or deposit) there is no otherBalancingItem
 		}else if(otherBank.getPopulationId()==StaticValues.CB_ID) {
 			LiabilitySupplier centBank = (LiabilitySupplier) otherBank;
 			// Check if there is enough cash/ reserves to perform the transfer otherwise reallocate assets
@@ -911,7 +911,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			}
 			paying.setValue(paying.getValue()-amount);
 			receiving.setValue(receiving.getValue()+amount);
-			BankRes.setValue(BankRes.getValue()-amount);
+			balancingItem.setValue(balancingItem.getValue()-amount);
 		}
 	}
 

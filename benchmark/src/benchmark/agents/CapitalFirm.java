@@ -676,7 +676,7 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 		// Reallocate
 		reallocateLiquidity(taxes, payingStocks, targetStock);
 		updateAfterTaxProfits(taxes);
-		if(taxes>targetStock.getValue()){
+		if(Math.round(taxes)>Math.round(targetStock.getValue())){
 			bankruptcy();
 			this.addValue(StaticValues.LAG_TAXES, 0);
 		}

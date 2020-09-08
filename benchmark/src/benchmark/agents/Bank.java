@@ -884,10 +884,10 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			MacroAgent cb = (MacroAgent) populations.getPopulation(StaticValues.CB_ID).getAgentList().get(0);
 			ms.getMarket(benchmark.StaticValues.MKT_ADVANCES).commit((MacroAgent) this, cb, benchmark.StaticValues.MKT_ADVANCES);
 		}
-		Item otherBalancingItem = otherBank.getItemStockMatrix(true, this.depositCounterpartId);
 		Item balancingItem = this.getItemStockMatrix(true, this.depositCounterpartId);
 		//If the payer and the receiver is a bank
 		if(otherBank.getPopulationId()==StaticValues.BANKS_ID){
+		Item otherBalancingItem = otherBank.getItemStockMatrix(true, this.depositCounterpartId);
 		paying.setValue(paying.getValue()-amount);
 		balancingItem.setValue(balancingItem.getValue()-amount);
 		receiving.setValue(receiving.getValue()+amount);

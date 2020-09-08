@@ -564,7 +564,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		// Reallocate
 		reallocateLiquidity(taxes, payingStocks, targetStock);
 		updateAfterTaxProfits(taxes);
-		if(taxes>targetStock.getValue()){
+		if(Math.round(taxes)>Math.round(targetStock.getValue())){
 			System.out.println("Default "+ this.getAgentId()+ " due to taxes");
 			bankruptcy();
 		    this.addValue(StaticValues.LAG_TAXES, 0);

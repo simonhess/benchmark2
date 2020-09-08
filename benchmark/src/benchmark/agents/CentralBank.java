@@ -232,7 +232,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 			paying.setValue(paying.getValue()-amount);
 			receiving.setValue(receiving.getValue()+amount);
 			// Handle case where cb deposit is converted to cash and vice versa
-			if(paying.getClass().equals(receiving.getClass())== false) {
+			if((paying.getClass()).equals(receiving.getClass())== false) {
 				Item counterpartItem = this.getItemStockMatrix(false, paying.getSMId());
 				counterpartItem.setValue(counterpartItem.getValue()-amount);
 				Item otherCounterpartItem = this.getItemStockMatrix(false, receiving.getSMId());

@@ -341,23 +341,27 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 			this.setActive(true, StaticValues.MKT_LABOR);
 		}
 		if(employees.size()>0){
-			List<Item> deposits = this.getItemsStockMatrix(true, StaticValues.SM_DEP);
-			Deposit deposit = (Deposit)deposits.get(0);
-			if(deposits.size()==2){
-				Item deposit2 = deposits.get(1);
-				LiabilitySupplier supplier = (LiabilitySupplier) deposit2.getLiabilityHolder();
-				supplier.transfer(deposit2, deposit, deposit2.getValue());
+			//Prepare the re-allocation of funds
+			//1 Get the payable stock
+			Item payableStock = this.getPayableStock(StaticValues.MKT_CONSGOOD);
+			//2 Get the paying stocks
+			List<Item> payingStocks = this.getPayingStocks(StaticValues.MKT_LABOR,payableStock);
+			//3 Get the first occurrence of an item of the same sort than the payable stock within the paying stocks
+			Item targetStock=null;
+			for(Item item:payingStocks){
+				if(item.getSMId()==payableStock.getSMId()){
+					targetStock=item;
+					break;
+				}
 			}
-			//2. If cash holdings
-			Cash cash = (Cash) this.getItemStockMatrix(true, StaticValues.SM_CASH);
-			if(cash.getValue()>0){
-				LiabilitySupplier bank = (LiabilitySupplier)deposit.getLiabilityHolder();
-				Item bankCash = bank.getCounterpartItem(deposit, cash);
-				bankCash.setValue(bankCash.getValue()+cash.getValue());
-				deposit.setValue(deposit.getValue()+cash.getValue());
-				cash.setValue(0);
+			// Calculate amount to be reallocated
+			double reallocateAmount = 0;
+			for(Item item:payingStocks){
+				reallocateAmount += item.getValue();
 			}
-			payWages(deposit,StaticValues.MKT_LABOR);
+			// Reallocate
+			reallocateLiquidity(reallocateAmount, payingStocks, targetStock);
+			payWages(targetStock,StaticValues.MKT_LABOR);
 		}
 		cleanEmployeeList();
 	}

@@ -656,27 +656,30 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 		else{
 			taxes=0;
 		}
-		Cash cash = (Cash)this.getItemStockMatrix(true, StaticValues.SM_CASH);
-		double liquidity=cash.getValue();
-		Deposit deposit= (Deposit)this.getItemStockMatrix(true, StaticValues.SM_DEP);
-		liquidity+=deposit.getValue();
+		//Prepare the re-allocation of funds
+		//1 Get the payable stock
+		Item payableStock = account;
+		//2 Get the paying stocks
+		List<Item> payingStocks = this.getPayingStocks(StaticValues.MKT_LABOR,payableStock);
+		//3 Get the first occurrence of an item of the same sort than the payable stock within the paying stocks
+		Item targetStock=null;
+		for(Item item:payingStocks){
+			if(item.getSMId()==payableStock.getSMId()){
+				targetStock=item;
+				break;
+			}
+		}
+		// Reallocate
+		reallocateLiquidity(taxes, payingStocks, targetStock);
 		updateAfterTaxProfits(taxes);
-		if(taxes>liquidity){
+		if(taxes>targetStock.getValue()){
 			bankruptcy();
 			this.addValue(StaticValues.LAG_TAXES, 0);
 		}
 		else{
 			this.addValue(StaticValues.LAG_TAXES, taxes);
-			double depValue=deposit.getValue();
-			if(depValue<taxes){
-				double cashTr=taxes-depValue;
-				Item bCash=deposit.getLiabilityHolder().getItemStockMatrix(true, cash.getSMId());
-				bCash.setValue(bCash.getValue()+cashTr);
-				cash.setValue(cash.getValue()-cashTr);
-				deposit.setValue(taxes);
-			}
-			LiabilitySupplier payingSupplier = (LiabilitySupplier) deposit.getLiabilityHolder();
-			payingSupplier.transfer((Item)deposit, account, taxes);
+			LiabilitySupplier payingSupplier = (LiabilitySupplier) targetStock.getLiabilityHolder();
+			payingSupplier.transfer(targetStock, account, taxes);
 		}
 		
 	}

@@ -231,6 +231,13 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 		if(otherBank.getAgentId()==this.getAgentId()){
 			paying.setValue(paying.getValue()-amount);
 			receiving.setValue(receiving.getValue()+amount);
+			// Handle case where cb deposit is converted to cash and vice versa
+			if(paying.getClass().equals(receiving.getClass())== false) {
+				Item counterpartItem = this.getItemStockMatrix(false, paying.getSMId());
+				counterpartItem.setValue(counterpartItem.getValue()-amount);
+				Item otherCounterpartItem = this.getItemStockMatrix(false, receiving.getSMId());
+				otherCounterpartItem.setValue(otherCounterpartItem.getValue()+amount);
+			}
 		//If the central bank is the payer and a bank is the receiver, then it needs to update the reserve account of the government/ household/ firm
 		// the deposit account of the receiver and the reserve account of the bank holding the deposit
 		}else if(receiving.getLiabilityHolder().getPopulationId()==StaticValues.BANKS_ID){

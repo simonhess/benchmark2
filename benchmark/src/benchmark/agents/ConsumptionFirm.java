@@ -706,15 +706,22 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	 * 
 	 */
 	protected void computeLiquidAssetsAmounts() {
-		Item cash = this.getItemStockMatrix(true, StaticValues.SM_CASH);
-		if(cash.getValue()>0){
-			Item dep = this.getItemStockMatrix(true, StaticValues.SM_DEP);
-			MacroAgent bank=dep.getLiabilityHolder();
-			Item bCash = bank.getItemStockMatrix(true, StaticValues.SM_CASH);
-			bCash.setValue(bCash.getValue()+cash.getValue());
-			dep.setValue(dep.getValue()+cash.getValue());
-			cash.setValue(0);
+		double liquidAssets=0;
+		List<Item> deposits=this.getItemsStockMatrix(true, StaticValues.SM_DEP);
+		List<Item> cash=this.getItemsStockMatrix(true, StaticValues.SM_CASH);
+		List<Item> reserves=this.getItemsStockMatrix(true, StaticValues.SM_RESERVES);
+		for (Item i: deposits){
+			liquidAssets+=i.getValue();
 		}
+		for (Item i: cash){
+			liquidAssets+=i.getValue();
+		}
+		for (Item i: reserves){
+			liquidAssets+=i.getValue();
+		}
+		this.setDepositAmount(this.preferredDepositRatio*liquidAssets);
+		this.setCashAmount(this.preferredCashRatio*liquidAssets);
+		this.setReservesAmount(this.preferredReserveRatio*liquidAssets);
 		this.setActive(true, StaticValues.MKT_DEPOSIT);
 	}
 
@@ -728,11 +735,13 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 			List<Item> payingStocksLab=new ArrayList<Item>();
 			payingStocksLab.addAll(this.getItemsStockMatrix(true, StaticValues.SM_DEP));
 			payingStocksLab.add(payingStocksLab.size()-1, this.getItemStockMatrix(true,StaticValues.SM_CASH));
+			payingStocksLab.add(payingStocksLab.size()-1, this.getItemStockMatrix(true,StaticValues.SM_RESERVES));
 			return payingStocksLab;
 		case StaticValues.MKT_CAPGOOD:
 			List<Item> payingStocksCap=new ArrayList<Item>();
 			payingStocksCap.addAll(this.getItemsStockMatrix(true, StaticValues.SM_DEP));
 			payingStocksCap.add(payingStocksCap.size()-1, this.getItemStockMatrix(true,StaticValues.SM_CASH));
+			payingStocksCap.add(payingStocksCap.size()-1, this.getItemStockMatrix(true,StaticValues.SM_RESERVES));
 			return payingStocksCap;
 		}
 		return null;
@@ -779,7 +788,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	
 	@Override
 	public double getCashAmount() {
-		return 0;
+		return this.cashAmount;
 	}
 
 	public double getPreferredDepositRatio() {

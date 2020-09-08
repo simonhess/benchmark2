@@ -770,16 +770,11 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	}
 
 	/** (non-Javadoc)
-	 * Firms assumed to hold all their liquid assets as deposits
+	 *
 	 */
 	@Override
 	public double getDepositAmount() {
-		List<Item> deps=this.getItemsStockMatrix(true, StaticValues.SM_DEP);
-		double amount=0;
-		for(Item dep:deps){
-			amount+=dep.getValue();
-		}
-		return amount;
+		return this.depositAmount;
 	}
 
 	/* (non-Javadoc)

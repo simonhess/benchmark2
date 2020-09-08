@@ -549,7 +549,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		}
 		// Prepare the re-allocation of funds
 		// 1 Get the payable stock
-		Item payableStock = account;
+		Item payableStock = this.getPayableStock(StaticValues.MKT_CONSGOOD);
 		// 2 Get the paying stocks
 		List<Item> payingStocks = this.getPayingStocks(StaticValues.MKT_LABOR, payableStock);
 		// 3 Get the first occurrence of an item of the same sort than the payable stock

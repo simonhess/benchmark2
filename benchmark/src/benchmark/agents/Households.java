@@ -392,7 +392,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 		double taxes=strategy.computeTaxes();
 		//Prepare the re-allocation of funds
 		//1 Get the payable stock
-		Item payableStock = account;
+		Item payableStock = this.getPayableStock(StaticValues.MKT_LABOR);
 		//2 Get the paying stocks
 		List<Item> payingStocks = this.getPayingStocks(0,payableStock);
 		//3 Get the first occurrence of an item of the same sort than the payable stock within the paying stocks

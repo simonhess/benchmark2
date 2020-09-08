@@ -30,6 +30,7 @@ import jmab.agents.CreditSupplier;
 import jmab.agents.DepositDemander;
 import jmab.agents.DepositSupplier;
 import jmab.agents.InterestRateSetterWithTargets;
+import jmab.agents.LiabilitySupplier;
 import jmab.agents.MacroAgent;
 import jmab.agents.ProfitsTaxPayer;
 import jmab.events.MacroTicEvent;
@@ -873,8 +874,9 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	public void transfer(Item paying, Item receiving, double amount){
 		MacroAgent otherBank = receiving.getLiabilityHolder();
 		Item BankRes = this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+		Item BankCash = this.getItemStockMatrix(true, StaticValues.SM_CASH);
 		// Check if there is enough liquidity to perform the transfer
-		if(BankRes.getValue()<amount){
+		if((BankRes.getValue()+BankCash.getValue())<amount){
 			this.advancesDemand =+ amount-BankRes.getValue();
 			SimulationController controller = (SimulationController)this.getScheduler();
 			MacroSimulation ms = (MacroSimulation) controller.getSimulation();
@@ -892,6 +894,21 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		otherBalancingItem.setValue(otherBalancingItem.getValue()+amount);
 		//If the central bank is the receiver there is no otherBalancingItem
 		}else if(otherBank.getPopulationId()==StaticValues.CB_ID) {
+			LiabilitySupplier centBank = (LiabilitySupplier) otherBank;
+			// Check if there is enough cash/ reserves to perform the transfer otherwise reallocate assets
+			Item counterpartItem = otherBank.getItemStockMatrix(false, StaticValues.SM_RESERVES);
+			Item otherCounterpartItem = otherBank.getItemStockMatrix(false, StaticValues.SM_CASH);
+			if(receiving instanceof Cash && BankCash.getValue()<amount){
+				BankRes.setValue(BankRes.getValue()-(amount-BankCash.getValue()));
+				counterpartItem.setValue(counterpartItem.getValue()-(amount-BankCash.getValue()));
+				otherCounterpartItem.setValue(counterpartItem.getValue()+(amount-BankCash.getValue()));
+				BankCash.setValue(BankCash.getValue()+(amount-BankCash.getValue()));
+			} else if (receiving instanceof Deposit && BankRes.getValue()<amount) {
+				BankCash.setValue(BankCash.getValue()-(amount-BankRes.getValue()));
+				counterpartItem.setValue(counterpartItem.getValue()+(amount-BankRes.getValue()));
+				otherCounterpartItem.setValue(counterpartItem.getValue()-(amount-BankRes.getValue()));
+				BankRes.setValue(BankRes.getValue()+(amount-BankRes.getValue()));
+			}
 			paying.setValue(paying.getValue()-amount);
 			receiving.setValue(receiving.getValue()+amount);
 			BankRes.setValue(BankRes.getValue()-amount);

@@ -19,6 +19,7 @@ import java.util.List;
 
 import benchmark.StaticValues;
 import benchmark.agents.ConsumptionFirm;
+import benchmark.agents.Households;
 import jmab.agents.AbstractFirm;
 import jmab.agents.CreditSupplier;
 import jmab.agents.LiabilitySupplier;
@@ -159,6 +160,8 @@ public class FirmBankruptcyFireSales extends AbstractStrategy implements
 						double amountToPay=ownersDisbursment*hh.getNetWealth()/totalHouseholdsWealth*(banksLosses[i])/totalBanksLoss;
 						CreditSupplier lendingBank= (CreditSupplier) loan.getAssetHolder();
 						Deposit depositHH =(Deposit)hh.getItemStockMatrix(true, StaticValues.SM_DEP);
+						Households hhs = (Households) hh;
+						hhs.reallocateLiquidity(amountToPay, hhs.getPayingStocks(0, depositHH), depositHH);
 						if (depositHH.getLiabilityHolder()==lendingBank){
 							depositHH.setValue(depositHH.getValue()-amountToPay);
 						}

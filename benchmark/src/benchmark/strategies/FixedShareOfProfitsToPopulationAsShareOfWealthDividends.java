@@ -65,6 +65,7 @@ DividendsStrategy {
 			}
 			if (dividendPayer instanceof Bank){
 				Deposit payerDep = (Deposit)dividendPayer.getItemStockMatrix(true, reservesId);
+				LiabilitySupplier payingSupplier = (LiabilitySupplier) payerDep.getLiabilityHolder();
 				//if(profits>payerDep.getValue()){
 					//profits=payerDep.getValue();
 				//}
@@ -77,7 +78,7 @@ DividendsStrategy {
 					
 					Item Payablestock = receiver.getPayableStock(StaticValues.MKT_LABOR);
 					
-					bank.transfer(payerDep, Payablestock,toPay);
+					payingSupplier.transfer(payerDep, Payablestock,toPay);
 				}
 			}
 			else{
@@ -95,9 +96,9 @@ DividendsStrategy {
 				if (liquidity>profits*profitShare){
 					Item targetStock = null;
 					if (firm instanceof ConsumptionFirm) {
-						firm.getPayableStock(StaticValues.MKT_CONSGOOD);
+						targetStock = firm.getPayableStock(StaticValues.MKT_CONSGOOD);
 					}else if(firm instanceof CapitalFirm) {
-						firm.getPayableStock(StaticValues.MKT_CAPGOOD);
+						targetStock = firm.getPayableStock(StaticValues.MKT_CAPGOOD);
 					}
 					firm.reallocateLiquidity(liquidity, payingStocks, targetStock);
 					

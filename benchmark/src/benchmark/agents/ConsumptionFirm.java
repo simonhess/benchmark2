@@ -736,7 +736,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		this.setActive(true, StaticValues.MKT_DEPOSIT);
 	}
 	
-	protected void reallocateLiquidity(double amount, List<Item> payingStocks, Item targetStock){
+	public void reallocateLiquidity(double amount, List<Item> payingStocks, Item targetStock){
 		//The amount raised is equal to what is already on the target stock
 		double amountRaised=targetStock.getValue();
 		for(int i=0;i<payingStocks.size()&&amountRaised<amount;i++){

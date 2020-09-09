@@ -296,27 +296,6 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 		}
 	}
 	
-	protected void reallocateLiquidity(double amount, List<Item> payingStocks, Item targetStock){
-		//The amount raised is equal to what is already on the target stock
-		double amountRaised=targetStock.getValue();
-		for(int i=0;i<payingStocks.size()&&amountRaised<amount;i++){
-			//For each item in the list
-			Item payingStock = payingStocks.get(i);
-			//If the payingStock is not the target stock (otherwise, there's nothing to do).
-			if(payingStock!=targetStock){
-				//compute different amounts
-				double thisAmount=payingStock.getValue();
-				double remAmount=Math.max(0,thisAmount+amountRaised-amount);
-				double transferAmount=thisAmount-remAmount;
-				amountRaised+=transferAmount;
-				//who is the supplier of the paying stock?
-				LiabilitySupplier payingSupplier = (LiabilitySupplier) payingStock.getLiabilityHolder();
-				// Do the transfer
-				payingSupplier.transfer(payingStock, targetStock, transferAmount);
-			}
-		}
-	}
-	
 	/**
 	 * TODO
 	 */

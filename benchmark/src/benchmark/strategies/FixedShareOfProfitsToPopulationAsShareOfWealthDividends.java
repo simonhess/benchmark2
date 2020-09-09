@@ -73,13 +73,11 @@ DividendsStrategy {
 				for(Agent rec:receivers.getAgents()){
 					Households receiver =(Households) rec; 
 					double nw = receiver.getNetWealth();
-					Deposit recDep = (Deposit)receiver.getItemStockMatrix(true, depositId);
-					double toPay=profits*profitShare*nw/totalNW;			
-					recDep.setValue(recDep.getValue()+toPay);
-					payerDep.setValue(payerDep.getValue()-toPay);
-					Deposit otherBankReserves = (Deposit)((Bank)recDep.getLiabilityHolder()).getItemStockMatrix(true, reservesId);
-					otherBankReserves.setValue(otherBankReserves.getValue()+toPay);
-					receiver.setDividendsReceived(receiver.getDividendsReceived()+toPay);
+					double toPay=profits*profitShare*nw/totalNW;
+					
+					Item Payablestock = receiver.getPayableStock(StaticValues.MKT_LABOR);
+					
+					bank.transfer(payerDep, Payablestock,toPay);
 				}
 			}
 			else{

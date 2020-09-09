@@ -50,22 +50,20 @@ public class FirmBankruptcy extends AbstractStrategy implements
 		//1. Move all money on one deposit if there were two of them
 		List<Item> deposits = firm.getItemsStockMatrix(true, StaticValues.SM_DEP);
 		Deposit deposit = (Deposit)deposits.get(0);
-		if(deposits.size()==2){
-			Item deposit2 = deposits.get(1);
-			LiabilitySupplier supplier = (LiabilitySupplier) deposit2.getLiabilityHolder();
-			supplier.transfer(deposit2, deposit, deposit2.getValue());
-			deposit2.getLiabilityHolder().removeItemStockMatrix(deposit2, false, deposit2.getSMId());
-		}
-
-		//2. Transfer all cash on the deposit account
+		Deposit res = (Deposit)firm.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+		
 		Cash cash = (Cash)firm.getItemStockMatrix(true, StaticValues.SM_CASH);
-		if(cash.getValue()>0){
-			LiabilitySupplier bank = (LiabilitySupplier)deposit.getLiabilityHolder();
-			Item bankCash = bank.getCounterpartItem(deposit, cash);
-			bankCash.setValue(bankCash.getValue()+cash.getValue());
-			deposit.setValue(deposit.getValue()+cash.getValue());
-			cash.setValue(0);
+		
+		// Get the paying stocks
+		List<Item> payingStocks = firm.getPayingStocks(StaticValues.MKT_LABOR,deposit);
+		
+		// Calculate amount to be reallocated
+		double reallocateAmount = 0;
+		for(Item item:payingStocks){
+			reallocateAmount += item.getValue();
 		}
+		// Reallocate
+		firm.reallocateLiquidity(reallocateAmount, payingStocks, deposit);
 
 		//3. Compute total liquidity to be distributed to creditors
 		double liquidity=deposit.getValue();
@@ -107,6 +105,7 @@ public class FirmBankruptcy extends AbstractStrategy implements
 		//7. Removing deposit and cash from liability holder stock matrix		
 		deposit.getLiabilityHolder().removeItemStockMatrix(deposit, false, deposit.getSMId());
 		cash.getLiabilityHolder().removeItemStockMatrix(cash, false, cash.getSMId());
+		res.getLiabilityHolder().removeItemStockMatrix(res, false, res.getSMId());
 
 		
 		//8. Create new set of asset

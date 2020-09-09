@@ -69,25 +69,23 @@ public class FirmBankruptcyFireSales extends AbstractStrategy implements
 
 		AbstractFirm firm = (AbstractFirm) this.agent;
 
-		//1. Move all money on one deposit if there were two of them
+		// 1. Move all money on one deposit if there were two of them
 		List<Item> deposits = firm.getItemsStockMatrix(true, StaticValues.SM_DEP);
-		Deposit deposit = (Deposit)deposits.get(0);
-		if(deposits.size()==2){
-			Item deposit2 = deposits.get(1);
-			LiabilitySupplier supplier = (LiabilitySupplier) deposit2.getLiabilityHolder();
-			supplier.transfer(deposit2, deposit, deposit2.getValue());
-			deposit2.getLiabilityHolder().removeItemStockMatrix(deposit2, false, deposit2.getSMId());
-		}
+		Deposit deposit = (Deposit) deposits.get(0);
+		Deposit res = (Deposit) firm.getItemStockMatrix(true, StaticValues.SM_RESERVES);
 
-		//2. Transfer all cash on the deposit account
-		Cash cash = (Cash)firm.getItemStockMatrix(true, StaticValues.SM_CASH);
-		if(cash.getValue()>0){
-			LiabilitySupplier bank = (LiabilitySupplier)deposit.getLiabilityHolder();
-			Item bankCash = bank.getCounterpartItem(deposit, cash);
-			bankCash.setValue(bankCash.getValue()+cash.getValue());
-			deposit.setValue(deposit.getValue()+cash.getValue());
-			cash.setValue(0);
+		Cash cash = (Cash) firm.getItemStockMatrix(true, StaticValues.SM_CASH);
+
+		// Get the paying stocks
+		List<Item> payingStocks = firm.getPayingStocks(StaticValues.MKT_LABOR, deposit);
+
+		// Calculate amount to be reallocated
+		double reallocateAmount = 0;
+		for (Item item : payingStocks) {
+			reallocateAmount += item.getValue();
 		}
+		// Reallocate
+		firm.reallocateLiquidity(reallocateAmount, payingStocks, deposit);
 
 		//3. Compute total liquidity to be distributed to creditors
 		double liquidity=deposit.getValue();

@@ -15,13 +15,20 @@
 package benchmark.strategies;
 
 import java.nio.ByteBuffer;
+import java.util.List;
 
+import benchmark.StaticValues;
 import benchmark.agents.Bank;
+import benchmark.agents.CapitalFirm;
+import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.Households;
 import jmab.agents.AbstractFirm;
+import jmab.agents.LiabilitySupplier;
+import jmab.agents.AbstractBank;
 import jmab.agents.MacroAgent;
 import jmab.population.MacroPopulation;
 import jmab.stockmatrix.Deposit;
+import jmab.stockmatrix.Item;
 import jmab.strategies.DividendsStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
@@ -76,19 +83,39 @@ DividendsStrategy {
 				}
 			}
 			else{
-				if (dividendPayer.getItemStockMatrix(true, depositId).getValue()>profits*profitShare){
-					Deposit payerDep = (Deposit)dividendPayer.getItemStockMatrix(true, depositId);
-					if(profits>payerDep.getValue()){
-						profits=payerDep.getValue();
+				// Calculate liquid assets of dividend payer
+				
+				AbstractFirm firm= (AbstractFirm) dividendPayer;
+
+				List<Item> payingStocks = firm.getPayingStocks(StaticValues.MKT_LABOR, null);
+				
+				double liquidity = 0;
+				for(Item item:payingStocks){
+					liquidity += item.getValue();
+				}
+				
+				if (liquidity>profits*profitShare){
+					Item targetStock = null;
+					if (firm instanceof ConsumptionFirm) {
+						firm.getPayableStock(StaticValues.MKT_CONSGOOD);
+					}else if(firm instanceof CapitalFirm) {
+						firm.getPayableStock(StaticValues.MKT_CAPGOOD);
 					}
-					AbstractFirm firm= (AbstractFirm) dividendPayer;
+					firm.reallocateLiquidity(liquidity, payingStocks, targetStock);
+					
+					if(profits>targetStock.getValue()){
+						profits=targetStock.getValue();
+					}
 					firm.setDividends(profits*profitShare);
+					LiabilitySupplier payingSupplier = (LiabilitySupplier) targetStock.getLiabilityHolder();
 					for(Agent rec:receivers.getAgents()){
 						Households receiver =(Households) rec; 
 						double nw = receiver.getNetWealth();
 						double toPay=profits*profitShare*nw/totalNW;
-						Deposit recDep = (Deposit)receiver.getItemStockMatrix(true, depositId);
-						((Bank)payerDep.getLiabilityHolder()).transfer(payerDep, recDep,toPay);
+						
+						Item Payablestock = receiver.getPayableStock(StaticValues.MKT_LABOR);
+						
+						payingSupplier.transfer(targetStock, Payablestock,toPay);
 						receiver.setDividendsReceived(receiver.getDividendsReceived()+toPay);
 					}
 				}

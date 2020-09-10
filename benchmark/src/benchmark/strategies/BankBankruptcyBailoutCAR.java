@@ -137,7 +137,7 @@ public class BankBankruptcyBailoutCAR extends AbstractStrategy implements
 				libHolder.transfer(payablestock, targetStock,toPay);
 			}
 			
-		}
+		}else {
 //		numberBailouts+=1;
 		double newDepValue=0;
 		for (Item deposit:bank.getItemsStockMatrix(false, depositId)){
@@ -151,6 +151,7 @@ public class BankBankruptcyBailoutCAR extends AbstractStrategy implements
 			expData[j][1]=newDepValue;
 		}
 		exp.setPassedValues(expData);
+		}
 		System.out.println("bank "+ bank.getAgentId() +" defaulted");
 		//System.out.println(numberBailouts);
 		

@@ -139,16 +139,17 @@ public class BankBankruptcyBailoutCAR extends AbstractStrategy implements
 			
 		}else {
 //		numberBailouts+=1;
-		double newDepValue=0;
 		for (Item deposit:bank.getItemsStockMatrix(false, depositId)){
 			deposit.setValue(deposit.getValue()+(deposit.getValue()*(nw-targetNW)/totDeposits));
-			newDepValue+=deposit.getValue();
 		}
+		
+		totDeposits= bank.getNumericBalanceSheet()[1][depositId];
+		
 		Expectation exp =bank.getExpectation(depositExpectationId);
 		double[][] expData = exp.getPassedValues();
 		for(int j = 0; j<expData.length; j++){
-			expData[j][0]=newDepValue;
-			expData[j][1]=newDepValue;
+			expData[j][0]=totDeposits;
+			expData[j][1]=totDeposits;
 		}
 		exp.setPassedValues(expData);
 		}

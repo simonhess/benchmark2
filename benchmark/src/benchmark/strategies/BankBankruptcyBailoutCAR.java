@@ -19,8 +19,11 @@ import java.util.List;
 
 import benchmark.StaticValues;
 import benchmark.agents.Bank;
+import benchmark.agents.Households;
 import cern.jet.random.Uniform;
 import cern.jet.random.engine.RandomEngine;
+import jmab.agents.LiabilitySupplier;
+import jmab.agents.MacroAgent;
 import jmab.expectations.Expectation;
 import jmab.population.MacroPopulation;
 import jmab.stockmatrix.Item;
@@ -110,6 +113,31 @@ public class BankBankruptcyBailoutCAR extends AbstractStrategy implements
 		double nw=bank.getNetWealth();
 		bank.setBailoutCost(targetNW-nw);
 		double totDeposits= bank.getNumericBalanceSheet()[1][depositId];
+		// If bank does not hold enough deposits, get bailed out from all households
+		if (bank.getBailoutCost()> totDeposits) {
+			Population receivers = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.HOUSEHOLDS_ID);
+			double totalNW = 0;
+			for(Agent receiver:receivers.getAgents()){
+				totalNW+=((MacroAgent)receiver).getNetWealth();
+			}
+			
+			Item targetStock = bank.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+			
+			for(Agent rec:receivers.getAgents()){
+				Households receiver =(Households) rec; 
+				double hhnw = receiver.getNetWealth();
+				double toPay= hhnw *(nw-targetNW)/totalNW;
+				
+				Item payablestock = receiver.getPayableStock(StaticValues.MKT_LABOR);
+				List<Item> payingStocks = receiver.getPayingStocks(0, payablestock);
+				receiver.reallocateLiquidity(toPay, payingStocks, payablestock);
+				
+				LiabilitySupplier libHolder = (LiabilitySupplier) payablestock.getLiabilityHolder();
+				
+				libHolder.transfer(payablestock, targetStock,toPay);
+			}
+			
+		}
 //		numberBailouts+=1;
 		double newDepValue=0;
 		for (Item deposit:bank.getItemsStockMatrix(false, depositId)){

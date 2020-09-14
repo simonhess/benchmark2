@@ -114,30 +114,28 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	private void payWages() {
 		//If there are wages to pay
 		if(employees.size()>0){
-			//1. Have only one deposit paying wages, reallocate wealth
-			List<Item> deposits = this.getItemsStockMatrix(true, StaticValues.SM_DEP);
-			Deposit deposit = (Deposit)deposits.get(0);
-			if(deposits.size()==2){
-				Item deposit2 = deposits.get(1);
-				LiabilitySupplier supplier = (LiabilitySupplier) deposit2.getLiabilityHolder();
-				supplier.transfer(deposit2, deposit, deposit2.getValue());
+			
+			//Prepare the re-allocation of funds
+			//1 Get the payable stock
+			Item targetStock = this.getPayableStock(StaticValues.MKT_CAPGOOD);
+			//2 Get the paying stocks
+			List<Item> payingStocks = this.getPayingStocks(StaticValues.MKT_LABOR,targetStock);
+			
+			// Calculate amount to be reallocated
+			double reallocateAmount = 0;
+			for(Item item:payingStocks){
+				reallocateAmount += item.getValue();
 			}
-			//2. If cash holdings
-			Cash cash = (Cash) this.getItemStockMatrix(true, StaticValues.SM_CASH);
-			if(cash.getValue()>0){
-				LiabilitySupplier bank = (LiabilitySupplier)deposit.getLiabilityHolder();
-				Item bankCash = bank.getCounterpartItem(deposit, cash);
-				bankCash.setValue(bankCash.getValue()+cash.getValue());
-				deposit.setValue(deposit.getValue()+cash.getValue());
-				cash.setValue(0);
-			}
+			// Reallocate
+			reallocateLiquidity(reallocateAmount, payingStocks, targetStock);
+			
 			double wageBill = this.getWageBill();
 			double neededDiscount = 1;
-			if(wageBill>deposit.getQuantity()){
+			if(wageBill>targetStock.getValue()){
 				//System.out.println("discount");
-				neededDiscount = deposit.getQuantity()/wageBill;
+				neededDiscount = targetStock.getValue()/wageBill;
 			}
-			if(neededDiscount<this.minWageDiscount){
+			if(Math.round(neededDiscount)<Math.round(this.minWageDiscount)){
 				int currentWorkers = this.employees.size();
 				AgentList emplPop = new AgentList();
 				for(MacroAgent ag : this.employees)
@@ -146,10 +144,10 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 				for(int i=0;i<currentWorkers;i++){
 					LaborSupplier employee = (LaborSupplier) emplPop.get(i);
 					Item payableStock = employee.getPayableStock(StaticValues.MKT_LABOR);
-					LiabilitySupplier payingSupplier = (LiabilitySupplier) deposit.getLiabilityHolder();
-					payingSupplier.transfer(deposit, payableStock, wageBill*neededDiscount/employees.size());
+					LiabilitySupplier payingSupplier = (LiabilitySupplier) targetStock.getLiabilityHolder();
+					payingSupplier.transfer(targetStock, payableStock, wageBill*neededDiscount/employees.size());
 				}
-				deposit.setValue(0);
+				targetStock.setValue(0);
 				System.out.println("Default "+ this.getAgentId() + " due to wages");
 				this.bankruptcy();
 				
@@ -163,10 +161,10 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 				for(int i=0;i<currentWorkers;i++){
 					LaborSupplier employee = (LaborSupplier) emplPop.get(i);
 					double wage = employee.getWage();
-					if(wage<deposit.getValue()){
+					if(wage<targetStock.getValue()){
 						Item payableStock = employee.getPayableStock(StaticValues.MKT_LABOR);
-						LiabilitySupplier payingSupplier = (LiabilitySupplier) deposit.getLiabilityHolder();
-						payingSupplier.transfer(deposit, payableStock, wage*neededDiscount);
+						LiabilitySupplier payingSupplier = (LiabilitySupplier) targetStock.getLiabilityHolder();
+						payingSupplier.transfer(targetStock, payableStock, wage*neededDiscount);
 					}
 				}
 			}

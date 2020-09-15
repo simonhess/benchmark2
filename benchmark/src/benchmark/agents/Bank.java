@@ -30,7 +30,6 @@ import jmab.agents.CreditSupplier;
 import jmab.agents.DepositDemander;
 import jmab.agents.DepositSupplier;
 import jmab.agents.InterestRateSetterWithTargets;
-import jmab.agents.LiabilitySupplier;
 import jmab.agents.MacroAgent;
 import jmab.agents.ProfitsTaxPayer;
 import jmab.events.MacroTicEvent;
@@ -894,7 +893,6 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		otherBalancingItem.setValue(otherBalancingItem.getValue()+amount);
 		//If the central bank is the receiver (in cash or deposit) there is no otherBalancingItem
 		}else if(otherBank.getPopulationId()==StaticValues.CB_ID) {
-			LiabilitySupplier centBank = (LiabilitySupplier) otherBank;
 			// Check if there is enough cash/ reserves to perform the transfer otherwise reallocate assets
 			Item counterpartItem = otherBank.getItemStockMatrix(false, StaticValues.SM_RESERVES);
 			Item otherCounterpartItem = otherBank.getItemStockMatrix(false, StaticValues.SM_CASH);

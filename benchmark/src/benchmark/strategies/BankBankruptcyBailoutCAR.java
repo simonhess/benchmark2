@@ -126,7 +126,7 @@ public class BankBankruptcyBailoutCAR extends AbstractStrategy implements
 			for(Agent rec:receivers.getAgents()){
 				Households receiver =(Households) rec; 
 				double hhnw = receiver.getNetWealth();
-				double toPay= hhnw *(nw-targetNW)/totalNW;
+				double toPay= hhnw *(nw-targetNW)/totalNW*-1;
 				
 				Item payablestock = receiver.getPayableStock(StaticValues.MKT_LABOR);
 				List<Item> payingStocks = receiver.getPayingStocks(0, payablestock);

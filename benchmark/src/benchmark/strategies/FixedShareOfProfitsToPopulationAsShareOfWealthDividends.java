@@ -79,6 +79,7 @@ DividendsStrategy {
 					Item Payablestock = receiver.getPayableStock(StaticValues.MKT_LABOR);
 					
 					payingSupplier.transfer(payerDep, Payablestock,toPay);
+					receiver.setDividendsReceived(receiver.getDividendsReceived()+toPay);
 				}
 			}
 			else{

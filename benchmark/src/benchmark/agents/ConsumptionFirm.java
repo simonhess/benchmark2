@@ -425,7 +425,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		double[][] bs = this.getNumericBalanceSheet();
 		totalFinancialRequirement=(nbWorkers*expWages)+
 				this.desiredRealCapitalDemand*((CapitalFirm)this.selectedCapitalGoodSuppliers.get(0)).getPrice()+
-				this.debtBurden - bs[0][StaticValues.SM_CASH] - bs[0][StaticValues.SM_DEP] - bs[0][StaticValues.SM_RESERVES];
+				this.debtBurden;
 		this.creditDemanded=strategy.computeCreditDemand(totalFinancialRequirement);
 		if(creditDemanded>0){
 			this.setActive(true, StaticValues.MKT_CREDIT);

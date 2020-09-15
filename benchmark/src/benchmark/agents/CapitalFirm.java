@@ -513,7 +513,7 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 		double expWages = expectation.getExpectation();
 		double[][] bs = this.getNumericBalanceSheet();
 		double expectedFinancialRequirement=(nbWorkers+Math.floor(this.amountResearch/expWages))*expWages +
-				this.debtBurden - bs[0][StaticValues.SM_CASH] - bs[0][StaticValues.SM_DEP] - bs[0][StaticValues.SM_RESERVES];
+				this.debtBurden;
 		this.creditDemanded = strategy.computeCreditDemand(expectedFinancialRequirement);
 		if(creditDemanded>0)
 			this.setActive(true, StaticValues.MKT_CREDIT);

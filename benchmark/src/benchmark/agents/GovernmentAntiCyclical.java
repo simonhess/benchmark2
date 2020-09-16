@@ -101,6 +101,7 @@ public class GovernmentAntiCyclical extends Government implements LaborDemander,
 	private void receiveCBProfits() {
 		Item deposit=this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
 		CentralBank cb=(CentralBank) deposit.getLiabilityHolder();
+		cb.payDepositInterests();
 		deposit.setValue(deposit.getValue()+cb.getCBProfits());
 		profitsFromCB=cb.getCBProfits();
 	}

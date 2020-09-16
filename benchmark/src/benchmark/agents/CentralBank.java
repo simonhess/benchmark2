@@ -23,11 +23,13 @@ import jmab.agents.AbstractBank;
 import jmab.agents.BondDemander;
 import jmab.agents.BondSupplier;
 import jmab.agents.CreditSupplier;
+import jmab.agents.DepositDemander;
 import jmab.agents.DepositSupplier;
 import jmab.agents.MacroAgent;
 import jmab.events.MacroTicEvent;
 import jmab.population.MacroPopulation;
 import jmab.stockmatrix.Bond;
+import jmab.stockmatrix.Deposit;
 import jmab.stockmatrix.Item;
 import jmab.stockmatrix.Loan;
 import net.sourceforge.jabm.Population;
@@ -54,6 +56,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	private double interestsOnAdvances;
 	private double interestsOnBonds;
 	private double bondInterestsReceived;
+	private double totInterestsDeposits;
 	
 	/**
 	 * @return the advancesInterestRate
@@ -158,7 +161,23 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	}
 	
 	public double getCBProfits(){
-		return this.interestsOnAdvances+this.interestsOnBonds;
+		return this.interestsOnAdvances+this.interestsOnBonds-this.totInterestsDeposits;
+	}
+	
+	/**
+	 * Pays interest rates to all deposit holders. Note that there is no counterpart flow.
+	 */
+	protected void payDepositInterests() {
+		List<Item> deposits = this.getItemsStockMatrix(false, StaticValues.SM_DEP);
+		double totInterests=0;
+		for(Item d:deposits){
+			Deposit dep = (Deposit)d;
+			DepositDemander depositor = (DepositDemander)dep.getAssetHolder();
+			depositor.interestPaid(dep.getInterestRate()*dep.getValue());
+			totInterests+=dep.getInterestRate()*dep.getValue();
+			dep.setValue(dep.getValue()*(1+dep.getInterestRate()));	
+		}
+		totInterestsDeposits=totInterests;
 	}
 	
 	private void determineCBBondsPurchases() {

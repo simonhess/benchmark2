@@ -49,7 +49,6 @@ import jmab.strategies.InterestRateStrategy;
 import jmab.strategies.SpecificCreditSupplyStrategy;
 import jmab.strategies.SupplyCreditStrategy;
 import jmab.strategies.TaxPayerStrategy;
-import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
 import net.sourceforge.jabm.event.AgentArrivalEvent;
 import net.sourceforge.jabm.event.RoundFinishedEvent;
@@ -62,7 +61,7 @@ import benchmark.StaticValues;
 @SuppressWarnings("serial")
 public class Bank extends AbstractBank implements CreditSupplier, CreditDemander,
 		DepositSupplier, ProfitsTaxPayer, BondDemander, InterestRateSetterWithTargets, BaselIIIAgent {
-
+	public double transferSum = 0;
 	private double reserveInterestRate;
 	private double advancesInterestRate;
 	private double bankInterestRate;
@@ -288,6 +287,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		this.advancesDemand=strategy.computeCreditDemand(0);//see BaselIIReserveRequirements strategy
 		if(this.advancesDemand>0)
 			this.setActive(true, StaticValues.MKT_ADVANCES);
+		
 	}
 
 //	/**
@@ -872,17 +872,20 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	@Override
 	public void transfer(Item paying, Item receiving, double amount){
 		MacroAgent otherBank = receiving.getLiabilityHolder();
-		Item BankRes = this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-		Item BankCash = this.getItemStockMatrix(true, StaticValues.SM_CASH);
-		// Check if there is enough liquidity to perform the transfer
-		if((BankRes.getValue()+BankCash.getValue())<amount){
-			this.advancesDemand =+ amount-BankRes.getValue();
-			SimulationController controller = (SimulationController)this.getScheduler();
-			MacroSimulation ms = (MacroSimulation) controller.getSimulation();
-			MacroPopulation populations = (MacroPopulation)controller.getPopulation();
-			MacroAgent cb = (MacroAgent) populations.getPopulation(StaticValues.CB_ID).getAgentList().get(0);
-			ms.getMarket(benchmark.StaticValues.MKT_ADVANCES).commit((MacroAgent) this, cb, benchmark.StaticValues.MKT_ADVANCES);
-		}
+//		Item BankRes = this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+//		Item BankCash = this.getItemStockMatrix(true, StaticValues.SM_CASH);
+
+//		 Check if there is enough liquidity to perform the transfer
+//		if((BankRes.getValue()+BankCash.getValue())<amount){
+//			
+//			this.advancesDemand =+ amount-BankRes.getValue();
+//			SimulationController controller = (SimulationController)this.getScheduler();
+//			MacroSimulation ms = (MacroSimulation) controller.getSimulation();
+//			MacroPopulation populations = (MacroPopulation)controller.getPopulation();
+//			MacroAgent cb = (MacroAgent) populations.getPopulation(StaticValues.CB_ID).getAgentList().get(0);
+//			ms.getMarket(benchmark.StaticValues.MKT_ADVANCES).commit((MacroAgent) this, cb, benchmark.StaticValues.MKT_ADVANCES);
+//			this.setActive(true, StaticValues.MKT_ADVANCES);
+//		}
 		Item balancingItem = this.getItemStockMatrix(true, this.depositCounterpartId);
 		//If the payer and the receiver is a bank
 		if(otherBank.getPopulationId()==StaticValues.BANKS_ID){
@@ -894,22 +897,24 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		//If the central bank is the receiver (in cash or deposit) there is no otherBalancingItem
 		}else if(otherBank.getPopulationId()==StaticValues.CB_ID) {
 			// Check if there is enough cash/ reserves to perform the transfer otherwise reallocate assets
-			Item counterpartItem = otherBank.getItemStockMatrix(false, StaticValues.SM_RESERVES);
-			Item otherCounterpartItem = otherBank.getItemStockMatrix(false, StaticValues.SM_CASH);
-			if(receiving instanceof Cash && BankCash.getValue()<amount){
-				BankRes.setValue(BankRes.getValue()-(amount-BankCash.getValue()));
-				counterpartItem.setValue(counterpartItem.getValue()-(amount-BankCash.getValue()));
-				otherCounterpartItem.setValue(counterpartItem.getValue()+(amount-BankCash.getValue()));
-				BankCash.setValue(BankCash.getValue()+(amount-BankCash.getValue()));
-			} else if (receiving instanceof Deposit && BankRes.getValue()<amount) {
-				BankCash.setValue(BankCash.getValue()-(amount-BankRes.getValue()));
-				counterpartItem.setValue(counterpartItem.getValue()+(amount-BankRes.getValue()));
-				otherCounterpartItem.setValue(counterpartItem.getValue()-(amount-BankRes.getValue()));
-				BankRes.setValue(BankRes.getValue()+(amount-BankRes.getValue()));
-			}
+//			Item counterpartItem = otherBank.getItemStockMatrix(false, StaticValues.SM_RESERVES);
+//			Item otherCounterpartItem = otherBank.getItemStockMatrix(false, StaticValues.SM_CASH);
+//			if(receiving instanceof Cash && BankCash.getValue()<amount){
+//				BankRes.setValue(BankRes.getValue()-(amount-BankCash.getValue()));
+//				counterpartItem.setValue(counterpartItem.getValue()-(amount-BankCash.getValue()));
+//				otherCounterpartItem.setValue(counterpartItem.getValue()+(amount-BankCash.getValue()));
+//				BankCash.setValue(BankCash.getValue()+(amount-BankCash.getValue()));
+//			} else if (receiving instanceof Deposit && BankRes.getValue()<amount) {
+//				BankCash.setValue(BankCash.getValue()-(amount-BankRes.getValue()));
+//				counterpartItem.setValue(counterpartItem.getValue()+(amount-BankRes.getValue()));
+//				otherCounterpartItem.setValue(counterpartItem.getValue()-(amount-BankRes.getValue()));
+//				BankRes.setValue(BankRes.getValue()+(amount-BankRes.getValue()));
+//			}
 			paying.setValue(paying.getValue()-amount);
 			receiving.setValue(receiving.getValue()+amount);
 			balancingItem.setValue(balancingItem.getValue()-amount);
+
+			transferSum+=amount;
 		}
 	}
 

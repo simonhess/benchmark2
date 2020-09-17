@@ -60,7 +60,7 @@ import benchmark.StaticValues;
  */
 @SuppressWarnings("serial")
 public class Bank extends AbstractBank implements CreditSupplier, CreditDemander,
-		DepositSupplier, ProfitsTaxPayer, BondDemander, InterestRateSetterWithTargets, BaselIIIAgent {
+		DepositSupplier, ProfitsTaxPayer, BondDemander, InterestRateSetterWithTargets, BaselIIIAgent, DepositDemander {
 	public double transferSum = 0;
 	private double reserveInterestRate;
 	private double advancesInterestRate;
@@ -79,6 +79,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	private double capitalRatio;
 	private double liquidityRatio;
 	protected double advancesInterests;
+	protected double reservesInterests;
 	protected double bondInterestReceived;
 	protected double totInterestsLoans;
 	protected double totInterestsDeposits;
@@ -287,7 +288,6 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		this.advancesDemand=strategy.computeCreditDemand(0);//see BaselIIReserveRequirements strategy
 		if(this.advancesDemand>0)
 			this.setActive(true, StaticValues.MKT_ADVANCES);
-		
 	}
 
 //	/**
@@ -1115,5 +1115,29 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 
 	public void setTargetedCapitalAdequacyRatio(double targetedCapitalAdequacyRatio) {
 		this.targetedCapitalAdequacyRatio = targetedCapitalAdequacyRatio;
+	}
+
+	@Override
+	public double getDepositAmount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getCashAmount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getReservesAmount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void interestPaid(double interests) {
+		this.reservesInterests=interests;
+		
 	}
 }

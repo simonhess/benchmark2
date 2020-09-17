@@ -127,7 +127,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	@Override
 	public double getDepositInterestRate(MacroAgent creditDemander,
 			double amount) {
-		return 0;
+		return reserveInterestRate;
 	}
 	
 

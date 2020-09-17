@@ -1400,6 +1400,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <property name="bsProfits" value="179.1522275"/>
 <property name="iBonds" value="0.0025"/>
 <property name="iAdv" value="0.0025"/>
+<property name="iReserves" value="0"/>
 <property name="ksOCF" value="189.2146501"/>
 <property name="csOCF" value="2340.255574"/>
 <property name="gr" value="0.0075"/>
@@ -1535,9 +1536,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="minWageDiscount" value="1"/>
 		<property name="turnoverLabor" ref="turnoverVal"/>
 		<property name="prng" ref="prng" />
-		<property name="preferredDepositRatio" value="1"/>
+		<property name="preferredDepositRatio" value="0"/>
 		<property name="preferredCashRatio" value="0"/>
-		<property name="preferredReserveRatio" value="0"/>
+		<property name="preferredReserveRatio" value="1"/>
 	</bean>
 	
 	<bean id="expSales" class="jmab.expectations.SimpleAdaptiveExpectation"
@@ -1845,6 +1846,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 			<list>
 				<util:constant static-field="benchmark.StaticValues.SM_DEP"/>
 				<util:constant static-field="benchmark.StaticValues.SM_CASH"/>
+				<util:constant static-field="benchmark.StaticValues.SM_RESERVES" />
 			</list>
 		</property>
 	</bean>
@@ -2001,9 +2003,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="prng" ref="prng" /> 
 		<property name="shareOfExpIncomeAsDeposit" value="1" />
 		<property name="minWageDiscount" value="1" />
-		<property name="preferredDepositRatio" value="1"/>
+		<property name="preferredDepositRatio" value="0"/>
 		<property name="preferredCashRatio" value="0"/>
-		<property name="preferredReserveRatio" value="0"/>
+		<property name="preferredReserveRatio" value="1"/>
 		
 	</bean>
 	
@@ -2145,6 +2147,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 			<list>
 				<util:constant static-field="benchmark.StaticValues.SM_DEP"/>
 				<util:constant static-field="benchmark.StaticValues.SM_CASH"/>
+				<util:constant static-field="benchmark.StaticValues.SM_RESERVES" />
 			</list>
 		</property>
 	</bean>
@@ -2659,9 +2662,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" /> </property>
 		<!-- From Households -->
 		<property name="shareDeposits" value="1"/>
-		<property name="preferredDepositRatio" value="1"/>
+		<property name="preferredDepositRatio" value="0"/>
 		<property name="preferredCashRatio" value="0"/>
-		<property name="preferredReserveRatio" value="0"/>
+		<property name="preferredReserveRatio" value="1"/>
 		<property name="employmentWageLag" value="4" />
 	</bean>
 	

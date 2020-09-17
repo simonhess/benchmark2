@@ -103,6 +103,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	//Central Bank
 	private double iAdv;
 	private double cbBonds;
+	private double iReserves;
 	//RandomEngine
 	private RandomEngine prng;
 	private double uniformDistr;
@@ -157,7 +158,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			bank.addItemStockMatrix(dep, false, StaticValues.SM_DEP);
 			
 			//Central Bank Deposit Holdings
-			Deposit res = new Deposit(hhRes,(SimpleAbstractAgent)hh,(SimpleAbstractAgent)cb,0);
+			Deposit res = new Deposit(hhRes,(SimpleAbstractAgent)hh,(SimpleAbstractAgent)cb,this.iReserves);
 			hh.addItemStockMatrix(res, true, StaticValues.SM_RESERVES);
 			cb.addItemStockMatrix(res, false, StaticValues.SM_RESERVES);
 
@@ -236,7 +237,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			depositStrategy.setPreviousDepositSupplier(previousBankDeposit);
 
 			//Central Bank Deposit Holdings
-			Deposit kRes = new Deposit(0,(SimpleAbstractAgent)k,(SimpleAbstractAgent)cb,0);
+			Deposit kRes = new Deposit(0,(SimpleAbstractAgent)k,(SimpleAbstractAgent)cb,this.iReserves);
 			k.addItemStockMatrix(kRes, true, StaticValues.SM_RESERVES);
 			cb.addItemStockMatrix(kRes, false, StaticValues.SM_RESERVES);
 
@@ -371,7 +372,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			cb.addItemStockMatrix(cash, false, StaticValues.SM_CASH);
 			
 			//Central Bank Deposit Holdings
-			Deposit cRes = new Deposit(0,(SimpleAbstractAgent)c,(SimpleAbstractAgent)cb,0);
+			Deposit cRes = new Deposit(0,(SimpleAbstractAgent)c,(SimpleAbstractAgent)cb,this.iReserves);
 			c.addItemStockMatrix(cRes, true, StaticValues.SM_RESERVES);
 			cb.addItemStockMatrix(cRes, false, StaticValues.SM_RESERVES);
 
@@ -459,7 +460,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			cb.addItemStockMatrix(cash, false, StaticValues.SM_CASH);
 
 			//Reserve Holdings
-			Deposit res = new Deposit(bRes,(SimpleAbstractAgent)b,(SimpleAbstractAgent)cb,0);
+			Deposit res = new Deposit(bRes,(SimpleAbstractAgent)b,(SimpleAbstractAgent)cb,this.iReserves);
 			b.addItemStockMatrix(res, true, StaticValues.SM_RESERVES);
 			cb.addItemStockMatrix(res, false, StaticValues.SM_RESERVES);
 
@@ -517,7 +518,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 
 
 		//Central Bank Deposit
-		Deposit govtRes = new Deposit(0,(SimpleAbstractAgent)govt,(SimpleAbstractAgent)cb,0);
+		Deposit govtRes = new Deposit(0,(SimpleAbstractAgent)govt,(SimpleAbstractAgent)cb,this.iReserves);
 		govt.addItemStockMatrix(govtRes, true, StaticValues.SM_RESERVES);
 		cb.addItemStockMatrix(govtRes, false, StaticValues.SM_RESERVES);
 
@@ -919,6 +920,20 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		this.iAdv = iAdv;
 	}
 
+	/**
+	 * @return the iAdv
+	 */
+	public double getiReserves() {
+		return iReserves;
+	}
+
+	/**
+	 * @param iAdv the iAdv to set
+	 */
+	public void setiReserves(double iReserves) {
+		this.iReserves = iReserves;
+	}
+	
 	/**
 	 * @return the gEmpl
 	 */

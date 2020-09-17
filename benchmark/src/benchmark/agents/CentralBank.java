@@ -168,7 +168,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	 * Pays interest rates to all deposit holders. Note that there is no counterpart flow.
 	 */
 	protected void payDepositInterests() {
-		List<Item> deposits = this.getItemsStockMatrix(false, StaticValues.SM_DEP);
+		List<Item> deposits = this.getItemsStockMatrix(false, StaticValues.SM_RESERVES);
 		double totInterests=0;
 		for(Item d:deposits){
 			Deposit dep = (Deposit)d;

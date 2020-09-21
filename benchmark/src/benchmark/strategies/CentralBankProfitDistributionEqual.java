@@ -20,6 +20,7 @@ import java.util.List;
 import benchmark.StaticValues;
 import benchmark.agents.Bank;
 import benchmark.agents.CapitalFirm;
+import benchmark.agents.CentralBank;
 import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.GovernmentAntiCyclical;
 import benchmark.agents.Households;
@@ -46,13 +47,6 @@ import net.sourceforge.jabm.strategy.AbstractStrategy;
 @SuppressWarnings("serial")
 public class CentralBankProfitDistributionEqual extends AbstractStrategy implements CentralBankProfitDistributionStrategy {
 
-	int profitsLagId;
-	double profitShare;
-	int receiversId;
-	int depositId;
-	int reservesId;
-
-
 	/* (non-Javadoc)
 	 * @see jmab.strategies.DividendsStrategy#payDividends()
 	 */
@@ -65,9 +59,18 @@ public class CentralBankProfitDistributionEqual extends AbstractStrategy impleme
 		
 		// Distribute CB profits based on reserve holdings of households and firms
 		
+		Population cbpop = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.CB_ID);
+		double amountToDistribute = 0;
+
+		for(Agent rec:cbpop.getAgents()){
+			CentralBank cb = (CentralBank) rec;
+			amountToDistribute = government.getProfitsFromCB() - cb.getBondInterestsReceived();
+			break;
+		}
+		
 		double size = hhs.getAgents().size()+cFirms.getAgents().size()+kFirms.getAgents().size();
 		
-		double shareOfCBProfits = government.getProfitsFromCB()/size;
+		double shareOfCBProfits = amountToDistribute/size;
 		
 		Item targetStock = government.getItemStockMatrix(true, StaticValues.SM_RESERVES);
 		LiabilitySupplier payingSupplier = (LiabilitySupplier) targetStock.getLiabilityHolder();
@@ -90,79 +93,6 @@ public class CentralBankProfitDistributionEqual extends AbstractStrategy impleme
 		}
 	}
 
-
-	/**
-	 * @return the reservesId
-	 */
-	public int getReservesId() {
-		return reservesId;
-	}
-
-
-	/**
-	 * @param reservesId the reservesId to set
-	 */
-	public void setReservesId(int reservesId) {
-		this.reservesId = reservesId;
-	}
-
-
-	/**
-	 * @return the profitsLagId
-	 */
-	public int getProfitsLagId() {
-		return profitsLagId;
-	}
-
-	/**
-	 * @param profitsLagId the profitsLagId to set
-	 */
-	public void setProfitsLagId(int profitsLagId) {
-		this.profitsLagId = profitsLagId;
-	}
-
-	/**
-	 * @return the profitShare
-	 */
-	public double getProfitShare() {
-		return profitShare;
-	}
-
-	/**
-	 * @param profitShare the profitShare to set
-	 */
-	public void setProfitShare(double profitShare) {
-		this.profitShare = profitShare;
-	}
-
-	/**
-	 * @return the receiversId
-	 */
-	public int getReceiversId() {
-		return receiversId;
-	}
-
-	/**
-	 * @param receiversId the receiversId to set
-	 */
-	public void setReceiversId(int receiversId) {
-		this.receiversId = receiversId;
-	}
-
-	/**
-	 * @return the depositId
-	 */
-	public int getDepositId() {
-		return depositId;
-	}
-
-	/**
-	 * @param depositId the depositId to set
-	 */
-	public void setDepositId(int depositId) {
-		this.depositId = depositId;
-	}
-
 	/**
 	 * Generate the byte array structure of the strategy. The structure is as follow:
 	 * [profitShare][profitsLagId][receiversId][depositId][reservesId]
@@ -171,11 +101,7 @@ public class CentralBankProfitDistributionEqual extends AbstractStrategy impleme
 	@Override
 	public byte[] getBytes() {
 		ByteBuffer buf = ByteBuffer.allocate(24);
-		buf.putDouble(this.profitShare);
-		buf.putInt(this.profitsLagId);
-		buf.putInt(this.receiversId);
-		buf.putInt(this.depositId);
-		buf.putInt(this.reservesId);
+
 		return buf.array();
 	}
 
@@ -189,11 +115,6 @@ public class CentralBankProfitDistributionEqual extends AbstractStrategy impleme
 	@Override
 	public void populateFromBytes(byte[] content, MacroPopulation pop) {
 		ByteBuffer buf = ByteBuffer.wrap(content);
-		this.profitShare = buf.getDouble();
-		this.profitsLagId = buf.getInt();
-		this.receiversId = buf.getInt();
-		this.depositId = buf.getInt();
-		this.reservesId = buf.getInt();
 	}
 	
 }

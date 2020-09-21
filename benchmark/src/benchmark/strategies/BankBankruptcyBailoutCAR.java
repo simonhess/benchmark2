@@ -113,13 +113,14 @@ public class BankBankruptcyBailoutCAR extends AbstractStrategy implements
 		double nw=bank.getNetWealth();
 		bank.setBailoutCost(targetNW-nw);
 		double totDeposits= bank.getNumericBalanceSheet()[1][depositId];
-		// If bank does not hold enough deposits, get bailed out from all households
-		if (bank.getBailoutCost()> totDeposits) {
-			Population receivers = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.HOUSEHOLDS_ID);
-			double totalNW = 0;
-			for(Agent receiver:receivers.getAgents()){
-				totalNW+=((MacroAgent)receiver).getNetWealth();
-			}
+		
+		Population receivers = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.HOUSEHOLDS_ID);
+		double totalNW = 0;
+		for(Agent receiver:receivers.getAgents()){
+			totalNW+=((MacroAgent)receiver).getNetWealth();
+		}
+		// If bank does not hold enough deposits, get bailed out from all households. Recapitalize bank by all households.
+		if (-nw> totDeposits) {
 			
 			Item targetStock = bank.getItemStockMatrix(true, StaticValues.SM_RESERVES);
 			
@@ -136,11 +137,27 @@ public class BankBankruptcyBailoutCAR extends AbstractStrategy implements
 				
 				libHolder.transfer(payablestock, targetStock,toPay);
 			}
-			
+		// If bank has enough deposits get bail in from depositors. Recapitalize bank by all households.
 		}else {
 //		numberBailouts+=1;
 		for (Item deposit:bank.getItemsStockMatrix(false, depositId)){
-			deposit.setValue(deposit.getValue()+(deposit.getValue()*(nw-targetNW)/totDeposits));
+			deposit.setValue(deposit.getValue()+(deposit.getValue()*(nw)/totDeposits));
+		}
+		
+		Item targetStock = bank.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+		
+		for(Agent rec:receivers.getAgents()){
+			Households receiver =(Households) rec; 
+			double hhnw = receiver.getNetWealth();
+			double toPay= hhnw *(targetNW)/totalNW;
+			
+			Item payablestock = receiver.getPayableStock(StaticValues.MKT_LABOR);
+			List<Item> payingStocks = receiver.getPayingStocks(0, payablestock);
+			receiver.reallocateLiquidity(toPay, payingStocks, payablestock);
+			
+			LiabilitySupplier libHolder = (LiabilitySupplier) payablestock.getLiabilityHolder();
+			
+			libHolder.transfer(payablestock, targetStock,toPay);
 		}
 		
 		totDeposits= bank.getNumericBalanceSheet()[1][depositId];

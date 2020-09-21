@@ -113,9 +113,6 @@ public class CentralBankProfitDistributionBasedOnReserves extends AbstractStrate
 			
 			payingSupplier.transfer(targetStock, Payablestock,toPay);
 		}
-		
-		government.setProfitsFromCB(0);
-		
 	}
 
 

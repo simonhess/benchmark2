@@ -88,9 +88,6 @@ public class CentralBankProfitDistributionEqual extends AbstractStrategy impleme
 			Item Payablestock = receiver.getPayableStock(StaticValues.MKT_CAPGOOD);
 			payingSupplier.transfer(targetStock, Payablestock,shareOfCBProfits);
 		}
-		
-		government.setProfitsFromCB(0);
-		
 	}
 
 

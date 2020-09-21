@@ -115,12 +115,14 @@ public class BankBankruptcyBailoutCAR extends AbstractStrategy implements
 		double totDeposits= bank.getNumericBalanceSheet()[1][depositId];
 		
 		Population receivers = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.HOUSEHOLDS_ID);
-		double totalNW = 0;
-		for(Agent receiver:receivers.getAgents()){
-			totalNW+=((MacroAgent)receiver).getNetWealth();
-		}
+		
 		// If bank does not hold enough deposits, get bailed out from all households. Recapitalize bank by all households.
 		if (-nw> totDeposits) {
+			
+			double totalNW = 0;
+			for(Agent receiver:receivers.getAgents()){
+				totalNW+=((MacroAgent)receiver).getNetWealth();
+			}
 			
 			Item targetStock = bank.getItemStockMatrix(true, StaticValues.SM_RESERVES);
 			
@@ -145,6 +147,11 @@ public class BankBankruptcyBailoutCAR extends AbstractStrategy implements
 		}
 		
 		Item targetStock = bank.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+		
+		double totalNW = 0;
+		for(Agent receiver:receivers.getAgents()){
+			totalNW+=((MacroAgent)receiver).getNetWealth();
+		}
 		
 		for(Agent rec:receivers.getAgents()){
 			Households receiver =(Households) rec; 

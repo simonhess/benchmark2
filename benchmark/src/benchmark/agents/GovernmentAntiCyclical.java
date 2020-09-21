@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.List;
 
 import benchmark.StaticValues;
+import benchmark.strategies.CentralBankProfitDistributionStrategy;
 import cern.jet.random.engine.RandomEngine;
 import jmab.agents.BondSupplier;
 import jmab.agents.LaborDemander;
@@ -32,6 +33,7 @@ import jmab.events.MacroTicEvent;
 import jmab.population.MacroPopulation;
 import jmab.stockmatrix.Deposit;
 import jmab.stockmatrix.Item;
+import jmab.strategies.InterestRateStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -107,6 +109,9 @@ public class GovernmentAntiCyclical extends Government implements LaborDemander,
 		cb.payDepositInterests();
 		deposit.setValue(deposit.getValue()+cb.getCBProfits());
 		profitsFromCB=cb.getCBProfits();
+		
+		CentralBankProfitDistributionStrategy strategy = (CentralBankProfitDistributionStrategy)this.getStrategy(StaticValues.STRATEGY_CBPROFITS);
+		strategy.distributeCBProfits();
 	}
 
 	/**

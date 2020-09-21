@@ -238,6 +238,7 @@ public interface StaticValues {
 	public static int STRATEGY_BANKRUPTCY = 22;
 	public static int STRATEGY_WAGE = 23;
 	public static int STRATEGY_DIVIDENDS = 24;
+	public static int STRATEGY_CBPROFITS = 25;
 	
 	public static int CAPITALFIRMS_ID=0;
 	public static int CONSUMPTIONFIRMS_ID=1;

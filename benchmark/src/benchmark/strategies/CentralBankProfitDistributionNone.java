@@ -40,11 +40,11 @@ import net.sourceforge.jabm.strategy.AbstractStrategy;
 /**
  * @author Simon Hess
  *
- * This strategy distributes the central bank profits to households and firms based on their reserve holdings
+ * This strategy distributes the central bank profits to households and firms equally i.e. every agent receives the same share of the profits
  *
  */
 @SuppressWarnings("serial")
-public class CentralBankProfitDistributionBasedOnReserves extends AbstractStrategy implements CentralBankProfitDistributionStrategy {
+public class CentralBankProfitDistributionNone extends AbstractStrategy implements CentralBankProfitDistributionStrategy {
 
 	int profitsLagId;
 	double profitShare;
@@ -57,65 +57,6 @@ public class CentralBankProfitDistributionBasedOnReserves extends AbstractStrate
 	 * @see jmab.strategies.DividendsStrategy#payDividends()
 	 */
 	public void distributeCBProfits() {
-		GovernmentAntiCyclical government = (GovernmentAntiCyclical)this.agent;
-		
-		Population hhs = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.HOUSEHOLDS_ID);
-		Population cFirms = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.CONSUMPTIONFIRMS_ID);
-		Population kFirms = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.CAPITALFIRMS_ID);
-		
-		// Distribute CB profits based on reserve holdings of households and firms
-		
-		double totalRes = 0;
-		for(Agent rec:hhs.getAgents()){
-			Households receiver =(Households) rec; 
-			Item hhRes = receiver.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-			totalRes+=hhRes.getValue();
-		}
-		for(Agent rec:cFirms.getAgents()){
-			ConsumptionFirm receiver =(ConsumptionFirm) rec; 
-			Item cFirmRes = receiver.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-			totalRes+=cFirmRes.getValue();
-		}
-		for(Agent rec:kFirms.getAgents()){
-			CapitalFirm receiver =(CapitalFirm) rec;
-			Item kFirmRes = receiver.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-			totalRes+=kFirmRes.getValue();
-		}
-		
-		Item targetStock = government.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-		LiabilitySupplier payingSupplier = (LiabilitySupplier) targetStock.getLiabilityHolder();
-		
-		for(Agent rec:hhs.getAgents()){
-			Households receiver =(Households) rec; 
-			Item hhRes = receiver.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-			double toPay=government.getProfitsFromCB()*hhRes.getValue()/totalRes;
-			
-			Item Payablestock = receiver.getPayableStock(StaticValues.MKT_LABOR);
-			
-			payingSupplier.transfer(targetStock, Payablestock,toPay);
-		}
-		for(Agent rec:cFirms.getAgents()){
-			ConsumptionFirm receiver =(ConsumptionFirm) rec; 
-			Item cFirmRes = receiver.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-			double toPay=government.getProfitsFromCB()*cFirmRes.getValue()/totalRes;
-			
-			Item Payablestock = receiver.getPayableStock(StaticValues.MKT_CONSGOOD);
-			
-			payingSupplier.transfer(targetStock, Payablestock,toPay);
-		}
-		
-		for(Agent rec:kFirms.getAgents()){
-			CapitalFirm receiver =(CapitalFirm) rec; 
-			Item kFirmRes = receiver.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-			double toPay=government.getProfitsFromCB()*kFirmRes.getValue()/totalRes;
-			
-			Item Payablestock = receiver.getPayableStock(StaticValues.MKT_CAPGOOD);
-			
-			payingSupplier.transfer(targetStock, Payablestock,toPay);
-		}
-		
-		government.setProfitsFromCB(0);
-		
 	}
 
 

@@ -44,7 +44,7 @@ import net.sourceforge.jabm.strategy.AbstractStrategy;
  *
  */
 @SuppressWarnings("serial")
-public class CentralBankProfitDistributionEqual extends AbstractStrategy implements SingleStrategy {
+public class CentralBankProfitDistributionEqual extends AbstractStrategy implements CentralBankProfitDistributionStrategy {
 
 	int profitsLagId;
 	double profitShare;
@@ -88,6 +88,8 @@ public class CentralBankProfitDistributionEqual extends AbstractStrategy impleme
 			Item Payablestock = receiver.getPayableStock(StaticValues.MKT_CAPGOOD);
 			payingSupplier.transfer(targetStock, Payablestock,shareOfCBProfits);
 		}
+		
+		government.setProfitsFromCB(0);
 		
 	}
 

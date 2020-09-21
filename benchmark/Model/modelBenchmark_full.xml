@@ -2863,6 +2863,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark.StaticValues.STRATEGY_BONDINTERESTRATE" />
 					</key> 
 				</entry>
+				<entry value-ref="governmentDistributeCBProfitsStrategy"> 
+					<key>
+						<util:constant static-field="benchmark.StaticValues.STRATEGY_CBPROFITS" />
+					</key> 
+				</entry>
 			</map>
 		</property>
 		<property name="scheduler" ref="simulationController" />
@@ -2877,6 +2882,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="governmentBondsInterestStrategy" scope="prototype" parent="strategy"
 		class="benchmark.strategies.BondInterestRateStrategy">
 		<property name="interestRate" value="0.0025"/>
+	</bean>
+	
+	<bean id="governmentDistributeCBProfitsStrategy" scope="prototype" parent="strategy"
+		class="benchmark.strategies.CentralBankProfitDistributionNone">
 	</bean>
 	
 

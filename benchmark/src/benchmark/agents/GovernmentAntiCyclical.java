@@ -108,69 +108,6 @@ public class GovernmentAntiCyclical extends Government implements LaborDemander,
 		deposit.setValue(deposit.getValue()+cb.getCBProfits());
 		profitsFromCB=cb.getCBProfits();
 	}
-	
-	/**
-	 * 
-	 */
-	private void distributeCBProfits() {
-		
-		Population hhs = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.HOUSEHOLDS_ID);
-		Population cFirms = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.CONSUMPTIONFIRMS_ID);
-		Population kFirms = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.CAPITALFIRMS_ID);
-		
-		// Distribute CB profits based on reserve holdings of households and firms
-		
-		double totalRes = 0;
-		for(Agent rec:hhs.getAgents()){
-			Households receiver =(Households) rec; 
-			Item hhRes = receiver.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-			totalRes+=hhRes.getValue();
-		}
-		for(Agent rec:cFirms.getAgents()){
-			ConsumptionFirm receiver =(ConsumptionFirm) rec; 
-			Item cFirmRes = receiver.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-			totalRes+=cFirmRes.getValue();
-		}
-		for(Agent rec:kFirms.getAgents()){
-			CapitalFirm receiver =(CapitalFirm) rec;
-			Item kFirmRes = receiver.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-			totalRes+=kFirmRes.getValue();
-		}
-		
-		Item targetStock = this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-		LiabilitySupplier payingSupplier = (LiabilitySupplier) targetStock.getLiabilityHolder();
-		
-		for(Agent rec:hhs.getAgents()){
-			Households receiver =(Households) rec; 
-			Item hhRes = receiver.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-			double toPay=profitsFromCB*hhRes.getValue()/totalRes;
-			
-			Item Payablestock = receiver.getPayableStock(StaticValues.MKT_LABOR);
-			
-			payingSupplier.transfer(targetStock, Payablestock,toPay);
-		}
-		for(Agent rec:cFirms.getAgents()){
-			ConsumptionFirm receiver =(ConsumptionFirm) rec; 
-			Item cFirmRes = receiver.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-			double toPay=profitsFromCB*cFirmRes.getValue()/totalRes;
-			
-			Item Payablestock = receiver.getPayableStock(StaticValues.MKT_CONSGOOD);
-			
-			payingSupplier.transfer(targetStock, Payablestock,toPay);
-		}
-		
-		for(Agent rec:kFirms.getAgents()){
-			CapitalFirm receiver =(CapitalFirm) rec; 
-			Item kFirmRes = receiver.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-			double toPay=profitsFromCB*kFirmRes.getValue()/totalRes;
-			
-			Item Payablestock = receiver.getPayableStock(StaticValues.MKT_CAPGOOD);
-			
-			payingSupplier.transfer(targetStock, Payablestock,toPay);
-		}
-		
-		
-	}
 
 	/**
 	 * 

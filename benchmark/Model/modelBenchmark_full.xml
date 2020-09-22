@@ -2433,6 +2433,24 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	-->
 	
+	<bean id="banksBankSpecificLoanInterestStrategy" scope="prototype"
+		parent="strategy" class="benchmark.strategies.AdaptiveMarkupOnFundingRateInterestRate">
+		<property name="distribution" ref="foldedNormal1" />
+		<property name="mktId">
+			<util:constant static-field="benchmark.StaticValues.MKT_CREDIT" />
+		</property>
+		<!-- <property name="adaptiveParameter" value="1"/> -->
+		<property name="adaptiveParameter" value="1" />
+		<property name="markup" value="0.005" />
+		<property name="liabilitiesId">
+			<list>
+				<util:constant static-field="benchmark.StaticValues.SM_DEP" />
+				<util:constant static-field="benchmark.StaticValues.SM_ADVANCES" />
+			</list>
+		</property>
+	</bean>
+	
+	<!--
 	<bean id="banksBankSpecificLoanInterestStrategy" scope="prototype" parent="strategy"
 		class="benchmark.strategies.CopyOfAdaptiveInterestRateAverageThreshold">
 		<property name="distribution" ref="foldedNormal1"/>
@@ -2440,7 +2458,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="increase" value="false"/>
 		<property name="adaptiveParameter" value="1"/>
 		<property name="threshold" value="0.17995897"/>
-	</bean>
+	</bean> -->
 	
 	<!-- BLR RESERVE REQUIREMENT-->
 	<bean id="banksAdvancesStrategy" scope="prototype" parent="strategy"
@@ -2482,16 +2500,16 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean> -->
 	
 	<bean id="banksDepInterestStrategy" scope="prototype" parent="strategy"
-		class="interbank.strategies.AdaptiveDepositInterestRate">
+		class="benchmark.strategies.AdaptiveDepositInterestRate">
 		<property name="distribution" ref="foldedNormal2" />
 		<property name="mktId">
-			<util:constant static-field="interbank.StaticValues.MKT_DEPOSIT" />
+			<util:constant static-field="benchmark.StaticValues.MKT_DEPOSIT" />
 		</property>
 		<property name="adaptiveParameter" value="1" />
 		<property name="liabilitiesId">
 			<list>
-				<util:constant static-field="interbank.StaticValues.SM_DEP" />
-				<util:constant static-field="interbank.StaticValues.SM_ADVANCES" />
+				<util:constant static-field="benchmark.StaticValues.SM_DEP" />
+				<util:constant static-field="benchmark.StaticValues.SM_ADVANCES" />
 			</list>
 		</property>
 	</bean>

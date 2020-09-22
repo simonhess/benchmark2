@@ -68,6 +68,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	private double depositInterestRate;
 	private double totalLoanSupply;
 	private double advancesDemand;
+	private double fundingRate;
 	private int advancesLength;
 	private int advancesAmortizationType;
 	private double bondPrice;
@@ -230,6 +231,14 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			break;
 		}
 
+	}
+	
+	public double getFundingRate() {
+		return fundingRate;
+	}
+
+	public void setFundingRate(double fundingRate) {
+		this.fundingRate = fundingRate;
 	}
 	
 	protected void payDividends(){

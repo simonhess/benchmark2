@@ -2470,14 +2470,29 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		class="benchmark.strategies.BondDemandStrategyReserves">
 	</bean>
 	
-	<bean id="banksDepInterestStrategy" scope="prototype" parent="strategy"
+<!--	<bean id="banksDepInterestStrategy" scope="prototype" parent="strategy"
 		class="benchmark.strategies.CopyOfAdaptiveInterestRateAverageThreshold">
 		<property name="distribution" ref="foldedNormal2"/>
 		<property name="mktId"><util:constant static-field="benchmark.StaticValues.MKT_DEPOSIT" /> </property>
 		<property name="increase" value="false"/>
-<!-- 		<property name="adaptiveParameter" value="1"/> -->
+ 		<property name="adaptiveParameter" value="1"/> 
         <property name="adaptiveParameter" value="1"/>
 		<property name="threshold" value="0.258026342"/>
+	</bean> -->
+	
+	<bean id="banksDepInterestStrategy" scope="prototype" parent="strategy"
+		class="interbank.strategies.AdaptiveDepositInterestRate">
+		<property name="distribution" ref="foldedNormal2" />
+		<property name="mktId">
+			<util:constant static-field="interbank.StaticValues.MKT_DEPOSIT" />
+		</property>
+		<property name="adaptiveParameter" value="1" />
+		<property name="liabilitiesId">
+			<list>
+				<util:constant static-field="interbank.StaticValues.SM_DEP" />
+				<util:constant static-field="interbank.StaticValues.SM_ADVANCES" />
+			</list>
+		</property>
 	</bean>
 	
 <!-- Old credit supply with CAR

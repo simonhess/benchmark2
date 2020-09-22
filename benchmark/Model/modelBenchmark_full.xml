@@ -2291,6 +2291,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="advancesInterestRate" value="0.005" />
 		<property name="bondInterestRate" value="0.0025" />
 		<property name="depositInterestRate" value="0.0025" />
+		<property name="fundingRate" value="0.0025" />
 		<property name="targetedLiquidityRatio" value="0.258026342" />
 	</bean>
 	

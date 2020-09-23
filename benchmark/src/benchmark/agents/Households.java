@@ -16,6 +16,7 @@ package benchmark.agents;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -309,22 +310,23 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	}
 	
 	public void reallocateLiquidity(double amount, List<Item> payingStocks, Item targetStock){
+		BigDecimal amountBD = BigDecimal.valueOf(amount);
 		//The amount raised is equal to what is already on the target stock
-		double amountRaised=targetStock.getValue();
-		for(int i=0;i<payingStocks.size()&&amountRaised<amount;i++){
+		BigDecimal amountRaised=BigDecimal.valueOf(targetStock.getValue());
+		for(int i=0;i<payingStocks.size()&&amountRaised.compareTo(amountBD) ==-1;i++){
 			//For each item in the list
 			Item payingStock = payingStocks.get(i);
 			//If the payingStock is not the target stock (otherwise, there's nothing to do).
 			if(payingStock!=targetStock){
 				//compute different amounts
-				double thisAmount=payingStock.getValue();
-				double remAmount=Math.max(0,thisAmount+amountRaised-amount);
-				double transferAmount=thisAmount-remAmount;
-				amountRaised+=transferAmount;
+				BigDecimal thisAmount=BigDecimal.valueOf(payingStock.getValue());
+				BigDecimal remAmount=thisAmount.add(amountRaised).subtract(amountBD).max(new BigDecimal("0"));
+				BigDecimal transferAmount=thisAmount.subtract(remAmount);
+				amountRaised = amountRaised.add(transferAmount);
 				//who is the supplier of the paying stock?
 				LiabilitySupplier payingSupplier = (LiabilitySupplier) payingStock.getLiabilityHolder();
 				// Do the transfer
-				payingSupplier.transfer(payingStock, targetStock, transferAmount);
+				payingSupplier.transfer(payingStock, targetStock, transferAmount.doubleValue());
 			}
 		}
 	}

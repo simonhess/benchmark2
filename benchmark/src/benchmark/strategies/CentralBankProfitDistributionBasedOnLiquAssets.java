@@ -61,6 +61,8 @@ public class CentralBankProfitDistributionBasedOnLiquAssets extends AbstractStra
 			break;
 		}
 		
+		if (amountToDistribute > 0) {
+		
 		double totalLiquAssets = 0;
 		for(Agent rec:hhs.getAgents()){
 			Households receiver =(Households) rec; 
@@ -120,6 +122,7 @@ public class CentralBankProfitDistributionBasedOnLiquAssets extends AbstractStra
 			Item Payablestock = receiver.getPayableStock(StaticValues.MKT_CAPGOOD);
 			
 			payingSupplier.transfer(targetStock, Payablestock,toPay);
+		}
 		}
 	}
 

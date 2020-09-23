@@ -68,6 +68,8 @@ public class CentralBankProfitDistributionEqual extends AbstractStrategy impleme
 			break;
 		}
 		
+		if(amountToDistribute>0) {
+		
 		double size = hhs.getAgents().size()+cFirms.getAgents().size()+kFirms.getAgents().size();
 		
 		double shareOfCBProfits = amountToDistribute/size;
@@ -90,6 +92,8 @@ public class CentralBankProfitDistributionEqual extends AbstractStrategy impleme
 			CapitalFirm receiver =(CapitalFirm) rec; 
 			Item Payablestock = receiver.getPayableStock(StaticValues.MKT_CAPGOOD);
 			payingSupplier.transfer(targetStock, Payablestock,shareOfCBProfits);
+		}
+		
 		}
 	}
 

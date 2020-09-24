@@ -39,7 +39,7 @@ import net.sourceforge.jabm.strategy.AbstractStrategy;
  *
  */
 @SuppressWarnings("serial")
-public class BankBankruptcyBailoutCAR extends AbstractStrategy implements
+public class BankBankruptcyBailin extends AbstractStrategy implements
 		BankruptcyStrategy {
 	
 //	private int numberBailouts; 
@@ -66,7 +66,7 @@ public class BankBankruptcyBailoutCAR extends AbstractStrategy implements
 	/**
 	 * 
 	 */
-	public BankBankruptcyBailoutCAR() {
+	public BankBankruptcyBailin() {
 		super();
 //		this. numberBailouts=0;
 	}

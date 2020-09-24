@@ -166,7 +166,7 @@ public class BankBankruptcyBailoutCAR extends AbstractStrategy implements
 			
 			libHolder.transfer(payablestock, targetStock,toPay);
 		}
-		
+		}
 		totDeposits= bank.getNumericBalanceSheet()[1][depositId];
 		
 		Expectation exp =bank.getExpectation(depositExpectationId);
@@ -176,7 +176,7 @@ public class BankBankruptcyBailoutCAR extends AbstractStrategy implements
 			expData[j][1]=totDeposits;
 		}
 		exp.setPassedValues(expData);
-		}
+		
 		System.out.println("bank "+ bank.getAgentId() +" defaulted");
 		//System.out.println(numberBailouts);
 		

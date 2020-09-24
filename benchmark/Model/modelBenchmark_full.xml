@@ -1396,10 +1396,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <property name="cPrice" value="1.030357291"/>
 <property name="cUnitCost" value="0.936688447"/>
 <property name="iLoans" value="0.0075"/>
-<property name="iDep" value="0.0025"/>
+<property name="iDep" value="0.005"/>
 <property name="bsProfits" value="179.1522275"/>
-<property name="iBonds" value="0.0025"/>
-<property name="iAdv" value="0.0025"/>
+<property name="iBonds" value="0.005"/>
+<property name="iAdv" value="0.005"/>
 <property name="iReserves" value="0"/>
 <property name="ksOCF" value="189.2146501"/>
 <property name="csOCF" value="2340.255574"/>
@@ -1863,7 +1863,13 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	class="jmab.strategies.ProfitsWealthTaxStrategy">
     <property name="profitTaxRate" ref="profitTaxVal" />
 	<property name="wealthTaxRate" value="0"/>
-	<property name="depositId"><util:constant static-field="benchmark.StaticValues.SM_DEP" /> </property>	
+	<property name="liquidAssetsId">
+			<list>
+				<util:constant static-field="benchmark.StaticValues.SM_DEP" />
+				<util:constant static-field="benchmark.StaticValues.SM_CASH" />
+				<util:constant static-field="benchmark.StaticValues.SM_RESERVES" />
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="profitTaxVal" scope="simulation" class="net.sourceforge.jabm.util.MutableDoubleWrapper">
@@ -2165,7 +2171,13 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	class="jmab.strategies.ProfitsWealthTaxStrategy">
 	<property name="profitTaxRate" ref="profitTaxVal" />
 	<property name="wealthTaxRate" value="0"></property>
-	<property name="depositId"><util:constant static-field="benchmark.StaticValues.SM_DEP" /> </property>	
+	<property name="liquidAssetsId">
+			<list>
+				<util:constant static-field="benchmark.StaticValues.SM_DEP" />
+				<util:constant static-field="benchmark.StaticValues.SM_CASH" />
+				<util:constant static-field="benchmark.StaticValues.SM_RESERVES" />
+			</list>
+		</property>	
 	</bean>
 	
 	<bean id="consumptionBankruptcyStrategy" scope="prototype" parent="strategy"
@@ -2288,10 +2300,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="advancesLength" value="1"/>
 		<property name="advancesAmortizationType" value="2" />
 		<property name="reserveInterestRate" value="0" />
-		<property name="advancesInterestRate" value="0.005" />
-		<property name="bondInterestRate" value="0.0025" />
-		<property name="depositInterestRate" value="0.0025" />
-		<property name="fundingRate" value="0.0025" />
+		<property name="advancesInterestRate" value="0.00" />
+		<property name="bondInterestRate" value="0.005" />
+		<property name="depositInterestRate" value="0.005" />
+		<property name="fundingRate" value="0.005" />
 		<property name="targetedLiquidityRatio" value="0.258026342" />
 	</bean>
 	
@@ -2590,12 +2602,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="banksTaxesStrategy" scope="prototype" parent="strategy"
 	class="jmab.strategies.ProfitsWealthTaxStrategy">
 	<property name="profitTaxRate" ref="profitTaxVal" />
-	<property name="wealthTaxRate" value="0"></property>
-	<property name="depositId"><util:constant static-field="benchmark.StaticValues.SM_RESERVES" /> </property>	
+	<property name="wealthTaxRate" value="0"></property>	
 	</bean>
 	
 	<bean id="banksBankruptcyStrategy" scope="prototype" parent="strategy"
-	class="benchmark.strategies.BankBankruptcyBailoutCAR">
+	class="benchmark.strategies.BankBankruptcyBailin">
 	<property name="depositId"><util:constant static-field="benchmark.StaticValues.SM_DEP"/></property>
 	<property name="depositExpectationId"><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_DEPOSITS"/></property>
 	<property name="prng" ref="prng"/>
@@ -2866,7 +2877,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.GOVERNMENT_ID" /> </property>
 		<!-- From Government -->
 		<property name="bondMaturity" value="1"/>
-		<property name="bondInterestRate" value="0.0025" />
+		<property name="bondInterestRate" value="0.005" />
 		<property name="prng" ref="prng"/>
 		<property name="bondPrice" value="1.0" />
 		<property name="fixedLaborDemand" value="1360" />
@@ -2915,11 +2926,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<bean id="governmentBondsInterestStrategy" scope="prototype" parent="strategy"
 		class="benchmark.strategies.BondInterestRateStrategy">
-		<property name="interestRate" value="0.0025"/>
+		<property name="interestRate" value="0.005"/>
 	</bean>
 	
 	<bean id="governmentDistributeCBProfitsStrategy" scope="prototype" parent="strategy"
-		class="benchmark.strategies.CentralBankProfitDistributionNone">
+		class="benchmark.strategies.CentralBankProfitDistributionBasedOnLiquAssets">
 	</bean>
 	
 

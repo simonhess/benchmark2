@@ -30,6 +30,7 @@ import jmab.agents.CreditSupplier;
 import jmab.agents.DepositDemander;
 import jmab.agents.DepositSupplier;
 import jmab.agents.InterestRateSetterWithTargets;
+import jmab.agents.LiabilitySupplier;
 import jmab.agents.MacroAgent;
 import jmab.agents.ProfitsTaxPayer;
 import jmab.events.MacroTicEvent;
@@ -606,7 +607,13 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		case StaticValues.MKT_CREDIT:
 			return Double.POSITIVE_INFINITY;
 		case StaticValues.MKT_DEPOSIT:
-			return this.advancesInterestRate-this.targetedLiquidityRatio*this.advancesInterestRate+this.targetedLiquidityRatio*this.reserveInterestRate;
+			Item res = this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+			CentralBank cb = (CentralBank) res.getLiabilityHolder();
+			double [][] bs = cb.getNumericBalanceSheet();
+			double totalAssets = bs[0][5] + bs[0][7];
+			double adv = bs[0][7];
+			double advAssetRatio = adv/totalAssets;
+			return this.advancesInterestRate-(this.targetedLiquidityRatio*this.advancesInterestRate*advAssetRatio)+this.targetedLiquidityRatio*this.reserveInterestRate;
 		}
 		return 0;
 	}

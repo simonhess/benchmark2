@@ -86,7 +86,6 @@ public class AdaptiveDepositInterestRate extends AbstractStrategy implements Int
 		}else{
 			iR=avInterest-(adaptiveParameter*avInterest*distribution.nextDouble());
 		}
-		System.out.println(Math.min(Math.max(iR, lender.getInterestRateLowerBound(mktId)),lender.getInterestRateUpperBound(mktId)));
 		return Math.min(Math.max(iR, lender.getInterestRateLowerBound(mktId)),lender.getInterestRateUpperBound(mktId));
 	}
 

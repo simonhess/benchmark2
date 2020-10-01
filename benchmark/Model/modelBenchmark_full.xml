@@ -216,23 +216,28 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <!-- The capital good market simulation -->
 	<bean id="capitalGoodMarket" class="jmab.simulations.BrochureMarket" scope="simulation">
 		<property name="transaction" ref="capitalMktTransactionMechanism"/>
-		<property name="sellersId"><util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID" /></property>
-		<property name="buyersId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID" /></property>
+		<property name="sellersId">
+			<list>
+			   <util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID"/>
+	        </list>
+		</property>
+		<!-- <property name="buyersId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID" /></property> -->
+		<property name="buyersId">
+			<list>
+			   <util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/>
+	           <util:constant static-field="benchmark.StaticValues.GOVERNMENT_ID"/>
+	        </list>
+		</property>
 		<property name="marketId"><util:constant static-field="benchmark.StaticValues.MKT_CAPGOOD" /></property>
 		<property name="mixer" ref="capitalMarketMixer" />
-		<property name="population" ref="capitalMarketPopulation" />
+
 		<property name="scheduler" ref="simulationController"/>
 		<property name="firstTicId"><util:constant static-field="benchmark.StaticValues.TIC_CAPITALMARKET1" /></property>
 		<property name="secondTicId"><util:constant static-field="benchmark.StaticValues.TIC_CAPITALMARKET2" /></property>
 		<property name="initialiser" ref="capitalMarketInitialiser" />
 	</bean>
 	
-<!-- The market population for the capital good market -->
-	<bean id="capitalMarketPopulation" class="jmab.population.MarketPopulation"
-		scope="simulation">
-		<property name="buyersList" ref="consumptionFirms" />
-		<property name="sellersList" ref="capitalFirms" />
-	</bean>
+
 
 	<bean id="capitalMarketInitialiser" class="jmab.init.RandomMarketInitialiser"
 		scope="simulation">
@@ -421,8 +426,16 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<!-- The bond market  -->
 	<bean id="bondMarket" class="jmab.simulations.BrochureMarket" scope="simulation">
 		<property name="transaction" ref="bondMktTransactionMechanism"/>
-		<property name="sellersId"><util:constant static-field="benchmark.StaticValues.GOVERNMENT_ID" /></property>
-		<property name="buyersId"><util:constant static-field="benchmark.StaticValues.BANKS_ID" /></property>
+		<property name="sellersId">
+			<list>
+	           <util:constant static-field="benchmark.StaticValues.GOVERNMENT_ID"/>
+	        </list>
+	    </property>
+		<property name="buyersId">
+			<list>
+	           <util:constant static-field="benchmark.StaticValues.BANKS_ID"/>
+	        </list>
+	    </property>
 		<property name="marketId"><util:constant static-field="benchmark.StaticValues.MKT_BONDS" /></property>
 		<property name="mixer" ref="bondMarketMixer" />
 		<property name="population" ref="bondMarketPopulation" />
@@ -2300,7 +2313,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="advancesLength" value="1"/>
 		<property name="advancesAmortizationType" value="2" />
 		<property name="reserveInterestRate" value="0" />
-		<property name="advancesInterestRate" value="0.00" />
+		<property name="advancesInterestRate" value="0.005" />
 		<property name="bondInterestRate" value="0.005" />
 		<property name="depositInterestRate" value="0.005" />
 		<property name="fundingRate" value="0.005" />
@@ -2453,7 +2466,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		</property>
 		<!-- <property name="adaptiveParameter" value="1"/> -->
 		<property name="adaptiveParameter" value="1" />
-		<property name="markup" value="0.005" />
+		<property name="markup" value="0.0025" />
 		<property name="liabilitiesId">
 			<list>
 				<util:constant static-field="benchmark.StaticValues.SM_DEP" />
@@ -2507,7 +2520,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="mktId"><util:constant static-field="benchmark.StaticValues.MKT_DEPOSIT" /> </property>
 		<property name="increase" value="false"/>
  		<property name="adaptiveParameter" value="1"/> 
-        <property name="adaptiveParameter" value="1"/>
 		<property name="threshold" value="0.258026342"/>
 	</bean> -->
 	
@@ -2845,7 +2857,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<!-- The government prototype instantiated from the Households Class -->
-	<bean id="governmentPrototype" scope="prototype" class="benchmark.agents.GovernmentAntiCyclical"> 
+	<bean id="governmentPrototype" scope="prototype" class="benchmark.agents.GovernmentAntiCyclicalWithInvestment"> 
 		<!-- From AbstractAgent -->
 		<property name="strategy" ref="governmentMacroStrategy"/>
 		<property name="scheduler" ref="simulationController" />
@@ -2870,6 +2882,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_BONDINTERESTS" />
 				<util:constant static-field="benchmark.StaticValues.TIC_BONDSUPPLY" />
 				<util:constant static-field="benchmark.StaticValues.TIC_UPDATEEXPECTATIONS" />
+				<util:constant static-field="benchmark.StaticValues.TIC_INVESTMENTDEMAND" />
 			</list>
 		</property>
 		<property name="numberMarkets" value="7" />
@@ -2913,6 +2926,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark.StaticValues.STRATEGY_CBPROFITS" />
 					</key> 
 				</entry>
+				<entry value-ref="governmentBuyingStrategy"> 
+					<key>
+						<util:constant static-field="benchmark.StaticValues.STRATEGY_BUYING" />
+					</key> 
+				</entry>
 			</map>
 		</property>
 		<property name="scheduler" ref="simulationController" />
@@ -2931,6 +2949,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<bean id="governmentDistributeCBProfitsStrategy" scope="prototype" parent="strategy"
 		class="benchmark.strategies.CentralBankProfitDistributionBasedOnLiquAssets">
+	</bean>
+	
+	<bean id="governmentBuyingStrategy" scope="prototype" parent="strategy"
+		class="jmab.strategies.CheapestGoodSupplier">
 	</bean>
 	
 

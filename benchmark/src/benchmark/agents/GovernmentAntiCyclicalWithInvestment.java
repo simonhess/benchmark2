@@ -67,6 +67,14 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 	protected ArrayList<Agent> selectedCapitalGoodSuppliers;
 	protected double previousRemainingSeigniorage;
 	
+	public double getPreviousRemainingSeigniorage() {
+		return previousRemainingSeigniorage;
+	}
+
+	public void setPreviousRemainingSeigniorage(double previousRemainingSeigniorage) {
+		this.previousRemainingSeigniorage = previousRemainingSeigniorage;
+	}
+
 	/**
 	 * @return the unemploymentBenefit
 	 */

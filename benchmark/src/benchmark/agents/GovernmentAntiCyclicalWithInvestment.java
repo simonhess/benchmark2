@@ -94,9 +94,6 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 			collectTaxes(event.getSimulationController());
 			break;
 		case StaticValues.TIC_INVESTMENTDEMAND:
-			Deposit depositGov = (Deposit) this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-			// Get value of seigniorage that hasn't been spent in the last period. This will be considered when new bonds are emitted.
-			previousRemainingSeigniorage = depositGov.getValue();
 			computeDesiredInvestment(null);
 			break;
 		case StaticValues.TIC_BONDINTERESTS:
@@ -140,6 +137,9 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 					macroSim.getActiveMarket().commit(this, selSupplier,marketID);
 					this.selectedCapitalGoodSuppliers.remove(selSupplier);
 				}
+				Deposit depositGov = (Deposit) this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+				// Get value of seigniorage that hasn't been spent in the last period. This will be considered when new bonds are emitted.
+				previousRemainingSeigniorage = depositGov.getValue();
 			}
 			
 			break;

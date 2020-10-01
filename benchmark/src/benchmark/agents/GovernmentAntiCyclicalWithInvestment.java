@@ -137,14 +137,9 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 					SelectSellerStrategy buyingStrategy = (SelectSellerStrategy) this.getStrategy(StaticValues.STRATEGY_BUYING);
 					MacroAgent selSupplier = buyingStrategy.selectGoodSupplier(this.selectedCapitalGoodSuppliers, desiredRealCapitalDemand, true);
 					computeDesiredInvestment(selSupplier);
-					System.out.println("ID "+this.getAgentId());
 					macroSim.getActiveMarket().commit(this, selSupplier,marketID);
 					this.selectedCapitalGoodSuppliers.remove(selSupplier);
 				}
-				Item res = (Item) this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-				System.out.println(res.getValue());
-				//Item cap = (Item) this.getItemStockMatrix(true, StaticValues.SM_CAPGOOD);
-				//System.out.println(cap.getValue());
 			}
 			
 			break;

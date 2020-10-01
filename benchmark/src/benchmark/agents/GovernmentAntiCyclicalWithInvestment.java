@@ -65,6 +65,7 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 	protected double profitsFromCB;
 	protected double desiredRealCapitalDemand;
 	protected ArrayList<Agent> selectedCapitalGoodSuppliers;
+	protected double previousRemainingSeigniorage;
 	
 	/**
 	 * @return the unemploymentBenefit
@@ -93,15 +94,9 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 			collectTaxes(event.getSimulationController());
 			break;
 		case StaticValues.TIC_INVESTMENTDEMAND:
-//			SimulationController simulationController = (SimulationController)this.getScheduler();
-//			MacroPopulation populations = (MacroPopulation)simulationController.getPopulation();
-//			Collection <Agent> cpop = populations.getPopulation(StaticValues.CAPITALFIRMS_ID).getAgents();
-//			if(selectedCapitalGoodSuppliers.)
-//			selectedCapitalGoodSuppliers.clear();
-//			for (Agent agent: cpop) {
-//				selectedCapitalGoodSuppliers.add(agent);
-//			}
-			//SelectSellerStrategy buyingStrategy = (SelectSellerStrategy) this.getStrategy(StaticValues.STRATEGY_BUYING);
+			Deposit depositGov = (Deposit) this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+			// Get value of seigniorage that hasn't been spent in the last period. This will be considered when new bonds are emitted.
+			previousRemainingSeigniorage = depositGov.getValue();
 			computeDesiredInvestment(null);
 			break;
 		case StaticValues.TIC_BONDINTERESTS:
@@ -294,7 +289,7 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 		double seigniorageProfits = this.getProfitsFromCB() - cb.getBondInterestsReceived();
 		
 		// Insulate seigniorage profits when calculating the deficit
-		double deficit=deposit.getValue()-seigniorageProfits;
+		double deficit=deposit.getValue()-seigniorageProfits-previousRemainingSeigniorage;
 		int quantity = 0;
 		if(deficit<0){
 			quantity = (int)Math.ceil(Math.abs(deficit)/this.bondPrice);

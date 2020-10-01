@@ -65,15 +65,6 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 	protected double profitsFromCB;
 	protected double desiredRealCapitalDemand;
 	protected ArrayList<Agent> selectedCapitalGoodSuppliers;
-	protected double previousRemainingSeigniorage;
-	
-	public double getPreviousRemainingSeigniorage() {
-		return previousRemainingSeigniorage;
-	}
-
-	public void setPreviousRemainingSeigniorage(double previousRemainingSeigniorage) {
-		this.previousRemainingSeigniorage = previousRemainingSeigniorage;
-	}
 
 	/**
 	 * @return the unemploymentBenefit
@@ -145,9 +136,6 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 					macroSim.getActiveMarket().commit(this, selSupplier,marketID);
 					this.selectedCapitalGoodSuppliers.remove(selSupplier);
 				}
-				Deposit depositGov = (Deposit) this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-				// Get value of seigniorage that hasn't been spent in the last period. This will be considered when new bonds are emitted.
-				previousRemainingSeigniorage = depositGov.getValue();
 			}
 			
 			break;
@@ -292,7 +280,7 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 		double seigniorageProfits = this.getProfitsFromCB() - cb.getBondInterestsReceived();
 		
 		// Insulate seigniorage profits when calculating the deficit
-		double deficit=deposit.getValue()-seigniorageProfits-previousRemainingSeigniorage;
+		double deficit=deposit.getValue()-seigniorageProfits;
 		int quantity = 0;
 		if(deficit<0){
 			quantity = (int)Math.ceil(Math.abs(deficit)/this.bondPrice);

@@ -394,6 +394,55 @@
 	<property name="reportVariables" ref="avNetIncomeReportVariables"/>
 </bean>
 
+<!-- Gini Report -->
+<bean id="giniComputer" class="benchmark.report.GiniComputer">
+	<property name="householdId"><util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" /></property>
+</bean>
+
+<bean id="giniEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.GINIREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="giniTimeSeries"/>
+</bean>
+
+<bean id="giniCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="giniReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="gini" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="giniCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.GINIREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="giniCSVReportVariables"/>
+</bean>
+
+<bean id="giniReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="gini"/>
+</bean>
+
+<bean id="giniTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="giniTimeSeries"/>
+	<property name="chartTitle" value="gini"/>
+	<property name="rangeAxisLabel" value="gini"/>
+</bean>
+
+<bean id="giniTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="giniReportVariables"/>
+</bean>
+
 <!-- agg constrained credit Report -->
 <bean id="cAggConsCreditComputer" class="benchmark.report.ConstrainedCreditComputer">
 	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID" /></property>

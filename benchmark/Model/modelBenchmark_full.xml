@@ -85,6 +85,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="depAvInterestReportTic" />
 				<ref bean="avWageReportTic" />
 	            <ref bean="avNetIncomeReportTic" />
+	            <ref bean="giniReportTic" />
 				<ref bean="nominalInvReportTic" />
 				<ref bean="unemploymentReportTic" />
 				<ref bean="microLoansKfirmsReportTic" />
@@ -705,6 +706,13 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AVNETINCOMEREPORT_ID" /></property>
 	<property name="variableName" value="avNetIncome"/>
 	<property name="computer" ref="avNetIncomeComputer"/>
+	</bean>
+	
+	<bean id="giniReportTic" class="jmab.events.MacroVariableTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_GINIREPORT" /></property>
+	<property name="variableId"><util:constant static-field="benchmark.StaticValues.GINIREPORT_ID" /></property>
+	<property name="variableName" value="gini"/>
+	<property name="computer" ref="giniComputer"/>
 	</bean>
 	
 	

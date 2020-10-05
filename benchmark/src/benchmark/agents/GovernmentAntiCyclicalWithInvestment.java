@@ -147,9 +147,17 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 	 */
 	private void receiveCBProfits() {
 		Item deposit=this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+		Item depositSeign = this.getItemsStockMatrix(true, StaticValues.SM_RESERVES).get(1);
 		CentralBank cb=(CentralBank) deposit.getLiabilityHolder();
 		cb.payDepositInterests();
-		deposit.setValue(deposit.getValue()+cb.getCBProfits());
+		double interestSeigniorage = cb.getCBProfits()-cb.getBondInterestsReceived(); 
+		double interestBonds = cb.getBondInterestsReceived(); 
+		deposit.setValue(deposit.getValue()+interestBonds);
+		if(interestSeigniorage > 0) {
+			depositSeign.setValue(depositSeign.getValue()+interestSeigniorage);
+		}else {
+			deposit.setValue(deposit.getValue()+interestSeigniorage);
+		}
 		profitsFromCB=cb.getCBProfits();
 	}
 
@@ -259,7 +267,7 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 	 * 
 	 */
 	protected void computeDesiredInvestment(MacroAgent selectedCapitalGoodSupplier) {
-		Deposit deposit = (Deposit) this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+		Deposit deposit = (Deposit) this.getItemsStockMatrix(true, StaticValues.SM_RESERVES).get(1);
 		if(deposit.getValue()>0) {
 		this.desiredRealCapitalDemand=deposit.getValue();
 		}
@@ -267,33 +275,6 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 		if(desiredRealCapitalDemand>0){
 			this.setActive(true,StaticValues.MKT_CAPGOOD);
 		}
-	}
-	
-	/**
-	 * Emits bonds. If there is a deficit, the deposit account of the government is negative. The deficit is then divided
-	 * by the price of bonds, rounded to the largest int. Bonds are then emitted and added to the StockMatrix.
-	 */
-	protected void emitBonds() {
-		Item deposit=this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-		LiabilitySupplier holder = (LiabilitySupplier) deposit.getLiabilityHolder();
-		CentralBank cb = (CentralBank) holder;
-		double seigniorageProfits = this.getProfitsFromCB() - cb.getBondInterestsReceived();
-		
-		// Insulate seigniorage profits when calculating the deficit
-		double deficit=deposit.getValue()-seigniorageProfits;
-		int quantity = 0;
-		if(deficit<0){
-			quantity = (int)Math.ceil(Math.abs(deficit)/this.bondPrice);
-		}
-		Bond remainingBonds = (Bond)this.getItemStockMatrix(false, StaticValues.SM_BONDS,this);
-		if(remainingBonds!=null){
-			quantity+=remainingBonds.getQuantity();
-			this.removeItemStockMatrix(remainingBonds, false, StaticValues.SM_BONDS);
-		}
-		Bond newIssue = new Bond(quantity*bondPrice, quantity, this, this, this.bondMaturity, this.bondInterestRate,
-				this.bondPrice);
-		this.addItemStockMatrix(newIssue, false, StaticValues.SM_BONDS);
-		this.setActive(true, StaticValues.MKT_BONDS);
 	}
 	
 	/**

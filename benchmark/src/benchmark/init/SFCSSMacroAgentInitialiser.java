@@ -20,6 +20,7 @@ import benchmark.agents.CapitalFirm;
 import benchmark.agents.CentralBank;
 import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.Government;
+import benchmark.agents.GovernmentAntiCyclicalWithInvestment;
 import benchmark.agents.Households;
 import jmab.agents.CreditSupplier;
 import jmab.agents.DepositSupplier;
@@ -521,6 +522,14 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		Deposit govtRes = new Deposit(0,(SimpleAbstractAgent)govt,(SimpleAbstractAgent)cb,this.iReserves);
 		govt.addItemStockMatrix(govtRes, true, StaticValues.SM_RESERVES);
 		cb.addItemStockMatrix(govtRes, false, StaticValues.SM_RESERVES);
+		
+		if(govt instanceof GovernmentAntiCyclicalWithInvestment) {
+		
+		// Add central bank deposit only for seigniorage profits if government makes investments with seigniorage profits
+		Deposit govtResSeign = new Deposit(0,(SimpleAbstractAgent)govt,(SimpleAbstractAgent)cb,this.iReserves);
+		govt.addItemStockMatrix(govtResSeign, true, StaticValues.SM_RESERVES);
+		cb.addItemStockMatrix(govtResSeign, false, StaticValues.SM_RESERVES);
+		}
 
 		//Central Bank
 		int nbBondsPerPeriod1 = (int) this.cbBonds/(bondMat*bondPrice);

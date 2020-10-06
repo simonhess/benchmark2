@@ -37,6 +37,7 @@ import jmab.simulations.TwoStepMarketSimulation;
 import jmab.stockmatrix.Bond;
 import jmab.stockmatrix.Deposit;
 import jmab.stockmatrix.Item;
+import jmab.strategies.ConsumptionStrategy;
 import jmab.strategies.InterestRateStrategy;
 import jmab.strategies.InvestmentStrategy;
 import jmab.strategies.RealCapitalDemandStrategy;
@@ -65,6 +66,7 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 	protected double profitsFromCB;
 	protected double desiredRealCapitalDemand;
 	protected ArrayList<Agent> selectedCapitalGoodSuppliers;
+	private double demand;
 
 	/**
 	 * @return the unemploymentBenefit
@@ -94,6 +96,9 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 			break;
 		case StaticValues.TIC_INVESTMENTDEMAND:
 			computeDesiredInvestment(null);
+			break;
+		case StaticValues.TIC_CONSUMPTIONDEMAND:
+			computeConsumptionDemand();
 			break;
 		case StaticValues.TIC_BONDINTERESTS:
 			payInterests();
@@ -137,7 +142,11 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 					this.selectedCapitalGoodSuppliers.remove(selSupplier);
 				}
 			}
-			
+			break;
+		case StaticValues.MKT_CONSGOOD:
+			SelectSellerStrategy sellerStrategy = (SelectSellerStrategy) this.getStrategy(StaticValues.STRATEGY_BUYING);
+			MacroAgent seller = sellerStrategy.selectGoodSupplier(event.getObjects(), this.demand, true); 
+			macroSim.getActiveMarket().commit(this, seller, marketID);
 			break;
 		}
 	}
@@ -278,6 +287,20 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 	}
 	
 	/**
+	 * 
+	 */
+	private void computeConsumptionDemand() {
+		Deposit deposit = (Deposit) this.getItemsStockMatrix(true, StaticValues.SM_RESERVES).get(1);
+		if(deposit.getValue()>0) {
+		this.demand=deposit.getValue();
+		}
+		else {this.demand=0;}
+		if (this.demand>0){
+			this.setActive(true, StaticValues.MKT_CONSGOOD);
+		}
+	}
+	
+	/**
 	 * Populates the agent characteristics using the byte array content. The structure is as follows:
 	 * [sizeMacroAgentStructure][MacroAgentStructure][bondPrice][bondInterestRate][turnoverLabor][unemploymentBenefit][laborDemand]
 	 * [fixedLaborDemand][bondMaturity][sizeTaxedPop][taxedPopulations][matrixSize][stockMatrixStructure][expSize][ExpectationStructure]
@@ -376,12 +399,20 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 	@Override
 	public double getDemand(int idMarket) {
 		// TODO Auto-generated method stub
-		return this.desiredRealCapitalDemand;
+		if(idMarket==StaticValues.MKT_CAPGOOD) {
+			return this.desiredRealCapitalDemand;
+		}else {
+			return this.demand;
+		}
 	}
 
 	@Override
 	public void setDemand(double d, int idMarket) {
 		// TODO Auto-generated method stub
-		this.desiredRealCapitalDemand=d;
+		if(idMarket==StaticValues.MKT_CAPGOOD) {
+			this.desiredRealCapitalDemand=d;
+		}else {
+			this.demand=d;
+		}
 	}
 }

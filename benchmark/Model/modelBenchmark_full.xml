@@ -270,6 +270,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="buyersId">
 			<list>
 	           <util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID"/>
+	           <util:constant static-field="benchmark.StaticValues.GOVERNMENT_ID"/>
 	        </list>
 		</property>
 		<property name="marketId"><util:constant static-field="benchmark.StaticValues.MKT_CONSGOOD" /></property>
@@ -2890,7 +2891,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_BONDINTERESTS" />
 				<util:constant static-field="benchmark.StaticValues.TIC_BONDSUPPLY" />
 				<util:constant static-field="benchmark.StaticValues.TIC_UPDATEEXPECTATIONS" />
-				<util:constant static-field="benchmark.StaticValues.TIC_INVESTMENTDEMAND" />
+				<util:constant static-field="benchmark.StaticValues.TIC_CONSUMPTIONDEMAND" />
 			</list>
 		</property>
 		<property name="numberMarkets" value="7" />

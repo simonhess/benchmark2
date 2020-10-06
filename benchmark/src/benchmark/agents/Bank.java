@@ -194,10 +194,12 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 				outstandingLoans+=i.getValue();
 			}
 			//ALE HAI AGGIUNTO QUESTO IL 24/1/2015
-			//if (Math.floor(outstandingLoans)==0){
-				//this.capitalRatio=0;
-			//}
-			this.capitalRatio=this.getPassedValue(StaticValues.LAG_NETWEALTH, 1)/outstandingLoans;
+			if (Math.floor(outstandingLoans)==0){
+				this.capitalRatio=0;
+			}
+			else {
+				this.capitalRatio=this.getPassedValue(StaticValues.LAG_NETWEALTH, 1)/outstandingLoans;
+			}
 			break;
 		case StaticValues.TIC_DEPINTERESTS:
 			payDepositInterests();

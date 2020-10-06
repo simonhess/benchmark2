@@ -45,6 +45,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="kAggConsCreditCSVReport" />
 				<ref bean="avNetIncomeEventReport" />
 				<ref bean="avNetIncomeCSVReport" />
+				<ref bean="giniEventReport" />
+				<ref bean="giniCSVReport" />
 				<ref bean="unemploymentEventReport" />
 				<ref bean="unemploymentTimeSeriesChart" />
 				<ref bean="unemploymentCSVReport" />

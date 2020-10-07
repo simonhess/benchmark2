@@ -1158,4 +1158,10 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		this.reservesInterests=interests;
 		
 	}
+
+	@Override
+	public void reservesInterestPaid(double interests) {
+		// TODO Auto-generated method stub
+		this.reservesInterests=interests;
+	}
 }

@@ -82,6 +82,7 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 	protected double debtBurden;
 	protected double debtInterests;
 	protected double interestReceived;
+	protected double reservesInterestsReceived;
 	protected double turnoverLabor;
 	protected double expectedVariableCosts;
 	protected double preferredDepositRatio;
@@ -1124,6 +1125,12 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 	public void setLaborActive(boolean active) {
 		this.setActive(active, StaticValues.MKT_LABOR);
 		
+	}
+	
+	@Override
+	public void reservesInterestPaid(double interests) {
+		// TODO Auto-generated method stub
+		this.reservesInterestsReceived = interests;
 	}
 	
 	

@@ -67,6 +67,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	protected double preferredCashRatio;
 	protected double preferredReserveRatio;
 	protected double interestsReceived;
+	protected double reservesInterestsReceived;
 	protected double dividendsReceived;
 	
 
@@ -680,6 +681,12 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	public void setLaborActive(boolean active) {
 		this.setActive(active,StaticValues.MKT_LABOR);
 		
+	}
+
+	@Override
+	public void reservesInterestPaid(double interests) {
+		// TODO Auto-generated method stub
+		this.reservesInterestsReceived = interests;
 	}
 
 }

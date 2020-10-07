@@ -81,6 +81,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	protected double debtBurden;
 	protected double debtInterests;
 	protected double interestReceived;
+	protected double reservesInterestsReceived;
 	protected double turnoverLabor;
 	protected double expectedVariableCosts;
 	protected double preferredDepositRatio;
@@ -1261,6 +1262,12 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	public void setLaborActive(boolean active) {
 		this.setActive(active, StaticValues.MKT_LABOR);
 		
+	}
+	
+	@Override
+	public void reservesInterestPaid(double interests) {
+		// TODO Auto-generated method stub
+		this.reservesInterestsReceived = interests;
 	}
 	
 }

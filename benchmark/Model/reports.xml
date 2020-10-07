@@ -13,6 +13,7 @@
 	        <util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID"/>
 	        <util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID"/>
 	        <util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/>
+	        <util:constant static-field="benchmark.StaticValues.GOVERNMENT_ID"/>
 	 	</list>
 	</property>
 	<property name="gdpGoodsIds">

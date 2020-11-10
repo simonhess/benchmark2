@@ -2181,7 +2181,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="consumptionPricingStrategy" scope="prototype" parent="strategy"
-	class="jmab.strategies.AdaptiveMarkUpOnAC">
+	class="jmab.strategies.AdaptiveReturnOnAC">
 	<property name="adaptiveParameter" value="1" />
 	<property name="distribution" ref="foldedNormal1"/>
 	<property name="threshold" value="0.1"/>

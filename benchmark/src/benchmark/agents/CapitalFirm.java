@@ -881,7 +881,21 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 	public double getPriceLowerBound() {
 		double expectedAverageVarCosts=this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()/this.getLaborProductivity();
 		expectedVariableCosts=expectedAverageVarCosts;
-		return expectedAverageVarCosts;
+		// Calculate funding costs
+		List<Item> loans=this.getItemsStockMatrix(false, StaticValues.SM_LOAN);
+		double totInterests=0;
+		for(int i=0;i<loans.size();i++){
+			Loan loan=(Loan)loans.get(i);
+			if(loan.getAge()>0){
+				double iRate=loan.getInterestRate();
+				double interests=iRate*loan.getValue();
+				totInterests +=interests;
+				
+			}
+		}
+		double debtBurden = totInterests;
+		double fundingCosts = totInterests/this.getDesiredOutput();
+		return expectedAverageVarCosts+fundingCosts;
 	}
 
 	/* (non-Javadoc)

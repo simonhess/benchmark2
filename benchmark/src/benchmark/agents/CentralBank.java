@@ -56,7 +56,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	private double interestsOnAdvances;
 	private double interestsOnBonds;
 	private double bondInterestsReceived;
-	private double totInterestsDeposits;
+	private double totInterestsReserves;
 	
 	/**
 	 * @return the advancesInterestRate
@@ -158,29 +158,30 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 			this.cleanSM();
 		else if (event.getTic()==StaticValues.TIC_CBBONDSPURCHASES)
 			this.determineCBBondsPurchases();
+		else if (event.getTic()==StaticValues.TIC_RESINTERESTS)
+			this.payReservesInterests();
 	}
 	
 	public double getCBProfits(){
-		return this.interestsOnAdvances+this.interestsOnBonds-this.totInterestsDeposits;
+		return this.interestsOnAdvances+this.interestsOnBonds-this.totInterestsReserves;
 	}
 	
-	/**
-	 * Pays interest rates to all deposit holders. Note that there is no counterpart flow.
-	 */
-	protected void payDepositInterests() {
-		List<Item> deposits = this.getItemsStockMatrix(false, StaticValues.SM_RESERVES);
+	private void payReservesInterests() {
+		List<Item> reserves = this.getItemsStockMatrix(false, StaticValues.SM_RESERVES);
 		double totInterests=0;
-		for(Item d:deposits){
-			Deposit dep = (Deposit)d;
+		for(Item r:reserves){
+			Deposit res = (Deposit)r;
 			// Do not pay interest to the government
-			if(!(dep.getAssetHolder() instanceof Government)&&dep.getValue()>0) {
-			DepositDemander depositor = (DepositDemander)dep.getAssetHolder();
-			depositor.reservesInterestPaid(dep.getInterestRate() * dep.getValue());
-			totInterests+=dep.getInterestRate()*dep.getValue();
-			dep.setValue(dep.getValue()*(1+dep.getInterestRate()));
+			if(!(res.getAssetHolder() instanceof Government)&&res.getValue()>0) {
+			DepositDemander depositor = (DepositDemander)res.getAssetHolder();
+			depositor.interestPaid(res.getInterestRate()*res.getValue());
+			totInterests+= res.getInterestRate()*res.getValue();
+			res.setValue(res.getValue()*(1+ res.getInterestRate()));
 			}
 		}
-		totInterestsDeposits=totInterests;
+		totInterestsReserves=totInterests;
+
+		
 	}
 	
 	private void determineCBBondsPurchases() {

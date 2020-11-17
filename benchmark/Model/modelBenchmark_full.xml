@@ -49,6 +49,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="creditSupplyTic" />
 				<ref bean="depSupplyTic" />
 				<ref bean="depInterestTic" />
+				<ref bean="reservesInterestTic" />
 				<ref bean="creditDemandTic" />
 				<ref bean="creditMarketTic" />
 				<ref bean="laborSupplyTic" />
@@ -636,6 +637,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	<bean id="cbBondsPurchasesTic" class="jmab.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CBBONDSPURCHASES" /></property>
+	</bean>
+	<bean id="reservesInterestTic" class="jmab.events.MacroTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_RESINTERESTS" /></property>
 	</bean>
 	<bean id="bondMarket2Tic" class="jmab.events.MarketTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BONDMARKET2" /></property>
@@ -3020,6 +3024,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_COMPUTEEXPECTATIONS" />
 				<util:constant static-field="benchmark.StaticValues.TIC_UPDATEEXPECTATIONS" />
 				<util:constant static-field="benchmark.StaticValues.TIC_CBBONDSPURCHASES" />
+				<util:constant static-field="benchmark.StaticValues.TIC_RESINTERESTS" />
 			</list>
 		</property>
 		<property name="numberMarkets" value="7" />

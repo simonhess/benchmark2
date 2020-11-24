@@ -614,7 +614,10 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			double [][] bs = this.getNumericBalanceSheet();
 			double adv = bs[1][7];
 			double dep = bs[1][1];
-			double advancesRatio = adv/dep;
+			double advancesRatio = 0;
+			if (dep>0) {
+				advancesRatio = adv/dep;
+			}
 			
 			return this.advancesInterestRate-(advancesRatio*this.advancesInterestRate)+this.targetedLiquidityRatio*this.reserveInterestRate;
 		}

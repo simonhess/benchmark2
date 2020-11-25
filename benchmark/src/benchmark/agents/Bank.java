@@ -609,17 +609,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		case StaticValues.MKT_CREDIT:
 			return Double.POSITIVE_INFINITY;
 		case StaticValues.MKT_DEPOSIT:
-			Item res = this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-			CentralBank cb = (CentralBank) res.getLiabilityHolder();
-			double [][] bs = this.getNumericBalanceSheet();
-			double adv = bs[1][7];
-			double dep = bs[1][1];
-			double advancesRatio = 0;
-			if (dep>0) {
-				advancesRatio = adv/dep;
-			}
-			
-			return this.advancesInterestRate-(advancesRatio*this.advancesInterestRate)+this.targetedLiquidityRatio*this.reserveInterestRate;
+			return this.advancesInterestRate-this.liquidityRatio*this.fundingRate+this.liquidityRatio*this.reserveInterestRate;
 		}
 		return 0;
 	}

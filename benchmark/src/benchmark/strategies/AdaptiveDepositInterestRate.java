@@ -81,7 +81,7 @@ public class AdaptiveDepositInterestRate extends AbstractStrategy implements Int
 		// the deposit rate = average deposit rate + random if (liquidity mark-up + funding-mark-up + profit-mark-up > threshold)
 		double referenceVariable = liquidityPosition + fundingPosition + profitabilityPosition;
 		double iR=0;
-		if(referenceVariable<0){
+		if(referenceVariable<=0){
 			iR=avInterest+(adaptiveParameter*avInterest*distribution.nextDouble());
 		}else{
 			iR=avInterest-(adaptiveParameter*avInterest*distribution.nextDouble());

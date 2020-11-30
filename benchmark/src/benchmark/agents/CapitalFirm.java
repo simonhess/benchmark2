@@ -717,7 +717,7 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 		else
 			avWage[0]=this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation();
 		this.getExpectation(StaticValues.EXPECTATIONS_WAGES).addObservation(avWage);
-		double profits = sales[0]-wagebill-this.debtInterests+this.interestReceived+nomInv-lNomInv;
+		double profits = sales[0]-wagebill-this.debtInterests+this.interestReceived+this.reservesInterestsReceived+nomInv-lNomInv;
 		this.addValue(StaticValues.LAG_PROFITPRETAX, profits);
 		
 	}
@@ -1146,6 +1146,12 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 		// TODO Auto-generated method stub
 		this.reservesInterestsReceived = interests;
 	}
+	
+	public double getReservesInterestReceived(){
+		return this.reservesInterestsReceived;
+	}
+	
+	
 	
 	
 	

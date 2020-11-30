@@ -688,5 +688,9 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 		// TODO Auto-generated method stub
 		this.reservesInterestsReceived = interests;
 	}
+	
+	public double getReservesInterestReceived(){
+		return this.reservesInterestsReceived;
+	}
 
 }

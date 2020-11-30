@@ -24,6 +24,7 @@ import benchmark.agents.CapitalFirm;
 import benchmark.agents.CentralBank;
 import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.GovernmentAntiCyclical;
+import benchmark.agents.GovernmentAntiCyclicalWithInvestment;
 import benchmark.agents.Households;
 import benchmark.strategies.FixedShareOfProfitsToPopulationAsShareOfWealthDividends;
 import jmab.population.MacroPopulation;
@@ -73,6 +74,7 @@ public class TFMComputer extends AbstractMicroComputer implements
 		double tHH = 0;
 		double iDHH = 0;
 		double divHH = 0;
+		double iRHH = 0;
 		
 		//CFirms flows
 		double consCF = 0;
@@ -81,6 +83,7 @@ public class TFMComputer extends AbstractMicroComputer implements
 		double invCF = 0;
 		double caCF = 0;
 		double iDCF = 0;
+		double iRCF = 0;
 		double iLCF = 0;
 		double reCF = 0;
 		double divCF = 0;
@@ -91,6 +94,7 @@ public class TFMComputer extends AbstractMicroComputer implements
 		double tKF = 0;
 		double invKF = 0;
 		double iDKF = 0;
+		double iRKF = 0;
 		double iLKF = 0;
 		double reKF = 0;
 		double divKF = 0;
@@ -102,6 +106,7 @@ public class TFMComputer extends AbstractMicroComputer implements
 		double iDB = 0;
 		double iLB = 0;
 		double iAB = 0;
+		double iRB = 0;
 		double reB= 0;
 		double divB = 0;
 
@@ -115,6 +120,7 @@ public class TFMComputer extends AbstractMicroComputer implements
 		//CB flows
 		double iBCB = 0;
 		double iACB = 0;
+		double iRCB = 0;
 		double fCB = 0;
 
 		TreeMap<Long,Double> result = new TreeMap<Long,Double>();
@@ -132,6 +138,7 @@ public class TFMComputer extends AbstractMicroComputer implements
 			if (!firm.isDead()){;
 				wCF+=firm.getWageBill();
 				iDCF+=firm.getInterestReceived();
+				iRCF+=firm.getReservesInterestReceived();
 				iLCF+=firm.getDebtInterests();
 				tCF+=firm.getPassedValue(StaticValues.LAG_TAXES, 0);
 				caCF+=firm.getPassedValue(StaticValues.LAG_CAPITALAMORTIZATION, 0);
@@ -155,6 +162,7 @@ public class TFMComputer extends AbstractMicroComputer implements
 			if (!firm.isDead()){
 				wKF+=firm.getWageBill();
 				iDKF+=firm.getInterestReceived();
+				iRKF+=firm.getReservesInterestReceived();
 				iLKF+=firm.getDebtInterests();
 				tKF+=firm.getPassedValue(StaticValues.LAG_TAXES, 0);
 				invKF+=firm.getPassedValue(StaticValues.LAG_NOMINALSALES, 0);
@@ -173,6 +181,7 @@ public class TFMComputer extends AbstractMicroComputer implements
 			Households hh= (Households) i;
 			if (!hh.isDead()){				
 				iDHH +=hh.getInterestReceived();
+				iRHH +=hh.getReservesInterestReceived();
 				tHH+=hh.getPassedValue(StaticValues.LAG_TAXES, 0);
 				
 				List<Item>loans=hh.getItemsStockMatrix(true, StaticValues.SM_CONSGOOD);
@@ -197,10 +206,11 @@ public class TFMComputer extends AbstractMicroComputer implements
 				divB += div;
 				iBB += b.getBondInterestReceived();
 				iAB += b.getAdvancesInterests();
+				iRB += b.getReservesInterestReceived();
 			}
 		}
 		
-		GovernmentAntiCyclical gov = (GovernmentAntiCyclical) gpop.getAgentList().get(0);
+		GovernmentAntiCyclicalWithInvestment gov = (GovernmentAntiCyclicalWithInvestment) gpop.getAgentList().get(0);
 		wG = gov.getWageBill();
 		doleG = unemployed*(wCF+wKF+wG)/(hhpop.getSize()-unemployed)*gov.getUnemploymentBenefit();
 		
@@ -218,7 +228,7 @@ public class TFMComputer extends AbstractMicroComputer implements
 		iBG = iBB+iBCB;
 		fCBG = fCB;
 		divHH = divCF+divKF+divB;
-		
+		iRCB = iRHH + iRCF + iRKF + iRB;
 		
 		result.put((long) StaticValues.TFM_CONS, consHH);
 		result.put((long) StaticValues.TFM_WHH, wHH);
@@ -259,6 +269,12 @@ public class TFMComputer extends AbstractMicroComputer implements
 		result.put((long) StaticValues.TFM_IBCB, iBCB);
 		result.put((long) StaticValues.TFM_IACB, iACB);
 		result.put((long) StaticValues.TFM_FCB, fCB);
+		result.put((long) StaticValues.TFM_SIZE, 0.0);
+		result.put((long) StaticValues.TFM_IRHH, iRHH);
+		result.put((long) StaticValues.TFM_IRCF, iRCF);
+		result.put((long) StaticValues.TFM_IRKF, iRKF);
+		result.put((long) StaticValues.TFM_IRB, iRB);
+		result.put((long) StaticValues.TFM_IRCB, iRCB);
 		return result;
 	}
 

@@ -645,7 +645,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 				capitalAmortization+=cap.getQuantity()*cap.getPrice()/cap.getCapitalAmortization();
 		}
 		this.addValue(StaticValues.LAG_CAPITALAMORTIZATION,capitalAmortization);
-		double profits = sales[0]-wagebill-this.debtInterests-capitalAmortization+this.interestReceived+nomInv-lNomInv;
+		double profits = sales[0]-wagebill-this.debtInterests-capitalAmortization+this.interestReceived+this.reservesInterestsReceived+nomInv-lNomInv;
 		this.addValue(StaticValues.LAG_PROFITPRETAX, profits);
 	}
 
@@ -1268,6 +1268,10 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	public void reservesInterestPaid(double interests) {
 		// TODO Auto-generated method stub
 		this.reservesInterestsReceived = interests;
+	}
+	
+	public double getReservesInterestReceived(){
+		return this.reservesInterestsReceived;
 	}
 	
 }

@@ -174,7 +174,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 			// Do not pay interest to the government
 			if(!(res.getAssetHolder() instanceof Government)&&res.getValue()>0) {
 			DepositDemander depositor = (DepositDemander)res.getAssetHolder();
-			depositor.interestPaid(res.getInterestRate()*res.getValue());
+			depositor.reservesInterestPaid(res.getInterestRate()*res.getValue());
 			totInterests+= res.getInterestRate()*res.getValue();
 			res.setValue(res.getValue()*(1+ res.getInterestRate()));
 			}

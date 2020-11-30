@@ -404,6 +404,11 @@ public interface StaticValues {
 	public static long TFM_DINVENTCF = 37;
 	public static long TFM_DINVENTKF = 38;
 	public static int TFM_SIZE=39;
+	public static int TFM_IRHH=40;
+	public static int TFM_IRCF=41;
+	public static int TFM_IRKF=42;
+	public static int TFM_IRB=43;
+	public static int TFM_IRCB=44;
 	
 	
 	

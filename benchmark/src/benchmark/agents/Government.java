@@ -217,8 +217,13 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 		MacroPopulation populations = (MacroPopulation)simulationController.getPopulation();
 		Collection <Agent> bpop = populations.getPopulation(StaticValues.BANKS_ID).getAgents();
 		Collection <BondDemander> banks = new ArrayList<BondDemander>(); // Create list with all banks
+		Collection <Agent> hhpop = populations.getPopulation(StaticValues.HOUSEHOLDS_ID).getAgents();
+		Collection <BondDemander> hhs = new ArrayList<BondDemander>(); // Create list with all households
 		for (Agent i:bpop){
 			banks.add((BondDemander)i); // Cast Bank Agents to BondDemanders
+		}
+		for (Agent i:hhpop){
+			hhs.add((BondDemander)i); // Cast Bank Agents to BondDemanders
 		}
 		double interestsBonds=0;
 		for(Item b:bonds){
@@ -247,6 +252,19 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 					if(bond.getAge()==bond.getMaturity()){
 						hDep.setValue(hDep.getValue()+bond.getValue());
 						deposit.setValue(deposit.getValue()-bond.getValue());
+						bond.setQuantity(0);
+					}
+				}
+				else if(holder instanceof Households){
+					// Remove bond holding banks from list
+					if (hhs.contains(holder)) {
+					hhs.remove(holder); // Remove all households which hold bonds
+					}
+					Households hh = (Households) holder;
+					CentralBank cb = (CentralBank) deposit.getLiabilityHolder();
+					cb.transfer(deposit, hh.getPayableStock(StaticValues.MKT_LABOR), bond.getValue()*bond.getInterestRate());
+					if(bond.getAge()==bond.getMaturity()){
+						cb.transfer(deposit, hh.getPayableStock(StaticValues.MKT_LABOR), bond.getValue());
 						bond.setQuantity(0);
 					}
 				}

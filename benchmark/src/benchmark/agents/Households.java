@@ -19,9 +19,12 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import jmab.agents.AbstractHousehold;
+import jmab.agents.BondDemander;
+import jmab.agents.BondSupplier;
 import jmab.agents.DepositDemander;
 import jmab.agents.GoodDemander;
 import jmab.agents.IncomeTaxPayer;
@@ -32,10 +35,12 @@ import jmab.agents.WageSetterWithTargets;
 import jmab.events.MacroTicEvent;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;
+import jmab.simulations.TwoStepMarketSimulation;
 import jmab.stockmatrix.Cash;
 import jmab.stockmatrix.ConsumptionGood;
 import jmab.stockmatrix.Deposit;
 import jmab.stockmatrix.Item;
+import jmab.strategies.BondDemandStrategy;
 import jmab.strategies.ConsumptionStrategy;
 import jmab.strategies.SelectDepositSupplierStrategy;
 import jmab.strategies.SelectSellerStrategy;
@@ -55,7 +60,7 @@ import benchmark.StaticValues;
  */
 @SuppressWarnings("serial")
 public class Households extends AbstractHousehold implements GoodDemander, LaborSupplier,
-		DepositDemander, IncomeTaxPayer, WageSetterWithTargets {
+		DepositDemander, IncomeTaxPayer, WageSetterWithTargets, BondDemander {
 	
 	private double demand;
 	private double cashAmount;
@@ -69,7 +74,11 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	protected double interestsReceived;
 	protected double reservesInterestsReceived;
 	protected double dividendsReceived;
-	
+	protected double bondInterestReceived;
+	private int bondDemand;
+	private BondSupplier selectedBondSupplier;
+	private double bondPrice;
+	private double bondInterestRate;
 
 	/* (non-Javadoc)
 	 * @see jmab.agents.MacroAgent#onRoundFinished(net.sourceforge.jabm.event.RoundFinishedEvent)
@@ -218,6 +227,15 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 			MacroAgent depositSupplier = depStrategy.selectDepositSupplier(event.getObjects(), this.depositAmount);
 			macroSim.getActiveMarket().commit(this, depositSupplier, marketID);
 			break;
+		case StaticValues.MKT_BONDS:
+			TwoStepMarketSimulation sim = (TwoStepMarketSimulation)macroSim.getActiveMarket();
+			if(sim.isFirstStep()){
+				this.selectedBondSupplier=(BondSupplier)event.getObjects().get(0);
+				this.bondPrice=this.selectedBondSupplier.getBondPrice();
+				this.bondInterestRate=this.selectedBondSupplier.getBondInterestRate();
+			}else if(sim.isSecondStep())
+				macroSim.getActiveMarket().commit(this, this.selectedBondSupplier,marketID);
+			break;
 		}
 	}
 	
@@ -242,6 +260,9 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 			break;
 		case StaticValues.TIC_UPDATEEXPECTATIONS:
 			updateExpectations();
+			break;
+		case StaticValues.TIC_BONDDEMAND:
+			determineBondDemand();
 			break;
 		}
 	}
@@ -691,6 +712,73 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	
 	public double getReservesInterestReceived(){
 		return this.reservesInterestsReceived;
+	}
+
+	public int getBondsDemand(double price, BondSupplier issuer) {
+		return bondDemand;
+	}
+	public int getBondsDemand(){
+		return bondDemand;
+	}
+
+	@Override
+	public void setBondInterestsReceived(double interests) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	/**
+	 * @return the bondInterestRate
+	 */
+	public double getBondInterestRate() {
+		return bondInterestRate;
+	}
+
+	/**
+	 * @param bondInterestRate the bondInterestRate to set
+	 */
+	public void setBondInterestRate(double bondInterestRate) {
+		this.bondInterestRate = bondInterestRate;
+	}
+	
+	/**
+	 * Determines the demand for bonds
+	 */
+	private void determineBondDemand() {
+		BondDemandStrategy strategy = (BondDemandStrategy)this.getStrategy(StaticValues.STRATEGY_BONDDEMAND);
+		//this.bondDemand=strategy.bondDemand(this.selectedBondSupplier);
+		this.bondDemand = (int) (Math.round(this.getNetWealth()/10)/bondPrice);
+		if (this.bondDemand>0){
+			this.setActive(true, StaticValues.MKT_BONDS);
+		}
+	}
+	
+	/**
+	 * @return the bondPrice
+	 */
+	public double getBondPrice() {
+		return bondPrice;
+	}
+
+	/**
+	 * @param bondPrice the bondPrice to set
+	 */
+	public void setBondPrice(double bondPrice) {
+		this.bondPrice = bondPrice;
+	}
+	
+	/**
+	 * @return the bondDemand
+	 */
+	public int getBondDemand() {
+		return bondDemand;
+	}
+
+	/**
+	 * @param bondDemand the bondDemand to set
+	 */
+	public void setBondDemand(int bondDemand) {
+		this.bondDemand = bondDemand;
 	}
 
 }

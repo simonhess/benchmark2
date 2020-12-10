@@ -436,23 +436,16 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	    </property>
 		<property name="buyersId">
 			<list>
+			   <util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID"/>
 	           <util:constant static-field="benchmark.StaticValues.BANKS_ID"/>
 	        </list>
 	    </property>
 		<property name="marketId"><util:constant static-field="benchmark.StaticValues.MKT_BONDS" /></property>
 		<property name="mixer" ref="bondMarketMixer" />
-		<property name="population" ref="bondMarketPopulation" />
 		<property name="scheduler" ref="simulationController"/>
 		<property name="firstTicId"><util:constant static-field="benchmark.StaticValues.TIC_BONDMARKET1" /></property>
 		<property name="secondTicId"><util:constant static-field="benchmark.StaticValues.TIC_BONDMARKET2" /></property>
 		<property name="initialiser" ref="bondMarketInitialiser" />
-	</bean>
-	
-<!-- The market population for the bond market -->
-	<bean id="bondMarketPopulation" class="jmab.population.MarketPopulation"
-		scope="simulation">
-		<property name="buyersList" ref="banks" />
-		<property name="sellersList" ref="governments" />
 	</bean>
 
 	<bean id="bondMarketInitialiser" class="jmab.init.RandomMarketInitialiser"
@@ -2711,6 +2704,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_CONSUMPTIONDEMAND"/>
 				<util:constant static-field="benchmark.StaticValues.TIC_DEPOSITDEMAND"/>
 				<util:constant static-field="benchmark.StaticValues.TIC_UPDATEEXPECTATIONS"/>
+				<util:constant static-field="benchmark.StaticValues.TIC_BONDDEMAND"/>
 			</list>
 		</property>
 		<property name="expectations"> 

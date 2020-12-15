@@ -747,7 +747,8 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	private void determineBondDemand() {
 		BondDemandStrategy strategy = (BondDemandStrategy)this.getStrategy(StaticValues.STRATEGY_BONDDEMAND);
 		//this.bondDemand=strategy.bondDemand(this.selectedBondSupplier);
-		this.bondDemand = (int) (Math.round(this.getNetWealth()/10)/bondPrice);
+		//this.bondDemand = (int) (Math.round(this.getNetWealth()/10)/bondPrice);
+		this.bondDemand = 0;
 		if (this.bondDemand>0){
 			this.setActive(true, StaticValues.MKT_BONDS);
 		}

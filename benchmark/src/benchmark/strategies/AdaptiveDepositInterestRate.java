@@ -55,33 +55,21 @@ public class AdaptiveDepositInterestRate extends AbstractStrategy implements Int
 		int liquidityPosition = 0;
 		if ((liquidityRatio-targetLiquidityRatio)/targetLiquidityRatio < 0) {liquidityPosition = 1;
 		}else {liquidityPosition = -1;}
-		// determine the funding position
-		double previousFundingRate = lender.getFundingRate();
-		double interestPay=0;
-		double totValue=0;
-		for(int liabilityId:liabilitiesId){
-			List<Item> liabilities = lender.getItemsStockMatrix(false, liabilityId);
-			for(Item item:liabilities){
-				InterestBearingItem liability = (InterestBearingItem) item;
-				interestPay += liability.getInterestRate()*liability.getValue();
-				totValue +=liability.getValue();
-			}
-		}
-		double fundingRate = interestPay/totValue;
-		int fundingPosition = 0;
-		if ((fundingRate - previousFundingRate) / previousFundingRate > 0) {fundingPosition = 1;
-		}else {fundingPosition = -1;}
-		lender.setFundingRate(fundingRate);
-		// profit mark-up //
-		double previousInterestRate = lender.getPassedValue(StaticValues.LAG_LOANINTEREST, 1);
-		double currentInterestRate = lender.getBankInterestRate();
-		int profitabilityPosition = 0;
-		if ((currentInterestRate-previousInterestRate)/previousInterestRate > 0) {profitabilityPosition = 1;
-		}else {profitabilityPosition = -1;}
-		// the deposit rate = average deposit rate + random if (liquidity mark-up + funding-mark-up + profit-mark-up > threshold)
-		double referenceVariable = liquidityPosition + fundingPosition + profitabilityPosition;
+		// determine the opportunity cost position
+		double previousDepositRate = lender.getDepositInterestRate();
+		double advancesRate = lender.getAdvancesInterestRate();
+		int opportunityCostPosition = 0;
+		if (previousDepositRate < advancesRate) {opportunityCostPosition = 1;
+		}else {opportunityCostPosition = -1;}
+		// determine the profit on reserves position //
+		double reserveInterestRate = lender.getReserveInterestRate();
+		int profitOnReservesPosition = 0;
+		if (previousDepositRate < reserveInterestRate) {profitOnReservesPosition = 1;
+		}else {profitOnReservesPosition = -1;}
+		// the deposit rate = average deposit rate + random if (liquidity position + opportunity cost position + profit on reserves position > 0)
+		double referenceVariable = liquidityPosition + opportunityCostPosition + profitOnReservesPosition;
 		double iR=0;
-		if(referenceVariable<=0){
+		if(referenceVariable>0){
 			iR=avInterest+(adaptiveParameter*avInterest*distribution.nextDouble());
 		}else{
 			iR=avInterest-(adaptiveParameter*avInterest*distribution.nextDouble());

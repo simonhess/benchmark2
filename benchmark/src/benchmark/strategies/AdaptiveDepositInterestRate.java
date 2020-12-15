@@ -59,12 +59,12 @@ public class AdaptiveDepositInterestRate extends AbstractStrategy implements Int
 		double previousDepositRate = lender.getDepositInterestRate();
 		double advancesRate = lender.getAdvancesInterestRate();
 		int opportunityCostPosition = 0;
-		if (previousDepositRate < advancesRate) {opportunityCostPosition = 1;
+		if (previousDepositRate <= advancesRate) {opportunityCostPosition = 1;
 		}else {opportunityCostPosition = -1;}
 		// determine the profit on reserves position //
 		double reserveInterestRate = lender.getReserveInterestRate();
 		int profitOnReservesPosition = 0;
-		if (previousDepositRate < reserveInterestRate) {profitOnReservesPosition = 1;
+		if (previousDepositRate <= reserveInterestRate) {profitOnReservesPosition = 1;
 		}else {profitOnReservesPosition = -1;}
 		// the deposit rate = average deposit rate + random if (liquidity position + opportunity cost position + profit on reserves position > 0)
 		double referenceVariable = liquidityPosition + opportunityCostPosition + profitOnReservesPosition;

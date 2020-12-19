@@ -12,6 +12,7 @@ import jmab.agents.MacroAgent;
 import jmab.population.MacroPopulation;
 import jmab.stockmatrix.InterestBearingItem;
 import jmab.stockmatrix.Item;
+import jmab.stockmatrix.Loan;
 import jmab.strategies.InterestRateStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
@@ -49,12 +50,16 @@ public class AdaptiveDepositInterestRate extends AbstractStrategy implements Int
 			}
 		avInterest=inter/banks.getSize();
 		Bank lender=(Bank) this.getAgent();
-		// determine the liquidity position by comparing the liquidity ratio with the target liquidity ratio
-		double liquidityRatio=lender.getLiquidityRatio();
-		double targetLiquidityRatio=lender.getTargetedLiquidityRatio();
-		int liquidityPosition = 0;
-		if ((liquidityRatio-targetLiquidityRatio)/targetLiquidityRatio < 0) {liquidityPosition = 1;
-		}else {liquidityPosition = -1;}
+		// determine the liquidity deficit position by checking for central bank advances
+		double advValue = 0;
+		List<Item> loans=lender.getItemsStockMatrix(false, liabilitiesId[1]);
+		for(int i=0;i<loans.size();i++){
+			Loan loan=(Loan)loans.get(i);
+			advValue+=loan.getValue();
+			}
+		int liquidityDeficitPosition = 0;
+		if (advValue > 0) {liquidityDeficitPosition = 1;
+		}else {liquidityDeficitPosition = -1;}
 		// determine the opportunity cost position
 		double previousDepositRate = lender.getDepositInterestRate();
 		double advancesRate = lender.getAdvancesInterestRate();
@@ -67,7 +72,7 @@ public class AdaptiveDepositInterestRate extends AbstractStrategy implements Int
 		if (previousDepositRate <= reserveInterestRate) {profitOnReservesPosition = 1;
 		}else {profitOnReservesPosition = -1;}
 		// the deposit rate = average deposit rate + random if (liquidity position + opportunity cost position + profit on reserves position > 0)
-		double referenceVariable = liquidityPosition + opportunityCostPosition + profitOnReservesPosition;
+		double referenceVariable = liquidityDeficitPosition + opportunityCostPosition + profitOnReservesPosition;
 		double iR=0;
 		if(referenceVariable>0){
 			iR=avInterest+(adaptiveParameter*avInterest*distribution.nextDouble());

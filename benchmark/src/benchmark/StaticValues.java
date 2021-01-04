@@ -34,6 +34,7 @@ public interface StaticValues {
 	public static int TIC_LABORSUPPLY=11;
 	public static int TIC_LABORDEMAND=12;
 	public static int TIC_GOVERNMENTLABOR=13;
+	public static int TIC_CBPOLICY=1311;
 	public static int TIC_LABORMARKET=14;
 	public static int TIC_PRODUCTION=15;
 	public static int TIC_RDOUTCOME=16;
@@ -41,6 +42,7 @@ public interface StaticValues {
 	public static int TIC_CONSUMPTIONMARKET=18;
 	public static int TIC_CAPITALMARKET2=19;
 	public static int TIC_CREDINTERESTS=20;
+	public static int TIC_RESINTERESTS=201;
 	public static int TIC_WAGEPAYMENT = 21;
 	public static int TIC_BONDINTERESTS=22;
 	public static int TIC_ADVINTERESTS=23;
@@ -158,21 +160,55 @@ public interface StaticValues {
 	public static int TIC_AVNETINCOMEREPORT=135;
 	public static int TIC_CAGGCONSCREDITREPORT=136;
 	public static int TIC_KAGGCONSCREDITREPORT=137;
-	public static int TIC_CRSALESEXPERRORREPORT=138;
-	public static int TIC_KRSALESEXPERRORREPORT=139;
-	public static int TIC_HHPRICESEXPERRORREPORT=140;
-	public static int TIC_GINIREPORT=141;
-	public static int TIC_RESINTERESTS=142;
+	public static int TIC_CRSALESEXPERRORREPORT=170;
+	public static int TIC_KRSALESEXPERRORREPORT=171;
+	public static int TIC_HHPRICESEXPERRORREPORT=172;
+	public static int TIC_GINIREPORT=173;
+	
+	// New Interbank TICs:
+	public static int TIC_INTERBANKDEMANDSUPPLY=138;
+	public static int TIC_INTERBANKMARKET=140;
+	public static int TIC_INTERBANKINTERESTS=141;
+	//public static int TIC_INTERBANKREPAYMENT=142;
+	public static int TIC_ILLIQUIDITY=142;
+	public static int TIC_MICROINTERBANKREPORT=143;
+	public static int TIC_MICROINTERBANKDEGREEREPORT=144;
+	public static int TIC_INTERBANKINTERESTSTOPAYREPORT=145;
+	public static int TIC_INTERBANKDEBTSERVICEREPORT=146;
+	public static int TIC_INTERBANKPOSITIONREPORT=147;
+	public static int TIC_AVINTERBANKRATEREPORT=148;
+	public static int TIC_AGGINTERBANKCREDITREPORT=149;
+	public static int TIC_MICROTOTINTERBANKSUPPLYREPORT=150;
+	public static int TIC_MICROTOTINTERBANKCREDITOBTAINEDREPORT=151;
+	public static int TIC_MICROAVINTERBANKRATEREPORT=152;
+	public static int TIC_MICROTOTCONSTRAINEDINTERBANKCREDITREPORT=153;
+	public static int TIC_MICROINTERBANKRATEREPORT=154;
+	public static int TIC_MICROINTERBANKDEMANDREPORT=155;
+	public static int TIC_MICROINTERBANKSUPPLYREPORT=156;
+	public static int TIC_MICROTARGETEDCRREPORT=157;
+	public static int TIC_MICROTARGETEDLRREPORT=158;
+	public static int TIC_MICROCBBANKRATEREPORT=159;
+	public static int TIC_MICROCBADVRATEREPORT=160;
+	public static int TIC_MICROCBCRREPORT=161;
+	public static int TIC_MICROCBLRREPORT=162;
+	public static int TIC_MICROGOVBONDRATEREPORT=163;
+	public static int TIC_MICROHHEMPLOYERREPORT=164;
+	public static int TIC_MICROCMARKUPREPORT=165;
+	public static int TIC_MICROKMARKUPREPORT=166;
 	
 	public static int TIC_POPULATIONHANDLER=1000;
-	public static int TIC_UPDATEEXPECTATIONS=1001;
-	public static int TIC_SERIALIZATION=1002;
+	public static int TIC_COMPUTEAGGREGATES=1001;
+	public static int TIC_UPDATEEXPECTATIONS=1002;
+	public static int TIC_SERIALIZATION=1003;
+
 	
 	public static int EXPECTATIONS_NOMINALSALES=0;
 	public static int EXPECTATIONS_WAGES=1;
 	public static int EXPECTATIONS_CONSPRICE=2;
 	public static int EXPECTATIONS_DEPOSITS=3;
 	public static int EXPECTATIONS_REALSALES = 4;
+	public static int EXPECTATIONS_NATURALRATE = 5;
+	public static int EXPECTATIONS_POTENTIALGDP = 6;
 	
 	public static int LAG_INVENTORIES=0;
 	public static int LAG_REALSALES=1;
@@ -197,6 +233,14 @@ public interface StaticValues {
 	public static int LAG_DEPOSITINTEREST= 20;
 	public static int LAG_LOANINTEREST= 21;
 	public static int LAG_PRICE=22;
+	public static int LAG_TOTINTERBANKSUPPLY = 23;
+	public static int LAG_TOTINTERBANKDEMAND = 24;
+	public static int LAG_INTERBANKINTEREST = 25;
+	public static int LAG_TOTADVANCESSUPPLY = 26;
+	public static int LAG_AGGCREDIT = 27;
+	public static int LAG_NOMINALGDP = 28;
+	public static int LAG_INFLATION = 29;
+	public static int LAG_PUBLICDEBT=30;
 	
 	public static int SM_CASH=0;
 	public static int SM_DEP=1;
@@ -206,6 +250,7 @@ public interface StaticValues {
 	public static int SM_BONDS=5;
 	public static int SM_RESERVES=6;
 	public static int SM_ADVANCES = 7;
+	public static int SM_INTERBANK = 8;
 	
 	public static int MKT_CAPGOOD=0;
 	public static int MKT_CONSGOOD=1;
@@ -214,6 +259,7 @@ public interface StaticValues {
 	public static int MKT_LABOR=4;
 	public static int MKT_BONDS=5;
 	public static int MKT_ADVANCES=6;
+	public static int MKT_INTERBANK = 7;
 	
 	public static int STRATEGY_BUYING=0;
 	public static int STRATEGY_BORROWING=1;
@@ -240,7 +286,22 @@ public interface StaticValues {
 	public static int STRATEGY_BANKRUPTCY = 22;
 	public static int STRATEGY_WAGE = 23;
 	public static int STRATEGY_DIVIDENDS = 24;
-	public static int STRATEGY_CBPROFITS = 25;
+	public static int STRATEGY_INTERBANKSUPPLY = 25;
+	public static int STRATEGY_INTERBANKRATE = 26;
+	public static int STRATEGY_ILLIQUIDITY = 27;
+	public static int STRATEGY_MONETARY=28;
+	public static int STRATEGY_RESDEPOSITRATE=29;
+	public static int STRATEGY_ADVANCESSUPPLY=30;
+	public static int STRATEGY_QUANTITATIVEEASING=31;
+	public static int STRATEGY_MACROPRUDENTIAL=32;
+	public static int STRATEGY_NETSTABLEFUNDING=33;
+	public static int STRATEGY_LIQUIDITYCOVERAGE=34;
+	public static int STRATEGY_CAPITALBUFFER=35;
+	public static int STRATEGY_LEVERAGERATIO=36;
+	public static int STRATEGY_RESERVEREQUIREMENTS=37;
+	public static int STRATEGY_INCOMERATIO=38;
+	public static int STRATEGY_DEFICITMANAGEMENT=39;
+	public static int STRATEGY_CBPROFITS = 40;
 	
 	public static int CAPITALFIRMS_ID=0;
 	public static int CONSUMPTIONFIRMS_ID=1;
@@ -352,16 +413,34 @@ public interface StaticValues {
 	public static int AVNETINCOMEREPORT_ID=98;
 	public static int CAGGCONSCREDITREPORT_ID=99;
 	public static int KAGGCONSCREDITREPORT_ID=100;
-	public static int CRSALESEXPERRORREPORT_ID=101;
-	public static int KRSALESEXPERRORREPORT_ID=102;
-	public static int HHPRICESEXPERRORREPORT_ID=103;
-	public static int GINIREPORT_ID=104;
-	
-
-
-
-
-
+	// added IDs for interbankreporters
+		public static int MICROINTERBANKREPORT_ID=101;
+		public static int MICROINTERBANKDEGREEREPORT_ID=102;
+		public static int INTERBANKINTERESTSTOPAYREPORT_ID=103;
+		public static int INTERBANKDEBTSERVICEREPORT_ID=104;
+		public static int INTERBANKPOSITIONREPORT_ID=105;
+		public static int AVINTERBANKRATEREPORT_ID=106;
+		public static int AGGINTERBANKCREDITREPORT_ID=107;	
+		public static int MICROTOTINTERBANKSUPPLY_ID=108;
+		public static int MICROTOTINTERBANKCREDITOBTAINED_ID=109;
+		public static int MICROTOTCONSTRAINEDINTERBANKCREDIT_ID=110;
+		public static int MICROINTERBANKRATEREPORT_ID=111;
+		public static int MICROINTERBANKDEMANDREPORT_ID=112;
+		public static int MICROINTERBANKSUPPLYREPORT_ID=113;
+		public static int MICROTARGETEDCRREPORT_ID=114;
+		public static int MICROTARGETEDLRREPORT_ID=115;
+		public static int MICROCBBANKRATEREPORT_ID=116;
+		public static int MICROCBADVRATEREPORT_ID=117;
+		public static int MICROCBCRREPORT_ID=118;
+		public static int MICROCBLRREPORT_ID=119;
+		public static int MICROGOVBONDRATEREPORT_ID=120;
+		public static int MICROHHEMPLOYERREPORT_ID=121;
+		public static int MICROCMARKUPREPORT_ID=122;
+		public static int MICROKMARKUPREPORT_ID=123;
+	public static int CRSALESEXPERRORREPORT_ID=171;
+	public static int KRSALESEXPERRORREPORT_ID=172;
+	public static int HHPRICESEXPERRORREPORT_ID=173;
+	public static int GINIREPORT_ID=174;
 
 
 	public static int TFM_CONS=0;

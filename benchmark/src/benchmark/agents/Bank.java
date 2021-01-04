@@ -47,9 +47,12 @@ import jmab.strategies.BondDemandStrategy;
 import jmab.strategies.DividendsStrategy;
 import jmab.strategies.FinanceStrategy;
 import jmab.strategies.InterestRateStrategy;
+import jmab.strategies.SelectLenderStrategy;
 import jmab.strategies.SpecificCreditSupplyStrategy;
 import jmab.strategies.SupplyCreditStrategy;
 import jmab.strategies.TaxPayerStrategy;
+import net.sourceforge.jabm.Population;
+import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
 import net.sourceforge.jabm.event.AgentArrivalEvent;
 import net.sourceforge.jabm.event.RoundFinishedEvent;
@@ -89,10 +92,17 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	private double bailoutCost;
 	//private double preTaxProfits;
 	//private double profitsAfterTax;
+	protected double interestsReceived;
+	protected double totInterestsInterbank;
+	private double interbankAsk;
+	private double interbankDemand;
+	private double interbankSupply;
+	protected double debtBurden;
 	private double targetedLiquidityRatio;
 	private double targetedCapitalAdequacyRatio;
-	
-	
+	private double riskAversionMarkUp;
+	private double interBankRiskPremium;
+
 	/* (non-Javadoc)
 	 * @see jmab.agents.MacroAgent#onRoundFinished(net.sourceforge.jabm.event.RoundFinishedEvent)
 	 */
@@ -150,9 +160,15 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	 */
 	@Override
 	public double getLoanSupply(int loansId, MacroAgent creditDemander, double required) {
-		SpecificCreditSupplyStrategy strategy=(SpecificCreditSupplyStrategy) this.getStrategy(StaticValues.STRATEGY_SPECIFICCREDITSUPPLY);
-		double specificLoanSupply=strategy.computeSpecificSupply(creditDemander, required);
-		return specificLoanSupply;
+		switch(loansId){
+		case StaticValues.SM_LOAN:
+			SpecificCreditSupplyStrategy strategy=(SpecificCreditSupplyStrategy) this.getStrategy(StaticValues.STRATEGY_SPECIFICCREDITSUPPLY);
+			double specificLoanSupply=strategy.computeSpecificSupply(creditDemander, required);
+			return specificLoanSupply;
+		case StaticValues.SM_INTERBANK:
+			return this.interbankSupply;
+		}
+		return 0;
 	}
 
 	/* (non-Javadoc)
@@ -172,6 +188,9 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		switch(event.getTic()){
 		case StaticValues.TIC_COMPUTEEXPECTATIONS:
 			setBailoutCost(0);
+			setDebtBurden(0);
+			// TODO set the interest rates here?
+			this.updateCentralBankInterestRates();
 			setCurrentNonPerformingLoans(StaticValues.SM_LOAN,0); // we delete non performing loans from previous period
 			this.defaulted=false;
 			computeExpectations();
@@ -232,17 +251,151 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		case StaticValues.TIC_UPDATEEXPECTATIONS: 
 			updateExpectations();
 			break;
+			// added interbank operations:
+		case StaticValues.TIC_INTERBANKINTERESTS:
+			payInterbankInterests();
+			break;
+		case StaticValues.TIC_INTERBANKDEMANDSUPPLY:
+			determineInterbankAsk();
+			determineInterbankSupplyOrDemand();
+			break;
 		}
 
 	}
-	
-	public double getFundingRate() {
-		return fundingRate;
+
+	/**
+	 * Method used to update the advances and reserves interest rates
+	 */
+	private void updateCentralBankInterestRates() {
+		// get CB from controller?
+		SimulationController controller = (SimulationController)this.getScheduler();
+		MacroPopulation macroPop = (MacroPopulation) controller.getPopulation();
+		Population pop = macroPop.getPopulation(StaticValues.CB_ID);
+		CentralBank CB= (CentralBank)pop.getAgentList().get(0);
+		this.setReserveInterestRate(CB.getReserveInterestRate());
+		this.setAdvancesInterestRate(CB.getAdvancesInterestRate());
 	}
 
-	public void setFundingRate(double fundingRate) {
-		this.fundingRate = fundingRate;
+	// (5) New interbank interest + principal interbank payment function
+	private void payInterbankInterests() {
+		// the list loans loads from the stock matrix
+		List<Item> loans=this.getItemsStockMatrix(false, StaticValues.SM_INTERBANK);
+		// reset total interest to 0
+		this.totInterestsInterbank = 0;
+		// define variable amountToPay here because it is used in the loop and after
+		double amountToPay = 0;
+		double[][] amounts = new double[2][loans.size()];
+		// loop over the loans in the loan list
+		for(int i=0;i<loans.size();i++){
+			Loan loan=(Loan)loans.get(i);
+			if(loan.getAge()>0){
+				double iRate=loan.getInterestRate();
+				double amount=loan.getInitialAmount();
+				int length = loan.getLength();
+				double interests=iRate*loan.getValue();
+				amounts[0][i]=interests;
+				double principal=0.0;
+				switch(loan.getAmortization()){
+				// determine the loan repayment amount 
+				case Loan.FIXED_AMOUNT:
+					double amortization = amount*(iRate*Math.pow(1+iRate, length))/(Math.pow(1+iRate, length)-1);
+					principal=amortization-interests;
+					break;
+				case Loan.FIXED_CAPITAL:
+					principal=amount/length;
+					break;
+				case Loan.ONLY_INTERESTS:
+					if(length==loan.getAge())
+						principal=amount;
+					break;
+				}
+				amounts[1][i]=principal;
+				this.totInterestsInterbank+=interests;
+				// use previous to calculate total amount to pay
+				amountToPay=interests+principal;
+				debtBurden=amountToPay;
+			}
+		}	
+		// end of loop --> total payment amount is now calculated
+		// Check for solvency using this information
+		boolean iCanPay = true;
+		double netWealthAfterBill = this.getNetWealth()- amountToPay;
+		if(netWealthAfterBill<0)
+			iCanPay=false;
+		//If the bank remains solvent, the payments are made.
+		if(iCanPay){
+			for(int i=0;i<loans.size();i++){
+				Loan loan=(Loan)loans.get(i);
+				amountToPay=amounts[0][i]+amounts[1][i];
+				// look up my reserves
+				Item myRes = this.getItemStockMatrix(true,StaticValues.SM_RESERVES);
+				myRes.setValue(myRes.getValue()-amountToPay);
+				Item oBankRes = loan.getAssetHolder().getItemStockMatrix(true, StaticValues.SM_RESERVES);
+				oBankRes.setValue(oBankRes.getValue()+amountToPay);
+				loan.setValue(loan.getValue()-amounts[1][i]);
+			}
+		}
+		//Else, the firm defaults
+		else{
+			System.out.println("Insolvency " + this.getAgentId() +" due to interbankdebt service");
+			BankruptcyStrategy strategy = (BankruptcyStrategy)this.getStrategy(StaticValues.STRATEGY_BANKRUPTCY);
+			strategy.bankrupt(); 
+			this.defaulted=true;
+		}
 	}
+	
+	/**
+	 * Function to determine how many reserves the bank either demands or supplies
+	 * on the interbank market based on the supply or demand strategy
+	 */
+	private void determineInterbankSupplyOrDemand() {
+		// compute creditsupplyOrDemand
+		SupplyCreditStrategy strategy=(SupplyCreditStrategy)this.getStrategy(StaticValues.STRATEGY_INTERBANKSUPPLY);
+		double interbankSupplyDemand = strategy.computeCreditSupply();
+		// if number is positive set this as interbank supply
+		if (interbankSupplyDemand>0) {
+			setInterbankSupply(interbankSupplyDemand);
+			setInterbankDemand(0);
+			this.addValue(StaticValues.LAG_TOTINTERBANKSUPPLY, interbankSupplyDemand);
+			this.addValue(StaticValues.LAG_TOTINTERBANKDEMAND, 0);
+			this.setActive(true, StaticValues.MKT_INTERBANK);
+			this.addToMarketPopulation(StaticValues.MKT_INTERBANK, false);
+		}
+		// if number is negative set this as interbank demand
+		else if (interbankSupplyDemand<0) {
+			setInterbankSupply(0);
+			setInterbankDemand(-interbankSupplyDemand);
+			this.addValue(StaticValues.LAG_TOTINTERBANKSUPPLY, 0);
+			this.addValue(StaticValues.LAG_TOTINTERBANKDEMAND, -interbankSupplyDemand);
+			this.setActive(true, StaticValues.MKT_INTERBANK);
+			this.addToMarketPopulation(StaticValues.MKT_INTERBANK, true);
+		}
+		else if (interbankSupplyDemand==0) {
+			setInterbankSupply(0);
+			setInterbankDemand(0);
+			this.addValue(StaticValues.LAG_TOTINTERBANKSUPPLY, 0);
+			this.addValue(StaticValues.LAG_TOTINTERBANKDEMAND, 0);
+		}
+	}
+	
+	// getter and setter for determineInterbankSupply
+	public double getInterbankSupply() {
+		return this.interbankSupply;
+	}
+	public void setInterbankSupply(double d) {
+		this.interbankSupply=d;
+	}
+	
+	// New interbank ask rate strategy methods 
+		/**
+		 * Determines the bank interbank ask interest rate, i.e. 
+		 * using the ask rate strategy. 
+		 * Borrowed from generic interest rate, right approach? 
+		 */
+		private void determineInterbankAsk() {
+			InterestRateStrategy strategy = (InterestRateStrategy)this.getStrategy(StaticValues.STRATEGY_INTERBANKRATE);
+			this.interbankAsk =strategy.computeInterestRate(null,0,1);
+		}
 	
 	protected void payDividends(){
 		double nW=this.getNetWealth();
@@ -277,6 +430,9 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		this.addValue(StaticValues.LAG_NONPERFORMINGLOANS, this.currentNonPerformingLoans);
 		this.addValue(StaticValues.LAG_DEPOSITINTEREST, depositInterestRate);
 		this.addValue(StaticValues.LAG_LOANINTEREST, bankInterestRate);
+		// interbank expectations
+		this.addValue(StaticValues.LAG_INTERBANKINTEREST,interbankAsk);
+		// end interbank expectations
 		double[] deposit = new double[1];
 		deposit[0]=this.getNumericBalanceSheet()[1][StaticValues.SM_DEP];
 		this.getExpectation(StaticValues.EXPECTATIONS_DEPOSITS).addObservation(deposit);
@@ -365,6 +521,12 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		case StaticValues.MKT_ADVANCES:
 			macroSim.getActiveMarket().commit(this, (MacroAgent)event.getObjects().get(0),marketID);
 			break;
+			// on arrival in the interbank market
+		case StaticValues.MKT_INTERBANK:
+			SelectLenderStrategy borrowingStrategy = (SelectLenderStrategy) this.getStrategy(StaticValues.STRATEGY_BORROWING);
+			MacroAgent lender= (MacroAgent)borrowingStrategy.selectLender(event.getObjects(), this.getLoanRequirement(StaticValues.SM_INTERBANK),1);//1 because its the length of the interbank loans
+			macroSim.getActiveMarket().commit(this, lender,marketID);
+			break;
 		}
 	}
 	
@@ -423,7 +585,13 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	 */
 	@Override
 	public double getLoanRequirement(int idLoanSM) {
-		return advancesDemand;
+		switch(idLoanSM){
+		case StaticValues.SM_ADVANCES:
+			return this.advancesDemand;
+		case StaticValues.SM_INTERBANK:
+			return this.interbankDemand;
+		}
+		return -1;
 	}
 
 	/* (non-Javadoc)
@@ -431,7 +599,13 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	 */
 	@Override
 	public int decideLoanLength(int idLoanSM) {
-		return this.advancesLength;
+		switch(idLoanSM){
+		case StaticValues.SM_ADVANCES:
+			return this.advancesLength;
+		case StaticValues.SM_INTERBANK:
+			return this.advancesLength;
+		}
+		return -1;
 	}
 
 	/* (non-Javadoc)
@@ -439,7 +613,13 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	 */
 	@Override
 	public int decideLoanAmortizationType(int idLoanSM) {
-		return this.advancesAmortizationType;
+		switch(idLoanSM){
+		case StaticValues.SM_ADVANCES:
+			return this.advancesAmortizationType;
+		case StaticValues.SM_INTERBANK:
+			return this.advancesAmortizationType;
+		}
+		return -1;
 	}
 
 	/**
@@ -500,7 +680,14 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	 */
 	@Override
 	public void setLoanRequirement(int idLoanSM, double d) {
-		this.advancesDemand=d;
+		switch(idLoanSM){
+		case StaticValues.SM_ADVANCES:
+			this.advancesDemand=d;
+			break;
+		case StaticValues.SM_INTERBANK:
+			this.interbankDemand=d;
+			break;
+		}
 	}
 
 	/* (non-Javadoc)
@@ -508,7 +695,13 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	 */
 	@Override
 	public double getTotalLoansSupply(int loansId) {
-		return this.totalLoanSupply;
+		switch(loansId){
+		case StaticValues.SM_LOAN:
+			return this.totalLoanSupply;
+		case StaticValues.SM_INTERBANK:
+			return this.interbankSupply;
+		}
+		return 0;
 	}
 
 	/* (non-Javadoc)
@@ -516,7 +709,14 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	 */
 	@Override
 	public void setTotalLoansSupply(int loansId, double d) {
-		this.totalLoanSupply=d;
+		switch(loansId){
+		case StaticValues.SM_LOAN:
+			this.totalLoanSupply=d;
+			break;
+		case StaticValues.SM_INTERBANK:
+			this.interbankSupply=d;
+			break;
+		}
 	}
 
 	/* (non-Javadoc)
@@ -528,7 +728,9 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		case StaticValues.MKT_CREDIT:
 			return this.bankInterestRate;
 		case StaticValues.MKT_DEPOSIT:
-			return this.depositInterestRate;			
+			return this.depositInterestRate;	
+		case StaticValues.MKT_INTERBANK:
+			return this.interbankAsk;
 		}
 		return 0;
 	}
@@ -543,7 +745,9 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			return (0);
 			//return (0-this.advancesInterestRate);
 		case StaticValues.MKT_DEPOSIT:
-			return 0;
+			return (0);
+		case StaticValues.MKT_INTERBANK:
+			return this.getReserveInterestRate(); // or also make difference between supply/demand?
 		}
 		return 0;
 	}
@@ -610,6 +814,8 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			return Double.POSITIVE_INFINITY;
 		case StaticValues.MKT_DEPOSIT:
 			return this.advancesInterestRate-this.liquidityRatio*this.fundingRate+this.liquidityRatio*this.reserveInterestRate;
+		case StaticValues.MKT_INTERBANK:
+			return this.advancesInterestRate;
 		}
 		return 0;
 	}
@@ -626,6 +832,22 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	 */
 	public void setReserveInterestRate(double reserveInterestRate) {
 		this.reserveInterestRate = reserveInterestRate;
+	}
+
+	public double getRiskAversionMarkUp() {
+		return riskAversionMarkUp;
+	}
+
+	public void setRiskAversionMarkUp(double riskAversionMarkUp) {
+		this.riskAversionMarkUp = riskAversionMarkUp;
+	}
+
+	public double getInterBankRiskPremium() {
+		return interBankRiskPremium;
+	}
+
+	public void setInterBankRiskPremium(double interBankRiskPremium) {
+		this.interBankRiskPremium = interBankRiskPremium;
 	}
 
 	/**
@@ -881,6 +1103,19 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		this.bailoutCost = bailoutCost;
 	}
 	
+	// additional getters and setters interbank
+
+	//General question�. Why sometimes return this.variable and other times variable??
+	public double getTotInterestsInterbank() {
+		return totInterestsInterbank;
+	}
+	
+	public double getInterbankDemand() {
+		return this.interbankDemand;
+	}
+
+	// end interbank extra getters and setters
+	
 	@Override
 	public void transfer(Item paying, Item receiving, double amount){
 		MacroAgent otherBank = receiving.getLiabilityHolder();
@@ -1131,14 +1366,20 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 
 	@Override
 	public double getDepositAmount() {
-		// TODO Auto-generated method stub
-		return 0;
+		double amount=0;
+		for(Item item:this.getItemsStockMatrix(false, StaticValues.SM_DEP)){
+			amount+=item.getValue();
+		}
+		return amount;
 	}
 
 	@Override
 	public double getCashAmount() {
-		// TODO Auto-generated method stub
-		return 0;
+		double amount=0;
+		for(Item item:this.getItemsStockMatrix(false, StaticValues.SM_CASH)){
+			amount+=item.getValue();
+		}
+		return amount;
 	}
 
 	@Override
@@ -1149,7 +1390,40 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 
 	@Override
 	public void interestPaid(double interests) {
+		this.interestsReceived=interests;
+	}
+
+	public void setInterbankAsk(double interbankAsk) {
+		this.interbankAsk = interbankAsk;
+	}
 		
+	public void setInterestsReceived(double interestsReceived) {
+		this.interestsReceived = interestsReceived;
+	}
+	
+	public void setTotInterestsInterbank(double totInterestsInterbank) {
+		this.totInterestsInterbank = totInterestsInterbank;
+	}
+	
+	public double getFundingRate() {
+		return fundingRate;
+	}
+
+	public void setFundingRate(double fundingRate) {
+		this.fundingRate = fundingRate;
+	}
+
+	public void setInterbankDemand(double interbankDemand) {
+		this.interbankDemand = interbankDemand;
+	}
+
+	
+	public double getDebtBurden() {
+		return debtBurden;
+	}
+	
+	public void setDebtBurden(double debtBurden) {
+		this.debtBurden = debtBurden;
 	}
 
 	@Override

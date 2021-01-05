@@ -493,6 +493,9 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			b.addValue(StaticValues.LAG_BANKTOTLOANSUPPLY, (((csLoans+ksLoans)/bSize))*2/(lMat+1)*(1+distr.nextDouble()));
 			b.addValue(StaticValues.LAG_DEPOSITINTEREST,iDep);
 			b.addValue(StaticValues.LAG_LOANINTEREST,iLoans);
+			b.addValue(StaticValues.LAG_INTERBANKINTEREST,this.iAdv);
+			b.addValue(StaticValues.LAG_TOTINTERBANKSUPPLY,0);
+			b.addValue(StaticValues.LAG_TOTINTERBANKDEMAND,0);
 			double[][] bs = b.getNumericBalanceSheet();
 			Expectation bDepExp = b.getExpectation(StaticValues.EXPECTATIONS_DEPOSITS);
 			int nbObs = bDepExp.getNumberPeriod();

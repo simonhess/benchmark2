@@ -204,6 +204,24 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="microBailoutCostCCSVReport" />
 				<ref bean="microBailoutCostBanksEventReport" />
 				<ref bean="microBailoutCostBanksCSVReport" />
+				<ref bean="microTotalInterBankLoansEventReport" />
+				<ref bean="microTotalInterBankLoansCSVReport" />
+				<!-- Added extra interbank reporters -->
+				<ref bean="microTotalInterBankCreditObtainedEventReport" />
+				<ref bean="microTotalInterBankCreditObtainedCSVReport" />
+				<ref bean="microAverageInterBankAskRateEventReport" />
+				<ref bean="microAverageInterBankAskRateCSVReport" />
+				<ref bean="microTotalInterBankConstrainedCreditEventReport" />
+				<ref bean="microTotalInterBankConstrainedCreditCSVReport" />
+				<ref bean="microTotalInterBankDebtServiceEventReport" />
+				<ref bean="microTotalInterBankDebtServiceCSVReport" />
+				<!-- ANTOINE ADD 28 APRIL -->
+				<ref bean="microInterbankRateEventReport" />
+				<ref bean="microInterbankRateCSVReport" />
+				<ref bean="microInterbankDemandEventReport" />
+				<ref bean="microInterbankDemandCSVReport" />
+				<ref bean="microInterbankSupplyEventReport" />
+				<ref bean="microInterbankSupplyCSVReport" />
 				<ref bean="banksDepositInterestEventReport" />
 				<ref bean="banksDepositInterestCSVReport" />
 				<ref bean="banksDepositsEventReport" />

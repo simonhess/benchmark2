@@ -35,7 +35,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="depositMarket" />
 				<ref bean="bondMarket" />
 				<ref bean="reservesMarketBonds" />
-				<ref bean="reservesMarketBasel" />
+				<ref bean="interbankMarket" />
+				<!--<ref bean="reservesMarketBasel" />-->
 			</list>
 		</property>
 		<property name="events">
@@ -65,6 +66,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="payWageTic" />
 				<ref bean="bondInterestTic" />
 				<ref bean="advInterestTic" />
+				<!-- New TIC for interest & loan repayment -->
+				<ref bean="interbankInterestTic" />
+
 				<ref bean="taxesTic" />
 				<ref bean="dividendsTic" />
 				<ref bean="depDemandTic" />
@@ -73,6 +77,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="bondSupplyTic" />
 				<ref bean="bondMarket1Tic" />
 				<ref bean="bondDemandTic" />
+				<!-- 2 InterbankMarketTics -->
+				<ref bean="interbankDemandSupplyTic" />
+				<ref bean="interbankMarketTic" />
+
 				<ref bean="reservesDemandBondTic" />
 				<ref bean="reservesMarketBondTic" />
 				<ref bean="cbBondsPurchasesTic" />
@@ -134,6 +142,15 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="cFirmsBankruptcyReportTic" />
 				<ref bean="kFirmsBankruptcyReportTic" />
 				<ref bean="banksBankruptcyReportTic" />
+				<!-- Interbank report Tics -->
+				<ref bean="microInterbankReportTic" />
+				<ref bean="microInterbankDegreeReportTic" />
+				<ref bean="interbankInterestToPayReportTic" />
+				<ref bean="interbankDebtServiceReportTic" />
+				<ref bean="interbankPositionReportTic" />
+				<ref bean="avInterbankRateReportTic" />
+				<ref bean="aggInterbankCreditReportTic" />
+				
 				<ref bean="cFirmsIRReportTic" />
 				<ref bean="kFirmsIRReportTic" />
 				<ref bean="hhIRReportTic" />
@@ -459,6 +476,55 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		scope="simulation">
 		<property name="prng" ref="prng" />
 	</bean>
+	
+	<!-- Interbank market beans -->
+	<bean id="interbankMarket" class="jmab.simulations.SimpleMarketSimulation"
+		scope="simulation">
+		<property name="transaction" ref="interbankMktTransactionMechanism"></property>
+		<property name="sellersId">
+			<list>
+				<util:constant static-field="benchmark.StaticValues.BANKS_ID" />
+			</list>
+		</property>
+		<property name="buyersId">
+			<list>
+				<util:constant static-field="benchmark.StaticValues.BANKS_ID" />
+			</list>
+		</property>
+		<property name="marketId">
+			<util:constant static-field="benchmark.StaticValues.MKT_INTERBANK" />
+		</property>
+		<property name="mixer" ref="interbankMarketMixer" />
+		<property name="scheduler" ref="simulationController"></property>
+		<property name="ticId">
+			<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKMARKET" />
+		</property>
+		<property name="initialiser" ref="interbankMarketInitialiser" />
+		<property name="nbRuns" value="10"></property>
+	</bean>
+
+	<bean id="interbankMarketInitialiser" class="jmab.init.RandomMarketInitialiser"
+		scope="simulation">
+		<property name="marketId">
+			<util:constant static-field="benchmark.StaticValues.MKT_INTERBANK" />
+		</property>
+		<property name="prng" ref="prng" />
+	</bean>
+
+	<bean id="interbankMarketMixer" class="jmab.mixing.DynamicRandomRobinBuyerMixer"
+		scope="simulation">
+		<property name="prng" ref="prng" />
+	</bean>
+
+	<bean id="interbankMktTransactionMechanism" class="benchmark.mechanisms.Interbankcreditmechanism"
+		scope="simulation">
+		<property name="idDepositsSM">
+			<util:constant static-field="benchmark.StaticValues.SM_RESERVES" />
+		</property>
+		<property name="idLoansSM">
+			<util:constant static-field="benchmark.StaticValues.SM_INTERBANK" />
+		</property>
+	</bean>
 
 <!-- The transaction mechanism for the bond good market -->
 	<bean id="bondMktTransactionMechanism" class="jmab.mechanisms.BondMechanism"
@@ -610,6 +676,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="advInterestTic" class="jmab.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_ADVINTERESTS" /></property>
 	</bean>
+	<bean id="interbankInterestTic" class="jmab.events.MacroTicEvent">
+		<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_INTERBANKINTERESTS" /></property>
+	</bean>
 	<bean id="bankruptcyTic" class="jmab.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKRUPTCY" /></property>
 	</bean>
@@ -621,6 +690,17 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	<bean id="bondDemandTic" class="jmab.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BONDDEMAND" /></property>
+	</bean>
+	<!-- 2 New Interbank tics (Joeri)-->
+	<bean id="interbankDemandSupplyTic" class="jmab.events.MacroTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKDEMANDSUPPLY" />
+		</property>
+	</bean>
+	<bean id="interbankMarketTic" class="jmab.events.MarketTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKMARKET" />
+		</property>
 	</bean>
 	<bean id="reservesDemandBondTic" class="jmab.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_RESERVEDEMANDBOND" /></property>
@@ -750,6 +830,88 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="computer" ref="banksBankruptcyComputer"/>
 	</bean>
 	
+	<!-- 
+	Interbank report tics
+				<ref bean="microInterbankReportTic" />
+				<ref bean="microInterbankDegreeReportTic" />
+				<ref bean="interbankInterestToPayReportTic" />
+				<ref bean="interbankDebtServiceReportTic" />
+				<ref bean="interbankPositionReportTic" />
+				<ref bean="avInterbankRateReportTic" />
+				<ref bean="aggInterbankCreditReportTic" />
+	 -->
+	 <bean id="microInterbankReportTic" class="jmab.events.MacroVariableTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_MICROINTERBANKREPORT" />
+		</property>
+		<property name="variableId">
+			<util:constant static-field="benchmark.StaticValues.MICROINTERBANKREPORT_ID" />
+		</property>
+		<property name="variableName" value="Banks' Bankruptcy"></property>
+		<property name="computer" ref="banksBankruptcyComputer"></property>
+	</bean>
+	<bean id="microInterbankDegreeReportTic" class="jmab.events.MacroVariableTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_MICROINTERBANKDEGREEREPORT" />
+		</property>
+		<property name="variableId">
+			<util:constant static-field="benchmark.StaticValues.MICROINTERBANKDEGREEREPORT_ID" />
+		</property>
+		<property name="variableName" value="Banks' Bankruptcy"></property>
+		<property name="computer" ref="banksBankruptcyComputer"></property>
+	</bean>
+	 <bean id="interbankInterestToPayReportTic" class="jmab.events.MacroVariableTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKINTERESTSTOPAYREPORT" />
+		</property>
+		<property name="variableId">
+			<util:constant static-field="benchmark.StaticValues.INTERBANKINTERESTSTOPAYREPORT_ID" />
+		</property>
+		<property name="variableName" value="Banks' Bankruptcy"></property>
+		<property name="computer" ref="banksBankruptcyComputer"></property>
+	</bean>
+	 <bean id="interbankDebtServiceReportTic" class="jmab.events.MacroVariableTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKDEBTSERVICEREPORT" />
+		</property>
+		<property name="variableId">
+			<util:constant static-field="benchmark.StaticValues.INTERBANKDEBTSERVICEREPORT_ID" />
+		</property>
+		<property name="variableName" value="Banks' Bankruptcy"></property>
+		<property name="computer" ref="banksBankruptcyComputer"></property>
+	</bean>
+	 <bean id="interbankPositionReportTic" class="jmab.events.MacroVariableTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKPOSITIONREPORT" />
+		</property>
+		<property name="variableId">
+			<util:constant static-field="benchmark.StaticValues.INTERBANKPOSITIONREPORT_ID" />
+		</property>
+		<property name="variableName" value="Banks' Bankruptcy"></property>
+		<property name="computer" ref="banksBankruptcyComputer"></property>
+	</bean>
+	 <bean id="avInterbankRateReportTic" class="jmab.events.MacroVariableTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_AVINTERBANKRATEREPORT" />
+		</property>
+		<property name="variableId">
+			<util:constant static-field="benchmark.StaticValues.AVINTERBANKRATEREPORT_ID" />
+		</property>
+		<property name="variableName" value="Banks' Bankruptcy"></property>
+		<property name="computer" ref="banksBankruptcyComputer"></property>
+	</bean>
+	 <bean id="aggInterbankCreditReportTic" class="jmab.events.MacroVariableTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_AGGINTERBANKCREDITREPORT" />
+		</property>
+		<property name="variableId">
+			<util:constant static-field="benchmark.StaticValues.AGGINTERBANKCREDITREPORT_ID" />
+		</property>
+		<property name="variableName" value="Banks' Bankruptcy"></property>
+		<property name="computer" ref="banksBankruptcyComputer"></property>
+	</bean>
+	<!-- End of interbank reporters TODO finish name= etc -->
+
 	<bean id="cFirmsAggregateDebtReportTic" class="jmab.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CAGGREGATEDEBTREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CAGGREGATEDEBTREPORT" /></property>
@@ -1132,6 +1294,95 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="computer" ref="banksCreditSupplyComputer"/>
 	</bean>
 	
+		<bean id="microTotalInterBankLoansReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_MICROTOTINTERBANKSUPPLYREPORT" />
+		</property>
+		<property name="variableId">
+			<util:constant static-field="benchmark.StaticValues.MICROTOTINTERBANKSUPPLY_ID" />
+		</property>
+		<property name="variableName" value="Banks Interbank Credit Supply"></property>
+		<property name="computer" ref="microTotalInterBankLoansComputer"></property>
+	</bean>
+	
+	<bean id="microTotalInterBankCreditObtainedReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_MICROTOTINTERBANKCREDITOBTAINEDREPORT" />
+		</property>
+		<property name="variableId">
+			<util:constant static-field="benchmark.StaticValues.MICROTOTINTERBANKCREDITOBTAINED_ID" />
+		</property>
+		<property name="variableName" value="Banks Interbank Obtained Credit"></property>
+		<property name="computer" ref="microTotalInterBankCreditObtainedComputer"></property>
+	</bean>
+	
+	<bean id="microAverageInterBankAskRateReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_MICROAVINTERBANKRATEREPORT" />
+		</property>
+		<property name="variableId">
+			<util:constant static-field="benchmark.StaticValues.AVINTERBANKRATEREPORT_ID" />
+		</property>
+		<property name="variableName" value="Banks Interbank Average Ask Rate"></property>
+		<property name="computer" ref="microAverageInterBankAskRateComputer"></property>
+	</bean>
+	
+	<bean id="microTotalInterBankConstrainedCreditReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_MICROTOTCONSTRAINEDINTERBANKCREDITREPORT" />
+		</property>
+		<property name="variableId">
+			<util:constant static-field="benchmark.StaticValues.MICROTOTCONSTRAINEDINTERBANKCREDIT_ID" />
+		</property>
+		<property name="variableName" value="Banks Interbank Constrained Credit"></property>
+		<property name="computer" ref="microTotalInterBankConstrainedCreditComputer"></property>
+	</bean>
+	
+	<bean id="microTotalInterBankDebtServiceReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKDEBTSERVICEREPORT" />
+		</property>
+		<property name="variableId">
+			<util:constant static-field="benchmark.StaticValues.INTERBANKDEBTSERVICEREPORT_ID" />
+		</property>
+		<property name="variableName" value="Banks Interbank Debt Service"></property>
+		<property name="computer" ref="microTotalInterBankDebtServiceComputer"></property>
+	</bean>
+	
+		<bean id="microInterbankRateEventReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_MICROINTERBANKRATEREPORT" />
+		</property>
+		<property name="variableId">
+			<util:constant static-field="benchmark.StaticValues.MICROINTERBANKRATEREPORT_ID" />
+		</property>
+		<property name="variableName" value="Banks Interbank Interbank Rate"></property>
+		<property name="computer" ref="microInterbankRateComputer"></property>
+	</bean>
+
+	<bean id="microInterbankDemandEventReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_MICROINTERBANKDEMANDREPORT" />
+		</property>
+		<property name="variableId">
+			<util:constant static-field="benchmark.StaticValues.MICROINTERBANKDEMANDREPORT_ID" />
+		</property>
+		<property name="variableName" value="Banks Interbank Demand"></property>
+		<property name="computer" ref="microInterbankDemandComputer"></property>
+	</bean>
+
+	<bean id="microInterbankSupplyEventReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_MICROINTERBANKSUPPLYREPORT" />
+		</property>
+		<property name="variableId">
+			<util:constant static-field="benchmark.StaticValues.MICROINTERBANKSUPPLYREPORT_ID" />
+		</property>
+		<property name="variableName" value="Banks Interbank Supply"></property>
+		<property name="computer" ref="microInterbankSupplyComputer"></property>
+	</bean>
+	
+	
 	<bean id="govWageBillReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_GOVWAGEBILLREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.GOVWAGEBILLREPORT_ID" /></property>
@@ -1470,15 +1721,16 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<!--  From SimpleAbstractAgent -->
 		<property name="stocksNames">
 			<list>
-	           <value>CASH</value>
-	           <value>DEPOSITS</value>
-	           <value>CONSUMPTION GOODS</value>
-	           <value>CAPITAL GOODS</value>
-	           <value>LOANS</value>
-	           <value>BONDS</value>
-	           <value>RESERVES</value>
-	           <value>ADVANCES</value>  
-	         </list>
+				<value>CASH</value>
+				<value>DEPOSITS</value>
+				<value>CONSUMPTION GOODS</value>
+				<value>CAPITAL GOODS</value>
+				<value>LOANS</value>
+				<value>BONDS</value>
+				<value>RESERVES</value>
+				<value>ADVANCES</value>
+				<value>INTERBANK LOANS</value>
+			</list>
 		</property>
 		<property name="activeTicEvents">
 			<list>
@@ -1538,8 +1790,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		</map>
 		</property>
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID" /> </property>
-		<property name="numberMarkets" value="7" />
-		<property name="numberStocks" value="8" />
+		<property name="numberMarkets" value="8" />
+		<property name="numberStocks" value="9" />
 		<!-- From AbstractFirm -->
 		<property name="productionStockId"><util:constant static-field="benchmark.StaticValues.SM_CAPGOOD"/> </property>
 		<!-- From CapitalFirm -->
@@ -1941,15 +2193,16 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<!-- From SimpleAbstractAgent -->
 		<property name="stocksNames">
 			<list>
-	           <value>CASH</value>
-	           <value>DEPOSITS</value>
-	           <value>CONSUMPTION GOODS</value>
-	           <value>CAPITAL GOODS</value>
-	           <value>LOANS</value>
-	           <value>BONDS</value>
-	           <value>RESERVES</value>
-	           <value>ADVANCES</value>  
-	         </list>
+				<value>CASH</value>
+				<value>DEPOSITS</value>
+				<value>CONSUMPTION GOODS</value>
+				<value>CAPITAL GOODS</value>
+				<value>LOANS</value>
+				<value>BONDS</value>
+				<value>RESERVES</value>
+				<value>ADVANCES</value>
+				<value>INTERBANK LOANS</value>
+			</list>
 		</property>
 		<property name="activeTicEvents">
 			<list>
@@ -2017,8 +2270,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 			</entry>
 		</map>
 		</property>
-		<property name="numberMarkets" value="7" />
-		<property name="numberStocks" value="8" />
+		<property name="numberMarkets" value="8" />
+		<property name="numberStocks" value="9" />
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID" /> </property>
 		<!-- From Abstract Firm -->
 		<property name="productionStockId"><util:constant static-field="benchmark.StaticValues.SM_CONSGOOD"/> </property>
@@ -2255,29 +2508,32 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<!-- From SimpleAbstractAgent -->
 		<property name="stocksNames">
 			<list>
-	           <value>CASH</value>
-	           <value>DEPOSITS</value>
-	           <value>CONSUMPTION GOODS</value>
-	           <value>CAPITAL GOODS</value>
-	           <value>LOANS</value>
-	           <value>BONDS</value>
-	           <value>RESERVES</value>
-	           <value>ADVANCES</value>  
-	         </list>
+				<value>CASH</value>
+				<value>DEPOSITS</value>
+				<value>CONSUMPTION GOODS</value>
+				<value>CAPITAL GOODS</value>
+				<value>LOANS</value>
+				<value>BONDS</value>
+				<value>RESERVES</value>
+				<value>ADVANCES</value>
+				<value>INTERBANK LOANS</value>
+			</list>
 		</property>
 		<property name="activeTicEvents">
 			<list>
-				<util:constant static-field="benchmark.StaticValues.TIC_COMPUTEEXPECTATIONS"/>
-				<util:constant static-field="benchmark.StaticValues.TIC_DEPINTERESTS"/>
-				<util:constant static-field="benchmark.StaticValues.TIC_CREDITSUPPLY"/>
-				<util:constant static-field="benchmark.StaticValues.TIC_DEPOSITSUPPLY"/>
-				<util:constant static-field="benchmark.StaticValues.TIC_ADVINTERESTS"/>
-				<util:constant static-field="benchmark.StaticValues.TIC_BANKRUPTCY"/>
-				<util:constant static-field="benchmark.StaticValues.TIC_BONDDEMAND"/>
-				<util:constant static-field="benchmark.StaticValues.TIC_DIVIDENDS"/>
-				<util:constant static-field="benchmark.StaticValues.TIC_RESERVEDEMANDBOND"/>
-				<util:constant static-field="benchmark.StaticValues.TIC_RESERVEDEMANDBASEL"/>
-				<util:constant static-field="benchmark.StaticValues.TIC_UPDATEEXPECTATIONS"/>
+				<util:constant static-field="benchmark.StaticValues.TIC_COMPUTEEXPECTATIONS" />
+				<util:constant static-field="benchmark.StaticValues.TIC_DEPINTERESTS" />
+				<util:constant static-field="benchmark.StaticValues.TIC_CREDITSUPPLY" />
+				<util:constant static-field="benchmark.StaticValues.TIC_DEPOSITSUPPLY" />
+				<util:constant static-field="benchmark.StaticValues.TIC_ADVINTERESTS" />
+				<util:constant static-field="benchmark.StaticValues.TIC_BANKRUPTCY" />
+				<util:constant static-field="benchmark.StaticValues.TIC_BONDDEMAND" />
+				<util:constant static-field="benchmark.StaticValues.TIC_DIVIDENDS" />
+				<util:constant static-field="benchmark.StaticValues.TIC_RESERVEDEMANDBOND" />
+				<util:constant static-field="benchmark.StaticValues.TIC_RESERVEDEMANDBASEL" />
+				<util:constant static-field="benchmark.StaticValues.TIC_UPDATEEXPECTATIONS" />
+				<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKINTERESTS" />
+				<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKDEMANDSUPPLY" />
 			</list>
 		</property>
 		<property name="expectations"> 
@@ -2316,14 +2572,29 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 			<entry value-ref="pastDepInterest"> 
 				<key>
 				<util:constant static-field="benchmark.StaticValues.LAG_DEPOSITINTEREST"/></key></entry>
+			<entry value-ref="pastInterbankInterest">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_INTERBANKINTEREST" />
+					</key>
+				</entry>
+				<entry value-ref="pastTotInterbankSupply">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_TOTINTERBANKSUPPLY" />
+					</key>
+				</entry>
+				<entry value-ref="pastTotInterbankDemand">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_TOTINTERBANKDEMAND" />
+					</key>
+				</entry>
 			
 		</map>
 		</property>
-		<property name="numberMarkets" value="7" />
+		<property name="numberMarkets" value="8" />
 		<property name="riskAversionC" value="3.922445" /> 
 		<property name="riskAversionK" value="21.513347" />
 		<property name="bankInterestRate" value="0.0075" />
-		<property name="numberStocks" value="8" />
+		<property name="numberStocks" value="9" />
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.BANKS_ID" /> </property>
 		<!-- From Abstract Bank -->
 		<property name="depositCounterpartId"><util:constant static-field="benchmark.StaticValues.SM_RESERVES"/> </property>
@@ -2402,6 +2673,21 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="nbLags" value="4"/>
 	</bean>
 	
+	<bean id="pastTotInterbankSupply" class="jmab.expectations.TreeMapPassedValues"
+		scope="prototype">
+		<property name="nbLags" value="4"></property>
+	</bean>
+
+	<bean id="pastTotInterbankDemand" class="jmab.expectations.TreeMapPassedValues"
+		scope="prototype">
+		<property name="nbLags" value="4"></property>
+	</bean>
+
+	<bean id="pastInterbankInterest" class="jmab.expectations.TreeMapPassedValues"
+		scope="prototype">
+		<property name="nbLags" value="4"></property>
+	</bean>
+	
 	
 	<bean id="banksMacroStrategy" scope="prototype"
 		class="jmab.strategies.MacroMultipleStrategy">
@@ -2464,6 +2750,26 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark.StaticValues.STRATEGY_DIVIDENDS" />
 					</key> 
 				</entry>
+				<entry value-ref="banksInterbankSupplyStrategy">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.STRATEGY_INTERBANKSUPPLY" />
+					</key>
+				</entry>
+				<entry value-ref="banksInterbankRateStrategy">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.STRATEGY_INTERBANKRATE" />
+					</key>
+				</entry>
+				<entry value-ref="banksIlliquiditytrategy">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.STRATEGY_ILLIQUIDITY" />
+					</key>
+				</entry>
+				<entry value-ref="banksBorrowingStrategy">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.STRATEGY_BORROWING" />
+					</key>
+				</entry>
 			</map>
 		</property>
 		<property name="scheduler" ref="simulationController" />
@@ -2475,6 +2781,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="riskPremium" value="1"/>
 	</bean>
 	-->
+	
+	<bean id="banksBorrowingStrategy" scope="prototype" parent="strategy"
+		class="jmab.strategies.CheapestLender">
+	</bean>
 	
 	<bean id="banksBankSpecificLoanInterestStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.AdaptiveMarkupOnFundingRateInterestRate">
@@ -2489,6 +2799,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 			<list>
 				<util:constant static-field="benchmark.StaticValues.SM_DEP" />
 				<util:constant static-field="benchmark.StaticValues.SM_ADVANCES" />
+				<util:constant static-field="benchmark.StaticValues.SM_INTERBANK" />
 			</list>
 		</property>
 	</bean>
@@ -2552,6 +2863,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 			<list>
 				<util:constant static-field="benchmark.StaticValues.SM_DEP" />
 				<util:constant static-field="benchmark.StaticValues.SM_ADVANCES" />
+				<util:constant static-field="benchmark.StaticValues.SM_INTERBANK" />
 			</list>
 		</property>
 	</bean>
@@ -2658,6 +2970,34 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		</property>
 	</bean> -->
 	
+	<bean id="banksInterbankRateStrategy" scope="prototype" parent="strategy"
+		class="benchmark.strategies.InterbankAskCBMarkUp">
+		<property name="reserveId">
+			<util:constant static-field="benchmark.StaticValues.SM_RESERVES"/>
+		</property>
+		<property name="advancesId">
+			<util:constant static-field="benchmark.StaticValues.SM_ADVANCES"/>
+		</property>
+		<property name="distribution" ref="foldedNormal1" />
+		<property name="adaptiveParameter" value="1" />
+	</bean>  
+
+	<bean id="banksIlliquiditytrategy" scope="prototype" parent="strategy"
+		class="benchmark.strategies.BankIlliquidityFixedShareHaircut">
+		<property name="loanId">
+			<util:constant static-field="benchmark.StaticValues.SM_LOAN" />
+		</property>
+		<property name="reserveId">
+			<util:constant static-field="benchmark.StaticValues.SM_RESERVES" />
+		</property>
+		<property name="haircut" value="0.1"></property>
+		<property name="loansFireSalePercentage" value="0.2"></property>
+	</bean>
+
+	<bean id="banksInterbankSupplyStrategy" scope="prototype" parent="strategy"
+		class="benchmark.strategies.InterbankSupplyDemandLR">
+	</bean>
+	
 	
 	<!-- The population of Households -->
 	<bean id="householdsPopulation" class="net.sourceforge.jabm.Population"
@@ -2687,15 +3027,16 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<!-- From SimpleAbstractAgent -->
 		<property name="stocksNames">
 			<list>
-	           <value>CASH</value>
-	           <value>DEPOSITS</value>
-	           <value>CONSUMPTION GOODS</value>
-	           <value>CAPITAL GOODS</value>
-	           <value>LOANS</value>
-	           <value>BONDS</value>
-	           <value>RESERVES</value> 
-	           <value>ADVANCES</value> 
-	         </list>
+				<value>CASH</value>
+				<value>DEPOSITS</value>
+				<value>CONSUMPTION GOODS</value>
+				<value>CAPITAL GOODS</value>
+				<value>LOANS</value>
+				<value>BONDS</value>
+				<value>RESERVES</value>
+				<value>ADVANCES</value>
+				<value>INTERBANK LOANS</value>
+			</list>
 		</property>
 		<property name="activeTicEvents">
 			<list>
@@ -2733,8 +3074,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.LAG_TAXES"/></key></entry>
 		</map>
 		</property>
-		<property name="numberMarkets" value="7" />
-		<property name="numberStocks" value="8" />
+		<property name="numberMarkets" value="8" />
+		<property name="numberStocks" value="9" />
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" /> </property>
 		<!-- From Households -->
 		<property name="shareDeposits" value="1"/>
@@ -2883,15 +3224,16 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<!-- From SimpleAbstractAgent -->
 		<property name="stocksNames">
 			<list>
-	           <value>CASH</value>
-	           <value>DEPOSITS</value>
-	           <value>CONSUMPTION GOODS</value>
-	           <value>CAPITAL GOODS</value>
-	           <value>LOANS</value>
-	           <value>BONDS</value>
-	           <value>RESERVES</value>
-	           <value>ADVANCES</value>  
-	         </list>
+				<value>CASH</value>
+				<value>DEPOSITS</value>
+				<value>CONSUMPTION GOODS</value>
+				<value>CAPITAL GOODS</value>
+				<value>LOANS</value>
+				<value>BONDS</value>
+				<value>RESERVES</value>
+				<value>ADVANCES</value>
+				<value>INTERBANK LOANS</value>
+			</list>
 		</property>
 		<property name="activeTicEvents">
 			<list>
@@ -2904,8 +3246,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_CONSUMPTIONDEMAND" />
 			</list>
 		</property>
-		<property name="numberMarkets" value="7" />
-		<property name="numberStocks" value="8" />
+		<property name="numberMarkets" value="8" />
+		<property name="numberStocks" value="9" />
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.GOVERNMENT_ID" /> </property>
 		<!-- From Government -->
 		<property name="bondMaturity" value="1"/>
@@ -3003,15 +3345,16 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<!-- From SimpleAbstractAgent -->
 		<property name="stocksNames">
 			<list>
-	           <value>CASH</value>
-	           <value>DEPOSITS</value>
-	           <value>CONSUMPTION GOODS</value>
-	           <value>CAPITAL GOODS</value>
-	           <value>LOANS</value>
-	           <value>BONDS</value>
-	           <value>RESERVES</value> 
-	           <value>ADVANCES</value>  
-	         </list>
+				<value>CASH</value>
+				<value>DEPOSITS</value>
+				<value>CONSUMPTION GOODS</value>
+				<value>CAPITAL GOODS</value>
+				<value>LOANS</value>
+				<value>BONDS</value>
+				<value>RESERVES</value>
+				<value>ADVANCES</value>
+				<value>INTERBANK LOANS</value>
+			</list>
 		</property>
 		<property name="activeTicEvents">
 			<list>
@@ -3021,8 +3364,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_RESINTERESTS" />
 			</list>
 		</property>
-		<property name="numberMarkets" value="7" />
-		<property name="numberStocks" value="8" />
+		<property name="numberMarkets" value="8" />
+		<property name="numberStocks" value="9" />
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.CB_ID" /> </property>
 		<!-- From AbstractBank -->
 		<property name="depositCounterpartId"><util:constant static-field="benchmark.StaticValues.SM_CASH"/> </property>

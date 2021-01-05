@@ -3,8 +3,10 @@
  */
 package benchmark.strategies;
 
+import benchmark.StaticValues;
 import benchmark.agents.Bank;
 import jmab.population.MacroPopulation;
+import jmab.stockmatrix.Item;
 import jmab.strategies.SupplyCreditStrategy;
 import net.sourceforge.jabm.EventScheduler;
 import net.sourceforge.jabm.agent.Agent;
@@ -30,9 +32,10 @@ public class InterbankSupplyDemandLR extends AbstractStrategy implements
 		// get the amount of deposits the bank currently has.
 		double depositsValue=supplier.getDepositAmount();
 		// get the total amount of current reserves the bank has
-		double actualLiquidityRatio = supplier.getLiquidityRatio();
+		double reservesValue=supplier.getReservesAmount();
 		// determine supplyDemand which can be either positive = supply or negative = demand
-		double interbankSupplyDemand = (actualLiquidityRatio - targetedLiquidityRatio) * depositsValue;
+		double interbankSupplyDemand = reservesValue-targetedLiquidityRatio*depositsValue;
+		//double interbankSupplyDemand = (actualLiquidityRatio - targetedLiquidityRatio) * depositsValue;
 		return interbankSupplyDemand;
 	}
 	

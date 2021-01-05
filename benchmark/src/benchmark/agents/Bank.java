@@ -1384,8 +1384,11 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 
 	@Override
 	public double getReservesAmount() {
-		// TODO Auto-generated method stub
-		return 0;
+		double reservesValue=0;
+		for(Item i:this.getItemsStockMatrix(true, StaticValues.SM_RESERVES)){
+			reservesValue+=i.getValue();
+			}
+		return reservesValue;
 	}
 
 	@Override

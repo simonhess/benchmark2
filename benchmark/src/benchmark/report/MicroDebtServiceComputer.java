@@ -14,6 +14,10 @@
  */
 package benchmark.report;
 
+import benchmark.agents.Bank;
+import benchmark.agents.CapitalFirm;
+import benchmark.agents.ConsumptionFirm;
+
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -76,6 +80,14 @@ private int populationId;
 				}
 				else{
 					result.put(firm.getAgentId(), Double.NaN);
+				}
+			}else if(i instanceof Bank){
+				Bank bank= (Bank) i;
+				if (!bank.isDead()){
+				result.put(bank.getAgentId(), bank.getDebtBurden());
+				}
+				else{
+					result.put(bank.getAgentId(), Double.NaN);
 				}
 			}
 		}

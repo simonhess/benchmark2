@@ -1399,6 +1399,10 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	public void setInterbankAsk(double interbankAsk) {
 		this.interbankAsk = interbankAsk;
 	}
+	
+	public double getInterbankAsk() {
+		return this.interbankAsk;
+	}
 		
 	public void setInterestsReceived(double interestsReceived) {
 		this.interestsReceived = interestsReceived;

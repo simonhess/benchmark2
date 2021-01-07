@@ -151,6 +151,15 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="avInterbankRateReportTic" />
 				<ref bean="aggInterbankCreditReportTic" />
 				
+				<ref bean="microTotalInterBankLoansReportTic" />
+				<ref bean="microTotalInterBankCreditObtainedReportTic" />
+				<ref bean="microAverageInterBankAskRateReportTic" />
+				<ref bean="microTotalInterBankConstrainedCreditReportTic" />
+				<ref bean="microTotalInterBankDebtServiceReportTic" />
+				<ref bean="microInterbankRateEventReportTic" />
+				<ref bean="microInterbankDemandEventReportTic" />
+				<ref bean="microInterbankSupplyEventReportTic" />
+				
 				<ref bean="cFirmsIRReportTic" />
 				<ref bean="kFirmsIRReportTic" />
 				<ref bean="hhIRReportTic" />

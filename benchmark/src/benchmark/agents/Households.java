@@ -566,7 +566,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	
 	@Override
 	public double getGrossIncome(){
-		return super.getGrossIncome()+this.interestsReceived+this.dividendsReceived;
+		return super.getGrossIncome()+this.interestsReceived+this.dividendsReceived+this.reservesInterestsReceived;
 	}
 	
 	/**

@@ -57,8 +57,29 @@ public class AdaptiveDepositInterestRate extends AbstractStrategy implements Int
 			Loan loan=(Loan)loans.get(i);
 			advValue+=loan.getValue();
 			}
+		double interbankLoansReceived = 0;
+		List<Item> loansReceived=lender.getItemsStockMatrix(false, liabilitiesId[2]);
+		for(int i=0;i<loansReceived.size();i++){
+			Loan loan=(Loan)loansReceived.get(i);
+			interbankLoansReceived+=loan.getValue();
+			}
+		double interbankLoansGiven = 0;
+		List<Item> loansGiven=lender.getItemsStockMatrix(true, StaticValues.SM_INTERBANK);
+		for(int i=0;i<loansGiven.size();i++){
+			Loan loan=(Loan)loansGiven.get(i);
+			interbankLoansGiven+=loan.getValue();
+			}
+		double reservesValue=0;
+		for(Item i:lender.getItemsStockMatrix(true, StaticValues.SM_RESERVES)){
+			reservesValue+=i.getValue();
+			}
+		double depositsValue=0;
+		for(Item i:lender.getItemsStockMatrix(false, StaticValues.SM_DEP)){
+			depositsValue+=i.getValue();
+			}
+		double netLiquidity = reservesValue+interbankLoansGiven-interbankLoansReceived-advValue-lender.getTargetedLiquidityRatio()*depositsValue;
 		int liquidityDeficitPosition = 0;
-		if (advValue > 0) {liquidityDeficitPosition = 1;
+		if (netLiquidity <= 0) {liquidityDeficitPosition = 1;
 		}else {liquidityDeficitPosition = -1;}
 		// determine the opportunity cost position
 		double previousDepositRate = lender.getDepositInterestRate();

@@ -879,41 +879,41 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 	 */
 	@Override
 	public double getPriceLowerBound() {
-		double expectedAverageVarCosts=this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()/this.getLaborProductivity();
-		double expectedVariableCosts=expectedAverageVarCosts;
-		double expectedTotalCosts=0;
-		double fundingCosts = 0;
-		// Calculate funding costs
-				List<Item> loans=this.getItemsStockMatrix(false, StaticValues.SM_LOAN);
-				double totInterests=0;
-				for(int i=0;i<loans.size();i++){
-					Loan loan=(Loan)loans.get(i);
-					if(loan.getAge()>0){
-						double iRate=loan.getInterestRate();
-						double interests=iRate*loan.getValue();
-						totInterests +=interests;
-						
-					}
-				}
-		
-		if(this.getDesiredOutput()>0){
-		
-		fundingCosts = totInterests/this.getDesiredOutput();
-		
-		expectedTotalCosts=expectedVariableCosts+fundingCosts;
-		
-		}else {
-			CapitalGood inventoriesLeft= (CapitalGood) this.getItemStockMatrix(true, StaticValues.SM_CAPGOOD);
-			if (inventoriesLeft.getQuantity()==0){
-				fundingCosts=0;
+		double expectedVariableCosts = this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()
+				/ this.getLaborProductivity();
+		double expectedAverageCosts = 0;
+		double expectedFixedCosts = 0;
+		// Calculate funding costs/ fixed costs
+		List<Item> loans = this.getItemsStockMatrix(false, StaticValues.SM_LOAN);
+		double totInterests = 0;
+		for (int i = 0; i < loans.size(); i++) {
+			Loan loan = (Loan) loans.get(i);
+			if (loan.getAge() > 0) {
+				double iRate = loan.getInterestRate();
+				double interests = iRate * loan.getValue();
+				totInterests += interests;
+
 			}
-			else{
-			double residualOutput=inventoriesLeft.getQuantity();
-			fundingCosts = totInterests/residualOutput;
-			}
-			expectedTotalCosts=expectedVariableCosts+fundingCosts;
 		}
-		return expectedTotalCosts;
+
+		if (this.getDesiredOutput() > 0) {
+
+			expectedFixedCosts = totInterests / this.getDesiredOutput();
+
+			expectedAverageCosts = expectedVariableCosts + expectedFixedCosts;
+
+		} else {
+			CapitalGood inventoriesLeft = (CapitalGood) this.getItemStockMatrix(true, StaticValues.SM_CAPGOOD);
+			if (inventoriesLeft.getQuantity() == 0) {
+				expectedAverageCosts = 0;
+			} else {
+				double residualOutput = inventoriesLeft.getQuantity();
+				expectedFixedCosts = totInterests / residualOutput;
+				expectedAverageCosts = expectedVariableCosts + expectedFixedCosts;
+			}
+
+		}
+		return expectedAverageCosts;
 	}
 
 	/* (non-Javadoc)

@@ -925,6 +925,19 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	@Override
 	public double getPriceLowerBound() {
 		double expectedAverageCosts=0;
+		double expectedFixedCosts = 0;
+		// Calculate funding costs/ fixed costs
+		List<Item> loans = this.getItemsStockMatrix(false, StaticValues.SM_LOAN);
+		double totInterests = 0;
+		for (int i = 0; i < loans.size(); i++) {
+			Loan loan = (Loan) loans.get(i);
+			if (loan.getAge() > 0) {
+				double iRate = loan.getInterestRate();
+				double interests = iRate * loan.getValue();
+				totInterests += interests;
+
+			}
+		}
 		if(this.getDesiredOutput()>0){
 			/*List<Item> capitalStock= this.getItemsStockMatrix(true, StaticValues.SM_CAPGOOD);
 			double amortisationCosts=0;
@@ -938,7 +951,8 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		    if (Double.isNaN(expectedVariableCosts)){
 		    	System.out.println("Error");
 		    }
-			expectedAverageCosts=(expectedVariableCosts)/this.getDesiredOutput();
+		    expectedFixedCosts = totInterests/this.getDesiredOutput();
+			expectedAverageCosts=(expectedVariableCosts)/this.getDesiredOutput()+expectedFixedCosts;
 			
 		
 		}else{
@@ -988,7 +1002,8 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 			//if (Double.isNaN(expectedVariableCosts)){
 				//System.out.println("Error");
 			//}
-			expectedAverageCosts=(expectedVariableCosts)/inventoriesLeft.getQuantity();
+			expectedFixedCosts = totInterests/inventoriesLeft.getQuantity();
+			expectedAverageCosts=(expectedVariableCosts)/inventoriesLeft.getQuantity()+expectedFixedCosts;
 		}
 		}
 		expectedVariableCosts=expectedAverageCosts;

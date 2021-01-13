@@ -2440,24 +2440,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="consumptionPricingStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.AdaptiveReturnOnAC">
-		<property name="adaptiveParameter" value="1" />
-		<property name="distribution" ref="foldedNormal1" />
-		<property name="threshold" value="0.1"></property>
-		<property name="capacityUtilisation" value="0.8"></property>
-		<property name="returnRate" value="0.1887055680579684"></property><!-- TODO ANTOIN CHANGED THIS 6/6/2016 -->
-		<property name="idCapacity">
-			<util:constant static-field="benchmark.StaticValues.LAG_CAPACITY" />
-		</property>
-		<property name="idCapitalValue">
-			<util:constant static-field="benchmark.StaticValues.LAG_CAPITALFINANCIALVALUE" />
-		</property>
-		<property name="idLoans">
-			<util:constant static-field="benchmark.StaticValues.SM_LOAN" />
-		</property>
-		<property name="idProduction">
-			<util:constant static-field="benchmark.StaticValues.LAG_PRODUCTION" />
-		</property>
+	class="jmab.strategies.AdaptiveMarkUpOnAC">
+	<property name="adaptiveParameter" value="1" />
+	<property name="distribution" ref="foldedNormal1"/>
+	<property name="threshold" value="0.1"/>
+	<property name="markUp" value="0.318857"/>
 	</bean>
 	
 	<bean id="consumptionTaxesStrategy" scope="prototype" parent="strategy"

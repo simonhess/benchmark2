@@ -14,12 +14,11 @@
  */
 package benchmark.strategies;
 
-import benchmark.agents.Bank;
+
+
 import jmab.agents.BondSupplier;
 import jmab.population.MacroPopulation;
 import jmab.strategies.BondDemandStrategy;
-import net.sourceforge.jabm.Population;
-import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**
@@ -27,32 +26,37 @@ import net.sourceforge.jabm.strategy.AbstractStrategy;
  *
  */
 @SuppressWarnings("serial")
-public class FullBondDemandStrategyEqual extends AbstractStrategy implements BondDemandStrategy{
+public class BondDemandStrategyNone extends AbstractStrategy implements BondDemandStrategy{
+	
 
 	/* (non-Javadoc)
 	 * @see jmab.strategies.BondDemandStrategy#BondDemand(double)
 	 */
 	@Override
 	public int bondDemand(BondSupplier supplier) {
-		Bank bank = (Bank) getAgent();
-		SimulationController controller = (SimulationController)bank.getScheduler();
-		MacroPopulation macroPop = (MacroPopulation) controller.getPopulation();
-		Population banks = macroPop.getPopulation(bank.getPopulationId());
-		return (int) Math.ceil(supplier.getBondSupply()/(double)banks.getSize());
+		
+			return 0;
 	}
-
-	/* (non-Javadoc)
-	 * @see jmab.strategies.SingleStrategy#getBytes()
+	
+	/**
+	 * Generate the byte array structure of the strategy. The structure is as follow:
+	 * [liquidityRatio]
+	 * @return the byte array content
 	 */
 	@Override
 	public byte[] getBytes() {
-		return new byte[1];//TODO
+		return new byte[0];
 	}
 
-	/* (non-Javadoc)
-	 * @see jmab.strategies.SingleStrategy#populateFromBytes(byte[], jmab.population.MacroPopulation)
+
+	/**
+	 * Populates the strategy from the byte array content. The structure should be as follows:
+	 * [liquidityRatio]
+	 * @param content the byte array containing the structure of the strategy
+	 * @param pop the Macro Population of agents
 	 */
 	@Override
-	public void populateFromBytes(byte[] content, MacroPopulation pop) {}
+	public void populateFromBytes(byte[] content, MacroPopulation pop) {
+	}
 
 }

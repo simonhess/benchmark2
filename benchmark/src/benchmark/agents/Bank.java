@@ -243,7 +243,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			payDividends();
 			break;
 		case StaticValues.TIC_RESERVEDEMANDBOND:
-			//determineAdvancesDemandBond();
+			determineAdvancesDemandBond();
 			break;
 		case StaticValues.TIC_RESERVEDEMANDBASEL:
 			determineAdvancesDemandBasel();
@@ -458,15 +458,15 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			this.setActive(true, StaticValues.MKT_ADVANCES);
 	}
 
-//	/**
-//	 * Determines the advances to be requested to the central bank in order to be able to buy bonds
-//	 */
-//	private void determineAdvancesDemandBond() {
-//		FinanceStrategy strategy = (FinanceStrategy)this.getStrategy(StaticValues.STRATEGY_FINANCE);
-//		this.advancesDemand=strategy.computeCreditDemand(bondDemand*bondPrice-this.getItemStockMatrix(true, StaticValues.SM_RESERVES).getValue());
-//		if(this.advancesDemand>0)
-//			this.setActive(true, StaticValues.MKT_ADVANCES);
-//	}
+	/**
+	 * Determines the advances to be requested to the central bank in order to be able to buy bonds
+	 */
+	private void determineAdvancesDemandBond() {
+		FinanceStrategy strategy = (FinanceStrategy)this.getStrategy(StaticValues.STRATEGY_FINANCE);
+		this.advancesDemand=Math.ceil(strategy.computeCreditDemand(bondDemand*bondPrice));
+		if(this.advancesDemand>0)
+			this.setActive(true, StaticValues.MKT_ADVANCES);
+	}
 
 	private void payInterests() {
 		List<Item> loans=this.getItemsStockMatrix(false, StaticValues.SM_ADVANCES);

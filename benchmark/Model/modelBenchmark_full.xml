@@ -35,6 +35,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="depositMarket" />
 				<ref bean="bondMarket" />
 				<ref bean="reservesMarketBonds" />
+				<ref bean="reservesMarketBasel" />
 				<ref bean="interbankMarket" />
 				<!--<ref bean="reservesMarketBasel" />-->
 			</list>
@@ -77,14 +78,14 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="bondSupplyTic" />
 				<ref bean="bondMarket1Tic" />
 				<ref bean="bondDemandTic" />
+				<ref bean="cbBondsPurchasesTic" />
+				<ref bean="reservesDemandBondTic" />
+				<ref bean="reservesMarketBondTic" />
+				<ref bean="bondMarket2Tic" />
 				<!-- 2 InterbankMarketTics -->
 				<ref bean="interbankDemandSupplyTic" />
 				<ref bean="interbankMarketTic" />
 
-				<ref bean="reservesDemandBondTic" />
-				<ref bean="reservesMarketBondTic" />
-				<ref bean="cbBondsPurchasesTic" />
-				<ref bean="bondMarket2Tic" />
 				<ref bean="reservesDemandBaselTic" />
 				<ref bean="reservesMarketBaselTic" />
 				<ref bean="nominalGDPReportTic" />
@@ -541,7 +542,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="idBondSM"><util:constant static-field="benchmark.StaticValues.SM_BONDS" /></property>
 	</bean>
 	
-	<!-- The reserve market to finance bonds' purchases -->
+	<!-- The reserve market to finance bonds' purchases  -->
 <bean id="reservesMarketBonds" class="jmab.simulations.SimpleMarketSimulation" scope="simulation">
 		<property name="transaction" ref="reserveMktTransactionMechanism"/>
 		<property name="sellersId">
@@ -1799,7 +1800,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		</map>
 		</property>
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID" /> </property>
-		<property name="numberMarkets" value="8" />
+		<property name="numberMarkets" value="9" />
 		<property name="numberStocks" value="9" />
 		<!-- From AbstractFirm -->
 		<property name="productionStockId"><util:constant static-field="benchmark.StaticValues.SM_CAPGOOD"/> </property>
@@ -2279,7 +2280,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 			</entry>
 		</map>
 		</property>
-		<property name="numberMarkets" value="8" />
+		<property name="numberMarkets" value="9" />
 		<property name="numberStocks" value="9" />
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID" /> </property>
 		<!-- From Abstract Firm -->
@@ -2586,7 +2587,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 			
 		</map>
 		</property>
-		<property name="numberMarkets" value="8" />
+		<property name="numberMarkets" value="9" />
 		<property name="riskAversionC" value="3.922445" /> 
 		<property name="riskAversionK" value="21.513347" />
 		<property name="bankInterestRate" value="0.0075" />
@@ -2836,7 +2837,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="banksBondStrategy" scope="prototype" parent="strategy"
-		class="benchmark.strategies.BondDemandStrategyReserves">
+		class="benchmark.strategies.FullBondDemandStrategyEqual">
 	</bean>
 	
 <!--	<bean id="banksDepInterestStrategy" scope="prototype" parent="strategy"
@@ -3070,7 +3071,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.LAG_TAXES"/></key></entry>
 		</map>
 		</property>
-		<property name="numberMarkets" value="8" />
+		<property name="numberMarkets" value="9" />
 		<property name="numberStocks" value="9" />
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" /> </property>
 		<!-- From Households -->
@@ -3242,7 +3243,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_CONSUMPTIONDEMAND" />
 			</list>
 		</property>
-		<property name="numberMarkets" value="8" />
+		<property name="numberMarkets" value="9" />
 		<property name="numberStocks" value="9" />
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.GOVERNMENT_ID" /> </property>
 		<!-- From Government -->
@@ -3360,7 +3361,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_RESINTERESTS" />
 			</list>
 		</property>
-		<property name="numberMarkets" value="8" />
+		<property name="numberMarkets" value="9" />
 		<property name="numberStocks" value="9" />
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.CB_ID" /> </property>
 		<!-- From AbstractBank -->

@@ -38,6 +38,7 @@ import net.sourceforge.jabm.agent.Agent;
 import net.sourceforge.jabm.event.AgentArrivalEvent;
 import net.sourceforge.jabm.event.RoundFinishedEvent;
 import benchmark.StaticValues;
+import benchmark.strategies.MonetaryPolicyStrategy;
 
 /**
  * @author Alessandro Caiani and Antoine Godin
@@ -57,6 +58,10 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	private double interestsOnBonds;
 	private double bondInterestsReceived;
 	private double totInterestsReserves;
+	
+	// Variables for monetary policy
+	protected double expectedNaturalRate;
+	protected double expectedPotentialGDP;
 	
 	/**
 	 * @return the advancesInterestRate
@@ -160,6 +165,23 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 			this.determineCBBondsPurchases();
 		else if (event.getTic()==StaticValues.TIC_RESINTERESTS)
 			this.payReservesInterests();
+		if (event.getTic()==StaticValues.TIC_CBPOLICY)
+			// added new methods where the central bank determines its policies
+			// by determining both the rates on advances & reserves (monetary)
+			// as well as the supply of reserves and QE (moneteray)
+			// , and finally several macroprudential policy tools
+
+			//this.determineAdvancesInterestRate()
+			;
+	}
+	
+	/**
+	 * This method lets the central bank update the interest it charges on advances using strategy advances
+	 */
+	private void determineAdvancesInterestRate() {
+		MonetaryPolicyStrategy strategy = (MonetaryPolicyStrategy)this.getStrategy(StaticValues.STRATEGY_ADVANCES);
+		this.advancesInterestRate=strategy.computeAdvancesRate();
+		
 	}
 	
 	public double getCBProfits(){
@@ -432,6 +454,22 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 				liabHolder.addItemStockMatrix(it, false, stockId);
 			}
 		}	
+	}
+	
+	public double getExpectedNaturalRate() {
+		return expectedNaturalRate;
+	}
+
+	public void setExpectedNaturalRate(double expectedNaturalRate) {
+		this.expectedNaturalRate = expectedNaturalRate;
+	}
+
+	public double getExpectedPotentialGDP() {
+		return expectedPotentialGDP;
+	}
+
+	public void setExpectedPotentialGDP(double expectedPotentialGDP) {
+		this.expectedPotentialGDP = expectedPotentialGDP;
 	}
 	
 }

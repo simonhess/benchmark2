@@ -57,6 +57,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="laborSupplyTic" />
 				<ref bean="laborDemandTic" />
 				<ref bean="governmentLaborTic" />
+				<ref bean="cbPolicyTic" />
 				<ref bean="laborMarketTic" />
 				<ref bean="productionTic" />
 				<ref bean="rdOutcomeTic" />
@@ -724,6 +725,12 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	<bean id="cbBondsPurchasesTic" class="jmab.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CBBONDSPURCHASES" /></property>
+	</bean>
+	<!-- New CBPolicy TIC (Joeri) -->
+	<bean id="cbPolicyTic" class="jmab.events.MacroTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_CBPOLICY" />
+		</property>
 	</bean>
 	<bean id="reservesInterestTic" class="jmab.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_RESINTERESTS" /></property>
@@ -3377,6 +3384,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_UPDATEEXPECTATIONS" />
 				<util:constant static-field="benchmark.StaticValues.TIC_CBBONDSPURCHASES" />
 				<util:constant static-field="benchmark.StaticValues.TIC_RESINTERESTS" />
+				<util:constant static-field="benchmark.StaticValues.TIC_CBPOLICY" />
 			</list>
 		</property>
 		<property name="numberMarkets" value="9" />
@@ -3394,9 +3402,18 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		class="jmab.strategies.MacroMultipleStrategy">
 		<property name="strategies">
 		<map>
+		<entry value-ref="advancesInterestRateStrategy">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.STRATEGY_ADVANCES" />
+					</key>
+				</entry>
 		</map>
 		</property>
 		<property name="scheduler" ref="simulationController" />
+	</bean>
+	
+	<bean id="advancesInterestRateStrategy" scope="prototype"
+		parent="strategy" class="benchmark.strategies.MonetaryTaylor">
 	</bean>
 	
 	<bean id="foldedNormal1" class="jmab.distribution.FoldedNormalDistribution">

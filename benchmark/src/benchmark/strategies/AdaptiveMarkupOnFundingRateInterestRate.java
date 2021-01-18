@@ -84,7 +84,7 @@ InterestRateStrategy {
 		}
 		// Calculate the amount of equity that is required to fulfill the deposit
 		// insurance requirement
-		double requiredEquityForDepositInsurance = lender.getNumericBalanceSheet()[1][StaticValues.SM_DEP]* lender.getDesignatedReserveRatio();
+		double requiredEquityForDepositInsurance = lender.getNumericBalanceSheet()[1][StaticValues.SM_DEP]* lender.getDISReserveRatio();
 		double depositInsuranceCapitalRatio = requiredEquityForDepositInsurance/ lender.getNumericBalanceSheet()[0][StaticValues.SM_LOAN];
 
 		threshold= lender.getTargetedCapitalAdequacyRatio()+depositInsuranceCapitalRatio; 

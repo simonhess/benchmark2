@@ -82,10 +82,16 @@ InterestRateStrategy {
 				totValue +=liability.getValue();
 			}
 		}
-		threshold= lender.getTargetedCapitalAdequacyRatio(); 
+		// Calculate the amount of equity that is required to fulfill the deposit
+		// insurance requirement
+		double requiredEquityForDepositInsurance = lender.getNumericBalanceSheet()[1][StaticValues.SM_DEP]* lender.getDesignatedReserveRatio();
+		double depositInsuranceCapitalRatio = requiredEquityForDepositInsurance/ lender.getNumericBalanceSheet()[0][StaticValues.SM_LOAN];
+
+		threshold= lender.getTargetedCapitalAdequacyRatio()+depositInsuranceCapitalRatio; 
 		double fundingRate = interestPay/totValue;
 		
 		double referenceVariable=lender.getCapitalAdequacyRatio();
+
 		//double iR = lender.getInterestRate(mktId);
 		if(fundingRate+markup>avInterest){
 			markup-=markup*adaptiveParameter*distribution.nextDouble();

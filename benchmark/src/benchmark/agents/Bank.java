@@ -103,6 +103,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	private double targetedCapitalAdequacyRatio;
 	private double riskAversionMarkUp;
 	private double interBankRiskPremium;
+	private double designatedReserveRatio;
 
 	/* (non-Javadoc)
 	 * @see jmab.agents.MacroAgent#onRoundFinished(net.sourceforge.jabm.event.RoundFinishedEvent)
@@ -1465,5 +1466,13 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 
 	public void setCapitalAdequacyRatio(double capitalAdequacyRatio) {
 		CapitalAdequacyRatio = capitalAdequacyRatio;
+	}
+
+	public double getDesignatedReserveRatio() {
+		return designatedReserveRatio;
+	}
+
+	public void setDesignatedReserveRatio(double designatedReserveRatio) {
+		this.designatedReserveRatio = designatedReserveRatio;
 	}
 }

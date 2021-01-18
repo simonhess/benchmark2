@@ -2609,6 +2609,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="depositInterestRate" value="0.005" />
 		<property name="fundingRate" value="0.005" />
 		<property name="targetedLiquidityRatio" value="0.258026342" />
+		<property name="targetedCapitalAdequacyRatio" value="0.0842272657990843"></property>
 	</bean>
 	
 	<bean id="expDeposits" class="jmab.expectations.SimpleAdaptiveExpectation"

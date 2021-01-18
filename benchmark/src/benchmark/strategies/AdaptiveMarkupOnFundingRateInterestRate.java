@@ -85,7 +85,7 @@ InterestRateStrategy {
 		threshold= lender.getTargetedCapitalAdequacyRatio(); 
 		double fundingRate = interestPay/totValue;
 		
-		double referenceVariable=lender.getCapitalRatio();
+		double referenceVariable=lender.getCapitalAdequacyRatio();
 		//double iR = lender.getInterestRate(mktId);
 		if(fundingRate+markup>avInterest){
 			markup-=markup*adaptiveParameter*distribution.nextDouble();

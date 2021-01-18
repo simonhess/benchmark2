@@ -82,6 +82,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	private double riskAversionC;
 	private double riskAversionK;
 	private double capitalRatio;
+	private double CapitalAdequacyRatio;
 	private double liquidityRatio;
 	protected double advancesInterests;
 	protected double reservesInterests;
@@ -215,9 +216,11 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			//ALE HAI AGGIUNTO QUESTO IL 24/1/2015
 			if (Math.floor(outstandingLoans)==0){
 				this.capitalRatio=0;
+				this.CapitalAdequacyRatio=0;
 			}
 			else {
 				this.capitalRatio=this.getPassedValue(StaticValues.LAG_NETWEALTH, 1)/outstandingLoans;
+				this.CapitalAdequacyRatio=this.getPassedValue(StaticValues.LAG_NETWEALTH, 1)/outstandingLoans;
 			}
 			break;
 		case StaticValues.TIC_DEPINTERESTS:
@@ -1454,5 +1457,13 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	
 	public double getReservesInterestReceived(){
 		return this.reservesInterests;
+	}
+
+	public double getCapitalAdequacyRatio() {
+		return CapitalAdequacyRatio;
+	}
+
+	public void setCapitalAdequacyRatio(double capitalAdequacyRatio) {
+		CapitalAdequacyRatio = capitalAdequacyRatio;
 	}
 }

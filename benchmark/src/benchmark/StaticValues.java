@@ -51,6 +51,7 @@ public interface StaticValues {
 	public static int TIC_DEPOSITDEMAND=26;
 	public static int TIC_DEPOSITMARKET=27;
 	public static int TIC_BANKRUPTCY=28;
+	public static int TIC_BANKRUPTCY2=281;
 	public static int TIC_BONDSUPPLY=29;
 	public static int TIC_BONDMARKET1=30;
 	public static int TIC_BONDDEMAND=31;

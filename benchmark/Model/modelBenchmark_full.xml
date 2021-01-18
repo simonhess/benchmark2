@@ -75,6 +75,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="depDemandTic" />
 				<ref bean="depMarketTic" />
 				<ref bean="bankruptcyTic" />
+				<ref bean="bankruptcyTic2" />
 				<ref bean="bondSupplyTic" />
 				<ref bean="bondMarket1Tic" />
 				<ref bean="bondDemandTic" />
@@ -691,6 +692,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	<bean id="bankruptcyTic" class="jmab.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKRUPTCY" /></property>
+	</bean>
+	<bean id="bankruptcyTic2" class="jmab.events.MacroTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKRUPTCY2" /></property>
 	</bean>
 	<bean id="bondSupplyTic" class="jmab.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BONDSUPPLY" /></property>
@@ -2524,6 +2528,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_DEPOSITSUPPLY" />
 				<util:constant static-field="benchmark.StaticValues.TIC_ADVINTERESTS" />
 				<util:constant static-field="benchmark.StaticValues.TIC_BANKRUPTCY" />
+				<util:constant static-field="benchmark.StaticValues.TIC_BANKRUPTCY2" />
 				<util:constant static-field="benchmark.StaticValues.TIC_BONDDEMAND" />
 				<util:constant static-field="benchmark.StaticValues.TIC_DIVIDENDS" />
 				<util:constant static-field="benchmark.StaticValues.TIC_RESERVEDEMANDBOND" />
@@ -2950,6 +2955,17 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="depositExpectationId"><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_DEPOSITS"/></property>
 	<property name="prng" ref="prng"/>
 	</bean>
+	
+	<!-- Deposit Insurance Strategy
+	<bean id="banksBankruptcyStrategy" scope="prototype" parent="strategy"
+	class="benchmark.strategies.BankBankruptcyDepositInsurance">
+	<property name="depositId"><util:constant static-field="benchmark.StaticValues.SM_DEP"/></property>
+	<property name="depositExpectationId"><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_DEPOSITS"/></property>
+	<property name="prng" ref="prng"/>
+	<property name="shareOfDepositsForInsurance" value="0.01"/>
+	</bean>
+	
+	-->
 	
 	<!-- <bean id="banksBankruptcyStrategy" scope="prototype" parent="strategy"
 	class="benchmark.strategies.BankBankruptcy">

@@ -236,6 +236,9 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		case StaticValues.TIC_BANKRUPTCY:
 			determineBankruptcy();
 			break;
+		case StaticValues.TIC_BANKRUPTCY2:
+			conductBankruptcy();
+			break;
 		case StaticValues.TIC_BONDDEMAND:
 			determineBondDemand();
 			break;
@@ -411,9 +414,19 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	private void determineBankruptcy() {
 		double nW=this.getNetWealth();
 		if(nW<0){
+			this.defaulted=true;
+			//this.dead=true;
+			//this.unsubscribeFromEvents();
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	private void conductBankruptcy() {
+		if(this.defaulted==true){
 			BankruptcyStrategy strategy = (BankruptcyStrategy)this.getStrategy(StaticValues.STRATEGY_BANKRUPTCY);
 			strategy.bankrupt();
-			this.defaulted=true;
 			//this.dead=true;
 			//this.unsubscribeFromEvents();
 		}

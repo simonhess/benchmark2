@@ -120,33 +120,24 @@ public class BankBankruptcyDepositInsurance extends AbstractStrategy implements
 		// Calculate total deposits of all banks
 		
 		double banksTotDeposits = 0;
+		double DISTotalReserve = 0;
+
 		
 		for (Agent b:banks.getAgents()){
 			Bank bank1 = (Bank) b;
 			if (bank1.getAgentId()!=bank.getAgentId()&&bank1.isDefaulted()!=true)
 				banksTotDeposits += bank1.getNumericBalanceSheet()[1][depositId];
+				if(bank1.getNetWealth()>=bank1.getDISReserveRatio()*bank1.getNumericBalanceSheet()[1][depositId]) {
+					DISTotalReserve +=bank1.getDISReserveRatio()*bank1.getNumericBalanceSheet()[1][depositId];
+				}
 			}
 		
-		// Transfer deposit insurance contributions from all banks to the defaulted bank
+		
+		// Transfer deposit insurance contributions from all solvent banks to the defaulted bank
 		
 		Item targetStock = bank.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-
-		for (Agent rec : banks.getAgents()) {
-			Bank receiver = (Bank) rec;
-			if (receiver.getAgentId()!=bank.getAgentId()&&receiver.isDefaulted()!=true) {
-				
-			double bankTotDeposits = receiver.getNumericBalanceSheet()[1][depositId];
-			double toPay = bankTotDeposits * (nw) / banksTotDeposits * -1;
-
-			Item payablestock = receiver.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-
-			LiabilitySupplier libHolder = (LiabilitySupplier) payablestock.getLiabilityHolder();
-
-			libHolder.transfer(payablestock, targetStock, toPay);
-			}
-		}
 		
-		
+		// Check if there are sufficient deposit insurance reserves to cover the bankruptcy. Bailout by the government otherwise
 		
 		Population hhs = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.HOUSEHOLDS_ID);
 		Population cFirms = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.CONSUMPTIONFIRMS_ID);
@@ -164,7 +155,25 @@ public class BankBankruptcyDepositInsurance extends AbstractStrategy implements
 			totalNW += ((MacroAgent) receiver).getNetWealth();
 		}
 		
-		/*
+		
+		if(DISTotalReserve>=-nw) {
+		
+		for (Agent rec : banks.getAgents()) {
+			Bank receiver = (Bank) rec;
+			if (receiver.getAgentId()!=bank.getAgentId()&&receiver.isDefaulted()!=true) {
+				
+			double bankTotDeposits = receiver.getNumericBalanceSheet()[1][depositId];
+			double toPay = bankTotDeposits * (nw) / banksTotDeposits * -1;
+
+			Item payablestock = receiver.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+
+			LiabilitySupplier libHolder = (LiabilitySupplier) payablestock.getLiabilityHolder();
+
+			libHolder.transfer(payablestock, targetStock, toPay);
+			}
+		}
+		}else {
+		
 
 		for (Agent rec : hhs.getAgents()) {
 			Households receiver = (Households) rec;
@@ -207,8 +216,8 @@ public class BankBankruptcyDepositInsurance extends AbstractStrategy implements
 
 			libHolder.transfer(payablestock, targetStock, toPay);
 		}
-		*/
 		
+		}
 		// Recapitalize banks by households ##############################################################################################################################################################
 		
 		totalNW = 0;

@@ -23,6 +23,7 @@ import java.util.List;
 
 import benchmark.StaticValues;
 import cern.jet.random.engine.RandomEngine;
+import benchmark.report.TotalCreditComputer;
 import jmab.agents.BondDemander;
 import jmab.agents.BondSupplier;
 import jmab.agents.LaborDemander;
@@ -33,6 +34,8 @@ import jmab.agents.SimpleAbstractAgent;
 import jmab.agents.TaxPayer;
 import jmab.events.MacroTicEvent;
 import jmab.population.MacroPopulation;
+import jmab.report.AveragePriceComputer;
+import jmab.report.NominalGDPComputer;
 import jmab.report.UnemploymentRateComputer;
 import jmab.simulations.MacroSimulation;
 import jmab.stockmatrix.Bond;
@@ -63,7 +66,10 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	protected double bondPrice;
 	protected int bondMaturity;
 	protected double bondInterestRate;
-	protected UnemploymentRateComputer uComputer; 
+	protected UnemploymentRateComputer uComputer;
+	protected TotalCreditComputer aggregateCreditComputer;
+	protected NominalGDPComputer nominalGdpComputer;  
+	protected AveragePriceComputer avpComputer; 
 	protected double wageBill;
 	protected double totInterestsBonds;
 	protected RandomEngine prng;
@@ -159,8 +165,14 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	 * 
 	 */
 	protected void updateAggregateVariables() {
+		MacroSimulation sim = (MacroSimulation)((SimulationController)this.scheduler).getSimulation();
 		this.setAggregateValue(StaticValues.LAG_AGGUNEMPLOYMENT, 
-				uComputer.computeVariable((MacroSimulation)((SimulationController)this.scheduler).getSimulation()));
+				uComputer.computeVariable(sim));
+		this.setAggregateValue(StaticValues.LAG_AGGCREDIT, aggregateCreditComputer.computeVariable(sim));
+		this.setAggregateValue(StaticValues.LAG_NOMINALGDP, 
+				nominalGdpComputer.computeVariable(sim));
+		this.setAggregateValue(StaticValues.LAG_INFLATION, 
+				avpComputer.computeVariable(sim));
 		this.cleanSM();
 	}
 
@@ -675,5 +687,47 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 		this.prng = prng;
 	}
 	
+	/**
+	 * @return the aggregateCreditComputer
+	 */
+	public TotalCreditComputer getAggregateCreditComputer() {
+		return aggregateCreditComputer;
+	}
+
+	/**
+	 * @param aggregateCreditComputer the aggregateCreditComputer to set
+	 */
+	public void setAggregateCreditComputer(
+			TotalCreditComputer aggregateCreditComputer) {
+		this.aggregateCreditComputer = aggregateCreditComputer;
+	}
+
+	/**
+	 * @return the nominalGdpComputer
+	 */
+	public NominalGDPComputer getNominalGdpComputer() {
+		return nominalGdpComputer;
+	}
+
+	/**
+	 * @param nominalGdpComputer the nominalGdpComputer to set
+	 */
+	public void setNominalGdpComputer(NominalGDPComputer nominalGdpComputer) {
+		this.nominalGdpComputer = nominalGdpComputer;
+	}
+
+	/**
+	 * @return the avpComputer
+	 */
+	public AveragePriceComputer getAvpComputer() {
+		return avpComputer;
+	}
+
+	/**
+	 * @param avpComputer the avpComputer to set
+	 */
+	public void setAvpComputer(AveragePriceComputer avpComputer) {
+		this.avpComputer = avpComputer;
+	}
 	
 }

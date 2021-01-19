@@ -109,6 +109,8 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	private RandomEngine prng;
 	private double uniformDistr;
 	private double gr;
+	private double nomGDP;
+	private double infl;
 
 	/* (non-Javadoc)
 	 * @see jmab.init.MacroAgentInitialiser#initialise(jmab.population.MacroPopulation)
@@ -544,6 +546,9 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		}
 		//TODO: Add Aggregate values, we could use the macrosimulation
 		govt.setAggregateValue(StaticValues.LAG_AGGUNEMPLOYMENT, 0.08*(1+distr.nextDouble()));//TODO
+		govt.setAggregateValue(StaticValues.LAG_INFLATION, infl*(1+distr.nextDouble()));//TODO
+		govt.setAggregateValue(StaticValues.LAG_AGGCREDIT, csLoans+ksLoans);//TODO
+		govt.setAggregateValue(StaticValues.LAG_NOMINALGDP, nomGDP);//TODO
 	}
 
 	/**
@@ -1123,8 +1128,32 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		this.csLoans0 = csLoans0;
 	}
 
+	/**
+	 * @return the nomGDP
+	 */
+	public double getNomGDP() {
+		return nomGDP;
+	}
 
+	/**
+	 * @param nomGDP the nomGDP to set
+	 */
+	public void setNomGDP(double nomGDP) {
+		this.nomGDP = nomGDP;
+	}
 
+	/**
+	 * @return the infl
+	 */
+	public double getInfl() {
+		return infl;
+	}
 
+	/**
+	 * @param infl the infl to set
+	 */
+	public void setInfl(double infl) {
+		this.infl = infl;
+	}
 
 }

@@ -24,6 +24,21 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark.StaticValues.LAG_NONPERFORMINGLOANS"/>
 					</key>
 				</entry>
+				<entry value-ref="pastAggCredit">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_AGGCREDIT" />
+					</key>
+				</entry>
+				<entry value-ref="pastNomGDP">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_NOMINALGDP" />
+					</key>
+				</entry>
+				<entry value-ref="pastInflation">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_INFLATION" />
+					</key>
+				</entry>
 			</map>
 		</property>
 		<property name="markets">
@@ -236,6 +251,18 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="pastUnemployment" class="jmab.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"/>
+	</bean>
+	<bean id="pastAggCredit" class="jmab.expectations.TreeMapPassedValues"
+		scope="simulation">
+		<property name="nbLags" value="4"></property>
+	</bean>
+	<bean id="pastNomGDP" class="jmab.expectations.TreeMapPassedValues"
+		scope="simulation">
+		<property name="nbLags" value="4"></property>
+	</bean>
+	<bean id="pastInflation" class="jmab.expectations.TreeMapPassedValues"
+		scope="simulation">
+		<property name="nbLags" value="4"></property>
 	</bean>
 	<bean id="pastBadDebts" class="jmab.expectations.TreeMapPassedValues"
 		scope="simulation">
@@ -1695,6 +1722,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <property name="ksOCF" value="189.2146501"/>
 <property name="csOCF" value="2340.255574"/>
 <property name="gr" value="0.0075"/>
+<property name="nomGDP" value="18303.8210132755" />
+<property name="infl" value="0.00246627" />
+<property name="gEmpl" value="780" />
 	</bean>
 	
 	
@@ -3280,6 +3310,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="turnoverLabor" ref="turnoverVal" /> 
 		<property name="unemploymentBenefit" value="0.4" />
 		<property name="uComputer" ref="unemploymentComputer"/>
+		<property name="aggregateCreditComputer" ref="totalCreditComputer"/>
+		<property name="nominalGdpComputer" ref="nominalGDPComputer"/>
+		<property name="avpComputer" ref="cAvPriceComputer"/>
 		<property name="taxedPopulations">
 			<list>
 				<util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID" />
@@ -3288,6 +3321,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" />
 			</list>
 		</property>
+	</bean>
+	
+	<bean id="totalCreditComputer" class="benchmark.report.TotalCreditComputer">
+		<property name="banksId"><util:constant static-field="benchmark.StaticValues.BANKS_ID" /></property>
+		<property name="loansId"><util:constant static-field="benchmark.StaticValues.SM_LOAN" /></property>
 	</bean>
 	
 	<bean id="governmentMacroStrategy" scope="prototype"
@@ -3387,6 +3425,21 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_CBPOLICY" />
 			</list>
 		</property>
+		<property name="expectations">
+			<map>
+				<entry value-ref="expNaturalRate">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.EXPECTATIONS_NATURALRATE" />
+					</key>
+				</entry>
+				<entry value-ref="expPotentialGDP">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.EXPECTATIONS_POTENTIALGDP" />
+					</key>
+				</entry>
+			</map>
+		</property>
+		
 		<property name="numberMarkets" value="9" />
 		<property name="numberStocks" value="9" />
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.CB_ID" /> </property>
@@ -3395,6 +3448,52 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<!-- From CentralBank class -->
 		<property name="advancesInterestRate" value="0.005"/>
 		<property name="reserveInterestRate" value="0.005" />
+	</bean>
+	
+	<bean id="expNaturalRate" class="jmab.expectations.SimpleAdaptiveExpectation"
+		scope="prototype">
+		<property name="numberPeriod" value="4" />
+		<property name="nbVariables" value="1" />
+		<property name="adaptiveParam" value="0.25" />
+		<property name="weights">
+			<array>
+				<array>
+					<value>1.0</value>
+				</array>
+				<array>
+					<value>0.0</value>
+				</array>
+				<array>
+					<value>0.0</value>
+				</array>
+				<array>
+					<value>0.0</value>
+				</array>
+			</array>
+		</property>
+	</bean>
+	
+	<bean id="expPotentialGDP" class="jmab.expectations.SimpleAdaptiveExpectation"
+		scope="prototype">
+		<property name="numberPeriod" value="4" />
+		<property name="nbVariables" value="1" />
+		<property name="adaptiveParam" value="0.25" />
+		<property name="weights">
+			<array>
+				<array>
+					<value>1.0</value>
+				</array>
+				<array>
+					<value>0.0</value>
+				</array>
+				<array>
+					<value>0.0</value>
+				</array>
+				<array>
+					<value>0.0</value>
+				</array>
+			</array>
+		</property>
 	</bean>
 	
 	

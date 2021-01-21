@@ -30,7 +30,6 @@ import jmab.agents.CreditSupplier;
 import jmab.agents.DepositDemander;
 import jmab.agents.DepositSupplier;
 import jmab.agents.InterestRateSetterWithTargets;
-import jmab.agents.LiabilitySupplier;
 import jmab.agents.MacroAgent;
 import jmab.agents.ProfitsTaxPayer;
 import jmab.events.MacroTicEvent;
@@ -1474,5 +1473,36 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 
 	public void setDISReserveRatio(double designatedReserveRatio) {
 		this.DISReserveRatio = designatedReserveRatio;
+	}
+	
+	public double getExcessLiquidity() {
+		double advValue = 0;
+		List<Item> loans=this.getItemsStockMatrix(false, StaticValues.SM_ADVANCES);
+		for(int i=0;i<loans.size();i++){
+			Loan loan=(Loan)loans.get(i);
+			advValue+=loan.getValue();
+			}
+		double interbankLoansReceived = 0;
+		List<Item> loansReceived=this.getItemsStockMatrix(false, StaticValues.SM_INTERBANK);
+		for(int i=0;i<loansReceived.size();i++){
+			Loan loan=(Loan)loansReceived.get(i);
+			interbankLoansReceived+=loan.getValue();
+			}
+		double interbankLoansGiven = 0;
+		List<Item> loansGiven=this.getItemsStockMatrix(true, StaticValues.SM_INTERBANK);
+		for(int i=0;i<loansGiven.size();i++){
+			Loan loan=(Loan)loansGiven.get(i);
+			interbankLoansGiven+=loan.getValue();
+			}
+		double reservesValue=0;
+		for(Item i:this.getItemsStockMatrix(true, StaticValues.SM_RESERVES)){
+			reservesValue+=i.getValue();
+			}
+		double depositsValue=0;
+		for(Item i:this.getItemsStockMatrix(false, StaticValues.SM_DEP)){
+			depositsValue+=i.getValue();
+			}
+		double excessLiquidity = reservesValue+interbankLoansGiven-interbankLoansReceived-advValue-this.getTargetedLiquidityRatio()*depositsValue;
+		return excessLiquidity;
 	}
 }

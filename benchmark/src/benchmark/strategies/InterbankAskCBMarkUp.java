@@ -37,26 +37,22 @@ public class InterbankAskCBMarkUp extends AbstractStrategy implements InterestRa
 	@Override
 	public double computeInterestRate(MacroAgent creditDemander, double amount, int length) {
 		double avInterest=0;
-		double threshold=0;
 		SimulationController controller = (SimulationController)this.getScheduler();
 		MacroPopulation macroPop = (MacroPopulation) controller.getPopulation();
 		Population banks = macroPop.getPopulation(StaticValues.BANKS_ID);
 		double inter=0;
-		double tot=0;
 		for (Agent b:banks.getAgents()){
 			Bank bank = (Bank) b;
-			tot+=bank.getLiquidityRatio();
 			inter+=bank.getPassedValue(StaticValues.LAG_INTERBANKINTEREST, 1);
 			}
 		avInterest=inter/banks.getSize();
-		threshold=tot/banks.getSize();
 		Bank bank = (Bank)this.agent;
 		double centralBankDepositRate = bank.getReserveInterestRate();
 		double centralBankAdvancesRate = bank.getAdvancesInterestRate();
 		double interBankRiskPremium = bank.getInterBankRiskPremium();
 		double interbankAskPrice = 0;
-		double referenceVariable=bank.getLiquidityRatio();
-		if(referenceVariable>threshold){
+		double excessLiquidity = bank.getExcessLiquidity();
+		if(excessLiquidity <= 0){
 			interbankAskPrice=avInterest+(adaptiveParameter*avInterest*distribution.nextDouble());
 		}else{
 			interbankAskPrice=avInterest-(adaptiveParameter*avInterest*distribution.nextDouble());

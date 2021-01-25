@@ -550,7 +550,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="prng" ref="prng" />
 	</bean>
 
-	<bean id="interbankMarketMixer" class="jmab.mixing.DynamicRandomRobinBuyerMixer"
+	<bean id="interbankMarketMixer" class="benchmark.mixing.DynamicRandomRobinInterbankMixer"
 		scope="simulation">
 		<property name="prng" ref="prng" />
 	</bean>
@@ -2812,6 +2812,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark.StaticValues.STRATEGY_BORROWING" />
 					</key>
 				</entry>
+				<entry value-ref="banksLendingStrategy">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.STRATEGY_LENDING" />
+					</key>
+				</entry>
 			</map>
 		</property>
 		<property name="scheduler" ref="simulationController" />
@@ -2826,6 +2831,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<bean id="banksBorrowingStrategy" scope="prototype" parent="strategy"
 		class="jmab.strategies.CheapestLender">
+	</bean>
+	
+	<bean id="banksLendingStrategy" scope="prototype" parent="strategy"
+		class="benchmark.strategies.PriciestBorrower">
 	</bean>
 	
 	<bean id="banksBankSpecificLoanInterestStrategy" scope="prototype"

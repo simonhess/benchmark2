@@ -303,6 +303,7 @@ public interface StaticValues {
 	public static int STRATEGY_INCOMERATIO=38;
 	public static int STRATEGY_DEFICITMANAGEMENT=39;
 	public static int STRATEGY_CBPROFITS = 40;
+	public static int STRATEGY_LENDING=41;
 	
 	public static int CAPITALFIRMS_ID=0;
 	public static int CONSUMPTIONFIRMS_ID=1;

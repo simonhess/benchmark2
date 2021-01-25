@@ -4,6 +4,8 @@
 package benchmark.mechanisms;
 
 import benchmark.StaticValues;
+import benchmark.agents.Bank;
+import benchmark.mixing.DynamicRandomRobinInterbankMixer;
 
 import java.util.List;
 
@@ -14,6 +16,7 @@ import jmab.agents.MacroAgent;
 import jmab.mechanisms.AbstractCreditMechanism;
 import jmab.mechanisms.Mechanism;
 import jmab.simulations.MarketSimulation;
+import jmab.simulations.SimpleMarketSimulation;
 import jmab.stockmatrix.Item;
 import jmab.stockmatrix.Loan;
 
@@ -45,7 +48,15 @@ public class Interbankcreditmechanism extends AbstractCreditMechanism implements
 		double offered=creditSupplier.getLoanSupply(this.idLoansSM, creditDemander,required);
 		double amount=Math.max(0, Math.min(required, Math.min(offered, totalLoansSupply)));
 		if(amount>0){
-			double interestRate=creditSupplier.getInterestRate(this.idLoansSM, creditDemander, amount, length);
+			SimpleMarketSimulation interbankSim = (SimpleMarketSimulation) this.getMarketSimulation();
+			DynamicRandomRobinInterbankMixer mixer = (DynamicRandomRobinInterbankMixer) interbankSim.getMixer();
+			boolean supplySurplus = mixer.getSupplySurplus();
+			double interestRate=0;
+			// If there is supply surplus in the market take the interest rate of the supplier bank, take the interest rate of the demander bank otherwise
+			Bank supplierBank = (Bank) creditSupplier;
+			Bank demanderBank = (Bank) creditDemander;
+			if(supplySurplus) interestRate = supplierBank.getInterestRate(this.idLoansSM, creditDemander, amount, length);
+			else interestRate = demanderBank.getInterestRate(this.idLoansSM, creditDemander, amount, length);
 			Loan loan = new Loan(amount, creditSupplier, creditDemander, interestRate, 0, amortization, length);
 			// does this add an interbank loan as well? 
 			creditSupplier.addItemStockMatrix(loan, true, this.idLoansSM);

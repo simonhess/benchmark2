@@ -56,6 +56,7 @@ import net.sourceforge.jabm.agent.Agent;
 import net.sourceforge.jabm.event.AgentArrivalEvent;
 import net.sourceforge.jabm.event.RoundFinishedEvent;
 import benchmark.StaticValues;
+import benchmark.strategies.PriciestBorrower;
 
 /**
  * @author Alessandro Caiani and Antoine Godin
@@ -153,7 +154,13 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		//InterestRateStrategy strategy = (InterestRateStrategy)this.getStrategy(StaticValues.STRATEGY_LOANAGENTINTERESTRATE);
 		//double agentIR=strategy.computeInterestRate(creditDemander,amount,length);
 		//return Math.max(this.bankInterestRate+agentIR, this.bondInterestRate);
-		return Math.max(this.bankInterestRate, this.bondInterestRate);
+		switch(idLoanSM){
+		case StaticValues.SM_LOAN:
+			return this.bankInterestRate;
+		case StaticValues.SM_INTERBANK:
+			return this.interbankAsk;
+		}
+		return 0;
 	}
 
 	/* (non-Javadoc)
@@ -539,9 +546,15 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			break;
 			// on arrival in the interbank market
 		case StaticValues.MKT_INTERBANK:
-			SelectLenderStrategy borrowingStrategy = (SelectLenderStrategy) this.getStrategy(StaticValues.STRATEGY_BORROWING);
-			MacroAgent lender= (MacroAgent)borrowingStrategy.selectLender(event.getObjects(), this.getLoanRequirement(StaticValues.SM_INTERBANK),1);//1 because its the length of the interbank loans
-			macroSim.getActiveMarket().commit(this, lender,marketID);
+			if(interbankDemand>0) { // Determine if this bank is lender or borrower at the interbank market 
+				SelectLenderStrategy borrowingStrategy = (SelectLenderStrategy) this.getStrategy(StaticValues.STRATEGY_BORROWING);
+				MacroAgent lender= (MacroAgent)borrowingStrategy.selectLender(event.getObjects(), this.getLoanRequirement(StaticValues.SM_INTERBANK),1);//1 because its the length of the interbank loans
+				macroSim.getActiveMarket().commit(this, lender,marketID);
+			}else {
+				PriciestBorrower lendingStrategy = (PriciestBorrower) this.getStrategy(StaticValues.STRATEGY_LENDING);
+				MacroAgent borrower= (MacroAgent)lendingStrategy.selectBorrower(event.getObjects(), this.interbankSupply,1);//1 because its the length of the interbank loans
+				macroSim.getActiveMarket().commit(borrower, this,marketID);
+			}
 			break;
 		}
 	}

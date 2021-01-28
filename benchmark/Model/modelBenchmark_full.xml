@@ -1723,8 +1723,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <property name="csOCF" value="2340.255574"/>
 <property name="gr" value="0.0075"/>
 <property name="nomGDP" value="18303.8210132755" />
-<property name="infl" value="0.00246627" />
-<property name="gEmpl" value="780" />
+<property name="infl" value="0.0075" />
+<property name="gEmpl" value="1360" />
 	</bean>
 	
 	
@@ -3316,6 +3316,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="prng" ref="prng"/>
 		<property name="bondPrice" value="1.0" />
 		<property name="fixedLaborDemand" value="1360" />
+		<property name="NRU" value="0.08" />
 		<property name="turnoverLabor" ref="turnoverVal" /> 
 		<property name="unemploymentBenefit" value="0.4" />
 		<property name="uComputer" ref="unemploymentComputer"/>

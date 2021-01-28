@@ -73,9 +73,12 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	protected double wageBill;
 	protected double totInterestsBonds;
 	protected RandomEngine prng;
+	protected double potentialGDP;
+	
+	protected double NRU;
 	
 	
-	
+
 	/**
 	 * 
 	 */
@@ -173,6 +176,11 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 				nominalGdpComputer.computeVariable(sim));
 		this.setAggregateValue(StaticValues.LAG_INFLATION, 
 				avpComputer.computeVariable(sim));
+		double unemployment = this.getAggregateValue(StaticValues.LAG_AGGUNEMPLOYMENT, 0);
+		double nominalGDP = this.getAggregateValue(StaticValues.LAG_NOMINALGDP, 0);
+		double inflation = this.getAggregateValue(StaticValues.LAG_INFLATION, 0);
+		double realGDP = nominalGDP / inflation;
+		this.potentialGDP =NRU/unemployment*realGDP;
 		this.cleanSM();
 	}
 
@@ -728,6 +736,22 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	 */
 	public void setAvpComputer(AveragePriceComputer avpComputer) {
 		this.avpComputer = avpComputer;
+	}
+	
+	public double getPotentialGDP() {
+		return potentialGDP;
+	}
+
+	public void setPotentialGDP(double potentialGDP) {
+		this.potentialGDP = potentialGDP;
+	}
+	
+	public double getNRU() {
+		return NRU;
+	}
+
+	public void setNRU(double nRU) {
+		NRU = nRU;
 	}
 	
 }

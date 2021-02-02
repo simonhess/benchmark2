@@ -3374,8 +3374,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="governmentBondsInterestStrategy" scope="prototype" parent="strategy"
-		class="benchmark.strategies.BondInterestRateStrategy">
-		<property name="interestRate" value="0.005"/>
+		class="benchmark.strategies.BondInterestRateStrategyAdvRate">
+		<property name="cbId"><util:constant static-field="benchmark.StaticValues.CB_ID" /> </property>
 	</bean>
 	
 	<bean id="governmentDistributeCBProfitsStrategy" scope="prototype" parent="strategy"

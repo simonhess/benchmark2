@@ -7,7 +7,7 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 <!-- Nominal GDP Report -->
-<bean id="nominalGDPComputer" class="jmab.report.NominalGDPComputer">
+<bean id="nominalGDPComputer" class="benchmark.report.NominalGDPComputer">
 	<property name="gdpPopulationIds">
 		<list>
 	        <util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID"/>

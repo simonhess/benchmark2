@@ -35,7 +35,7 @@ import jmab.agents.TaxPayer;
 import jmab.events.MacroTicEvent;
 import jmab.population.MacroPopulation;
 import jmab.report.AveragePriceComputer;
-import jmab.report.NominalGDPComputer;
+import benchmark.report.NominalGDPComputer;
 import jmab.report.UnemploymentRateComputer;
 import jmab.simulations.MacroSimulation;
 import jmab.stockmatrix.Bond;

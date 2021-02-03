@@ -3,7 +3,9 @@
  */
 package benchmark.strategies;
 
+import benchmark.StaticValues;
 import benchmark.agents.CentralBank;
+import benchmark.agents.Government;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,6 +19,7 @@ import jmab.simulations.MacroSimulation;
 import jmab.stockmatrix.AbstractGood;
 import jmab.stockmatrix.Item;
 import net.sourceforge.jabm.Population;
+import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
@@ -42,6 +45,9 @@ public class MonetaryTaylor extends AbstractStrategy implements
 	private int[] gdpGoodsAges;//These are all age limit of goods that enter in GDP
 	private LinkedHashMap<Integer,Integer> goodPassedValueMap;
 	private int governmentPopulationId; // the id of the government
+	private double targetInflation;
+	private double inflationCoefficient;
+	private double outputGapCoefficient;
 	
 	public double getTaylorInterestRate() {
 		return this.taylorInterestRate;
@@ -60,20 +66,25 @@ public class MonetaryTaylor extends AbstractStrategy implements
 	 */
 	@Override
 	public double computeAdvancesRate() {
-		// 1. calculate inflation
-		double inflation = calculateInflation(null); //TODO what argument to add to incorporate the macro simulation?
-		// 2. calculate nominal GDP
-		double nominalGDP = calculateNominalGDP(null); // TODO argument? 
-		// 3. calculate real GDP 
+		Population govpop = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.GOVERNMENT_ID);
+		Government gov = (Government) govpop.getAgentList().get(0);
+		// 1. Get inflation
+		double inflation = gov.getAggregateValue(StaticValues.LAG_INFLATION, 1);
+		// 2. Get nominal GDP
+		double nominalGDP = gov.getAggregateValue(StaticValues.LAG_NOMINALGDP, 1);
+		// 3. Calculate real GDP 
 		double realGDP = nominalGDP / inflation;
+		// 4. Get Potential GDP
+		double potentialGDP = gov.getAggregateValue(StaticValues.LAG_POTENTIALGDP, 1);;
 		CentralBank agent= (CentralBank) this.getAgent();
 		// get from central bank 
-		// 4. expectedNaturalRate
-		// 5. assumed potential output
+		// 5. expectedNaturalRate
 		double expectedNaturalRate = agent.getExpectedNaturalRate();
-		double expectedGDP = agent.getExpectedPotentialGDP();
+	
 		// Compute the interest rate according to the taylor rule, TODO replace magic numbers by parameter 1, inflation target & parameter 2
-		double AdvancesRate = inflation + expectedNaturalRate + 0.2*(inflation - 2) + 0.4* (realGDP - expectedGDP);
+		double AdvancesRate = inflation + 0.004 + inflationCoefficient*(inflation - targetInflation) + outputGapCoefficient* (Math.log(realGDP) - Math.log(potentialGDP));
+		System.out.println(inflation);
+		System.out.println(AdvancesRate);
 		
 		return AdvancesRate; // return the AdvancesRate
 		/*/
@@ -173,6 +184,30 @@ public class MonetaryTaylor extends AbstractStrategy implements
 
 	public void setInflationAVID(int inflationAVID) {
 		this.inflationAVID = inflationAVID;
+	}
+
+	public double getTargetInflation() {
+		return targetInflation;
+	}
+
+	public void setTargetInflation(double targetInflation) {
+		this.targetInflation = targetInflation;
+	}
+
+	public double getInflationCoefficient() {
+		return inflationCoefficient;
+	}
+
+	public void setInflationCoefficient(double inflationCoefficient) {
+		this.inflationCoefficient = inflationCoefficient;
+	}
+
+	public double getOutputGapCoefficient() {
+		return outputGapCoefficient;
+	}
+
+	public void setOutputGapCoefficient(double outputGapCoefficient) {
+		this.outputGapCoefficient = outputGapCoefficient;
 	}
 
 

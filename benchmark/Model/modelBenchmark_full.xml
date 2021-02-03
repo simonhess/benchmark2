@@ -39,6 +39,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark.StaticValues.LAG_INFLATION" />
 					</key>
 				</entry>
+				<entry value-ref="pastPotGDP">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_POTENTIALGDP" />
+					</key>
+				</entry>
 			</map>
 		</property>
 		<property name="markets">
@@ -267,6 +272,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="pastBadDebts" class="jmab.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"/>
+	</bean>
+	<bean id="pastPotGDP" class="jmab.expectations.TreeMapPassedValues"
+		scope="simulation">
+		<property name="nbLags" value="4"></property>
 	</bean>
 
 <!-- Here we create the market simulations for each market -->
@@ -3523,6 +3532,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<bean id="advancesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.MonetaryTaylor">
+				<property name="targetInflation" value="0.02"/>
+				<property name="inflationCoefficient" value="0.05"/>
+				<property name="outputGapCoefficient" value="0.05"/>
 	</bean>
 	
 	<bean id="foldedNormal1" class="jmab.distribution.FoldedNormalDistribution">

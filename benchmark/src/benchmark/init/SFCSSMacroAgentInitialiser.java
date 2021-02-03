@@ -546,9 +546,11 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		}
 		//TODO: Add Aggregate values, we could use the macrosimulation
 		govt.setAggregateValue(StaticValues.LAG_AGGUNEMPLOYMENT, 0.08*(1+distr.nextDouble()));//TODO
-		govt.setAggregateValue(StaticValues.LAG_INFLATION, infl*(1+distr.nextDouble()));//TODO
+		double inflation = infl*(1+distr.nextDouble());
+		govt.setAggregateValue(StaticValues.LAG_INFLATION, inflation);//TODO
 		govt.setAggregateValue(StaticValues.LAG_AGGCREDIT, csLoans+ksLoans);//TODO
 		govt.setAggregateValue(StaticValues.LAG_NOMINALGDP, nomGDP);//TODO
+		govt.setAggregateValue(StaticValues.LAG_POTENTIALGDP, nomGDP/inflation);//TODO
 	}
 
 	/**

@@ -242,6 +242,7 @@ public interface StaticValues {
 	public static int LAG_NOMINALGDP = 28;
 	public static int LAG_INFLATION = 29;
 	public static int LAG_PUBLICDEBT=30;
+	public static int LAG_POTENTIALGDP=30;
 	
 	public static int SM_CASH=0;
 	public static int SM_DEP=1;

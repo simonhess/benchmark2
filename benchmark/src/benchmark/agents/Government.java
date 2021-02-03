@@ -74,7 +74,6 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	protected double wageBill;
 	protected double totInterestsBonds;
 	protected RandomEngine prng;
-	protected double potentialGDP;
 	
 	protected double targetCapacityUtlization;
 	
@@ -213,7 +212,10 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 		
 		double realGDP = nominalGDP / inflation;
 		
-		this.potentialGDP =realGDP-realGDPCFirms+potentialGDPCFirms;
+		double potentialGDP =realGDP-realGDPCFirms+potentialGDPCFirms;
+		
+		this.setAggregateValue(StaticValues.LAG_POTENTIALGDP, 
+				potentialGDP);
 
 		this.cleanSM();
 	}
@@ -770,14 +772,6 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	 */
 	public void setAvpComputer(AveragePriceComputer avpComputer) {
 		this.avpComputer = avpComputer;
-	}
-	
-	public double getPotentialGDP() {
-		return potentialGDP;
-	}
-
-	public void setPotentialGDP(double potentialGDP) {
-		this.potentialGDP = potentialGDP;
 	}
 	
 	

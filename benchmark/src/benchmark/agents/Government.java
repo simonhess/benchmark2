@@ -203,13 +203,13 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 		if(capacity!=0) capUtilization = production/capacity;
 		else capUtilization = this.getTargetCapacityUtlization();
 		
-		double capUtilizationRatio = capUtilization/this.getTargetCapacityUtlization();
+		double potentialCapUtilizationRatio = capUtilization/this.getTargetCapacityUtlization();
 		
 		double nominalGDPCFirms = nominalGdpComputer.computeCFirmGDP(sim, 1);
 		
 		double realGDPCFirms = nominalGDPCFirms/ inflation;
 		
-		double potentialGDPCFirms = realGDPCFirms/capUtilizationRatio;
+		double potentialGDPCFirms = realGDPCFirms/potentialCapUtilizationRatio;
 		
 		double realGDP = nominalGDP / inflation;
 		

@@ -93,7 +93,7 @@ public class NominalGDPComputer implements MacroVariableComputer {
 		
 	}
 	
-	public double computeCFirmGDP(MacroSimulation sim, int cGoodId, int cGoodAge) {
+	public double computeCFirmGDP(MacroSimulation sim, int cGoodId) {
 		MacroPopulation macroPop = (MacroPopulation) sim.getPopulation();
 		Population pop = macroPop.getPopulation(priceIndexProducerId);
 		// calculate nominal GDP of consumption Firms
@@ -106,9 +106,9 @@ public class NominalGDPComputer implements MacroVariableComputer {
 			//Population pop = macroPop.getPopulation(i); GET RID OF THIS?
 			for(Agent j:pop.getAgents()){
 				MacroAgent agent=(MacroAgent) j;
-					List<Item> items= agent.getItemsStockMatrix(true, cGoodId);
+					List<Item> items= agent.getItemsStockMatrix(true, gdpGoodsIds[cGoodId]);
 					for(Item item:items){
-						if(item.getAge()<cGoodAge){
+						if(item.getAge()<gdpGoodsIds[cGoodId]){
 							gdpGoodsComponent+=item.getValue();
 						}
 						AbstractGood good = (AbstractGood)item;

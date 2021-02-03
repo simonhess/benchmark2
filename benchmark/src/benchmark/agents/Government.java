@@ -20,6 +20,7 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.TreeMap;
 
 import benchmark.StaticValues;
 import cern.jet.random.engine.RandomEngine;
@@ -75,9 +76,10 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	protected RandomEngine prng;
 	protected double potentialGDP;
 	
-	protected double NRU;
+	protected double targetCapacityUtlization;
 	
-	
+
+
 
 	/**
 	 * 
@@ -179,8 +181,40 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 		double unemployment = this.getAggregateValue(StaticValues.LAG_AGGUNEMPLOYMENT, 0);
 		double nominalGDP = this.getAggregateValue(StaticValues.LAG_NOMINALGDP, 0);
 		double inflation = this.getAggregateValue(StaticValues.LAG_INFLATION, 0);
+		
+		// Calculate real capacity utilization and potential capacity utilization
+		
+		MacroPopulation macroPop = (MacroPopulation) sim.getPopulation();
+		Population pop = macroPop.getPopulation(StaticValues.CONSUMPTIONFIRMS_ID);
+		
+		double capacity = 0;
+		double production = 0;
+
+		for (Agent i:pop.getAgents()){
+			ConsumptionFirm firm= (ConsumptionFirm) i;
+			if (!firm.isDead()){
+			capacity += firm.getPassedValue(StaticValues.LAG_CAPACITY, 0);
+			production += firm.getPassedValue(StaticValues.LAG_PRODUCTION, 0);
+			}
+		}
+		
+		double capUtilization = 0;
+		
+		if(capacity!=0) capUtilization = production/capacity;
+		else capUtilization = this.getTargetCapacityUtlization();
+		
+		double capUtilizationRatio = capUtilization/this.getTargetCapacityUtlization();
+		
+		double nominalGDPCFirms = nominalGdpComputer.computeCFirmGDP(sim, 1);
+		
+		double realGDPCFirms = nominalGDPCFirms/ inflation;
+		
+		double potentialGDPCFirms = realGDPCFirms/capUtilizationRatio;
+		
 		double realGDP = nominalGDP / inflation;
-		this.potentialGDP =NRU/unemployment*realGDP;
+		
+		this.potentialGDP =realGDP-realGDPCFirms+potentialGDPCFirms;
+
 		this.cleanSM();
 	}
 
@@ -746,12 +780,13 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 		this.potentialGDP = potentialGDP;
 	}
 	
-	public double getNRU() {
-		return NRU;
+	
+	public double getTargetCapacityUtlization() {
+		return targetCapacityUtlization;
 	}
 
-	public void setNRU(double nRU) {
-		NRU = nRU;
+	public void setTargetCapacityUtlization(double targetCapacityUtlization) {
+		this.targetCapacityUtlization = targetCapacityUtlization;
 	}
 	
 }

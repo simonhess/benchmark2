@@ -3316,13 +3316,13 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="prng" ref="prng"/>
 		<property name="bondPrice" value="1.0" />
 		<property name="fixedLaborDemand" value="1360" />
-		<property name="NRU" value="0.08" />
 		<property name="turnoverLabor" ref="turnoverVal" /> 
 		<property name="unemploymentBenefit" value="0.4" />
 		<property name="uComputer" ref="unemploymentComputer"/>
 		<property name="aggregateCreditComputer" ref="totalCreditComputer"/>
 		<property name="nominalGdpComputer" ref="nominalGDPComputer"/>
 		<property name="avpComputer" ref="cAvPriceComputer"/>
+		<property name="targetCapacityUtlization" value="0.8"/>
 		<property name="taxedPopulations">
 			<list>
 				<util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID" />

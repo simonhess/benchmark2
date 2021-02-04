@@ -44,6 +44,26 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark.StaticValues.LAG_POTENTIALGDP" />
 					</key>
 				</entry>
+				<entry value-ref="pastCPrice">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_CPRICE" />
+					</key>
+				</entry>
+				<entry value-ref="pastKPrice">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_KPRICE" />
+					</key>
+				</entry>
+				<entry value-ref="pastAllPrice">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_ALLPRICE" />
+					</key>
+				</entry>
+				<entry value-ref="pastRealGDP">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_REALGDP" />
+					</key>
+				</entry>
 			</map>
 		</property>
 		<property name="markets">
@@ -265,6 +285,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
+	<bean id="pastRealGDP" class="jmab.expectations.TreeMapPassedValues"
+		scope="simulation">
+		<property name="nbLags" value="4"></property>
+	</bean>
 	<bean id="pastInflation" class="jmab.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
@@ -274,6 +298,18 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="nbLags" value="4"/>
 	</bean>
 	<bean id="pastPotGDP" class="jmab.expectations.TreeMapPassedValues"
+		scope="simulation">
+		<property name="nbLags" value="4"></property>
+	</bean>
+	<bean id="pastCPrice" class="jmab.expectations.TreeMapPassedValues"
+		scope="simulation">
+		<property name="nbLags" value="4"></property>
+	</bean>
+	<bean id="pastKPrice" class="jmab.expectations.TreeMapPassedValues"
+		scope="simulation">
+		<property name="nbLags" value="4"></property>
+	</bean>
+	<bean id="pastAllPrice" class="jmab.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
@@ -1734,6 +1770,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <property name="nomGDP" value="18303.8210132755" />
 <property name="infl" value="0.0075" />
 <property name="gEmpl" value="1360" />
+
+<property name="avpAllProdComputer" ref="AveragePriceAllProducersComputer"/>
 	</bean>
 	
 	
@@ -3330,7 +3368,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="uComputer" ref="unemploymentComputer"/>
 		<property name="aggregateCreditComputer" ref="totalCreditComputer"/>
 		<property name="nominalGdpComputer" ref="nominalGDPComputer"/>
-		<property name="avpComputer" ref="cAvPriceComputer"/>
+		<property name="cAvpComputer" ref="cAvPriceComputer"/>
+		<property name="kAvpComputer" ref="kAvPriceComputer"/>
+		<property name="avpAllProdComputer" ref="AveragePriceAllProducersComputer"/>
 		<property name="targetCapacityUtlization" value="0.8"/>
 		<property name="taxedPopulations">
 			<list>

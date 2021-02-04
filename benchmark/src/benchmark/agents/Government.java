@@ -20,7 +20,6 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.TreeMap;
 
 import benchmark.StaticValues;
 import cern.jet.random.engine.RandomEngine;
@@ -36,6 +35,7 @@ import jmab.agents.TaxPayer;
 import jmab.events.MacroTicEvent;
 import jmab.population.MacroPopulation;
 import jmab.report.AveragePriceComputer;
+import benchmark.report.AveragePriceAllProducersComputer;
 import benchmark.report.NominalGDPComputer;
 import jmab.report.UnemploymentRateComputer;
 import jmab.simulations.MacroSimulation;
@@ -70,7 +70,10 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	protected UnemploymentRateComputer uComputer;
 	protected TotalCreditComputer aggregateCreditComputer;
 	protected NominalGDPComputer nominalGdpComputer;  
-	protected AveragePriceComputer avpComputer; 
+	protected AveragePriceComputer cAvpComputer;
+	protected AveragePriceComputer kAvpComputer;
+	protected AveragePriceAllProducersComputer avpAllProdComputer; 
+
 	protected double wageBill;
 	protected double totInterestsBonds;
 	protected RandomEngine prng;
@@ -176,10 +179,22 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 		this.setAggregateValue(StaticValues.LAG_NOMINALGDP, 
 				nominalGdpComputer.computeVariable(sim));
 		this.setAggregateValue(StaticValues.LAG_INFLATION, 
-				avpComputer.computeVariable(sim));
+				cAvpComputer.computeVariable(sim));
 		double unemployment = this.getAggregateValue(StaticValues.LAG_AGGUNEMPLOYMENT, 0);
 		double nominalGDP = this.getAggregateValue(StaticValues.LAG_NOMINALGDP, 0);
-		double inflation = this.getAggregateValue(StaticValues.LAG_INFLATION, 0);
+		//double inflation = this.getAggregateValue(StaticValues.LAG_INFLATION, 0);
+		
+		this.setAggregateValue(StaticValues.LAG_ALLPRICE, 
+				avpAllProdComputer.computeVariable(sim));
+		this.setAggregateValue(StaticValues.LAG_CPRICE, 
+				cAvpComputer.computeVariable(sim));
+		this.setAggregateValue(StaticValues.LAG_KPRICE, 
+				kAvpComputer.computeVariable(sim));
+		
+		double realGDP = nominalGDP/this.getAggregateValue(StaticValues.LAG_ALLPRICE, 0);
+		
+		this.setAggregateValue(StaticValues.LAG_REALGDP, 
+				kAvpComputer.computeVariable(sim));
 		
 		// Calculate real capacity utilization and potential capacity utilization
 		
@@ -206,11 +221,10 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 		
 		double nominalGDPCFirms = nominalGdpComputer.computeCFirmGDP(sim, 1);
 		
-		double realGDPCFirms = nominalGDPCFirms/ inflation;
+		double realGDPCFirms = nominalGDPCFirms/ this.getAggregateValue(StaticValues.LAG_CPRICE, 0);
 		
 		double potentialGDPCFirms = realGDPCFirms/potentialCapUtilizationRatio;
 		
-		double realGDP = nominalGDP / inflation;
 		
 		double potentialGDP =realGDP-realGDPCFirms+potentialGDPCFirms;
 		
@@ -763,15 +777,32 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	/**
 	 * @return the avpComputer
 	 */
-	public AveragePriceComputer getAvpComputer() {
-		return avpComputer;
+	public AveragePriceComputer getCAvpComputer() {
+		return cAvpComputer;
 	}
-
+	
 	/**
 	 * @param avpComputer the avpComputer to set
 	 */
-	public void setAvpComputer(AveragePriceComputer avpComputer) {
-		this.avpComputer = avpComputer;
+	public void setCAvpComputer(AveragePriceComputer cAvpComputer) {
+		this.cAvpComputer = cAvpComputer;
+	}
+
+	
+	public AveragePriceComputer getkAvpComputer() {
+		return kAvpComputer;
+	}
+
+	public void setkAvpComputer(AveragePriceComputer kAvpComputer) {
+		this.kAvpComputer = kAvpComputer;
+	}
+	
+	public AveragePriceAllProducersComputer getAvpAllProdComputer() {
+		return avpAllProdComputer;
+	}
+
+	public void setAvpAllProdComputer(AveragePriceAllProducersComputer avpAllProdComputer) {
+		this.avpAllProdComputer = avpAllProdComputer;
 	}
 	
 	

@@ -94,6 +94,28 @@
 	<property name="reportVariables" ref="nominalGDPReportVariables"/>
 </bean>
 
+<!-- AveragePrice Computer for all producers -->
+<bean id="AveragePriceAllProducersComputer" class="benchmark.report.AveragePriceAllProducersComputer">
+	<property name="populationIds">
+		<list>
+			<util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID" />
+			<util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID" />
+	 	</list>
+	</property>
+	<property name="goodIds">
+		<list>
+			<util:constant static-field="benchmark.StaticValues.SM_CONSGOOD" />
+			<util:constant static-field="benchmark.StaticValues.SM_CAPGOOD" />
+	 	</list>
+	</property>
+	<property name="salesIds">
+		<list>
+			<util:constant static-field="benchmark.StaticValues.LAG_REALSALES" />
+			<util:constant static-field="benchmark.StaticValues.LAG_REALSALES" />
+	 	</list>
+	</property>
+</bean>
+
 <!-- C AveragePrice Report -->
 <bean id="cAvPriceComputer" class="jmab.report.AveragePriceComputer">
 	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID" /></property>

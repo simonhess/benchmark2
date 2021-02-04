@@ -22,6 +22,7 @@ import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.Government;
 import benchmark.agents.GovernmentAntiCyclicalWithInvestment;
 import benchmark.agents.Households;
+import benchmark.report.AveragePriceAllProducersComputer;
 import jmab.agents.CreditSupplier;
 import jmab.agents.DepositSupplier;
 import jmab.agents.GoodSupplier;
@@ -111,6 +112,8 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	private double gr;
 	private double nomGDP;
 	private double infl;
+	
+	private AveragePriceAllProducersComputer avpAllProdComputer;
 
 	/* (non-Javadoc)
 	 * @see jmab.init.MacroAgentInitialiser#initialise(jmab.population.MacroPopulation)
@@ -550,7 +553,12 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		govt.setAggregateValue(StaticValues.LAG_INFLATION, inflation);//TODO
 		govt.setAggregateValue(StaticValues.LAG_AGGCREDIT, csLoans+ksLoans);//TODO
 		govt.setAggregateValue(StaticValues.LAG_NOMINALGDP, nomGDP);//TODO
-		govt.setAggregateValue(StaticValues.LAG_POTENTIALGDP, nomGDP/inflation);//TODO
+		govt.setAggregateValue(StaticValues.LAG_ALLPRICE, 
+				avpAllProdComputer.computeVariable(sim));
+		govt.setAggregateValue(StaticValues.LAG_CPRICE, cPrice);
+		govt.setAggregateValue(StaticValues.LAG_KPRICE, kPrice);
+		govt.setAggregateValue(StaticValues.LAG_REALGDP, nomGDP/govt.getAggregateValue(StaticValues.LAG_ALLPRICE, 0));
+		govt.setAggregateValue(StaticValues.LAG_POTENTIALGDP, govt.getAggregateValue(StaticValues.LAG_REALGDP, 0));
 	}
 
 	/**
@@ -1156,6 +1164,14 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	 */
 	public void setInfl(double infl) {
 		this.infl = infl;
+	}
+
+	public AveragePriceAllProducersComputer getAvpAllProdComputer() {
+		return avpAllProdComputer;
+	}
+
+	public void setAvpAllProdComputer(AveragePriceAllProducersComputer avpAllProdComputer) {
+		this.avpAllProdComputer = avpAllProdComputer;
 	}
 
 }

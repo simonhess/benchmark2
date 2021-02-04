@@ -68,8 +68,10 @@ public class MonetaryTaylor extends AbstractStrategy implements
 	public double computeAdvancesRate() {
 		Population govpop = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.GOVERNMENT_ID);
 		Government gov = (Government) govpop.getAgentList().get(0);
-		// 1. Get inflation
-		double inflation = gov.getAggregateValue(StaticValues.LAG_INFLATION, 1);
+		// 1. Calculate Consumer Price Inflation
+		double lastCPrice = gov.getAggregateValue(StaticValues.LAG_CPRICE, 2);
+		double currentCPrice = gov.getAggregateValue(StaticValues.LAG_CPRICE, 1);
+		double inflation = (currentCPrice-lastCPrice)/lastCPrice;
 		// 2. Get nominal GDP
 		double nominalGDP = gov.getAggregateValue(StaticValues.LAG_NOMINALGDP, 1);
 		// 3. Calculate real GDP 

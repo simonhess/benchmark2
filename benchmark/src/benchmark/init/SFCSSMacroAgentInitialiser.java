@@ -14,6 +14,8 @@
  */
 package benchmark.init;
 
+import java.util.Map;
+
 import benchmark.StaticValues;
 import benchmark.agents.Bank;
 import benchmark.agents.CapitalFirm;
@@ -29,9 +31,11 @@ import jmab.agents.GoodSupplier;
 import jmab.agents.MacroAgent;
 import jmab.agents.SimpleAbstractAgent;
 import jmab.expectations.Expectation;
+import jmab.expectations.PassedValues;
 import jmab.init.AbstractMacroAgentInitialiser;
 import jmab.init.MacroAgentInitialiser;
 import jmab.population.MacroPopulation;
+import jmab.simulations.AbstractMacroSimulation;
 import jmab.simulations.MacroSimulation;
 import jmab.stockmatrix.Bond;
 import jmab.stockmatrix.CapitalGood;
@@ -559,6 +563,18 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		govt.setAggregateValue(StaticValues.LAG_KPRICE, kPrice);
 		govt.setAggregateValue(StaticValues.LAG_REALGDP, nomGDP/govt.getAggregateValue(StaticValues.LAG_ALLPRICE, 0));
 		govt.setAggregateValue(StaticValues.LAG_POTENTIALGDP, govt.getAggregateValue(StaticValues.LAG_REALGDP, 0));
+		
+		// Set lagged values for the second last period
+		
+		AbstractMacroSimulation macroSim = (AbstractMacroSimulation) sim;
+		
+		Map<Integer, PassedValues> passedValues = macroSim.getPassedValues();
+		
+		passedValues.get(StaticValues.LAG_ALLPRICE).addObservation(govt.getAggregateValue(StaticValues.LAG_ALLPRICE, 0)/(1+gr), sim.getRound()-1);
+		passedValues.get(StaticValues.LAG_CPRICE).addObservation(cPrice/(1+gr), sim.getRound()-1);
+		passedValues.get(StaticValues.LAG_KPRICE).addObservation(kPrice/(1+gr), sim.getRound()-1);
+		
+		macroSim.setPassedValues(passedValues);
 	}
 
 	/**

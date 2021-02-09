@@ -162,12 +162,15 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 			determineBondsInterestRate();
 			emitBonds();
 			break;
-		case StaticValues.TIC_UPDATEEXPECTATIONS:
+		case StaticValues.TIC_COMPUTEAGGREGATES:
 			this.updateAggregateVariables();
+			break;
+		case StaticValues.TIC_UPDATEEXPECTATIONS:
+			this.updateExpectations();
 			break;
 		}
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -194,7 +197,7 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 		double realGDP = nominalGDP/this.getAggregateValue(StaticValues.LAG_ALLPRICE, 0);
 		
 		this.setAggregateValue(StaticValues.LAG_REALGDP, 
-				kAvpComputer.computeVariable(sim));
+				realGDP);
 		
 		// Calculate real capacity utilization and potential capacity utilization
 		
@@ -231,6 +234,10 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 		this.setAggregateValue(StaticValues.LAG_POTENTIALGDP, 
 				potentialGDP);
 
+	}
+	
+	protected void updateExpectations() {
+		// TODO Auto-generated method stub
 		this.cleanSM();
 	}
 

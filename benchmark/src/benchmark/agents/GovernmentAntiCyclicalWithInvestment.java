@@ -112,8 +112,11 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 			payWages();
 			payUnemploymentBenefits(event.getSimulationController());
 			break;
-		case StaticValues.TIC_UPDATEEXPECTATIONS:
+		case StaticValues.TIC_COMPUTEAGGREGATES:
 			this.updateAggregateVariables();
+			break;
+		case StaticValues.TIC_UPDATEEXPECTATIONS:
+			this.updateExpectations();
 			break;
 		}
 	}

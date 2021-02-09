@@ -3570,6 +3570,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark.StaticValues.STRATEGY_ADVANCES" />
 					</key>
 				</entry>
+		<entry value-ref="reservesInterestRateStrategy">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.STRATEGY_RESDEPOSITRATE" />
+					</key>
+				</entry>
 		</map>
 		</property>
 		<property name="scheduler" ref="simulationController" />
@@ -3580,6 +3585,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<property name="targetInflation" value="0.02"/>
 				<property name="inflationCoefficient" value="0.05"/>
 				<property name="outputGapCoefficient" value="0.05"/>
+	</bean>
+	
+	<bean id="reservesInterestRateStrategy" scope="prototype"
+		parent="strategy" class="benchmark.strategies.ReservesStatic">
+		<property name="staticReservesRate" value="0.0"/>
 	</bean>
 	
 	<bean id="foldedNormal1" class="jmab.distribution.FoldedNormalDistribution">

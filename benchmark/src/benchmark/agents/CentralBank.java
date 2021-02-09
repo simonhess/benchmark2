@@ -39,6 +39,7 @@ import net.sourceforge.jabm.event.AgentArrivalEvent;
 import net.sourceforge.jabm.event.RoundFinishedEvent;
 import benchmark.StaticValues;
 import benchmark.strategies.MonetaryPolicyStrategy;
+import benchmark.strategies.ReservesRateStrategy;
 
 /**
  * @author Alessandro Caiani and Antoine Godin
@@ -165,14 +166,15 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 			this.determineCBBondsPurchases();
 		else if (event.getTic()==StaticValues.TIC_RESINTERESTS)
 			this.payReservesInterests();
-		if (event.getTic()==StaticValues.TIC_CBPOLICY)
+		if (event.getTic()==StaticValues.TIC_CBPOLICY) {
 			// added new methods where the central bank determines its policies
 			// by determining both the rates on advances & reserves (monetary)
 			// as well as the supply of reserves and QE (moneteray)
 			// , and finally several macroprudential policy tools
 
-			this.determineAdvancesInterestRate()
-			;
+			this.determineAdvancesInterestRate();
+			this.determineReserveDepositInterestRate();
+			}
 	}
 	
 	/**
@@ -181,6 +183,15 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	private void determineAdvancesInterestRate() {
 		MonetaryPolicyStrategy strategy = (MonetaryPolicyStrategy)this.getStrategy(StaticValues.STRATEGY_ADVANCES);
 		this.advancesInterestRate=strategy.computeAdvancesRate();
+		
+	}
+	
+	/**
+	 * This methods lets the central bank update the interest rate it pays to reserve holders
+	 */
+	private void determineReserveDepositInterestRate() {
+		ReservesRateStrategy strategy = (ReservesRateStrategy)this.getStrategy(StaticValues.STRATEGY_RESDEPOSITRATE);
+		this.reserveInterestRate=strategy.computeReservesRate();
 		
 	}
 	

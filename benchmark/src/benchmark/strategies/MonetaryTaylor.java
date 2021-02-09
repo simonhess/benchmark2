@@ -83,15 +83,15 @@ public class MonetaryTaylor extends AbstractStrategy implements
 		// 5. expectedNaturalRate
 		double expectedNaturalRate = agent.getExpectedNaturalRate();
 	
-		// Compute the interest rate according to the taylor rule, TODO replace magic numbers by parameter 1, inflation target & parameter 2
-		double AdvancesRate = inflation + 0.04 + inflationCoefficient*(inflation - targetInflation) + outputGapCoefficient* (Math.log(realGDP) - Math.log(potentialGDP));
+		// Compute the interest rate according to the taylor rule
+		double AdvancesRate = inflation + 0.02 + inflationCoefficient*(inflation - targetInflation) + outputGapCoefficient* (Math.log(realGDP) - Math.log(potentialGDP));
 
 //		System.out.println((Math.log(realGDP) - Math.log(potentialGDP)));
 //		System.out.println("nom GDP: "+nominalGDP);
 //		System.out.println("realGDP: "+realGDP);
 //		System.out.println("potentialGDP: "+potentialGDP);
 //		System.out.println("cAVGPrices: "+currentCPrice);
-//		System.out.println(AdvancesRate);
+//      System.out.println(AdvancesRate);
 		
 		return Math.max(AdvancesRate,0); // return the AdvancesRate
 		/*/

@@ -94,7 +94,7 @@
 	<property name="reportVariables" ref="nominalGDPReportVariables"/>
 </bean>
 
-<!-- AveragePrice Computer for all producers -->
+<!-- Average price of all producers report -->
 <bean id="AveragePriceAllProducersComputer" class="benchmark.report.AveragePriceAllProducersComputer">
 	<property name="populationIds">
 		<list>
@@ -114,6 +114,50 @@
 			<util:constant static-field="benchmark.StaticValues.LAG_REALSALES" />
 	 	</list>
 	</property>
+</bean>
+
+<bean id="AveragePriceAllProducersEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.AVALLPRICEREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="AveragePriceAllProducersTimeSeries"/>
+</bean>
+
+<bean id="AveragePriceAllProducersCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="AveragePriceAllProducersReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="avAllProdPrice" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="AveragePriceAllProducersCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.AVALLPRICEREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="AveragePriceAllProducersCSVReportVariables"/>
+</bean>
+
+<bean id="AveragePriceAllProducersReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="avAllPrice"/>
+</bean>
+
+<bean id="AveragePriceAllProducersTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="AveragePriceAllProducersTimeSeries"/>
+	<property name="chartTitle" value="avAllPrice"/>
+	<property name="rangeAxisLabel" value="avAllPrice"/>
+</bean>
+
+<bean id="AveragePriceAllProducersTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="AveragePriceAllProducersReportVariables"/>
 </bean>
 
 <!-- C AveragePrice Report -->
@@ -3235,6 +3279,9 @@
 
 <bean id="banksSpecificInterestComputer" class="jmab.report.MicroBankSpecificInterest">
 	<property name="banksId"><util:constant static-field="benchmark.StaticValues.BANKS_ID"/></property>
+	<property name="mktId">
+	        <util:constant static-field="benchmark.StaticValues.MKT_CREDIT"/>
+	</property>
 </bean>
 
 <bean id="banksSpecificInterestEventReport" class="jmab.report.MicroSimEventReport">
@@ -5410,6 +5457,110 @@
 <bean id="microInterbankSupplyTimeSeries" class="jmab.report.MicroSeriesReportVariables">
 	<property name="reportVariables" ref="microInterbankSupplyReportVariables"/>
 </bean>
+
+<!--CB RESERVE INTEREST -->
+
+<bean id="cbDepositInterestComputer" class="benchmark.report.BanksDepositInterestComputer">
+	<property name="banksId"><util:constant static-field="benchmark.StaticValues.CB_ID"/></property>
+</bean>
+
+<bean id="cbDepositInterestEventReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.CBRESRATEREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="cbDepositInterestTimeSeries"/>
+</bean>
+
+<bean id="cbDepositInterestCSVReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.CBRESRATEREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="cbDepositInterestCSVReportVariables"/>
+</bean>
+
+<bean id="cbDepositInterestCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="cbDepositInterestReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="cbDepositInterestRate" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="cbDepositInterestReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="name" value="cb Deposit Interest"/>
+	<property name="numberOfSeries" value="10"/>
+</bean>
+
+<bean id="cbDepositInterestTimeSeriesChart" class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="cbDepositInterestTimeSeries"/>
+	<property name="chartTitle" value="cb Deposit Interest "/>
+	<property name="rangeAxisLabel" value="cb"/>
+</bean>
+
+<bean id="cbDepositInterestTimeSeries" class="jmab.report.MicroSeriesReportVariables">
+	<property name="reportVariables" ref="cbDepositInterestReportVariables"/>
+</bean>
+
+<!--BANKS ADVANCES INTEREST-->
+
+<bean id="cbAdvancesInterestComputer" class="jmab.report.MicroBankSpecificInterest">
+	<property name="banksId"><util:constant static-field="benchmark.StaticValues.CB_ID"/></property>
+	<property name="mktId">
+	        <util:constant static-field="benchmark.StaticValues.MKT_ADVANCES"/>
+	</property>
+</bean>
+
+<bean id="cbAdvancesInterestEventReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.CBADVRATEREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="cbAdvancesInterestTimeSeries"/>
+</bean>
+
+<bean id="cbAdvancesInterestCSVReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.CBADVRATEREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="cbAdvancesInterestCSVReportVariables"/>
+</bean>
+
+<bean id="cbAdvancesInterestCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="cbAdvancesInterestReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="cbAdvancesInterestRate" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="cbAdvancesInterestReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="name" value="Banks Specific Interest"/>
+	<property name="numberOfSeries" value="10"/>
+</bean>
+
+<bean id="cbAdvancesInterestTimeSeriesChart" class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="cbAdvancesInterestTimeSeries"/>
+	<property name="chartTitle" value="Banks Specific Interest "/>
+	<property name="rangeAxisLabel" value="Banks"/>
+</bean>
+
+<bean id="cbAdvancesInterestTimeSeries" class="jmab.report.MicroSeriesReportVariables">
+	<property name="reportVariables" ref="cbAdvancesInterestReportVariables"/>
+</bean>
+
 <!-- TFM report -->
 
 <bean id="TFMComputer" class="benchmark.report.TFMComputer">

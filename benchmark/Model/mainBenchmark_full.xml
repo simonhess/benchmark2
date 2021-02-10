@@ -47,6 +47,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="avNetIncomeCSVReport" />
 				<ref bean="giniEventReport" />
 				<ref bean="giniCSVReport" />
+				<ref bean="AveragePriceAllProducersEventReport" />
+				<ref bean="AveragePriceAllProducersCSVReport" />
 				<ref bean="unemploymentEventReport" />
 				<ref bean="unemploymentTimeSeriesChart" />
 				<ref bean="unemploymentCSVReport" />
@@ -224,6 +226,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="microInterbankSupplyCSVReport" />
 				<ref bean="banksDepositInterestEventReport" />
 				<ref bean="banksDepositInterestCSVReport" />
+				<ref bean="cbDepositInterestEventReport" />
+				<ref bean="cbDepositInterestCSVReport" />
+				<ref bean="cbAdvancesInterestEventReport" />
+				<ref bean="cbAdvancesInterestCSVReport" />
 				<ref bean="banksDepositsEventReport" />
 				<ref bean="banksDepositsCSVReport" />
 				<ref bean="govWageBillEventReport" />

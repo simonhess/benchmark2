@@ -25,6 +25,7 @@ import jmab.agents.BondSupplier;
 import jmab.agents.CreditSupplier;
 import jmab.agents.DepositDemander;
 import jmab.agents.DepositSupplier;
+import jmab.agents.InterestRateSetterWithTargets;
 import jmab.agents.MacroAgent;
 import jmab.events.MacroTicEvent;
 import jmab.population.MacroPopulation;
@@ -50,7 +51,7 @@ import benchmark.strategies.ReservesRateStrategy;
 //TODO to be set active in the configuration file using the constructor, the CB is always active.
 //TODO here not considered the possibility that CB buys bonds.
 @SuppressWarnings("serial")
-public class CentralBank extends AbstractBank implements CreditSupplier, DepositSupplier, BondDemander {
+public class CentralBank extends AbstractBank implements CreditSupplier, DepositSupplier, BondDemander, InterestRateSetterWithTargets {
 
 	private double advancesInterestRate;
 	private double reserveInterestRate;
@@ -481,6 +482,35 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 
 	public void setExpectedPotentialGDP(double expectedPotentialGDP) {
 		this.expectedPotentialGDP = expectedPotentialGDP;
+	}
+
+	@Override
+	public double getInterestRate(int mktId) {
+		// TODO Auto-generated method stub
+		switch(mktId){
+		case StaticValues.MKT_ADVANCES:
+			return this.advancesInterestRate;
+		}
+		return 0;
+
+	}
+
+	@Override
+	public double getInterestRateLowerBound(int mktId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getInterestRateUpperBound(int mktId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public double getReferenceVariableForInterestRate(int mktId) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }

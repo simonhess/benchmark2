@@ -165,6 +165,9 @@ public interface StaticValues {
 	public static int TIC_KRSALESEXPERRORREPORT=171;
 	public static int TIC_HHPRICESEXPERRORREPORT=172;
 	public static int TIC_GINIREPORT=173;
+	public static int TIC_AVALLPRICEREPORT=174;
+	public static int TIC_CBADVRATEREPORT=175;
+	public static int TIC_CBRESRATEREPORT=176;
 	
 	// New Interbank TICs:
 	public static int TIC_INTERBANKDEMANDSUPPLY=138;
@@ -449,6 +452,9 @@ public interface StaticValues {
 	public static int KRSALESEXPERRORREPORT_ID=172;
 	public static int HHPRICESEXPERRORREPORT_ID=173;
 	public static int GINIREPORT_ID=174;
+	public static int AVALLPRICEREPORT_ID=175;
+	public static int CBADVRATEREPORT_ID=176;
+	public static int CBRESRATEREPORT_ID=177;
 
 
 	public static int TFM_CONS=0;

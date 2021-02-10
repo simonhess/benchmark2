@@ -19,6 +19,7 @@ import java.util.TreeMap;
 
 import benchmark.StaticValues;
 import benchmark.agents.Bank;
+import jmab.agents.AbstractBank;
 import jmab.population.MacroPopulation;
 import jmab.report.AbstractMicroComputer;
 import jmab.report.MicroMultipleVariablesComputer;
@@ -60,9 +61,9 @@ private int banksId;
 		Population pop = macroPop.getPopulation(banksId);
 		TreeMap<Long,Double> result=new TreeMap<Long,Double>();
 		for (Agent i:pop.getAgents()){
-			Bank bank= (Bank) i;
+			AbstractBank bank= (AbstractBank) i;
 			if (!bank.isDead()){
-				result.put(bank.getAgentId(), (bank.getInterestRate(StaticValues.MKT_DEPOSIT)));
+				result.put(bank.getAgentId(), (bank.getDepositInterestRate(null, 0)));
 			}
 			else{
 				result.put(bank.getAgentId(), Double.NaN);

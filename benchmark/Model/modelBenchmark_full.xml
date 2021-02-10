@@ -3583,6 +3583,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="advancesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.MonetaryTaylor">
 				<property name="targetInflation" value="0.02"/>
+				<property name="naturalRateOfInterest" value="0.02"/>
 				<property name="inflationCoefficient" value="0.05"/>
 				<property name="outputGapCoefficient" value="0.05"/>
 	</bean>

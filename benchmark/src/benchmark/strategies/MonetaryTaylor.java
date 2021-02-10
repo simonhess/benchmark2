@@ -46,6 +46,7 @@ public class MonetaryTaylor extends AbstractStrategy implements
 	private LinkedHashMap<Integer,Integer> goodPassedValueMap;
 	private int governmentPopulationId; // the id of the government
 	private double targetInflation;
+	private double naturalRateOfInterest;
 	private double inflationCoefficient;
 	private double outputGapCoefficient;
 	
@@ -84,7 +85,7 @@ public class MonetaryTaylor extends AbstractStrategy implements
 		double expectedNaturalRate = agent.getExpectedNaturalRate();
 	
 		// Compute the interest rate according to the taylor rule
-		double AdvancesRate = inflation + 0.02 + inflationCoefficient*(inflation - targetInflation) + outputGapCoefficient* (Math.log(realGDP) - Math.log(potentialGDP));
+		double AdvancesRate = inflation + naturalRateOfInterest + inflationCoefficient*(inflation - targetInflation) + outputGapCoefficient* (Math.log(realGDP) - Math.log(potentialGDP));
 
 //		System.out.println((Math.log(realGDP) - Math.log(potentialGDP)));
 //		System.out.println("nom GDP: "+nominalGDP);
@@ -215,6 +216,14 @@ public class MonetaryTaylor extends AbstractStrategy implements
 
 	public void setOutputGapCoefficient(double outputGapCoefficient) {
 		this.outputGapCoefficient = outputGapCoefficient;
+	}
+
+	public double getNaturalRateOfInterest() {
+		return naturalRateOfInterest;
+	}
+
+	public void setNaturalRateOfInterest(double naturalRateOfInterest) {
+		this.naturalRateOfInterest = naturalRateOfInterest;
 	}
 
 

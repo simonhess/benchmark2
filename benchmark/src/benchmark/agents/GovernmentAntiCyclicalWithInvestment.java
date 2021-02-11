@@ -290,11 +290,10 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 	 * 
 	 */
 	private void computeConsumptionDemand() {
-		Deposit deposit = (Deposit) this.getItemsStockMatrix(true, StaticValues.SM_RESERVES).get(1);
-		if(deposit.getValue()>0) {
-		this.demand=deposit.getValue();
-		}
-		else {this.demand=0;}
+		ConsumptionStrategy strategy = (ConsumptionStrategy)this.getStrategy(StaticValues.STRATEGY_CONSUMPTION);
+		this.setDemand(strategy.computeRealConsumptionDemand(), StaticValues.MKT_CONSGOOD);
+		//this.addValue(StaticValues.LAG_CONSUMPTION, this.demand);
+		
 		if (this.demand>0){
 			this.setActive(true, StaticValues.MKT_CONSGOOD);
 		}

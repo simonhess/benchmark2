@@ -3440,6 +3440,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark.StaticValues.STRATEGY_BUYING" />
 					</key> 
 				</entry>
+				<entry value-ref="governmentConsumptionStrategy"> 
+					<key>
+						<util:constant static-field="benchmark.StaticValues.STRATEGY_CONSUMPTION" />
+					</key> 
+				</entry>
 			</map>
 		</property>
 		<property name="scheduler" ref="simulationController" />
@@ -3464,7 +3469,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		class="jmab.strategies.CheapestGoodSupplier">
 	</bean>
 	
-
+	<bean id="governmentConsumptionStrategy" scope="prototype" parent="strategy"
+		class="benchmark.strategies.GovernmentCBProfitConsumptionStrategy">
+	</bean>
+	
 		<!-- The population of CB (only one here)-->
 	<bean id="centralBanksPopulation" class="net.sourceforge.jabm.Population"
 		scope="simulation">

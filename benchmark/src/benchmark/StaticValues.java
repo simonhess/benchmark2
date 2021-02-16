@@ -200,6 +200,9 @@ public interface StaticValues {
 	public static int TIC_MICROCMARKUPREPORT=165;
 	public static int TIC_MICROKMARKUPREPORT=166;
 	
+	public static int TIC_AVLOANINTERESTASKREPORT=167;
+	public static int TIC_AVDEPINTERESTBIDREPORT=168;
+	
 	public static int TIC_POPULATIONHANDLER=1000;
 	public static int TIC_COMPUTEAGGREGATES=1001;
 	public static int TIC_UPDATEEXPECTATIONS=1002;
@@ -455,7 +458,8 @@ public interface StaticValues {
 	public static int AVALLPRICEREPORT_ID=175;
 	public static int CBADVRATEREPORT_ID=176;
 	public static int CBRESRATEREPORT_ID=177;
-
+	public static int AVLOANINTERESTASKREPORT_ID=178;
+    public static int AVDEPINTERESTBIDREPORT_ID=179;
 
 	public static int TFM_CONS=0;
 	public static int TFM_WHH=1;

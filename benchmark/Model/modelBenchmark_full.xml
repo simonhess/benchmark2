@@ -136,6 +136,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="kAvPriceReportTic" />
 				<ref bean="loanAvInterestReportTic" />
 				<ref bean="depAvInterestReportTic" />
+				<ref bean="loanAvInterestAskReportTic" />
+				<ref bean="depAvInterestBidReportTic" />
 				<ref bean="avWageReportTic" />
 	            <ref bean="avNetIncomeReportTic" />
 	            <ref bean="giniReportTic" />
@@ -870,6 +872,20 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AVDEPINTERESTREPORT_ID" /></property>
 	<property name="variableName" value="depAvInterest"/>
 	<property name="computer" ref="depAvInterestComputer"/>
+	</bean>
+	
+	<bean id="loanAvInterestAskReportTic" class="jmab.events.MacroVariableTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AVLOANINTERESTASKREPORT" /></property>
+	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AVLOANINTERESTASKREPORT_ID" /></property>
+	<property name="variableName" value="loanAvInterestAsk"/>
+	<property name="computer" ref="loanAvInterestAskComputer"/>
+	</bean>
+	
+	<bean id="depAvInterestBidReportTic" class="jmab.events.MacroVariableTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AVDEPINTERESTBIDREPORT" /></property>
+	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AVDEPINTERESTBIDREPORT_ID" /></property>
+	<property name="variableName" value="depAvInterestBid"/>
+	<property name="computer" ref="depAvInterestBidComputer"/>
 	</bean>
 	
 	<bean id="avWageReportTic" class="jmab.events.MacroVariableTicEvent">

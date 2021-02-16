@@ -363,6 +363,106 @@
 	<property name="reportVariables" ref="depAvInterestReportVariables"/>
 </bean>
 
+<!-- loan Average interest Ask Report -->
+<bean id="loanAvInterestAskComputer" class="benchmark.report.AverageBankInterestComputer">
+	<property name="banksId"><util:constant static-field="benchmark.StaticValues.BANKS_ID" /></property>
+	<property name="mktId"><util:constant static-field="benchmark.StaticValues.MKT_CREDIT" /></property>
+</bean>
+
+<bean id="loanAvInterestAskEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.AVLOANINTERESTASKREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="loanAvInterestAskTimeSeries"/>
+</bean>
+
+<bean id="loanAvInterestAskCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="loanAvInterestAskReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="banksloanAvInterestAsk" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="loanAvInterestAskCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.AVLOANINTERESTASKREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="loanAvInterestAskCSVReportVariables"/>
+</bean>
+
+<bean id="loanAvInterestAskReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="loanAvInterestAsk"/>
+</bean>
+
+<bean id="loanAvInterestAskTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="loanAvInterestAskTimeSeries"/>
+	<property name="chartTitle" value="loanAvInterestAsk"/>
+	<property name="rangeAxisLabel" value="loanAvInterestAsk"/>
+</bean>
+
+<bean id="loanAvInterestAskTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="loanAvInterestAskReportVariables"/>
+</bean>
+
+<!-- dep Average interest Bid Report -->
+<bean id="depAvInterestBidComputer" class="benchmark.report.AverageBankInterestComputer">
+	<property name="banksId"><util:constant static-field="benchmark.StaticValues.BANKS_ID" /></property>
+	<property name="mktId"><util:constant static-field="benchmark.StaticValues.MKT_DEPOSIT" /></property>
+</bean>
+
+<bean id="depAvInterestBidEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.AVDEPINTERESTBIDREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="depAvInterestBidTimeSeries"/>
+</bean>
+
+<bean id="depAvInterestBidCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="depAvInterestBidReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="banksDepAvInterestBid" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="depAvInterestBidCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.AVDEPINTERESTBIDREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="depAvInterestBidCSVReportVariables"/>
+</bean>
+
+<bean id="depAvInterestBidReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="depAvInterestBid"/>
+</bean>
+
+<bean id="depAvInterestBidTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="depAvInterestBidTimeSeries"/>
+	<property name="chartTitle" value="depAvInterestBid"/>
+	<property name="rangeAxisLabel" value="depAvInterestBid"/>
+</bean>
+
+<bean id="depAvInterestBidTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="depAvInterestBidReportVariables"/>
+</bean>
+
 <!-- av Wage Report -->
 <bean id="avWageComputer" class="benchmark.report.AverageWageComputer">
 	<property name="householdId"><util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" /></property>

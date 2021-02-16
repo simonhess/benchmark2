@@ -37,6 +37,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="loanAvInterestCSVReport" />
 				<ref bean="depAvInterestEventReport" />
 				<ref bean="depAvInterestCSVReport" />
+				<ref bean="loanAvInterestAskEventReport" />
+				<ref bean="loanAvInterestAskCSVReport" />
+				<ref bean="depAvInterestBidEventReport" />
+				<ref bean="depAvInterestBidCSVReport" />
 				<ref bean="avWageEventReport" />
 				<ref bean="avWageCSVReport" />
 				<ref bean="cAggConsCreditEventReport" />

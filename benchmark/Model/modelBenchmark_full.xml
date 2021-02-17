@@ -64,6 +64,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark.StaticValues.LAG_REALGDP" />
 					</key>
 				</entry>
+				<entry value-ref="pastGovTax">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_GOVTAX" />
+					</key>
+				</entry>
 			</map>
 		</property>
 		<property name="markets">
@@ -316,6 +321,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="nbLags" value="4"></property>
 	</bean>
 	<bean id="pastAllPrice" class="jmab.expectations.TreeMapPassedValues"
+		scope="simulation">
+		<property name="nbLags" value="4"></property>
+	</bean>
+	
+	<bean id="pastGovTax" class="jmab.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
@@ -2273,7 +2283,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="capitalTaxesStrategy" scope="prototype" parent="strategy"
-	class="jmab.strategies.ProfitsWealthTaxStrategy">
+	class="benchmark.strategies.ProfitsWealthTaxStrategy">
     <property name="profitTaxRate" ref="profitTaxVal" />
 	<property name="wealthTaxRate" value="0"/>
 	<property name="liquidAssetsId">
@@ -2581,7 +2591,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="consumptionTaxesStrategy" scope="prototype" parent="strategy"
-	class="jmab.strategies.ProfitsWealthTaxStrategy">
+	class="benchmark.strategies.ProfitsWealthTaxStrategy">
 	<property name="profitTaxRate" ref="profitTaxVal" />
 	<property name="wealthTaxRate" value="0"></property>
 	<property name="liquidAssetsId">
@@ -3084,7 +3094,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	
 	<bean id="banksTaxesStrategy" scope="prototype" parent="strategy"
-	class="jmab.strategies.ProfitsWealthTaxStrategy">
+	class="benchmark.strategies.ProfitsWealthTaxStrategy">
 	<property name="profitTaxRate" ref="profitTaxVal" />
 	<property name="wealthTaxRate" value="0"></property>	
 	</bean>
@@ -3342,7 +3352,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="householdsTaxesStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.IncomeWealthTaxStrategy">
+		class="benchmark.strategies.IncomeWealthTaxStrategy">
 		<property name="incomeTaxRate" value="0.18"/>
 		<property name="wealthTaxRate" value="0.0"/>
 	</bean>

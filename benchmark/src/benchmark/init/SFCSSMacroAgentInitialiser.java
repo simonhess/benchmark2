@@ -25,6 +25,9 @@ import benchmark.agents.Government;
 import benchmark.agents.GovernmentAntiCyclicalWithInvestment;
 import benchmark.agents.Households;
 import benchmark.report.AveragePriceAllProducersComputer;
+import benchmark.strategies.FixedShareOfProfitsToPopulationAsShareOfWealthDividends;
+import benchmark.strategies.IncomeWealthTaxStrategy;
+import benchmark.strategies.ProfitsWealthTaxStrategy;
 import jmab.agents.CreditSupplier;
 import jmab.agents.DepositSupplier;
 import jmab.agents.GoodSupplier;
@@ -47,6 +50,7 @@ import jmab.strategies.BestQualityPriceCapitalSupplierWithSwitching;
 import jmab.strategies.CheapestGoodSupplierWithSwitching;
 import jmab.strategies.CheapestLenderWithSwitching;
 import jmab.strategies.MostPayingDepositWithSwitching;
+import jmab.strategies.TaxPayerStrategy;
 import net.sourceforge.jabm.Population;
 import cern.jet.random.Uniform;
 import cern.jet.random.engine.RandomEngine;
@@ -145,6 +149,8 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		int hhPercFirm = hhSize/cSize;
 
 		Uniform distr = new Uniform(-uniformDistr,uniformDistr,prng);
+		// Government tax received
+		double tG = 0;
 
 		//Households
 		double hhDep = this.hhsDep/hhSize;
@@ -166,11 +172,13 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			Deposit dep = new Deposit(hhDep, hh, bank, this.iDep);
 			hh.addItemStockMatrix(dep, true, StaticValues.SM_DEP);
 			bank.addItemStockMatrix(dep, false, StaticValues.SM_DEP);
+			hh.interestPaid(hhDep/(1+this.iDep));
 			
 			//Central Bank Deposit Holdings
 			Deposit res = new Deposit(hhRes,(SimpleAbstractAgent)hh,(SimpleAbstractAgent)cb,this.iReserves);
 			hh.addItemStockMatrix(res, true, StaticValues.SM_RESERVES);
 			cb.addItemStockMatrix(res, false, StaticValues.SM_RESERVES);
+			hh.reservesInterestPaid(hhRes/(1+this.iReserves));
 
 			//Make sure there are no employer
 			hh.setEmployer(null);
@@ -199,6 +207,12 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			cPriceExp.setPassedValues(passedcPrices);
 			hh.addValue(StaticValues.LAG_EMPLOYED,0);
 			hh.addValue(StaticValues.LAG_CONSUMPTION,hhCons*(1+distr.nextDouble()));
+			double tax = hh.getGrossIncome()*((IncomeWealthTaxStrategy)
+					hh.getStrategy(StaticValues.STRATEGY_TAXES)).getIncomeTaxRate()
+					+hh.getNetWealth()*((IncomeWealthTaxStrategy)
+							hh.getStrategy(StaticValues.STRATEGY_TAXES)).getWealthTaxRate();
+			hh.addValue(StaticValues.LAG_TAXES,tax);
+			tG += tax;
 			hh.computeExpectations();
 
 		}
@@ -241,6 +255,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			Deposit dep = new Deposit(kDep, k, bank, this.iDep);
 			k.addItemStockMatrix(dep, true, StaticValues.SM_DEP);
 			bank.addItemStockMatrix(dep, false, StaticValues.SM_DEP);
+			k.interestPaid(kDep/(1+this.iDep));
 			//Set Previous Deposit Supplier
 			MostPayingDepositWithSwitching depositStrategy= (MostPayingDepositWithSwitching) k.getStrategy(StaticValues.STRATEGY_DEPOSIT);
 			DepositSupplier previousBankDeposit= (DepositSupplier) banks.getAgentList().get(bankId);
@@ -250,6 +265,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			Deposit kRes = new Deposit(0,(SimpleAbstractAgent)k,(SimpleAbstractAgent)cb,this.iReserves);
 			k.addItemStockMatrix(kRes, true, StaticValues.SM_RESERVES);
 			cb.addItemStockMatrix(kRes, false, StaticValues.SM_RESERVES);
+			k.reservesInterestPaid(0/(1+this.iReserves));
 
 			//Cash
 			Cash cash = new Cash(0,(SimpleAbstractAgent)k,(SimpleAbstractAgent)cb);
@@ -313,6 +329,12 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 				passedRSales[j][1]=kOutput*(1+distr.nextDouble());
 			}
 			kRSalesExp.setPassedValues(passedRSales);
+			double tax = k.getPassedValue(StaticValues.LAG_PROFITPRETAX, 0)*((ProfitsWealthTaxStrategy)
+					k.getStrategy(StaticValues.STRATEGY_TAXES)).getProfitTaxRate()
+					+k.getPassedValue(StaticValues.LAG_NETWEALTH, 0)*((ProfitsWealthTaxStrategy)
+							k.getStrategy(StaticValues.STRATEGY_TAXES)).getWealthTaxRate();
+			k.addValue(StaticValues.LAG_TAXES,tax);
+			tG += tax;
 			k.computeExpectations();
 		}
 
@@ -371,6 +393,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			Deposit dep = new Deposit(cDep, c, bank, this.iDep);
 			c.addItemStockMatrix(dep, true, StaticValues.SM_DEP);
 			bank.addItemStockMatrix(dep, false, StaticValues.SM_DEP);
+			c.interestPaid(cDep/(1+this.iDep));
 			//Set Previous DepositSupplier
 			MostPayingDepositWithSwitching depositStrategy= (MostPayingDepositWithSwitching) c.getStrategy(StaticValues.STRATEGY_DEPOSIT);
 			DepositSupplier previousDepositSupplier= (DepositSupplier) banks.getAgentList().get(bankId);
@@ -385,6 +408,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			Deposit cRes = new Deposit(0,(SimpleAbstractAgent)c,(SimpleAbstractAgent)cb,this.iReserves);
 			c.addItemStockMatrix(cRes, true, StaticValues.SM_RESERVES);
 			cb.addItemStockMatrix(cRes, false, StaticValues.SM_RESERVES);
+			c.reservesInterestPaid(0/(1+this.iReserves));
 
 			//Loans
 			bankLoanIterator=bankId;
@@ -446,6 +470,13 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 				passedRSales[j][1]=cOutput*(1+distr.nextDouble());
 			}
 			cRSalesExp.setPassedValues(passedRSales);
+			
+			double tax = c.getPassedValue(StaticValues.LAG_PROFITPRETAX, 0)*((ProfitsWealthTaxStrategy)
+					c.getStrategy(StaticValues.STRATEGY_TAXES)).getProfitTaxRate()
+					+c.getPassedValue(StaticValues.LAG_NETWEALTH, 0)*((ProfitsWealthTaxStrategy)
+							c.getStrategy(StaticValues.STRATEGY_TAXES)).getWealthTaxRate();
+			c.addValue(StaticValues.LAG_TAXES,tax);
+			tG += tax;
 
 			c.computeExpectations();
 		}
@@ -509,12 +540,19 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			Expectation bDepExp = b.getExpectation(StaticValues.EXPECTATIONS_DEPOSITS);
 			int nbObs = bDepExp.getNumberPeriod();
 			double[][] passedbDep = new double[nbObs][2];
-			double passedDebValue = bs[1][StaticValues.SM_DEP]*(1+0.05*distr.nextDouble());
+			double passedDebValue = bs[1][StaticValues.SM_DEP]*(1+iDep*distr.nextDouble());
 			for(int j = 0; j<nbObs; j++){
 				passedbDep[j][0]=passedDebValue;
 				passedbDep[j][1]=passedDebValue;
 			}
 			bDepExp.setPassedValues(passedbDep);
+			
+			double tax = b.getPassedValue(StaticValues.LAG_PROFITPRETAX, 0)*((ProfitsWealthTaxStrategy)
+					b.getStrategy(StaticValues.STRATEGY_TAXES)).getProfitTaxRate()
+					+b.getPassedValue(StaticValues.LAG_NETWEALTH, 0)*((ProfitsWealthTaxStrategy)
+							b.getStrategy(StaticValues.STRATEGY_TAXES)).getWealthTaxRate();
+			b.addValue(StaticValues.LAG_TAXES,tax);
+			tG += tax;
 
 			b.computeExpectations();
 		}
@@ -563,6 +601,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		govt.setAggregateValue(StaticValues.LAG_KPRICE, kPrice);
 		govt.setAggregateValue(StaticValues.LAG_REALGDP, nomGDP/govt.getAggregateValue(StaticValues.LAG_ALLPRICE, 0));
 		govt.setAggregateValue(StaticValues.LAG_POTENTIALGDP, govt.getAggregateValue(StaticValues.LAG_REALGDP, 0));
+		govt.setAggregateValue(StaticValues.LAG_GOVTAX, tG);
 		
 		// Set lagged values for the second last period
 		

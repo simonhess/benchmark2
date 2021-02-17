@@ -197,18 +197,18 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	public Item getPayableStock(int idMarket) {
 		switch(idMarket){
 		case StaticValues.MKT_LABOR:
-			// Determine most preferred payment method based on liquidity preferences
-			double preferredPayableStock = Math.max(Math.max(preferredDepositRatio,preferredCashRatio),preferredReserveRatio);
-			if (preferredPayableStock == preferredDepositRatio) {
-			return this.getItemStockMatrix(true, StaticValues.SM_DEP);
-			} else if (preferredPayableStock == preferredCashRatio){
-			return this.getItemStockMatrix(true, StaticValues.SM_CASH);
-			} else if (preferredPayableStock == preferredReserveRatio){
-			return this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-			}
-			else
-			return null;
+			
 		}
+		// Determine most preferred payment method based on liquidity preferences
+		double preferredPayableStock = Math.max(Math.max(preferredDepositRatio,preferredCashRatio),preferredReserveRatio);
+		if (preferredPayableStock == preferredDepositRatio) {
+		return this.getItemStockMatrix(true, StaticValues.SM_DEP);
+		} else if (preferredPayableStock == preferredCashRatio){
+		return this.getItemStockMatrix(true, StaticValues.SM_CASH);
+		} else if (preferredPayableStock == preferredReserveRatio){
+		return this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+		}
+		else
 		return null;
 	}
 

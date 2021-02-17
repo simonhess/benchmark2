@@ -45,7 +45,7 @@ import jmab.stockmatrix.Deposit;
 import jmab.stockmatrix.Item;
 import jmab.strategies.DividendsStrategy;
 import jmab.strategies.FinanceStrategy;
-import jmab.strategies.ProfitsWealthTaxStrategy;
+import benchmark.strategies.ProfitsWealthTaxStrategy;
 import jmab.strategies.SelectSellerStrategy;
 import jmab.strategies.TargetExpectedInventoriesOutputStrategy;
 import net.sourceforge.jabm.agent.Agent;

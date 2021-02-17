@@ -24,6 +24,7 @@ import java.util.List;
 import benchmark.StaticValues;
 import cern.jet.random.engine.RandomEngine;
 import benchmark.report.TotalCreditComputer;
+import benchmark.strategies.FixedShareOfProfitsToPopulationAsShareOfWealthDividends;
 import jmab.agents.BondDemander;
 import jmab.agents.BondSupplier;
 import jmab.agents.LaborDemander;
@@ -40,6 +41,8 @@ import benchmark.report.NominalGDPComputer;
 import jmab.report.UnemploymentRateComputer;
 import jmab.simulations.MacroSimulation;
 import jmab.stockmatrix.Bond;
+import jmab.stockmatrix.CapitalGood;
+import jmab.stockmatrix.ConsumptionGood;
 import jmab.stockmatrix.Deposit;
 import jmab.stockmatrix.Item;
 import jmab.strategies.InterestRateStrategy;
@@ -233,6 +236,36 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 		
 		this.setAggregateValue(StaticValues.LAG_POTENTIALGDP, 
 				potentialGDP);
+		
+		Population cfpop = macroPop.getPopulation(StaticValues.CONSUMPTIONFIRMS_ID);
+		Population kfpop = macroPop.getPopulation(StaticValues.CAPITALFIRMS_ID);
+		Population hhpop = macroPop.getPopulation(StaticValues.HOUSEHOLDS_ID);
+		Population bpop = macroPop.getPopulation(StaticValues.BANKS_ID);
+		
+		double tG = 0;
+		
+		for (Agent i:cfpop.getAgents()){
+			ConsumptionFirm firm= (ConsumptionFirm) i;
+			tG+=firm.getPassedValue(StaticValues.LAG_TAXES, 0);
+		}
+		
+		for (Agent i:kfpop.getAgents()){
+			CapitalFirm firm= (CapitalFirm) i;
+			tG+=firm.getPassedValue(StaticValues.LAG_TAXES, 0);
+		}
+		
+		for (Agent i:hhpop.getAgents()){
+			Households hh= (Households) i;
+			tG+=hh.getPassedValue(StaticValues.LAG_TAXES, 0);
+		}
+		
+		for (Agent i:bpop.getAgents()){
+			Bank b= (Bank) i;
+			tG+=b.getPassedValue(StaticValues.LAG_TAXES, 0);
+		}
+
+		this.setAggregateValue(StaticValues.LAG_GOVTAX, 
+				tG);
 
 	}
 	

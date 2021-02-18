@@ -149,9 +149,10 @@ public class TFMComputer extends AbstractMicroComputer implements
 						invCF+=good.getValue();
 				}
 				double f = firm.getPassedValue(StaticValues.LAG_PROFITAFTERTAX, 0);
-				double div = f*((FixedShareOfProfitsToPopulationAsShareOfWealthDividends) 
-						firm.getStrategy(StaticValues.STRATEGY_DIVIDENDS)).getProfitShare();
-				reCF += f-div;
+				double div = firm.getDividends();
+				if(f>0) {
+					reCF += f-div;
+				}
 				divCF += div;
 				dInventCF+=firm.getPassedValue(StaticValues.LAG_NOMINALINVENTORIES, 0)-firm.getPassedValue(StaticValues.LAG_NOMINALINVENTORIES, 1);
 			}
@@ -167,9 +168,10 @@ public class TFMComputer extends AbstractMicroComputer implements
 				tKF+=firm.getPassedValue(StaticValues.LAG_TAXES, 0);
 				invKF+=firm.getPassedValue(StaticValues.LAG_NOMINALSALES, 0);
 				double f = firm.getPassedValue(StaticValues.LAG_PROFITAFTERTAX, 0);
-				double div = f*((FixedShareOfProfitsToPopulationAsShareOfWealthDividends) 
-						firm.getStrategy(StaticValues.STRATEGY_DIVIDENDS)).getProfitShare();
-				reKF += f-div;
+				double div = firm.getDividends();
+				if(f>0) {
+					reKF += f-div;
+				}
 				divKF += div;
 				
 				dInventKF+=firm.getPassedValue(StaticValues.LAG_NOMINALINVENTORIES, 0)-firm.getPassedValue(StaticValues.LAG_NOMINALINVENTORIES, 1);
@@ -200,9 +202,10 @@ public class TFMComputer extends AbstractMicroComputer implements
 			if (!b.isDead()){
 				tB+=b.getPassedValue(StaticValues.LAG_TAXES, 0);
 				double f = b.getPassedValue(StaticValues.LAG_PROFITAFTERTAX, 0);
-				double div = f*((FixedShareOfProfitsToPopulationAsShareOfWealthDividends) 
-						b.getStrategy(StaticValues.STRATEGY_DIVIDENDS)).getProfitShare();
-				reB += f-div;
+				double div = b.getDividends();
+				if(f>0) {
+					reB += f-div;
+				}
 				divB += div;
 				iBB += b.getBondInterestReceived();
 				iAB += b.getAdvancesInterests();

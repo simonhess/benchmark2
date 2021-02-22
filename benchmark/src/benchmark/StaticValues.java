@@ -250,6 +250,7 @@ public interface StaticValues {
 	public static int LAG_PUBLICDEBT=30;
 	public static int LAG_POTENTIALGDP=31;
 	public static int LAG_GOVTAX=32;
+	public static int LAG_RESERVESINTEREST=33;
 	
 	public static int LAG_CPRICE=32;
 	public static int LAG_KPRICE=33;

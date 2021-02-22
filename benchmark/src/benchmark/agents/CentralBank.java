@@ -161,8 +161,9 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 			}
 			this.setActive(true, StaticValues.MKT_ADVANCES);
 		}
-		else if(event.getTic()==StaticValues.TIC_UPDATEEXPECTATIONS)
-			this.cleanSM();
+		else if(event.getTic()==StaticValues.TIC_UPDATEEXPECTATIONS) {
+			this.updateExpectations();
+		}
 		else if (event.getTic()==StaticValues.TIC_CBBONDSPURCHASES)
 			this.determineCBBondsPurchases();
 		else if (event.getTic()==StaticValues.TIC_RESINTERESTS)
@@ -176,6 +177,14 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 			this.determineAdvancesInterestRate();
 			this.determineReserveDepositInterestRate();
 			}
+	}
+	
+	/**
+	 * Updates the various expectations the central bank is making.
+	 */
+	private void updateExpectations() { 
+		this.addValue(StaticValues.LAG_RESERVESINTEREST, this.reserveInterestRate);
+		this.cleanSM();
 	}
 	
 	/**

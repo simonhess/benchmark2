@@ -3560,6 +3560,14 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				</entry>
 			</map>
 		</property>
+		<property name="passedValues">
+		<map>
+			<entry value-ref="pastResInterest"> 
+				<key>
+				<util:constant static-field="benchmark.StaticValues.LAG_RESERVESINTEREST"/></key></entry>
+			
+		</map>
+		</property>
 		
 		<property name="numberMarkets" value="9" />
 		<property name="numberStocks" value="9" />
@@ -3569,6 +3577,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<!-- From CentralBank class -->
 		<property name="advancesInterestRate" value="0.005"/>
 		<property name="reserveInterestRate" value="0.005" />
+	</bean>
+	
+	<bean id="pastResInterest" class="jmab.expectations.TreeMapPassedValues"
+		scope="prototype">
+		<property name="nbLags" value="4"/>
 	</bean>
 	
 	<bean id="expNaturalRate" class="jmab.expectations.SimpleAdaptiveExpectation"

@@ -580,6 +580,9 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			cb.addItemStockMatrix(bond, true, StaticValues.SM_BONDS);
 			govt.addItemStockMatrix(bond, false, StaticValues.SM_BONDS);
 		}
+		
+		cb.addValue(StaticValues.LAG_RESERVESINTEREST,iReserves);
+		
 		//TODO: Add Aggregate values, we could use the macrosimulation
 		
 		double publicServantsWages = 0;

@@ -120,15 +120,6 @@ public class NominalGDPComputer implements MacroVariableComputer {
 				}
 		}
 		gdpGoodsComponent-=pastInventories;
-		if(governmentPopulationId!=-1){
-			LaborDemander govt = (LaborDemander)macroPop.getPopulation(governmentPopulationId).getAgentList().get(0);
-			for(MacroAgent agent:govt.getEmployees()){
-				LaborSupplier publicServant = (LaborSupplier)agent;
-				publicServantsWages+=publicServant.getWage();
-			}
-			nominalGDP = gdpGoodsComponent+publicServantsWages;
-		}else
-			nominalGDP = gdpGoodsComponent;
 		return nominalGDP;
 		
 	}

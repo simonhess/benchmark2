@@ -592,7 +592,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			publicServantsWages += hh.getWage();
 		}
 		// GDP calculation
-		double nomGDP = publicServantsWages + cSales+ kSales;
+		double nomGDP = publicServantsWages + csSales+ ksSales;
 		
 		govt.setAggregateValue(StaticValues.LAG_AGGUNEMPLOYMENT, 0.08*(1+distr.nextDouble()));//TODO
 		double inflation = infl*(1+distr.nextDouble());

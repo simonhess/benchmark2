@@ -172,13 +172,13 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			Deposit dep = new Deposit(hhDep, hh, bank, this.iDep);
 			hh.addItemStockMatrix(dep, true, StaticValues.SM_DEP);
 			bank.addItemStockMatrix(dep, false, StaticValues.SM_DEP);
-			hh.interestPaid(hhDep/(1+this.iDep));
+			hh.interestPaid(this.iDep*hhDep/(1+gr));
 			
 			//Central Bank Deposit Holdings
 			Deposit res = new Deposit(hhRes,(SimpleAbstractAgent)hh,(SimpleAbstractAgent)cb,this.iReserves);
 			hh.addItemStockMatrix(res, true, StaticValues.SM_RESERVES);
 			cb.addItemStockMatrix(res, false, StaticValues.SM_RESERVES);
-			hh.reservesInterestPaid(hhRes/(1+this.iReserves));
+			hh.reservesInterestPaid(this.iReserves*hhRes/(1+gr));
 
 			//Make sure there are no employer
 			hh.setEmployer(null);
@@ -207,10 +207,8 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			cPriceExp.setPassedValues(passedcPrices);
 			hh.addValue(StaticValues.LAG_EMPLOYED,0);
 			hh.addValue(StaticValues.LAG_CONSUMPTION,hhCons*(1+distr.nextDouble()));
-			double tax = hh.getGrossIncome()*((IncomeWealthTaxStrategy)
-					hh.getStrategy(StaticValues.STRATEGY_TAXES)).getIncomeTaxRate()
-					+hh.getNetWealth()*((IncomeWealthTaxStrategy)
-							hh.getStrategy(StaticValues.STRATEGY_TAXES)).getWealthTaxRate();
+			double tax = (hh.getWage()+hh.getInterestReceived()+(hh.getDividendsReceived()/1+gr))*((IncomeWealthTaxStrategy)
+					hh.getStrategy(StaticValues.STRATEGY_TAXES)).getIncomeTaxRate();
 			hh.addValue(StaticValues.LAG_TAXES,tax);
 			tG += tax;
 			hh.computeExpectations();
@@ -255,7 +253,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			Deposit dep = new Deposit(kDep, k, bank, this.iDep);
 			k.addItemStockMatrix(dep, true, StaticValues.SM_DEP);
 			bank.addItemStockMatrix(dep, false, StaticValues.SM_DEP);
-			k.interestPaid(kDep/(1+this.iDep));
+			k.interestPaid(this.iDep*kDep/(1+gr));
 			//Set Previous Deposit Supplier
 			MostPayingDepositWithSwitching depositStrategy= (MostPayingDepositWithSwitching) k.getStrategy(StaticValues.STRATEGY_DEPOSIT);
 			DepositSupplier previousBankDeposit= (DepositSupplier) banks.getAgentList().get(bankId);
@@ -330,9 +328,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			}
 			kRSalesExp.setPassedValues(passedRSales);
 			double tax = k.getPassedValue(StaticValues.LAG_PROFITPRETAX, 0)*((ProfitsWealthTaxStrategy)
-					k.getStrategy(StaticValues.STRATEGY_TAXES)).getProfitTaxRate()
-					+k.getPassedValue(StaticValues.LAG_NETWEALTH, 0)*((ProfitsWealthTaxStrategy)
-							k.getStrategy(StaticValues.STRATEGY_TAXES)).getWealthTaxRate();
+					k.getStrategy(StaticValues.STRATEGY_TAXES)).getProfitTaxRate();
 			k.addValue(StaticValues.LAG_TAXES,tax);
 			tG += tax;
 			k.computeExpectations();
@@ -393,7 +389,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			Deposit dep = new Deposit(cDep, c, bank, this.iDep);
 			c.addItemStockMatrix(dep, true, StaticValues.SM_DEP);
 			bank.addItemStockMatrix(dep, false, StaticValues.SM_DEP);
-			c.interestPaid(cDep/(1+this.iDep));
+			c.interestPaid(this.iDep*cDep/(1+gr));
 			//Set Previous DepositSupplier
 			MostPayingDepositWithSwitching depositStrategy= (MostPayingDepositWithSwitching) c.getStrategy(StaticValues.STRATEGY_DEPOSIT);
 			DepositSupplier previousDepositSupplier= (DepositSupplier) banks.getAgentList().get(bankId);
@@ -472,9 +468,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			cRSalesExp.setPassedValues(passedRSales);
 			
 			double tax = c.getPassedValue(StaticValues.LAG_PROFITPRETAX, 0)*((ProfitsWealthTaxStrategy)
-					c.getStrategy(StaticValues.STRATEGY_TAXES)).getProfitTaxRate()
-					+c.getPassedValue(StaticValues.LAG_NETWEALTH, 0)*((ProfitsWealthTaxStrategy)
-							c.getStrategy(StaticValues.STRATEGY_TAXES)).getWealthTaxRate();
+					c.getStrategy(StaticValues.STRATEGY_TAXES)).getProfitTaxRate();
 			c.addValue(StaticValues.LAG_TAXES,tax);
 			tG += tax;
 
@@ -548,9 +542,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			bDepExp.setPassedValues(passedbDep);
 			
 			double tax = b.getPassedValue(StaticValues.LAG_PROFITPRETAX, 0)*((ProfitsWealthTaxStrategy)
-					b.getStrategy(StaticValues.STRATEGY_TAXES)).getProfitTaxRate()
-					+b.getPassedValue(StaticValues.LAG_NETWEALTH, 0)*((ProfitsWealthTaxStrategy)
-							b.getStrategy(StaticValues.STRATEGY_TAXES)).getWealthTaxRate();
+					b.getStrategy(StaticValues.STRATEGY_TAXES)).getProfitTaxRate();
 			b.addValue(StaticValues.LAG_TAXES,tax);
 			tG += tax;
 

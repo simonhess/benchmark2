@@ -37,13 +37,8 @@ public class GovernmentConsumptionStrategyNone extends AbstractStrategy
 	 */
 	@Override
 	public double computeRealConsumptionDemand() {
-		GovernmentAntiCyclicalWithInvestment gov= (GovernmentAntiCyclicalWithInvestment) this.getAgent();
-		double demand = 0;
-		Deposit deposit = (Deposit) gov.getItemsStockMatrix(true, StaticValues.SM_RESERVES).get(1);
-		if(deposit.getValue()>0) {
-	    demand=deposit.getValue();
-		}
-		return demand;
+		
+		return 0;
 	}
 
 	@Override

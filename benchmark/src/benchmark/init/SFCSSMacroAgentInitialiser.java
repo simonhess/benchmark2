@@ -118,7 +118,6 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	private RandomEngine prng;
 	private double uniformDistr;
 	private double gr;
-	private double nomGDP;
 	private double infl;
 	
 	private AveragePriceAllProducersComputer avpAllProdComputer;
@@ -582,6 +581,16 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			govt.addItemStockMatrix(bond, false, StaticValues.SM_BONDS);
 		}
 		//TODO: Add Aggregate values, we could use the macrosimulation
+		
+		double publicServantsWages = 0;
+		
+		for(MacroAgent ma: govt.getEmployees()) {
+			Households hh = (Households) ma;
+			publicServantsWages += hh.getWage();
+		}
+		// GDP calculation
+		double nomGDP = publicServantsWages + cSales+ kSales;
+		
 		govt.setAggregateValue(StaticValues.LAG_AGGUNEMPLOYMENT, 0.08*(1+distr.nextDouble()));//TODO
 		double inflation = infl*(1+distr.nextDouble());
 		govt.setAggregateValue(StaticValues.LAG_INFLATION, inflation);//TODO
@@ -1183,20 +1192,6 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	 */
 	public void setCsLoans0(double csLoans0) {
 		this.csLoans0 = csLoans0;
-	}
-
-	/**
-	 * @return the nomGDP
-	 */
-	public double getNomGDP() {
-		return nomGDP;
-	}
-
-	/**
-	 * @param nomGDP the nomGDP to set
-	 */
-	public void setNomGDP(double nomGDP) {
-		this.nomGDP = nomGDP;
 	}
 
 	/**

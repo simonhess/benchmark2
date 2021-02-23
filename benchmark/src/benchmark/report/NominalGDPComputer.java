@@ -120,6 +120,7 @@ public class NominalGDPComputer implements MacroVariableComputer {
 				}
 		}
 		gdpGoodsComponent-=pastInventories;
+		nominalGDP = gdpGoodsComponent;
 		return nominalGDP;
 		
 	}

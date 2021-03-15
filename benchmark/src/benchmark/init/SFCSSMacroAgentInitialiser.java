@@ -51,6 +51,7 @@ import jmab.strategies.CheapestGoodSupplierWithSwitching;
 import jmab.strategies.CheapestLenderWithSwitching;
 import jmab.strategies.MostPayingDepositWithSwitching;
 import jmab.strategies.TaxPayerStrategy;
+import jmab.strategies.DividendsStrategy;
 import net.sourceforge.jabm.Population;
 import cern.jet.random.Uniform;
 import cern.jet.random.engine.RandomEngine;
@@ -150,6 +151,139 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		Uniform distr = new Uniform(-uniformDistr,uniformDistr,prng);
 		// Government tax received
 		double tG = 0;
+		
+		// Calculate dependent variables
+		
+		double kDuration = 20;
+		double kFirmMarkup = 0.075;
+		double kFirmWageShare = 1;
+		double firmsInvTargetShare = 0.1;
+		double kFirmWages = ksEmpl*hhWage;
+
+		
+		// Dependent variables Capital firms
+		
+		CapitalFirm generickFirm = (CapitalFirm) kFirms.getAgentList().get(0);
+		
+		double kFirmTaxRate = ((ProfitsWealthTaxStrategy)generickFirm.getStrategy(StaticValues.STRATEGY_TAXES)).getProfitTaxRate();
+		
+		double kFirmDivRate = ((DividendsStrategy)generickFirm.getStrategy(StaticValues.STRATEGY_DIVIDENDS)).getProfitShare();
+		
+		//A.5
+		double kFirmsRealOutput = csKap/kDuration;
+		
+		//A.1
+		double kFirmLaborProductivity = kFirmsRealOutput/ksEmpl;
+		
+		//A.2
+		double kFirmsUnitCosts = hhWage/kFirmLaborProductivity;
+		
+		//A.3
+		double kProdPrice = (1+kFirmMarkup)* kFirmsUnitCosts;
+		
+		//A.4
+		double kFirmsDeposits = kFirmWageShare*ksEmpl*hhWage;
+		
+		//A.6
+		double kFirmsInv = firmsInvTargetShare*kFirmsRealOutput;
+		
+		//A.7
+
+		double kFirmsProfits = calcKFirmProfits(kFirmsRealOutput, iDep, kFirmsDeposits, gr, kFirmsInv, kFirmsUnitCosts, kFirmWages, iLoans, kProdPrice, kFirmTaxRate, kFirmDivRate);
+		
+		//A.8
+		double kFirmsTax = ((ProfitsWealthTaxStrategy)generickFirm.getStrategy(StaticValues.STRATEGY_TAXES)).getProfitTaxRate() * kFirmsProfits;
+		
+		//A.9
+		double kFirmDiv = ((DividendsStrategy)generickFirm.getStrategy(StaticValues.STRATEGY_DIVIDENDS)).getProfitShare() * (kFirmsProfits*(1-((ProfitsWealthTaxStrategy)generickFirm.getStrategy(StaticValues.STRATEGY_TAXES)).getProfitTaxRate()));
+		
+		//A.10
+		double kFirmLoans = (kFirmsInv*(gr/(1+gr))*kFirmsUnitCosts+kFirmsDeposits*(gr/(1+gr))-(kFirmsProfits-kFirmsTax-kFirmDiv))*(1+gr)/gr;
+		
+		// Dependent variables Consumption firms
+		
+		double cFirmsCapacityUtilization = 0.8;
+		double kProductivity= 1;
+		double cFirmMarkup = 0.319;
+		double cFirmWages = csEmpl*hhWage;
+		
+		ConsumptionFirm generickCFirm = (ConsumptionFirm) cFirms.getAgentList().get(0);
+		
+		double cFirmTaxRate = ((ProfitsWealthTaxStrategy)generickCFirm.getStrategy(StaticValues.STRATEGY_TAXES)).getProfitTaxRate();
+		
+		double cFirmDivRate = ((DividendsStrategy)generickCFirm.getStrategy(StaticValues.STRATEGY_DIVIDENDS)).getProfitShare();
+		
+		
+		//A.17
+		double cFirmsRealOutput = csKap* cFirmsCapacityUtilization*kProductivity;
+		
+		//A.11
+		
+		double kLaborRatio = cFirmsRealOutput/csEmpl*kProductivity;
+		
+		//A.12
+		
+		double cFirmsVariableCosts = csEmpl*hhWage/cFirmsRealOutput;
+		
+		//A.13
+		
+		double cAmortizationTerm = 0;
+
+		
+		for(int i = 1; i<=kDuration;i++) {
+			cAmortizationTerm += 1/Math.pow((1+gr), i);
+		}
+		
+		double cAmortizationCosts = kProdPrice*csKap/Math.pow(kDuration, 2)*cAmortizationTerm;
+		
+		double cFirmsUnitCosts = (csEmpl*hhWage+cAmortizationCosts)/cFirmsRealOutput; 
+		
+		//A.14
+		
+		double cAmortizationVariable = 0;
+		
+		for(int i = 1; i<=kDuration;i++) {
+			cAmortizationVariable += i/Math.pow((1+gr), i);
+		}
+		
+		double cFirmsKStock = csKap/Math.pow(kDuration, 2)*cAmortizationVariable;
+		
+		//A.15
+		
+		double cProdPrice = (1+cFirmMarkup)* cFirmsVariableCosts;
+		
+		//A.16
+		
+		double cFirmsDeposits = kFirmWageShare*cFirmWages;
+		
+		
+		//A.18
+		double cFirmsInv = firmsInvTargetShare*cFirmsRealOutput;
+		
+		
+		//A.19
+		
+		double cFirmsProfits = this.calcCFirmProfits(cFirmsRealOutput, iDep, cFirmsDeposits, gr,
+				cFirmsInv, cFirmsUnitCosts, cFirmWages, iLoans, cProdPrice,
+				cFirmTaxRate, cFirmDivRate, kFirmsRealOutput, kProdPrice, cAmortizationCosts);
+		
+		//A.20
+		
+		double cFirmsTax = cFirmTaxRate * cFirmsProfits;
+		
+		//A.21
+
+		double cFirmDiv = cFirmDivRate * cFirmsProfits*(1-cFirmTaxRate);
+		
+		//A.22
+		
+		double cFirmLoans = ((kFirmsRealOutput*kProdPrice)+cFirmsInv*(gr/(1+gr))*cFirmsUnitCosts+cFirmsDeposits*(gr/(1+gr))-(cFirmsProfits-cFirmsTax-cFirmDiv)-cAmortizationCosts)*(1+gr)/gr;	
+		
+		// Dependent variables banks
+		
+		// Dependent variables households
+		
+		// Dependent variables Government
 
 		//Households
 		double hhDep = this.hhsDep/hhSize;
@@ -1218,5 +1352,60 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	public void setAvpAllProdComputer(AveragePriceAllProducersComputer avpAllProdComputer) {
 		this.avpAllProdComputer = avpAllProdComputer;
 	}
+	
+	public double calcKFirmProfits(double kFirmsRealOutput, double iDep, double kFirmsDeposits, double gr,
+			double kFirmsInv, double kFirmsUnitCosts, double kFirmWages, double iLoans, double kProdPrice,
+			double kFirmTaxRate, double kFirmDivRate) {
+		//double a = kFirmsProfit;
+		double c = kFirmsRealOutput;
+		double d = iDep;
+		double z = kFirmsDeposits;
+		double f = gr;
+		double g = kFirmsInv;
+		double h = kFirmsUnitCosts;
+		double i = kFirmWages;
+		double j = iLoans;
+		double b = kProdPrice;
 
+		double l = kFirmTaxRate;
+		double m = kFirmDivRate;
+
+		double a = (b*c*Math.pow(f,2)+Math.pow(f,2)*g*h-f*g*h*j+b*c*f+d*f*z-Math.pow(f,2)*i-f*j*z-f*i)/(-f*j*l*m+f*j*l+f*j*m-j*l*m+Math.pow(f,2)-f*j+j*l+j*m+f-j);
+
+		
+	    return a;
+	}
+
+	public double calcCFirmProfits(double cFirmsRealOutput, double iDep, double cFirmsDeposits, double gr,
+			double cFirmsInv, double cFirmsUnitCosts, double cFirmWages, double iLoans, double cProdPrice,
+			double cFirmTaxRate, double cFirmDivRate, double kFirmsRealOutput, double kProdPrice, double cAmortizationCosts) {
+		//double a = kFirmsProfit;
+		double b = cProdPrice;
+		double c = cFirmsRealOutput;
+		double d = iDep;
+		double z = cFirmsDeposits;
+		double f = gr;
+		double g = cFirmsInv;
+		double h = cFirmsUnitCosts;
+		double i = cFirmWages;
+		double j = iLoans;
+
+		double l = cFirmTaxRate;
+		double m = cFirmDivRate;
+		
+		double y = cAmortizationCosts;
+		
+		double n = kFirmsRealOutput;
+				
+		double o = kProdPrice;
+
+		double a=(b*c*Math.pow(f,2)+Math.pow(f,2)*g*h-f*g*h*j-f*j*n*o+b*c*f+d*f*z-Math.pow(f,2)*i-Math.pow(f,2)*y+f*j*y-f*j*z-j*n*o-f*i-f*y+j*y)
+				/(-f*j*l*m+f*j*l+f*j*m-j*l*m+Math.pow(f,2)-f*j+j*l+j*m+f-j);
+
+		
+		
+		
+	    return a;
+	}
+	
 }

@@ -161,12 +161,15 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 		Item deposit=this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
 		Item depositSeign = this.getItemsStockMatrix(true, StaticValues.SM_RESERVES).get(1);
 		CentralBank cb=(CentralBank) deposit.getLiabilityHolder();
-		if(cb.getCBProfits()>0) {
-		depositSeign.setValue(depositSeign.getValue()+cb.getCBProfits());
+		double interestSeigniorage = cb.getCBProfits()-cb.getBondInterestsReceived(); 
+		double interestBonds = cb.getBondInterestsReceived();
+		// store interest seigniorage at separate reserve account
+		if(interestSeigniorage > 0) {
+			depositSeign.setValue(depositSeign.getValue()+interestSeigniorage);
+			deposit.setValue(deposit.getValue()+interestBonds);
 		}else {
 			deposit.setValue(deposit.getValue()+cb.getCBProfits());
 		}
-		
 		profitsFromCB=cb.getCBProfits();
 	}
 

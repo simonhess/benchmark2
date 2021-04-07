@@ -39,6 +39,7 @@ import jmab.simulations.TwoStepMarketSimulation;
 import jmab.stockmatrix.Bond;
 import jmab.stockmatrix.Cash;
 import jmab.stockmatrix.Deposit;
+import jmab.stockmatrix.InterestBearingItem;
 import jmab.stockmatrix.Item;
 import jmab.stockmatrix.Loan;
 import jmab.strategies.BankruptcyStrategy;
@@ -214,7 +215,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 				this.liquidityRatio=0;
 			}
 			else{
-			this.liquidityRatio=reservesValue/depositsValue;
+			this.liquidityRatio=this.getNetLiquidity()/depositsValue;
 			}
 			double outstandingLoans=0;
 			for (Item i:this.getItemsStockMatrix(true, StaticValues.SM_LOAN)){
@@ -841,7 +842,31 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		case StaticValues.MKT_CREDIT:
 			return Double.POSITIVE_INFINITY;
 		case StaticValues.MKT_DEPOSIT:
-			return this.advancesInterestRate-this.targetedLiquidityRatio*this.fundingRate+this.targetedLiquidityRatio*this.reserveInterestRate;
+			
+			// Calculate external funding costs
+			double interestPay=0;
+			double totValue=0;
+			List<Item> liabilities = this.getItemsStockMatrix(false, StaticValues.SM_ADVANCES);
+				for(Item item:liabilities){
+					InterestBearingItem liability = (InterestBearingItem) item;
+					interestPay += liability.getInterestRate()*liability.getValue();
+					totValue +=liability.getValue();
+				}
+			liabilities = this.getItemsStockMatrix(false, StaticValues.SM_INTERBANK);
+				for(Item item:liabilities){
+					InterestBearingItem liability = (InterestBearingItem) item;
+					interestPay += liability.getInterestRate()*liability.getValue();
+					totValue +=liability.getValue();
+				}
+			
+			double externalFundingRate;
+			if(totValue==0) {
+				externalFundingRate = 0;
+			}else {
+				externalFundingRate = interestPay/totValue;
+			}
+			
+			return this.advancesInterestRate-Math.max(0,Math.round(this.targetedLiquidityRatio * 100.0) / 100.0-Math.round(Math.max(0, this.liquidityRatio) * 100.0) / 100.0)*externalFundingRate+this.targetedLiquidityRatio*this.reserveInterestRate;
 		case StaticValues.MKT_INTERBANK:
 			return this.advancesInterestRate;
 		}
@@ -1516,5 +1541,32 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			}
 		double excessLiquidity = reservesValue+interbankLoansGiven-interbankLoansReceived-advValue-this.getTargetedLiquidityRatio()*depositsValue;
 		return excessLiquidity;
+	}
+	
+	public double getNetLiquidity() {
+		double advValue = 0;
+		List<Item> loans=this.getItemsStockMatrix(false, StaticValues.SM_ADVANCES);
+		for(int i=0;i<loans.size();i++){
+			Loan loan=(Loan)loans.get(i);
+			advValue+=loan.getValue();
+			}
+		double interbankLoansReceived = 0;
+		List<Item> loansReceived=this.getItemsStockMatrix(false, StaticValues.SM_INTERBANK);
+		for(int i=0;i<loansReceived.size();i++){
+			Loan loan=(Loan)loansReceived.get(i);
+			interbankLoansReceived+=loan.getValue();
+			}
+		double interbankLoansGiven = 0;
+		List<Item> loansGiven=this.getItemsStockMatrix(true, StaticValues.SM_INTERBANK);
+		for(int i=0;i<loansGiven.size();i++){
+			Loan loan=(Loan)loansGiven.get(i);
+			interbankLoansGiven+=loan.getValue();
+			}
+		double reservesValue=0;
+		for(Item i:this.getItemsStockMatrix(true, StaticValues.SM_RESERVES)){
+			reservesValue+=i.getValue();
+			}
+		double liquidity = reservesValue+interbankLoansGiven-interbankLoansReceived-advValue;
+		return liquidity;
 	}
 }

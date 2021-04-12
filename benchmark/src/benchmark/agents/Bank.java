@@ -221,6 +221,10 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			for (Item i:this.getItemsStockMatrix(true, StaticValues.SM_LOAN)){
 				outstandingLoans+=i.getValue();
 			}
+			double outstandingInterbankLoans=0;
+			for (Item i:this.getItemsStockMatrix(true, StaticValues.SM_INTERBANK)){
+				outstandingInterbankLoans+=i.getValue();
+			}
 			//ALE HAI AGGIUNTO QUESTO IL 24/1/2015
 			if (Math.floor(outstandingLoans)==0){
 				this.capitalRatio=0;
@@ -228,7 +232,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			}
 			else {
 				this.capitalRatio=this.getPassedValue(StaticValues.LAG_NETWEALTH, 1)/outstandingLoans;
-				this.CapitalAdequacyRatio=this.getPassedValue(StaticValues.LAG_NETWEALTH, 1)/outstandingLoans;
+				this.CapitalAdequacyRatio=this.getPassedValue(StaticValues.LAG_NETWEALTH, 1)/(outstandingLoans+outstandingInterbankLoans);
 			}
 			break;
 		case StaticValues.TIC_DEPINTERESTS:

@@ -87,6 +87,8 @@ public class MonetaryTaylor extends AbstractStrategy implements
 		// Compute the interest rate according to the taylor rule
 		double AdvancesRate = inflation + naturalRateOfInterest + inflationCoefficient*(inflation - targetInflation) + outputGapCoefficient* (Math.log(realGDP) - Math.log(potentialGDP));
 
+		AdvancesRate = (double)Math.round(AdvancesRate * 10000d) / 10000d;
+		
 //		System.out.println((Math.log(realGDP) - Math.log(potentialGDP)));
 //		System.out.println("nom GDP: "+nominalGDP);
 //		System.out.println("realGDP: "+realGDP);

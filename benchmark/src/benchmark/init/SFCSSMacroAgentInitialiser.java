@@ -57,68 +57,116 @@ import cern.jet.random.Uniform;
 import cern.jet.random.engine.RandomEngine;
 
 /**
- * @author Alessandro Caiani and Antoine Godin
+ * @author Alessandro Caiani and Antoine Godin & Simon Hess
  *
  */
 public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser implements MacroAgentInitialiser{
 
+	//Exogenous values
+	
+	private double hhWage;
+	private double gr;
+	private int hhsSize;
+	
+	private int csEmpl;
+    private int ksEmpl;
+	
+	private double inventoryShare;
+	private int csKap;
+	private int capitalDuration;
+	private double capacityUtilization;
+	private double capitalProductivity;
+
+	private double unemploymentBenefit;
+	
+	private int loanLength;
+    private double iDep;
+	private double iBonds;
+	private double iAdv;
+	private double targetedLiquidityRatio;
+	private double iReserves;
+	private double DISReserveRatio;
+	private double targetCapacityUtlization;
+
+	// Steady State values
+	
+	// kFirms
+	private int ksOutput;
+	private double kLaborProductivity;
+	private double kUnitCost;
+	private double kPrice;
+	private int ksInv;
+	private double ksProfits;
+	private double ksTax;
+	private double ksDiv;
+	private double ksLoans;
+	private double ksDep;
+	private double iLoans;
+	
+	// cFirms
+	private int csOutput;
+	private double cUnitCost;
+	private double cPrice;
+	private int csInv;
+	private double csProfits;
+	private double csDep;
+	private double capitalLaborRatio;
+	private double cNomKap;
+	private double csTax;
+	private double csDiv;
+	private double csLoans;
+	
+    // hhs, banks and gov
+	private int totEmpl;
+	private double hhsNI;
+	private double hhsDep;
+	private double bsDiv;
+	private double hhsTax;
+	private double hhsNomCons;
+	private double hhsRealCons;
+	private double hhsNW;
+	private double bsProfits;
+	private double bsBonds;
+	private double bsTax;
+	private double bsAdv;
+	private double bsNW;
+	private double bsRes;
+	private double cbBonds;
+	private double govBonds;
+	private int gEmpl;
+	private double cbProfits;
+	private double seigniorage;
+	private double gRes;
+	
+	// Additional parameters
+	private double csLoans0;
+	private double ksLoans0;
+	private double csOCF;
+	private double targetCashFlow;
+	private double ksOCF;
+	private double riskAversionK;
+	private double riskAversionC;
+
+
 	//Stocks
 	//Households
-	private double hhsDep;
 	private double hhsCash;
 	private double hhsRes;
 	//Cap Firms
-	private double ksDep;
-	private int ksInv;
-	private double ksLoans;
-	private double ksLoans0;
-	//Cons Firms
-	private double csDep;
-	private int csInv;
-	private double csLoans;
-	private double csLoans0;
 
-	private int csKap;
+	//Cons Firms
+
 	//Banks
-	private double bsBonds;
-	private double bsRes;
-	private double bsAdv;
+
 	private double bsCash;
 
 	//Flows
 	//Households
 	private double dividendsReceived;
-	//private double hhsInc;
-	private double hhWage;
-	//CapFirms
-	private int ksEmpl;
-	private double ksProfits;
-	private double kPrice;
-	private double kUnitCost;
-	private double ksOCF;
-	private int ksOutput;
-	//ConsFirms
-	private int csEmpl;
-	private double csProfits;
-	private double cPrice;
-	private double cUnitCost;
-	private double csOCF;
-	private int csOutput;
-	//Banks
-	private double iLoans;
-	private double iDep;
-	private double bsProfits;
-	//Government
-	private int gEmpl;
-	private double iBonds;
-	//Central Bank
-	private double iAdv;
-	private double cbBonds;
-	private double iReserves;
+
 	//RandomEngine
 	private RandomEngine prng;
 	private double uniformDistr;
-	private double gr;
 	private double infl;
 	
 	private AveragePriceAllProducersComputer avpAllProdComputer;
@@ -1196,75 +1244,284 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		this.avpAllProdComputer = avpAllProdComputer;
 	}
 	
-	public double calcKFirmProfits(double kFirmsRealOutput, double iDep, double kFirmsDeposits, double gr,
-			double kFirmsInv, double kFirmsUnitCosts, double kFirmWages, double iLoans, double kProdPrice,
-			double kFirmTaxRate, double kFirmDivRate) {
-		//double a = kFirmsProfit;
-		double c = kFirmsRealOutput;
-		double d = iDep;
-		double z = kFirmsDeposits;
-		double f = gr;
-		double g = kFirmsInv;
-		double h = kFirmsUnitCosts;
-		double i = kFirmWages;
-		double j = iLoans;
-		double b = kProdPrice;
-
-		double l = kFirmTaxRate;
-		double m = kFirmDivRate;
-
-		double a = (b*c*Math.pow(f,2)+Math.pow(f,2)*g*h-f*g*h*j+b*c*f+d*f*z-Math.pow(f,2)*i-f*j*z-f*i)/(-f*j*l*m+f*j*l+f*j*m-j*l*m+Math.pow(f,2)-f*j+j*l+j*m+f-j);
-
-		
-	    return a;
+	public double getInventoryShare() {
+		return inventoryShare;
 	}
 
-	public double calcCFirmProfits(double cFirmsRealOutput, double iDep, double cFirmsDeposits, double gr,
-			double cFirmsInv, double cFirmsUnitCosts, double cFirmWages, double iLoans, double cProdPrice,
-			double cFirmTaxRate, double cFirmDivRate, double kFirmsRealOutput, double kProdPrice, double cAmortizationCosts) {
-		//double a = kFirmsProfit;
-		double b = cProdPrice;
-		double c = cFirmsRealOutput;
-		double d = iDep;
-		double z = cFirmsDeposits;
-		double f = gr;
-		double g = cFirmsInv;
-		double h = cFirmsUnitCosts;
-		double i = cFirmWages;
-		double j = iLoans;
-
-		double l = cFirmTaxRate;
-		double m = cFirmDivRate;
-		
-		double y = cAmortizationCosts;
-		
-		double n = kFirmsRealOutput;
-				
-		double o = kProdPrice;
-
-		double a=(b*c*Math.pow(f,2)+Math.pow(f,2)*g*h-f*g*h*j-f*j*n*o+b*c*f+d*f*z-Math.pow(f,2)*i-Math.pow(f,2)*y+f*j*y-f*j*z-j*n*o-f*i-f*y+j*y)
-				/(-f*j*l*m+f*j*l+f*j*m-j*l*m+Math.pow(f,2)-f*j+j*l+j*m+f-j);
-
-		
-		
-		
-	    return a;
+	public void setInventoryShare(double inventoryShare) {
+		this.inventoryShare = inventoryShare;
 	}
 
-	public double getKsRealOutput() {
+	public int getCapitalDuration() {
+		return capitalDuration;
+	}
+
+	public void setCapitalDuration(int capitalDuration) {
+		this.capitalDuration = capitalDuration;
+	}
+
+	public double getCapacityUtilization() {
+		return capacityUtilization;
+	}
+
+	public void setCapacityUtilization(double capacityUtilization) {
+		this.capacityUtilization = capacityUtilization;
+	}
+
+	public double getCapitalProductivity() {
+		return capitalProductivity;
+	}
+
+	public void setCapitalProductivity(double capitalProductivity) {
+		this.capitalProductivity = capitalProductivity;
+	}
+
+	public int getLoanLength() {
+		return loanLength;
+	}
+
+	public void setLoanLength(int loanLength) {
+		this.loanLength = loanLength;
+	}
+
+	public double getUnemploymentBenefit() {
+		return unemploymentBenefit;
+	}
+
+	public void setUnemploymentBenefit(double unemploymentBenefit) {
+		this.unemploymentBenefit = unemploymentBenefit;
+	}
+
+	public int getHhsSize() {
+		return hhsSize;
+	}
+
+	public void setHhsSize(int hhsSize) {
+		this.hhsSize = hhsSize;
+	}
+
+	public double getTargetedLiquidityRatio() {
+		return targetedLiquidityRatio;
+	}
+
+	public void setTargetedLiquidityRatio(double targetedLiquidityRatio) {
+		this.targetedLiquidityRatio = targetedLiquidityRatio;
+	}
+
+	public double getDISReserveRatio() {
+		return DISReserveRatio;
+	}
+
+	public void setDISReserveRatio(double dISReserveRatio) {
+		DISReserveRatio = dISReserveRatio;
+	}
+
+	public double getTargetCapacityUtlization() {
+		return targetCapacityUtlization;
+	}
+
+	public void setTargetCapacityUtlization(double targetCapacityUtlization) {
+		this.targetCapacityUtlization = targetCapacityUtlization;
+	}
+
+	public int getKsOutput() {
 		return ksOutput;
 	}
 
-	public void setKsRealOutput(int ksRealOutput) {
-		this.ksOutput = ksRealOutput;
+	public void setKsOutput(int ksOutput) {
+		this.ksOutput = ksOutput;
 	}
 
-	public double getCsRealOutput() {
+	public double getkLaborProductivity() {
+		return kLaborProductivity;
+	}
+
+	public void setkLaborProductivity(double kLaborProductivity) {
+		this.kLaborProductivity = kLaborProductivity;
+	}
+
+	public double getKsTax() {
+		return ksTax;
+	}
+
+	public void setKsTax(double ksTax) {
+		this.ksTax = ksTax;
+	}
+
+	public double getKsDiv() {
+		return ksDiv;
+	}
+
+	public void setKsDiv(double ksDiv) {
+		this.ksDiv = ksDiv;
+	}
+
+	public int getCsOutput() {
 		return csOutput;
 	}
 
-	public void setCsRealOutput(int csRealOutput) {
-		this.csOutput = csRealOutput;
+	public void setCsOutput(int csOutput) {
+		this.csOutput = csOutput;
+	}
+
+	public double getCapitalLaborRatio() {
+		return capitalLaborRatio;
+	}
+
+	public void setCapitalLaborRatio(double capitalLaborRatio) {
+		this.capitalLaborRatio = capitalLaborRatio;
+	}
+
+	public double getcNomKap() {
+		return cNomKap;
+	}
+
+	public void setcNomKap(double cNomKap) {
+		this.cNomKap = cNomKap;
+	}
+
+	public double getCsTax() {
+		return csTax;
+	}
+
+	public void setCsTax(double csTax) {
+		this.csTax = csTax;
+	}
+
+	public double getCsDiv() {
+		return csDiv;
+	}
+
+	public void setCsDiv(double csDiv) {
+		this.csDiv = csDiv;
+	}
+
+	public int getTotEmpl() {
+		return totEmpl;
+	}
+
+	public void setTotEmpl(int totEmpl) {
+		this.totEmpl = totEmpl;
+	}
+
+	public double getHhsNI() {
+		return hhsNI;
+	}
+
+	public void setHhsNI(double hhsNI) {
+		this.hhsNI = hhsNI;
+	}
+
+	public double getBsDiv() {
+		return bsDiv;
+	}
+
+	public void setBsDiv(double bsDiv) {
+		this.bsDiv = bsDiv;
+	}
+
+	public double getHhsTax() {
+		return hhsTax;
+	}
+
+	public void setHhsTax(double hhsTax) {
+		this.hhsTax = hhsTax;
+	}
+
+	public double getHhsNomCons() {
+		return hhsNomCons;
+	}
+
+	public void setHhsNomCons(double hhsNomCons) {
+		this.hhsNomCons = hhsNomCons;
+	}
+
+	public double getHhsRealCons() {
+		return hhsRealCons;
+	}
+
+	public void setHhsRealCons(double hhsRealCons) {
+		this.hhsRealCons = hhsRealCons;
+	}
+
+	public double getHhsNW() {
+		return hhsNW;
+	}
+
+	public void setHhsNW(double hhsNW) {
+		this.hhsNW = hhsNW;
+	}
+
+	public double getBsTax() {
+		return bsTax;
+	}
+
+	public void setBsTax(double bsTax) {
+		this.bsTax = bsTax;
+	}
+
+	public double getBsNW() {
+		return bsNW;
+	}
+
+	public void setBsNW(double bsNW) {
+		this.bsNW = bsNW;
+	}
+
+	public double getGovBonds() {
+		return govBonds;
+	}
+
+	public void setGovBonds(double govBonds) {
+		this.govBonds = govBonds;
+	}
+
+	public double getCbProfits() {
+		return cbProfits;
+	}
+
+	public void setCbProfits(double cbProfits) {
+		this.cbProfits = cbProfits;
+	}
+
+	public double getSeigniorage() {
+		return seigniorage;
+	}
+
+	public void setSeigniorage(double seigniorage) {
+		this.seigniorage = seigniorage;
+	}
+
+	public double getgRes() {
+		return gRes;
+	}
+
+	public void setgRes(double gRes) {
+		this.gRes = gRes;
+	}
+
+	public double getTargetCashFlow() {
+		return targetCashFlow;
+	}
+
+	public void setTargetCashFlow(double targetCashFlow) {
+		this.targetCashFlow = targetCashFlow;
+	}
+
+	public double getRiskAversionK() {
+		return riskAversionK;
+	}
+
+	public void setRiskAversionK(double riskAversionK) {
+		this.riskAversionK = riskAversionK;
+	}
+
+	public double getRiskAversionC() {
+		return riskAversionC;
+	}
+
+	public void setRiskAversionC(double riskAversionC) {
+		this.riskAversionC = riskAversionC;
 	}
 	
 }

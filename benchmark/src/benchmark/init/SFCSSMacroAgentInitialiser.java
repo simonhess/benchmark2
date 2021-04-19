@@ -92,18 +92,18 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	private double hhWage;
 	//CapFirms
 	private int ksEmpl;
-	private double ksSales;
 	private double ksProfits;
 	private double kPrice;
 	private double kUnitCost;
 	private double ksOCF;
+	private int ksOutput;
 	//ConsFirms
 	private int csEmpl;
-	private double csSales;
 	private double csProfits;
 	private double cPrice;
 	private double cUnitCost;
 	private double csOCF;
+	private int csOutput;
 	//Banks
 	private double iLoans;
 	private double iDep;
@@ -152,11 +152,14 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		// Government tax received
 		double tG = 0;
 		
+		double ksSales = ksOutput*kPrice;
+		double csSales = csOutput*cPrice;
+		
 		//Households
 		double hhDep = this.hhsDep/hhSize;
 		double hhCash = this.hhsCash/hhSize;
 		double hhRes = this.hhsCash/hhSize;
-		double hhCons = this.csSales/(hhSize*cPrice);
+		double hhCons = csSales/(hhSize*cPrice);
 		for(int i = 0; i<hhSize; i++){
 			Households hh = (Households) households.getAgentList().get(i);
 			hh.setDividendsReceived(this.dividendsReceived/hhSize);
@@ -225,7 +228,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		int bankLoanIterator=0;
 		int kEmpl = ksEmpl/kSize;
 		double kProfit=this.ksProfits/kSize;
-		double kSales=this.ksSales/kSize;
+		double kSales=ksSales/kSize;
 		double kOutput=kSales/kPrice;
 		double kOCF=ksOCF/kSize;
 		double lMat=0;
@@ -340,7 +343,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		double cLoan = csLoans0/cSize;
 		int cEmpl = csEmpl/cSize;
 		double cProfit=this.csProfits/cSize;
-		double cSales=this.csSales/cSize;
+		double cSales=csSales/cSize;
 		double cOutput=cSales/cPrice;
 		double cOCF=csOCF/cSize;
 		for(int i = 0 ; i < cSize ; i++){
@@ -839,19 +842,6 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		this.ksEmpl = ksEmpl;
 	}
 
-	/**
-	 * @return the ksSales
-	 */
-	public double getKsSales() {
-		return ksSales;
-	}
-
-	/**
-	 * @param ksSales the ksSales to set
-	 */
-	public void setKsSales(double ksSales) {
-		this.ksSales = ksSales;
-	}
 
 	/**
 	 * @return the ksProfits
@@ -893,20 +883,6 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	 */
 	public void setCsEmpl(int csEmpl) {
 		this.csEmpl = csEmpl;
-	}
-
-	/**
-	 * @return the csSales
-	 */
-	public double getCsSales() {
-		return csSales;
-	}
-
-	/**
-	 * @param csSales the csSales to set
-	 */
-	public void setCsSales(double csSales) {
-		this.csSales = csSales;
 	}
 
 	/**
@@ -1273,6 +1249,22 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		
 		
 	    return a;
+	}
+
+	public double getKsRealOutput() {
+		return ksOutput;
+	}
+
+	public void setKsRealOutput(int ksRealOutput) {
+		this.ksOutput = ksRealOutput;
+	}
+
+	public double getCsRealOutput() {
+		return csOutput;
+	}
+
+	public void setCsRealOutput(int csRealOutput) {
+		this.csOutput = csRealOutput;
 	}
 	
 }

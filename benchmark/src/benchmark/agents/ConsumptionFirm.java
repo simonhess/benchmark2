@@ -938,21 +938,24 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 
 			}
 		}
+		
+		List<Item> capitalStock= this.getItemsStockMatrix(true, StaticValues.SM_CAPGOOD);
+		double amortisationCosts=0;
+		for (Item i: capitalStock){
+			CapitalGood capital= (CapitalGood)i;
+			amortisationCosts+=capital.getPrice()*capital.getQuantity()/capital.getCapitalAmortization();
+		}			
+		//double expectedAverageCosts=(amortisationCosts+expectedVariableCosts)/this.getDesiredOutput();
+		
 		if(this.getDesiredOutput()>0){
-			/*List<Item> capitalStock= this.getItemsStockMatrix(true, StaticValues.SM_CAPGOOD);
-			double amortisationCosts=0;
-			for (Item i: capitalStock){
-				CapitalGood capital= (CapitalGood)i;
-				amortisationCosts+=capital.getPrice()*capital.getQuantity()/capital.getCapitalAmortization();
-			}			
-			double expectedAverageCosts=(amortisationCosts+expectedVariableCosts)/this.getDesiredOutput();
-			//*/
+			
+			
 			double expectedVariableCosts=this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*this.getRequiredWorkers();
 		    if (Double.isNaN(expectedVariableCosts)){
 		    	System.out.println("Error");
 		    }
-		    expectedFixedCosts = totInterests/this.getDesiredOutput();
-			expectedAverageCosts=(expectedVariableCosts)/this.getDesiredOutput()+expectedFixedCosts;
+		    expectedFixedCosts = totInterests+amortisationCosts;
+			expectedAverageCosts=(expectedVariableCosts+expectedFixedCosts)/this.getDesiredOutput();
 			
 		
 		}else{
@@ -1002,8 +1005,8 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 			//if (Double.isNaN(expectedVariableCosts)){
 				//System.out.println("Error");
 			//}
-			expectedFixedCosts = totInterests/inventoriesLeft.getQuantity();
-			expectedAverageCosts=(expectedVariableCosts)/inventoriesLeft.getQuantity()+expectedFixedCosts;
+			expectedFixedCosts = totInterests+amortisationCosts;
+			expectedAverageCosts=(expectedVariableCosts+expectedFixedCosts)/inventoriesLeft.getQuantity();
 		}
 		}
 		expectedVariableCosts=expectedAverageCosts;

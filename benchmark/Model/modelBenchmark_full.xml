@@ -1784,46 +1784,53 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	    class="benchmark.init.SFCSSMacroAgentInitialiser">
 	    <property name="uniformDistr" value="0.0"/>
 		<property name="prng" ref="prng" />
-	
-<property name="hhsDep" value="80704.13311"/>
-<property name="dividendsReceived" value="2376.600118"/>
-<property name="ksDep" value="5000"/>
-<property name="ksInv" value="200"/>
-<property name="ksLoans" value="1298.02106"/>
-<property name="ksLoans0" value="129.5283557"/>
-<property name="csDep" value="25000"/>
-<property name="csInv" value="3200"/>
-<property name="csLoans" value="52194.42973"/>
-<property name="csLoans0" value="5208.435263"/>
-<property name="csKap" value="40000"/>
-<property name="bsBonds" value="38273.5462"/>
-<property name="bsRes" value="28564.58248"/>
-<property name="bsAdv" value="0"/>
-<property name="bsCash" value="0"/>
-<property name="cbBonds" value="28564.58248"/>
-<property name="hhWage" value="5"/>
-<property name="ksEmpl" value="1000"/>
-<property name="ksProfits" value="312.8024025"/>
-<property name="kPrice" value="2.6875"/>
-<property name="kUnitCost" value="2.5"/>
-<property name="csEmpl" value="5000"/>
-<property name="csProfits" value="2208.429577"/>
-<property name="cPrice" value="1.030357291"/>
-<property name="cUnitCost" value="0.936688447"/>
-<property name="iLoans" value="0.0075"/>
-<property name="iDep" value="0.0025"/>
-<property name="bsProfits" value="179.1522275"/>
-<property name="iBonds" value="0.005"/>
-<property name="iAdv" value="0.005"/>
-<property name="iReserves" value="0.005"/>
-<property name="ksOCF" value="189.2146501"/>
-<property name="csOCF" value="2340.255574"/>
-<property name="gr" value="0.0075"/>
-<property name="infl" value="0.0075" />
-<property name="gEmpl" value="1360" />
+		<property name="bsAdv" value="34825.85443027845"/>
+		<property name="bsBonds" value="92164.27330821389"/>
+		<property name="bsCash" value="0"/>
+		<property name="bsProfits" value="87.74376271320186"/>
+		<property name="bsRes" value="34825.85443027845"/>
+		<property name="bsTax" value="15.793877288376335"/>
+		<property name="bsDiv" value="43.16993125489532"/>
+		<property name="cbBonds" value="0"/>
+		<property name="csOutput" value="32000"/>
+		<property name="cPrice" value="1.038532779105787"/>
+		<property name="csDep" value="25000"/>
+		<property name="csEmpl" value="5000"/>
+		<property name="csInv" value="3200"/>
+		<property name="csKap" value="40000"/>
+		<property name="csLoans" value="49301.64770694804"/>
+		<property name="csLoans0" value="4919.76714262564"/>
+		<property name="csOCF" value="2841.1016903126188"/>
+		<property name="csProfits" value="2967.8602105611963"/>
+		<property name="cUnitCost" value="0.9484317617404449"/>
+		<property name="csTax" value="534.2148379010154"/>
+		<property name="csDiv" value="2190.2808353941628"/>
+		<property name="unemploymentBenefit" value="0.437850652699456"/>
+		<property name="gEmpl" value="1360.0000000000002"/>
+		<property name="gRes" value="172.83302446788315"/>
+		<property name="gBonds" value="92164.27330821389"/>
+		<property name="gr" value="0.0075"/>
+		<property name="hhsDep" value="108612.08562324228"/>
+		<property name="hhWage" value="5"/>
+		<property name="iAdv" value="0.005"/>
+		<property name="iBonds" value="0.0025"/>
+		<property name="iDep" value="0.0025"/>
+		<property name="iLoans" value="0.0075"/>
+		<property name="iReserves" value="0"/>
+		<property name="ksOutput" value="2000"/>
+		<property name="kPrice" value="2.69224188959091"/>
+		<property name="ksDep" value="5000"/>
+		<property name="ksEmpl" value="1000"/>
+		<property name="ksInv" value="200"/>
+		<property name="ksLoans" value="1185.104809387129"/>
+		<property name="ksLoans0" value="118.26054448417"/>
+		<property name="ksOCF" value="208.10667603941397"/>
+		<property name="ksProfits" value="391.79725860586314"/>
+		<property name="kUnitCost" value="2.5044110600845673"/>
+		<property name="ksTax" value="70.52350654905537"/>
+		<property name="ksDiv" value="289.146376851127"/>
 
-<property name="csOutput" value="32000"/>
-<property name="ksOutput" value="2000"/>
+	
 
 <property name="avpAllProdComputer" ref="AveragePriceAllProducersComputer"/>
 	</bean>

@@ -22,6 +22,7 @@ import benchmark.agents.CapitalFirm;
 import benchmark.agents.CentralBank;
 import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.Government;
+import benchmark.agents.GovernmentAntiCyclical;
 import benchmark.agents.GovernmentAntiCyclicalWithInvestment;
 import benchmark.agents.Households;
 import benchmark.report.AveragePriceAllProducersComputer;
@@ -76,8 +77,6 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	private int capitalDuration;
 	private double capacityUtilization;
 	private double capitalProductivity;
-
-	private double unemploymentBenefit;
 	
 	private int loanLength;
     private double iDep;
@@ -117,6 +116,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	private double csLoans;
 	
     // hhs, banks and gov
+	private double unemploymentBenefit;
 	private int totEmpl;
 	private double hhsNI;
 	private double hhsDep;
@@ -131,9 +131,10 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	private double bsAdv;
 	private double bsNW;
 	private double bsRes;
+	private double targetedCAR;
 	private double cbBonds;
-	private double govBonds;
 	private int gEmpl;
+	private double gBonds;
 	private double cbProfits;
 	private double seigniorage;
 	private double gRes;
@@ -167,7 +168,6 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	//RandomEngine
 	private RandomEngine prng;
 	private double uniformDistr;
-	private double infl;
 	
 	private AveragePriceAllProducersComputer avpAllProdComputer;
 
@@ -182,7 +182,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		Population kFirms = population.getPopulation(StaticValues.CAPITALFIRMS_ID);
 		Population cFirms = population.getPopulation(StaticValues.CONSUMPTIONFIRMS_ID);
 
-		Government govt = (Government)population.getPopulation(StaticValues.GOVERNMENT_ID).getAgentList().get(0);
+		GovernmentAntiCyclical govt = (GovernmentAntiCyclical)population.getPopulation(StaticValues.GOVERNMENT_ID).getAgentList().get(0);
 		CentralBank cb = (CentralBank)population.getPopulation(StaticValues.CB_ID).getAgentList().get(0);
 
 		int hhSize=households.getSize();
@@ -197,8 +197,6 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		int hhPercFirm = hhSize/cSize;
 
 		Uniform distr = new Uniform(-uniformDistr,uniformDistr,prng);
-		// Government tax received
-		double tG = 0;
 		
 		double ksSales = ksOutput*kPrice;
 		double csSales = csOutput*cPrice;
@@ -207,10 +205,12 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		double hhDep = this.hhsDep/hhSize;
 		double hhCash = this.hhsCash/hhSize;
 		double hhRes = this.hhsCash/hhSize;
-		double hhCons = csSales/(hhSize*cPrice);
+		double hhTax = this.hhsTax/hhSize;
+		double hhDiv = (ksDiv+csDiv+bsDiv)/hhSize;
+		double hhCons = this.hhsRealCons/hhSize;
 		for(int i = 0; i<hhSize; i++){
 			Households hh = (Households) households.getAgentList().get(i);
-			hh.setDividendsReceived(this.dividendsReceived/hhSize);
+			hh.setDividendsReceived(hhDiv);
 
 			//Cash Holdings
 			Cash cash = new Cash(hhCash,(SimpleAbstractAgent)hh,(SimpleAbstractAgent)cb);
@@ -258,10 +258,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			cPriceExp.setPassedValues(passedcPrices);
 			hh.addValue(StaticValues.LAG_EMPLOYED,0);
 			hh.addValue(StaticValues.LAG_CONSUMPTION,hhCons*(1+distr.nextDouble()));
-			double tax = (hh.getWage()+hh.getInterestReceived()+(hh.getDividendsReceived()/1+gr))*((IncomeWealthTaxStrategy)
-					hh.getStrategy(StaticValues.STRATEGY_TAXES)).getIncomeTaxRate();
-			hh.addValue(StaticValues.LAG_TAXES,tax);
-			tG += tax;
+			hh.addValue(StaticValues.LAG_TAXES,hhTax*(1+distr.nextDouble()));
 			hh.computeExpectations();
 
 		}
@@ -277,9 +274,11 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		int kEmpl = ksEmpl/kSize;
 		double kProfit=this.ksProfits/kSize;
 		double kSales=ksSales/kSize;
-		double kOutput=kSales/kPrice;
+		double kOutput=ksOutput/kSize;
 		double kOCF=ksOCF/kSize;
 		double lMat=0;
+		double kTax = ksTax/kSize;
+		
 		for(int i = 0 ; i < kSize ; i++){
 			CapitalFirm k = (CapitalFirm) kFirms.getAgentList().get(i);
 
@@ -343,7 +342,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 
 			//Expectations and Lagged Values
 			k.addValue(StaticValues.LAG_PROFITPRETAX, kProfit*(1+distr.nextDouble()));
-			k.addValue(StaticValues.LAG_PROFITAFTERTAX, kProfit*(1+distr.nextDouble()));
+			k.addValue(StaticValues.LAG_PROFITAFTERTAX, (kProfit-kTax)*(1+distr.nextDouble()));
 			//double lagKInv=kInv*(1+distr.nextDouble());
 			double lagKInv=kInv;
 			k.addValue(StaticValues.LAG_INVENTORIES, lagKInv);
@@ -378,10 +377,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 				passedRSales[j][1]=kOutput*(1+distr.nextDouble());
 			}
 			kRSalesExp.setPassedValues(passedRSales);
-			double tax = k.getPassedValue(StaticValues.LAG_PROFITPRETAX, 0)*((ProfitsWealthTaxStrategy)
-					k.getStrategy(StaticValues.STRATEGY_TAXES)).getProfitTaxRate();
-			k.addValue(StaticValues.LAG_TAXES,tax);
-			tG += tax;
+			k.addValue(StaticValues.LAG_TAXES,kTax);
 			k.computeExpectations();
 		}
 
@@ -392,8 +388,9 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		int cEmpl = csEmpl/cSize;
 		double cProfit=this.csProfits/cSize;
 		double cSales=csSales/cSize;
-		double cOutput=cSales/cPrice;
+		double cOutput=csOutput/cSize;
 		double cOCF=csOCF/cSize;
+		double cTax = csTax/cSize;
 		for(int i = 0 ; i < cSize ; i++){
 			ConsumptionFirm c = (ConsumptionFirm) cFirms.getAgentList().get(i);
 
@@ -480,7 +477,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 
 			//Expectations and Lagged Values
 			c.addValue(StaticValues.LAG_PROFITPRETAX, cProfit*(1+distr.nextDouble()));
-			c.addValue(StaticValues.LAG_PROFITAFTERTAX, cProfit*(1+distr.nextDouble()));
+			c.addValue(StaticValues.LAG_PROFITAFTERTAX, (cProfit-cTax)*(1+distr.nextDouble()));
 			//double lagCInv=cInv*(1+distr.nextDouble());
 			double lagCInv=cInv;
 			c.addValue(StaticValues.LAG_INVENTORIES, lagCInv);
@@ -518,10 +515,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			}
 			cRSalesExp.setPassedValues(passedRSales);
 			
-			double tax = c.getPassedValue(StaticValues.LAG_PROFITPRETAX, 0)*((ProfitsWealthTaxStrategy)
-					c.getStrategy(StaticValues.STRATEGY_TAXES)).getProfitTaxRate();
-			c.addValue(StaticValues.LAG_TAXES,tax);
-			tG += tax;
+			c.addValue(StaticValues.LAG_TAXES,cTax);
 
 			c.computeExpectations();
 		}
@@ -535,6 +529,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		int nbBondsPerPeriod = (int) bBond/(bondMat*bondPrice);
 		double bProfit = this.bsProfits/bSize;
 		double bAdv = this.bsAdv/bSize;
+		double bTax = this.bsTax/bSize;
 		for(int i = 0; i<bSize; i++){
 			Bank b = (Bank) banks.getAgentList().get(i);
 			//b.setRiskAversion(3);
@@ -571,7 +566,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			//Expectations and Lagged Values
 
 			b.addValue(StaticValues.LAG_PROFITPRETAX, bProfit*(1+distr.nextDouble()));
-			b.addValue(StaticValues.LAG_PROFITAFTERTAX, bProfit*(1+distr.nextDouble()));
+			b.addValue(StaticValues.LAG_PROFITAFTERTAX, (bProfit-bTax)*(1+distr.nextDouble()));
 			b.addValue(StaticValues.LAG_NONPERFORMINGLOANS, 0*(1+distr.nextDouble()));
 			b.addValue(StaticValues.LAG_REMAININGCREDIT, 0*(1+distr.nextDouble()));
 			b.addValue(StaticValues.LAG_NETWEALTH, b.getNetWealth()*(1+distr.nextDouble()));
@@ -592,16 +587,16 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			}
 			bDepExp.setPassedValues(passedbDep);
 			
-			double tax = b.getPassedValue(StaticValues.LAG_PROFITPRETAX, 0)*((ProfitsWealthTaxStrategy)
-					b.getStrategy(StaticValues.STRATEGY_TAXES)).getProfitTaxRate();
-			b.addValue(StaticValues.LAG_TAXES,tax);
-			tG += tax;
+			b.addValue(StaticValues.LAG_TAXES,bTax);
 
 			b.computeExpectations();
 		}
 
 		//Government
 		//Employment
+		
+		govt.setUnemploymentBenefit(this.unemploymentBenefit);
+		
 		for(int i = 0 ; i < gEmpl ; i++){
 			Households hh = (Households) households.getAgentList().get(hWorkerCounter);
 			hh.setEmployer(govt);
@@ -619,7 +614,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		if(govt instanceof GovernmentAntiCyclicalWithInvestment) {
 		
 		// Add central bank deposit only for seigniorage profits if government makes investments with seigniorage profits
-		Deposit govtResSeign = new Deposit(0,(SimpleAbstractAgent)govt,(SimpleAbstractAgent)cb,this.iReserves);
+		Deposit govtResSeign = new Deposit(gRes,(SimpleAbstractAgent)govt,(SimpleAbstractAgent)cb,this.iReserves);
 		govt.addItemStockMatrix(govtResSeign, true, StaticValues.SM_RESERVES);
 		cb.addItemStockMatrix(govtResSeign, false, StaticValues.SM_RESERVES);
 		}
@@ -647,8 +642,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		double nomGDP = publicServantsWages + csSales+ ksSales;
 		
 		govt.setAggregateValue(StaticValues.LAG_AGGUNEMPLOYMENT, 0.08*(1+distr.nextDouble()));//TODO
-		double inflation = infl*(1+distr.nextDouble());
-		govt.setAggregateValue(StaticValues.LAG_INFLATION, inflation);//TODO
+		govt.setAggregateValue(StaticValues.LAG_INFLATION, 0);//TODO
 		govt.setAggregateValue(StaticValues.LAG_AGGCREDIT, csLoans+ksLoans);//TODO
 		govt.setAggregateValue(StaticValues.LAG_NOMINALGDP, nomGDP);//TODO
 		govt.setAggregateValue(StaticValues.LAG_ALLPRICE, 
@@ -657,7 +651,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		govt.setAggregateValue(StaticValues.LAG_KPRICE, kPrice);
 		govt.setAggregateValue(StaticValues.LAG_REALGDP, nomGDP/govt.getAggregateValue(StaticValues.LAG_ALLPRICE, 0));
 		govt.setAggregateValue(StaticValues.LAG_POTENTIALGDP, govt.getAggregateValue(StaticValues.LAG_REALGDP, 0));
-		govt.setAggregateValue(StaticValues.LAG_GOVTAX, tG);
+		govt.setAggregateValue(StaticValues.LAG_GOVTAX, (ksTax+csTax+hhsTax+bsTax));
 		
 		// Set lagged values for the second last period
 		
@@ -1222,20 +1216,6 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		this.csLoans0 = csLoans0;
 	}
 
-	/**
-	 * @return the infl
-	 */
-	public double getInfl() {
-		return infl;
-	}
-
-	/**
-	 * @param infl the infl to set
-	 */
-	public void setInfl(double infl) {
-		this.infl = infl;
-	}
-
 	public AveragePriceAllProducersComputer getAvpAllProdComputer() {
 		return avpAllProdComputer;
 	}
@@ -1468,14 +1448,6 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		this.bsNW = bsNW;
 	}
 
-	public double getGovBonds() {
-		return govBonds;
-	}
-
-	public void setGovBonds(double govBonds) {
-		this.govBonds = govBonds;
-	}
-
 	public double getCbProfits() {
 		return cbProfits;
 	}
@@ -1523,5 +1495,21 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	public void setRiskAversionC(double riskAversionC) {
 		this.riskAversionC = riskAversionC;
 	}
-	
+
+	public double getTargetedCAR() {
+		return targetedCAR;
+	}
+
+	public void setTargetedCAR(double targetedCAR) {
+		this.targetedCAR = targetedCAR;
+	}
+
+	public double getgBonds() {
+		return gBonds;
+	}
+
+	public void setgBonds(double gBonds) {
+		this.gBonds = gBonds;
+	}
+
 }

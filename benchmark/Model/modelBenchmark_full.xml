@@ -1784,53 +1784,75 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	    class="benchmark.init.SFCSSMacroAgentInitialiser">
 	    <property name="uniformDistr" value="0.0"/>
 		<property name="prng" ref="prng" />
-		<property name="bsAdv" value="34825.85443027845"/>
-		<property name="bsBonds" value="92164.27330821389"/>
-		<property name="bsCash" value="0"/>
-		<property name="bsProfits" value="87.74376271320186"/>
-		<property name="bsRes" value="34825.85443027845"/>
-		<property name="bsTax" value="15.793877288376335"/>
-		<property name="bsDiv" value="43.16993125489532"/>
-		<property name="cbBonds" value="0"/>
-		<property name="csOutput" value="32000"/>
-		<property name="cPrice" value="1.038532779105787"/>
-		<property name="csDep" value="25000"/>
-		<property name="csEmpl" value="5000"/>
-		<property name="csInv" value="3200"/>
-		<property name="csKap" value="40000"/>
-		<property name="csLoans" value="49301.64770694804"/>
-		<property name="csLoans0" value="4919.76714262564"/>
-		<property name="csOCF" value="2841.1016903126188"/>
-		<property name="csProfits" value="2967.8602105611963"/>
-		<property name="cUnitCost" value="0.9484317617404449"/>
-		<property name="csTax" value="534.2148379010154"/>
-		<property name="csDiv" value="2190.2808353941628"/>
-		<property name="unemploymentBenefit" value="0.437850652699456"/>
-		<property name="gEmpl" value="1360.0000000000002"/>
-		<property name="gRes" value="172.83302446788315"/>
-		<property name="gBonds" value="92164.27330821389"/>
-		<property name="gr" value="0.0075"/>
-		<property name="hhsDep" value="108612.08562324228"/>
-		<property name="hhWage" value="5"/>
-		<property name="iAdv" value="0.005"/>
-		<property name="iBonds" value="0.0025"/>
-		<property name="iDep" value="0.0025"/>
-		<property name="iLoans" value="0.0075"/>
-		<property name="iReserves" value="0"/>
-		<property name="ksOutput" value="2000"/>
-		<property name="kPrice" value="2.69224188959091"/>
-		<property name="ksDep" value="5000"/>
-		<property name="ksEmpl" value="1000"/>
-		<property name="ksInv" value="200"/>
-		<property name="ksLoans" value="1185.104809387129"/>
-		<property name="ksLoans0" value="118.26054448417"/>
-		<property name="ksOCF" value="208.10667603941397"/>
-		<property name="ksProfits" value="391.79725860586314"/>
-		<property name="kUnitCost" value="2.5044110600845673"/>
-		<property name="ksTax" value="70.52350654905537"/>
-		<property name="ksDiv" value="289.146376851127"/>
+		
+<property name="hhWage" value="5"/>
+<property name="gr" value="0.0075"/>
+<property name="hhsSize" value="8000"/>
+<property name="csEmpl" value="5000"/>
+<property name="ksEmpl" value="1000"/>
+<property name="inventoryShare" value="0.1"/>
+<property name="csKap" value="60000"/>
+<property name="capitalDuration" value="20"/>
+<property name="capitalProductivity" value="1"/>
+<property name="iAdv" value="0.005"/>
+<property name="iBonds" value="0.005"/>
+<property name="iDep" value="0.005"/>
+<property name="targetedLiquidityRatio" value="0.05"/>
+<property name="targetedCapitalAdequacyRatio" value="0.08"/>
+<property name="DISReserveRatio" value="0"/>
+<property name="loanLength" value="20"/>
+<property name="bsAdv" value="10882.0056578489"/>
+<property name="bsBonds" value="170870.56089208"/>
+<property name="bsCash" value="0"/>
+<property name="bsProfits" value="88.9439918786761"/>
+<property name="bsRes" value="10882.0056578489"/>
+<property name="bsTax" value="16.0099185381617"/>
+<property name="bsDiv" value="43.7604440043086"/>
+<property name="bsNW" value="3972.99586502098"/>
+<property name="riskAversionK" value="36.1362475872409"/>
+<property name="riskAversionC" value="8.39318724777777"/>
+<property name="cbBonds" value="0"/>
+<property name="cbProfits" value="54.0049908578109"/>
+<property name="seigniorage" value="53.6029685933607"/>
+<property name="csOutput" value="48000"/>
+<property name="cPrice" value="0.692215322538339"/>
+<property name="csDep" value="25000"/>
+<property name="csInv" value="4800"/>
+<property name="csLoans" value="48613.2671265233"/>
+<property name="csLoans0" value="4851.07426279886"/>
+<property name="csOCF" value="2954.05526864194"/>
+<property name="csProfits" value="3029.30794059804"/>
+<property name="cUnitCost" value="0.632160111907159"/>
+<property name="csTax" value="545.275429307647"/>
+<property name="csDiv" value="2235.62926016135"/>
+<property name="targetCashFlow" value="0.0547577252479685"/>
+<property name="unemploymentBenefit" value="0.471624810393866"/>
+<property name="gEmpl" value="1360"/>
+<property name="gRes" value="54.0049908578109"/>
+<property name="gBonds" value="170870.56089208"/>
+<property name="hhsDep" value="186560.013339822"/>
+<property name="hhsNI" value="34542.3283754732"/>
+<property name="hhsTax" value="7251.17465463208"/>
+<property name="hhsNomCons" value="33172.7325132469"/>
+<property name="hhsRealCons" value="47922.5631579538"/>
+<property name="propensityOOI" value="0.31818862438699"/>
+<property name="hhsNW" value="186560.013339822"/>
+<property name="iLoans" value="0.0075"/>
+<property name="iReserves" value="0"/>
+<property name="ksOutput" value="3000"/>
+<property name="kPrice" value="1.79446535097239"/>
+<property name="ksDep" value="5000"/>
+<property name="ksInv" value="300"/>
+<property name="ksLoans" value="1049.18118623902"/>
+<property name="ksLoans0" value="104.696848214919"/>
+<property name="ksOCF" value="230.770138714019"/>
+<property name="ksProfits" value="404.127565388185"/>
+<property name="kUnitCost" value="1.66927009392781"/>
+<property name="ksTax" value="72.7429617698734"/>
+<property name="ksDiv" value="298.246143256481"/>
+<property name="laborProductivity" value="3"/>
+<property name="capitalLaborRatio" value="9.6"/>
 
-	
 
 <property name="avpAllProdComputer" ref="AveragePriceAllProducersComputer"/>
 	</bean>
@@ -1955,13 +1977,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="productionStockId"><util:constant static-field="benchmark.StaticValues.SM_CAPGOOD"/> </property>
 		<!-- From CapitalFirm -->
 		<property name="payableStockId"><util:constant static-field="benchmark.StaticValues.SM_DEP" /></property>
-		<property name="loanLength" value="20"/>
 		<property name="loanAmortizationType" value="0"/>
 		<property name="capitalAmortization" value="20"/>
-		<property name="capitalDuration" value="20"/>
-		<property name="capitalProductivity" value="1"/>
-		<property name="laborProductivity" value="2"/>
-		<property name="capitalLaborRatio" value="6.4"/>
 		<property name="shareOfExpIncomeAsDeposit" value="1"/>
 		<property name="minWageDiscount" value="1"/>
 		<property name="turnoverLabor" ref="turnoverVal"/>
@@ -2434,7 +2451,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID" /> </property>
 		<!-- From Abstract Firm -->
 		<property name="productionStockId"><util:constant static-field="benchmark.StaticValues.SM_CONSGOOD"/> </property>
-		<property name="loanLength" value="20"/>
 		<property name="loanAmortizationType" value="0" />
 		<property name="turnoverLabor" ref="turnoverVal" />
 		<property name="prng" ref="prng" /> 
@@ -2554,7 +2570,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="pastCapitalId"><util:constant static-field="benchmark.StaticValues.LAG_CAPITALFINANCIALVALUE" /> </property>
 		<property name="pastCashFlowId"><util:constant static-field="benchmark.StaticValues.LAG_OPERATINGCASHFLOW" /> </property>
 		<property name="targetCapacityUtlization" value="0.8"/>
-		<property name="targetCashFlow" value="0.043447814"/>
 		<property name="capacityWeight" value="0.02"/>
 		<property name="cashFlowRateWeight" value="0.01"/>
 	</bean>
@@ -2738,8 +2753,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		</map>
 		</property>
 		<property name="numberMarkets" value="9" />
-		<property name="riskAversionC" value="3.922445" /> 
-		<property name="riskAversionK" value="21.513347" />
 		<property name="bankInterestRate" value="0.0075" />
 		<property name="numberStocks" value="9" />
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.BANKS_ID" /> </property>
@@ -2748,14 +2761,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<!-- From Bank Class -->
 		<property name="advancesLength" value="1"/>
 		<property name="advancesAmortizationType" value="2" />
-		<property name="reserveInterestRate" value="0.005" />
-		<property name="advancesInterestRate" value="0.005" />
-		<property name="bondInterestRate" value="0.005" />
-		<property name="depositInterestRate" value="0.005" />
 		<property name="fundingRate" value="0.005" />
-		<property name="targetedLiquidityRatio" value="0.258026342" />
-		<property name="targetedCapitalAdequacyRatio" value="0.0842272657990843"></property>
-		<property name="DISReserveRatio" value="0.00" />
 		<!-- <property name="DISReserveRatio" value="0.01" /> -->
 	</bean>
 	
@@ -3331,7 +3337,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="householdsConsumptionStrategy" scope="prototype" parent="strategy"
 		class="jmab.strategies.ConsumptionFixedPropensitiesOOIWWithPersistency">
 		<property name="persistency" value="0"/>
-        <property name="propensityOOI" value="0.385808"></property>
 		<property name="propensityOOW" value="0.25"></property> 
 <!-- 		TEMP -->
 <!-- 		<property name="propensityOOW" value="0.05"/> -->
@@ -3421,12 +3426,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.GOVERNMENT_ID" /> </property>
 		<!-- From Government -->
 		<property name="bondMaturity" value="1"/>
-		<property name="bondInterestRate" value="0.005" />
 		<property name="prng" ref="prng"/>
 		<property name="bondPrice" value="1.0" />
 		<property name="fixedLaborDemand" value="1360" />
 		<property name="turnoverLabor" ref="turnoverVal" /> 
-		<property name="unemploymentBenefit" value="0.4" />
 		<property name="uComputer" ref="unemploymentComputer"/>
 		<property name="aggregateCreditComputer" ref="totalCreditComputer"/>
 		<property name="nominalGdpComputer" ref="nominalGDPComputer"/>
@@ -3583,8 +3586,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<!-- From AbstractBank -->
 		<property name="depositCounterpartId"><util:constant static-field="benchmark.StaticValues.SM_CASH"/> </property>
 		<!-- From CentralBank class -->
-		<property name="advancesInterestRate" value="0.005"/>
-		<property name="reserveInterestRate" value="0.005" />
 	</bean>
 	
 	<bean id="pastResInterest" class="jmab.expectations.TreeMapPassedValues"

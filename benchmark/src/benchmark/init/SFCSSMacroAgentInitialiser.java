@@ -28,6 +28,7 @@ import benchmark.agents.Households;
 import benchmark.report.AveragePriceAllProducersComputer;
 import benchmark.strategies.FixedShareOfProfitsToPopulationAsShareOfWealthDividends;
 import benchmark.strategies.IncomeWealthTaxStrategy;
+import benchmark.strategies.InvestmentCapacityOperatingCashFlowExpected;
 import benchmark.strategies.ProfitsWealthTaxStrategy;
 import jmab.agents.CreditSupplier;
 import jmab.agents.DepositSupplier;
@@ -50,7 +51,9 @@ import jmab.stockmatrix.Loan;
 import jmab.strategies.BestQualityPriceCapitalSupplierWithSwitching;
 import jmab.strategies.CheapestGoodSupplierWithSwitching;
 import jmab.strategies.CheapestLenderWithSwitching;
+import jmab.strategies.ConsumptionFixedPropensitiesOOIWWithPersistency;
 import jmab.strategies.MostPayingDepositWithSwitching;
+import jmab.strategies.TargetExpectedInventoriesOutputStrategy;
 import jmab.strategies.TaxPayerStrategy;
 import jmab.strategies.DividendsStrategy;
 import net.sourceforge.jabm.Population;
@@ -75,7 +78,6 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	private double inventoryShare;
 	private int csKap;
 	private int capitalDuration;
-	private double capacityUtilization;
 	private double capitalProductivity;
 	
 	private int loanLength;
@@ -91,7 +93,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	
 	// kFirms
 	private int ksOutput;
-	private double kLaborProductivity;
+	private double laborProductivity;
 	private double kUnitCost;
 	private double kPrice;
 	private int ksInv;
@@ -125,13 +127,14 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	private double hhsNomCons;
 	private double hhsRealCons;
 	private double hhsNW;
+	private double propensityOOI;
 	private double bsProfits;
 	private double bsBonds;
 	private double bsTax;
 	private double bsAdv;
 	private double bsNW;
 	private double bsRes;
-	private double targetedCAR;
+	private double targetedCapitalAdequacyRatio;
 	private double cbBonds;
 	private int gEmpl;
 	private double gBonds;
@@ -211,6 +214,11 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		for(int i = 0; i<hhSize; i++){
 			Households hh = (Households) households.getAgentList().get(i);
 			hh.setDividendsReceived(hhDiv);
+			
+			//Steady state values
+			
+			ConsumptionFixedPropensitiesOOIWWithPersistency consumptionStrategy = (ConsumptionFixedPropensitiesOOIWWithPersistency) hh.getStrategy(benchmark.StaticValues.STRATEGY_CONSUMPTION);
+			consumptionStrategy.setPropensityOOI(propensityOOI);
 
 			//Cash Holdings
 			Cash cash = new Cash(hhCash,(SimpleAbstractAgent)hh,(SimpleAbstractAgent)cb);
@@ -282,6 +290,16 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		for(int i = 0 ; i < kSize ; i++){
 			CapitalFirm k = (CapitalFirm) kFirms.getAgentList().get(i);
 
+			// Steady state values
+			k.setCapitalDuration(capitalDuration);
+			k.setCapitalProductivity(capitalProductivity);
+			k.setLaborProductivity(laborProductivity);
+			k.setCapitalLaborRatio(capitalLaborRatio);
+			k.setLoanLength(loanLength);
+			
+			TargetExpectedInventoriesOutputStrategy productionStrategy = (TargetExpectedInventoriesOutputStrategy) k.getStrategy(benchmark.StaticValues.STRATEGY_PRODUCTION);
+			productionStrategy.setInventoryShare(inventoryShare);
+			
 			//Inventories
 			CapitalGood kGood = new CapitalGood(kInv*this.kPrice, kInv, k, k, this.kPrice, k.getCapitalProductivity(), 
 					k.getCapitalDuration(), k.getCapitalAmortization(), k.getCapitalLaborRatio());
@@ -393,6 +411,15 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		double cTax = csTax/cSize;
 		for(int i = 0 ; i < cSize ; i++){
 			ConsumptionFirm c = (ConsumptionFirm) cFirms.getAgentList().get(i);
+			
+			// Steady state values
+			InvestmentCapacityOperatingCashFlowExpected investmentStrategy = (InvestmentCapacityOperatingCashFlowExpected) c.getStrategy(benchmark.StaticValues.STRATEGY_INVESTMENT);
+			
+			investmentStrategy.setTargetCashFlow(targetCashFlow);
+			
+			TargetExpectedInventoriesOutputStrategy productionStrategy = (TargetExpectedInventoriesOutputStrategy) c.getStrategy(benchmark.StaticValues.STRATEGY_PRODUCTION);
+			productionStrategy.setInventoryShare(inventoryShare);
+			c.setLoanLength(loanLength);
 
 			//Inventories
 			ConsumptionGood cGood = new ConsumptionGood(cInv*this.cPrice, cInv, c, c, this.cPrice, 0);
@@ -535,6 +562,18 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			//b.setRiskAversion(3);
 			//b.setRiskAversionC(distr1.nextDouble());
 			//b.setRiskAversionK(distr1.nextDouble());
+			
+			//Steady state and exogenous values
+			b.setDepositInterestRate(iDep);
+			b.setBondInterestRate(iBonds);
+			b.setAdvancesInterestRate(iAdv);
+			b.setReserveInterestRate(iReserves);
+			b.setTargetedLiquidityRatio(targetedLiquidityRatio);
+			b.setTargetedCapitalAdequacyRatio(targetedCapitalAdequacyRatio);
+			b.setDISReserveRatio(DISReserveRatio);
+			b.setRiskAversionC(riskAversionC);
+			b.setRiskAversionK(riskAversionK);
+			
 			//Cash Holdings
 			Cash cash = new Cash(bCash,(SimpleAbstractAgent)b,(SimpleAbstractAgent)cb);
 			b.addItemStockMatrix(cash, true, StaticValues.SM_CASH);
@@ -604,7 +643,9 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			govt.addEmployee(hh);
 			hWorkerCounter++;
 		}
-
+		
+		//Steady State values
+		govt.setBondInterestRate(iBonds);
 
 		//Central Bank Deposit
 		Deposit govtRes = new Deposit(0,(SimpleAbstractAgent)govt,(SimpleAbstractAgent)cb,this.iReserves);
@@ -627,6 +668,10 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			cb.addItemStockMatrix(bond, true, StaticValues.SM_BONDS);
 			govt.addItemStockMatrix(bond, false, StaticValues.SM_BONDS);
 		}
+		
+		//Steady state values
+		cb.setAdvancesInterestRate(iAdv);
+		cb.setReserveInterestRate(iReserves);
 		
 		cb.addValue(StaticValues.LAG_RESERVESINTEREST,iReserves);
 		
@@ -1240,14 +1285,6 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		this.capitalDuration = capitalDuration;
 	}
 
-	public double getCapacityUtilization() {
-		return capacityUtilization;
-	}
-
-	public void setCapacityUtilization(double capacityUtilization) {
-		this.capacityUtilization = capacityUtilization;
-	}
-
 	public double getCapitalProductivity() {
 		return capitalProductivity;
 	}
@@ -1310,14 +1347,6 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 
 	public void setKsOutput(int ksOutput) {
 		this.ksOutput = ksOutput;
-	}
-
-	public double getkLaborProductivity() {
-		return kLaborProductivity;
-	}
-
-	public void setkLaborProductivity(double kLaborProductivity) {
-		this.kLaborProductivity = kLaborProductivity;
 	}
 
 	public double getKsTax() {
@@ -1496,20 +1525,36 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		this.riskAversionC = riskAversionC;
 	}
 
-	public double getTargetedCAR() {
-		return targetedCAR;
-	}
-
-	public void setTargetedCAR(double targetedCAR) {
-		this.targetedCAR = targetedCAR;
-	}
-
 	public double getgBonds() {
 		return gBonds;
 	}
 
 	public void setgBonds(double gBonds) {
 		this.gBonds = gBonds;
+	}
+
+	public double getLaborProductivity() {
+		return laborProductivity;
+	}
+
+	public void setLaborProductivity(double laborProductivity) {
+		this.laborProductivity = laborProductivity;
+	}
+
+	public double getPropensityOOI() {
+		return propensityOOI;
+	}
+
+	public void setPropensityOOI(double propensityOOI) {
+		this.propensityOOI = propensityOOI;
+	}
+
+	public double getTargetedCapitalAdequacyRatio() {
+		return targetedCapitalAdequacyRatio;
+	}
+
+	public void setTargetedCapitalAdequacyRatio(double targetedCapitalAdequacyRatio) {
+		this.targetedCapitalAdequacyRatio = targetedCapitalAdequacyRatio;
 	}
 
 }

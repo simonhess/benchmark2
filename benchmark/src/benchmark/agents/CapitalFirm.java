@@ -73,7 +73,7 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 	protected double targetStock;
 	protected double amountResearch;
 	protected double creditDemanded;
-	protected int laborProductivity;
+	protected double laborProductivity;
 	protected double capitalProductivity;
 	protected double capitalLaborRatio;
 	protected int capitalDuration;
@@ -794,14 +794,14 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 	/**
 	 * @return the laborProductivity
 	 */
-	public int getLaborProductivity() {
+	public double getLaborProductivity() {
 		return laborProductivity;
 	}
 
 	/**
 	 * @param laborProductivity the laborProductivity to set
 	 */
-	public void setLaborProductivity(int laborProductivity) {
+	public void setLaborProductivity(double laborProductivity) {
 		this.laborProductivity = laborProductivity;
 	}
 
@@ -1084,7 +1084,7 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 				buf.putDouble(debtPayments[i][2]);
 			}//3*debtPayments.length*8
 			buf.putInt(payableStockId);//80
-			buf.putInt(laborProductivity);//84
+			buf.putDouble(laborProductivity);//84
 			buf.putInt(capitalDuration);//88
 			buf.putInt(capitalAmortization);//92
 			out.write(buf.array());

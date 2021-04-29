@@ -360,7 +360,7 @@ public class CapitalFirmWagesEnd extends CapitalFirm implements GoodSupplier,
 				buf.putDouble(debtPayments[i][2]);
 			}
 			buf.putInt(payableStockId);
-			buf.putInt(laborProductivity);
+			buf.putDouble(laborProductivity);
 			buf.putInt(capitalDuration);
 			buf.putInt(capitalAmortization);
 			out.write(buf.array());

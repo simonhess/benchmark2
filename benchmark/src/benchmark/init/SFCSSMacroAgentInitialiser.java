@@ -67,7 +67,7 @@ import cern.jet.random.engine.RandomEngine;
 public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser implements MacroAgentInitialiser{
 
 	//Exogenous values
-	
+
 	private double hhWage;
 	private double gr;
 	private int hhsSize;
@@ -134,6 +134,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	private double bsAdv;
 	private double bsNW;
 	private double bsRes;
+	private double bsProfitShareAsDividends;
 	private double targetedCapitalAdequacyRatio;
 	private double cbBonds;
 	private int gEmpl;
@@ -573,6 +574,10 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			b.setDISReserveRatio(DISReserveRatio);
 			b.setRiskAversionC(riskAversionC);
 			b.setRiskAversionK(riskAversionK);
+			
+			FixedShareOfProfitsToPopulationAsShareOfWealthDividends dividendsStrategy = (FixedShareOfProfitsToPopulationAsShareOfWealthDividends) b.getStrategy(benchmark.StaticValues.STRATEGY_DIVIDENDS);
+			
+			dividendsStrategy.setProfitShare(bsProfitShareAsDividends);
 			
 			//Cash Holdings
 			Cash cash = new Cash(bCash,(SimpleAbstractAgent)b,(SimpleAbstractAgent)cb);
@@ -1555,6 +1560,14 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 
 	public void setTargetedCapitalAdequacyRatio(double targetedCapitalAdequacyRatio) {
 		this.targetedCapitalAdequacyRatio = targetedCapitalAdequacyRatio;
+	}
+	
+	public double getBsProfitShareAsDividends() {
+		return bsProfitShareAsDividends;
+	}
+
+	public void setBsProfitShareAsDividends(double bsProfitShareAsDividends) {
+		this.bsProfitShareAsDividends = bsProfitShareAsDividends;
 	}
 
 }

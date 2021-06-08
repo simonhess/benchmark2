@@ -26,6 +26,7 @@ import benchmark.agents.GovernmentAntiCyclical;
 import benchmark.agents.GovernmentAntiCyclicalWithInvestment;
 import benchmark.agents.Households;
 import benchmark.report.AveragePriceAllProducersComputer;
+import benchmark.strategies.AdaptiveMarkupOnAdvancesRate;
 import benchmark.strategies.FixedShareOfProfitsToPopulationAsShareOfWealthDividends;
 import benchmark.strategies.IncomeWealthTaxStrategy;
 import benchmark.strategies.InvestmentCapacityOperatingCashFlowExpected;
@@ -48,6 +49,7 @@ import jmab.stockmatrix.Cash;
 import jmab.stockmatrix.ConsumptionGood;
 import jmab.stockmatrix.Deposit;
 import jmab.stockmatrix.Loan;
+import jmab.strategies.AdaptiveMarkUpOnAC;
 import jmab.strategies.BestQualityPriceCapitalSupplierWithSwitching;
 import jmab.strategies.CheapestGoodSupplierWithSwitching;
 import jmab.strategies.CheapestLenderWithSwitching;
@@ -79,7 +81,10 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	private int csKap;
 	private int capitalDuration;
 	private double capitalProductivity;
+	private double csMarkup;
+	private double ksMarkup;
 	
+	private double bsMarkup;
 	private int loanLength;
     private double iDep;
 	private double iBonds;
@@ -301,6 +306,9 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			TargetExpectedInventoriesOutputStrategy productionStrategy = (TargetExpectedInventoriesOutputStrategy) k.getStrategy(benchmark.StaticValues.STRATEGY_PRODUCTION);
 			productionStrategy.setInventoryShare(inventoryShare);
 			
+			AdaptiveMarkUpOnAC pricingStrategy = (AdaptiveMarkUpOnAC) k.getStrategy(benchmark.StaticValues.STRATEGY_PRICING);
+			pricingStrategy.setMarkUp(ksMarkup);
+			
 			//Inventories
 			CapitalGood kGood = new CapitalGood(kInv*this.kPrice, kInv, k, k, this.kPrice, k.getCapitalProductivity(), 
 					k.getCapitalDuration(), k.getCapitalAmortization(), k.getCapitalLaborRatio());
@@ -421,6 +429,9 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			TargetExpectedInventoriesOutputStrategy productionStrategy = (TargetExpectedInventoriesOutputStrategy) c.getStrategy(benchmark.StaticValues.STRATEGY_PRODUCTION);
 			productionStrategy.setInventoryShare(inventoryShare);
 			c.setLoanLength(loanLength);
+			
+			AdaptiveMarkUpOnAC pricingStrategy = (AdaptiveMarkUpOnAC) c.getStrategy(benchmark.StaticValues.STRATEGY_PRICING);
+			pricingStrategy.setMarkUp(csMarkup);
 
 			//Inventories
 			ConsumptionGood cGood = new ConsumptionGood(cInv*this.cPrice, cInv, c, c, this.cPrice, 0);
@@ -578,6 +589,9 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			FixedShareOfProfitsToPopulationAsShareOfWealthDividends dividendsStrategy = (FixedShareOfProfitsToPopulationAsShareOfWealthDividends) b.getStrategy(benchmark.StaticValues.STRATEGY_DIVIDENDS);
 			
 			dividendsStrategy.setProfitShare(bsProfitShareAsDividends);
+			
+			AdaptiveMarkupOnAdvancesRate banksBankSpecificLoanInterestStrategy = (AdaptiveMarkupOnAdvancesRate) b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE);
+			banksBankSpecificLoanInterestStrategy.setMarkup(bsMarkup);
 			
 			//Cash Holdings
 			Cash cash = new Cash(bCash,(SimpleAbstractAgent)b,(SimpleAbstractAgent)cb);
@@ -1568,6 +1582,30 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 
 	public void setBsProfitShareAsDividends(double bsProfitShareAsDividends) {
 		this.bsProfitShareAsDividends = bsProfitShareAsDividends;
+	}
+
+	public double getCsMarkup() {
+		return csMarkup;
+	}
+
+	public void setCsMarkup(double csMarkup) {
+		this.csMarkup = csMarkup;
+	}
+
+	public double getKsMarkup() {
+		return ksMarkup;
+	}
+
+	public void setKsMarkup(double ksMarkup) {
+		this.ksMarkup = ksMarkup;
+	}
+
+	public double getBsMarkup() {
+		return bsMarkup;
+	}
+
+	public void setBsMarkup(double bsMarkup) {
+		this.bsMarkup = bsMarkup;
 	}
 
 }

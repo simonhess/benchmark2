@@ -870,7 +870,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 				externalFundingRate = interestPay/totValue;
 			}
 			
-			return this.advancesInterestRate-Math.max(0,Math.round(this.targetedLiquidityRatio * 100.0) / 100.0-Math.round(Math.max(0, this.liquidityRatio) * 100.0) / 100.0)*externalFundingRate+this.targetedLiquidityRatio*this.reserveInterestRate;
+			return this.advancesInterestRate-Math.max(0,Math.round(this.targetedLiquidityRatio * 100.0) / 100.0-Math.round(Math.max(0, this.liquidityRatio) * 100.0) / 100.0)*(externalFundingRate+this.reserveInterestRate);
 		case StaticValues.MKT_INTERBANK:
 			return this.advancesInterestRate;
 		}

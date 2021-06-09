@@ -15,6 +15,7 @@
 package benchmark.strategies;
 
 import java.nio.ByteBuffer;
+import java.util.HashMap;
 import java.util.List;
 
 import benchmark.StaticValues;
@@ -27,6 +28,7 @@ import jmab.agents.LiabilitySupplier;
 import jmab.agents.AbstractBank;
 import jmab.agents.MacroAgent;
 import jmab.population.MacroPopulation;
+import jmab.simulations.MacroSimulation;
 import jmab.stockmatrix.Deposit;
 import jmab.stockmatrix.Item;
 import jmab.strategies.DividendsStrategy;
@@ -48,7 +50,8 @@ DividendsStrategy {
 	int receiversId;
 	int depositId;
 	int reservesId;
-
+	static int currentRound;
+	static double receiversTotalNW;
 
 	/* (non-Javadoc)
 	 * @see jmab.strategies.DividendsStrategy#payDividends()
@@ -60,9 +63,18 @@ DividendsStrategy {
 		if (profits>0){
 			Population receivers = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(receiversId);
 			double totalNW = 0;
-			for(Agent receiver:receivers.getAgents()){
-				totalNW+=((MacroAgent)receiver).getNetWealth();
+			int round = ((MacroSimulation)((SimulationController)this.scheduler).getSimulation()).getRound();
+			// Calculate net worth of all receivers if not done yet
+			if(currentRound!=round) {
+				currentRound=round;
+				for(Agent receiver:receivers.getAgents()){
+					totalNW+=((MacroAgent)receiver).getNetWealth();
+				}
+				receiversTotalNW = totalNW;
+			}else {
+				totalNW=receiversTotalNW;
 			}
+			
 			if (dividendPayer instanceof Bank){
 				Deposit payerDep = (Deposit)dividendPayer.getItemStockMatrix(true, reservesId);
 				LiabilitySupplier payingSupplier = (LiabilitySupplier) payerDep.getLiabilityHolder();

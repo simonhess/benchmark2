@@ -52,6 +52,7 @@ DividendsStrategy {
 	int reservesId;
 	static int currentRound;
 	static double receiversTotalNW;
+	static HashMap<Long, Double> receiversNW = new HashMap<Long, Double>();
 
 	/* (non-Javadoc)
 	 * @see jmab.strategies.DividendsStrategy#payDividends()
@@ -64,11 +65,13 @@ DividendsStrategy {
 			Population receivers = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(receiversId);
 			double totalNW = 0;
 			int round = ((MacroSimulation)((SimulationController)this.scheduler).getSimulation()).getRound();
-			// Calculate net worth of all receivers if not done yet
+			// Calculate net worth of all receivers if not done yet and save net wealth of each receiver to speed up dividend payments
 			if(currentRound!=round) {
 				currentRound=round;
 				for(Agent receiver:receivers.getAgents()){
-					totalNW+=((MacroAgent)receiver).getNetWealth();
+					double agentNW = ((MacroAgent)receiver).getNetWealth();
+					totalNW+= agentNW;
+					receiversNW.put(((MacroAgent)receiver).getAgentId(), agentNW);
 				}
 				receiversTotalNW = totalNW;
 			}else {
@@ -85,7 +88,7 @@ DividendsStrategy {
 				bank.setDividends(profits*profitShare);
 				for(Agent rec:receivers.getAgents()){
 					Households receiver =(Households) rec; 
-					double nw = receiver.getNetWealth();
+					double nw = receiversNW.get(receiver.getAgentId());
 					double toPay=profits*profitShare*nw/totalNW;
 					
 					Item Payablestock = receiver.getPayableStock(StaticValues.MKT_LABOR);
@@ -122,7 +125,7 @@ DividendsStrategy {
 					LiabilitySupplier payingSupplier = (LiabilitySupplier) targetStock.getLiabilityHolder();
 					for(Agent rec:receivers.getAgents()){
 						Households receiver =(Households) rec; 
-						double nw = receiver.getNetWealth();
+						double nw = receiversNW.get(receiver.getAgentId());
 						double toPay=profits*profitShare*nw/totalNW;
 						
 						Item Payablestock = receiver.getPayableStock(StaticValues.MKT_LABOR);

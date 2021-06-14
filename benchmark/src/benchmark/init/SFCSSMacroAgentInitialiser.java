@@ -73,6 +73,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	private double hhWage;
 	private double gr;
 	private int hhsSize;
+	private double propensityOOW;
 	
 	private int csEmpl;
     private int ksEmpl;
@@ -225,6 +226,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			
 			ConsumptionFixedPropensitiesOOIWWithPersistency consumptionStrategy = (ConsumptionFixedPropensitiesOOIWWithPersistency) hh.getStrategy(benchmark.StaticValues.STRATEGY_CONSUMPTION);
 			consumptionStrategy.setPropensityOOI(propensityOOI);
+			consumptionStrategy.setPropensityOOW(propensityOOW);
 
 			//Cash Holdings
 			Cash cash = new Cash(hhCash,(SimpleAbstractAgent)hh,(SimpleAbstractAgent)cb);
@@ -1606,6 +1608,14 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 
 	public void setBsMarkup(double bsMarkup) {
 		this.bsMarkup = bsMarkup;
+	}
+
+	public double getPropensityOOW() {
+		return propensityOOW;
+	}
+
+	public void setPropensityOOW(double propensityOOW) {
+		this.propensityOOW = propensityOOW;
 	}
 
 }

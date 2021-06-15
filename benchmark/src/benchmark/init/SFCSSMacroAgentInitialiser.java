@@ -571,6 +571,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		double bProfit = this.bsProfits/bSize;
 		double bAdv = this.bsAdv/bSize;
 		double bTax = this.bsTax/bSize;
+		double bDep = (hhsDep+ksDep+csDep)/bSize;
 		for(int i = 0; i<bSize; i++){
 			Bank b = (Bank) banks.getAgentList().get(i);
 			//b.setRiskAversion(3);
@@ -648,6 +649,15 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			bDepExp.setPassedValues(passedbDep);
 			
 			b.addValue(StaticValues.LAG_TAXES,bTax);
+			
+			double liquidityRatio;
+			if(bDep==0){
+				liquidityRatio = 0;
+			}else {
+				liquidityRatio = bRes/bDep;
+			}
+			
+			b.setLiquidityRatio(liquidityRatio);
 
 			b.computeExpectations();
 		}

@@ -215,7 +215,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 				this.liquidityRatio=0;
 			}
 			else{
-			this.liquidityRatio=this.getNetLiquidity()/depositsValue;
+			this.liquidityRatio=reservesValue/depositsValue;
 			}
 			double outstandingLoans=0;
 			for (Item i:this.getItemsStockMatrix(true, StaticValues.SM_LOAN)){

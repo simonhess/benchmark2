@@ -121,6 +121,12 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="cbDepositInterestCSVReport" />
 				<ref bean="cbAdvancesInterestEventReport" />
 				<ref bean="cbAdvancesInterestCSVReport" />
+				<ref bean="banksProfitsEventReport" />
+				<ref bean="banksProfitsCSVReport" />
+				<ref bean="cFirmsProfitsEventReport" />
+				<ref bean="cFirmsProfitsCSVReport" />
+				<ref bean="kFirmsProfitsEventReport" />
+				<ref bean="kFirmsProfitsCSVReport" />
 			</list>
 		</property>
 		

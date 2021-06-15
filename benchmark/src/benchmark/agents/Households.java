@@ -79,6 +79,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	private BondSupplier selectedBondSupplier;
 	private double bondPrice;
 	private double bondInterestRate;
+	private double unemploymentBenefitAmount;
 
 	/* (non-Javadoc)
 	 * @see jmab.agents.MacroAgent#onRoundFinished(net.sourceforge.jabm.event.RoundFinishedEvent)
@@ -458,20 +459,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 				return netIncome;
 			}
 			else{
-				MacroPopulation macroPop = (MacroPopulation) ((SimulationController)this.scheduler).getPopulation();
-				Population households= (Population) macroPop.getPopulation(StaticValues.HOUSEHOLDS_ID);
-				double averageWage=0;
-				double employed=0;
-				for(Agent agent:households.getAgents()){
-					Households worker= (Households) agent;
-					if (worker.getEmployer()!=null){
-						averageWage+=worker.getWage();
-						employed+=1;
-					}
-				}
-				averageWage=averageWage/employed;
-				GovernmentAntiCyclical gov = (GovernmentAntiCyclical)macroPop.getPopulation(StaticValues.GOVERNMENT_ID).getAgentList().get(0);
-				double grossIncome = gov.getUnemploymentBenefit()*averageWage+this.getGrossIncome();
+				double grossIncome = this.getUnemploymentBenefitAmount()+this.getGrossIncome();
 				double netIncome= grossIncome-taxes;
 				return netIncome;
 			}
@@ -780,6 +768,14 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	 */
 	public void setBondDemand(int bondDemand) {
 		this.bondDemand = bondDemand;
+	}
+
+	public double getUnemploymentBenefitAmount() {
+		return unemploymentBenefitAmount;
+	}
+
+	public void setUnemploymentBenefitAmount(double unemploymentBenefitAmount) {
+		this.unemploymentBenefitAmount = unemploymentBenefitAmount;
 	}
 
 }

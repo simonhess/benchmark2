@@ -51,6 +51,7 @@ import net.sourceforge.jabm.agent.AgentList;
 @SuppressWarnings("serial")
 public class GovernmentAntiCyclical extends Government implements LaborDemander, BondSupplier{
 	
+	/*unemploymentBenefit in percent of average income*/
 	protected double unemploymentBenefit;
 	protected double doleExpenditure;
 	protected double profitsFromCB;
@@ -78,6 +79,9 @@ public class GovernmentAntiCyclical extends Government implements LaborDemander,
 		switch(event.getTic()){
 		case StaticValues.TIC_GOVERNMENTLABOR:
 			computeLaborDemand();
+			break;
+		case StaticValues.TIC_UNEMPLOYMENTBENEFITAMOUNT:
+			determineUnemploymentBenefitAmount(event.getSimulationController());
 			break;
 		case StaticValues.TIC_TAXES:
 			collectTaxes(event.getSimulationController());
@@ -112,11 +116,34 @@ public class GovernmentAntiCyclical extends Government implements LaborDemander,
 		CentralBankProfitDistributionStrategy strategy = (CentralBankProfitDistributionStrategy)this.getStrategy(StaticValues.STRATEGY_CBPROFITS);
 		strategy.distributeCBProfits();
 	}
+	
+	protected void determineUnemploymentBenefitAmount(SimulationController simulationController) {
+		MacroPopulation macroPop = (MacroPopulation) simulationController.getPopulation();
+		Population households= (Population) macroPop.getPopulation(StaticValues.HOUSEHOLDS_ID);
+		double averageWage=0;
+		double employed=0;
+		for(Agent agent:households.getAgents()){
+			Households worker= (Households) agent;
+			if (worker.getEmployer()!=null){
+				averageWage+=worker.getWage();
+				employed+=1;
+			}
+		}
+		averageWage=averageWage/employed;
+		double unemploymentBenefit=averageWage*this.unemploymentBenefit;
+		for(Agent agent:households.getAgents()){
+			Households worker= (Households) agent;
+			
+			if (worker.getEmployer()==null){
+				worker.setUnemploymentBenefitAmount(unemploymentBenefit);
+			}
+		}
+	}
 
 	/**
 	 * 
 	 */
-	private void payUnemploymentBenefits(SimulationController simulationController) {
+	protected void payUnemploymentBenefits(SimulationController simulationController) {
 		MacroPopulation macroPop = (MacroPopulation) simulationController.getPopulation();
 		Population households= (Population) macroPop.getPopulation(StaticValues.HOUSEHOLDS_ID);
 		double averageWage=0;

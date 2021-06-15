@@ -106,6 +106,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="laborMarketTic" />
 				<ref bean="productionTic" />
 				<ref bean="rdOutcomeTic" />
+				<ref bean="unemploymentBenefitAmountTic" />
 				<ref bean="consumptionDemandTic" />
 				<ref bean="consumptionMarketTic" />
 				<ref bean="capitalMarketTic2" />
@@ -253,7 +254,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="banksBailoutCostReportTic" />
 				<ref bean="cFirmsBailoutCostReportTic" />
 				<ref bean="kFirmsBailoutCostReportTic" />
-				<!-- <ref bean="TFMReportTic" /> -->
+				<ref bean="TFMReportTic" />
 				<ref bean="BSNetworkReportTic" /> 
 				<ref bean="FlowNetworkReportTic" />
 				<ref bean="populationHandlerTic" />
@@ -553,7 +554,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	    </property>
 		<property name="buyersId">
 			<list>
-			   <util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID"/>
 	           <util:constant static-field="benchmark.StaticValues.BANKS_ID"/>
 	        </list>
 	    </property>
@@ -730,6 +730,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	<bean id="governmentLaborTic" class="jmab.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_GOVERNMENTLABOR" /></property>
+	</bean>
+	<bean id="unemploymentBenefitAmountTic" class="jmab.events.MacroTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_UNEMPLOYMENTBENEFITAMOUNT" /></property>
 	</bean>
 	<bean id="laborMarketTic" class="jmab.events.MarketTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_LABORMARKET" /></property>
@@ -1786,72 +1789,79 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="prng" ref="prng" />
 		
 <property name="hhWage" value="5"/>
-<property name="gr" value="0.0075"/>
+<property name="gr" value="0.005"/>
 <property name="hhsSize" value="8000"/>
+<property name="propensityOOW" value="0.25"/>
 <property name="csEmpl" value="5000"/>
 <property name="ksEmpl" value="1000"/>
 <property name="inventoryShare" value="0.1"/>
-<property name="csKap" value="60000"/>
+<property name="csKap" value="40000"/>
 <property name="capitalDuration" value="20"/>
 <property name="capitalProductivity" value="1"/>
-<property name="iAdv" value="0.005"/>
-<property name="iBonds" value="0.005"/>
-<property name="iDep" value="0.005"/>
+<property name="iAdv" value="0.0075"/>
+<property name="iBonds" value="0.0075"/>
+<property name="iDep" value="0.007125"/>
 <property name="targetedLiquidityRatio" value="0.05"/>
 <property name="targetedCapitalAdequacyRatio" value="0.08"/>
 <property name="DISReserveRatio" value="0"/>
 <property name="loanLength" value="20"/>
-<property name="bsAdv" value="10882.0056578489"/>
-<property name="bsBonds" value="170870.56089208"/>
+<property name="csMarkup" value="0.0985"/>
+<property name="ksMarkup" value="0.085"/>
+<property name="bsMarkup" value="0.001"/>
+<property name="bsAdv" value="6266.84769528623"/>
+<property name="bsBonds" value="73853.8759903545"/>
 <property name="bsCash" value="0"/>
-<property name="bsProfits" value="88.9439918786761"/>
-<property name="bsRes" value="10882.0056578489"/>
-<property name="bsTax" value="16.0099185381617"/>
-<property name="bsDiv" value="43.7604440043086"/>
-<property name="bsNW" value="3972.99586502098"/>
-<property name="riskAversionK" value="36.1362475872409"/>
-<property name="riskAversionC" value="8.39318724777777"/>
+<property name="bsProfits" value="87.1227213196566"/>
+<property name="bsRes" value="6266.84769528623"/>
+<property name="bsTax" value="15.6820898375382"/>
+<property name="bsDiv" value="49.8053725455903"/>
+<property name="bsNW" value="4395.45456635552"/>
+<property name="bsProfitShareAsDividends" value="0.697157507042146"/>
+<property name="riskAversionK" value="12.932964083986"/>
+<property name="riskAversionC" value="7.76141757939026"/>
 <property name="cbBonds" value="0"/>
-<property name="cbProfits" value="54.0049908578109"/>
-<property name="seigniorage" value="53.6029685933607"/>
-<property name="csOutput" value="48000"/>
-<property name="cPrice" value="0.692215322538339"/>
-<property name="csDep" value="25000"/>
-<property name="csInv" value="4800"/>
-<property name="csLoans" value="48613.2671265233"/>
-<property name="csLoans0" value="4851.07426279886"/>
-<property name="csOCF" value="2954.05526864194"/>
-<property name="csProfits" value="3029.30794059804"/>
-<property name="cUnitCost" value="0.632160111907159"/>
-<property name="csTax" value="545.275429307647"/>
-<property name="csDiv" value="2235.62926016135"/>
-<property name="targetCashFlow" value="0.0547577252479685"/>
-<property name="unemploymentBenefit" value="0.471624810393866"/>
+<property name="cbProfits" value="46.7675201140763"/>
+<property name="seigniorage" value="46.5348458846531"/>
+<property name="csOutput" value="32000"/>
+<property name="cPrice" value="1.05097634640936"/>
+<property name="csDep" value="50000"/>
+<property name="csInv" value="3200"/>
+<property name="csLoans" value="52682.5629701054"/>
+<property name="csLoans0" value="5176.91604520981"/>
+<property name="csOCF" value="3015.97068062512"/>
+<property name="csProfits" value="3385.34643817259"/>
+<property name="cUnitCost" value="0.956737684487352"/>
+<property name="csTax" value="609.362358871066"/>
+<property name="csDiv" value="2498.38567137137"/>
+<property name="targetCashFlow" value="0.0544219443736496"/>
+<property name="unemploymentBenefit" value="0.3"/>
 <property name="gEmpl" value="1360"/>
-<property name="gRes" value="54.0049908578109"/>
-<property name="gBonds" value="170870.56089208"/>
-<property name="hhsDep" value="186560.013339822"/>
-<property name="hhsNI" value="34542.3283754732"/>
-<property name="hhsTax" value="7251.17465463208"/>
-<property name="hhsNomCons" value="33172.7325132469"/>
-<property name="hhsRealCons" value="47922.5631579538"/>
-<property name="propensityOOI" value="0.31818862438699"/>
-<property name="hhsNW" value="186560.013339822"/>
-<property name="iLoans" value="0.0075"/>
+<property name="gRes" value="46.7675201140763"/>
+<property name="gBonds" value="73853.8759903545"/>
+<property name="hhsDep" value="64401.603503443"/>
+<property name="hhsNI" value="33890.600773277"/>
+<property name="hhsTax" value="7228.66846242667"/>
+<property name="hhsNomCons" value="33584.7082392147"/>
+<property name="hhsRealCons" value="31955.7222709687"/>
+<property name="propensityOOI" value="0.46884580621887"/>
+<property name="hhsNW" value="64401.603503443"/>
+<property name="iLoans" value="0.0085"/>
 <property name="iReserves" value="0"/>
-<property name="ksOutput" value="3000"/>
-<property name="kPrice" value="1.79446535097239"/>
-<property name="ksDep" value="5000"/>
-<property name="ksInv" value="300"/>
-<property name="ksLoans" value="1049.18118623902"/>
-<property name="ksLoans0" value="104.696848214919"/>
-<property name="ksOCF" value="230.770138714019"/>
-<property name="ksProfits" value="404.127565388185"/>
-<property name="kUnitCost" value="1.66927009392781"/>
-<property name="ksTax" value="72.7429617698734"/>
-<property name="ksDiv" value="298.246143256481"/>
-<property name="laborProductivity" value="3"/>
-<property name="capitalLaborRatio" value="9.6"/>
+<property name="ksOutput" value="2000"/>
+<property name="kPrice" value="2.72287241777904"/>
+<property name="ksDep" value="10000"/>
+<property name="ksInv" value="200"/>
+<property name="ksLoans" value="2260.61910933865"/>
+<property name="ksLoans0" value="222.142482815121"/>
+<property name="ksOCF" value="196.621873969208"/>
+<property name="ksProfits" value="500.017768297066"/>
+<property name="kUnitCost" value="2.50955983205442"/>
+<property name="ksTax" value="90.0031982934719"/>
+<property name="ksDiv" value="369.013113003235"/>
+<property name="laborProductivity" value="2"/>
+<property name="capitalLaborRatio" value="6.4"/>
+
+
 
 
 <property name="avpAllProdComputer" ref="AveragePriceAllProducersComputer"/>
@@ -3419,6 +3429,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_COMPUTEAGGREGATES" />
 				<util:constant static-field="benchmark.StaticValues.TIC_UPDATEEXPECTATIONS" />
 				<util:constant static-field="benchmark.StaticValues.TIC_CONSUMPTIONDEMAND" />
+				<util:constant static-field="benchmark.StaticValues.TIC_UNEMPLOYMENTBENEFITAMOUNT" />
 			</list>
 		</property>
 		<property name="numberMarkets" value="9" />

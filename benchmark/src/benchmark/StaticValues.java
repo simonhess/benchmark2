@@ -36,6 +36,7 @@ public interface StaticValues {
 	public static int TIC_GOVERNMENTLABOR=13;
 	public static int TIC_CBPOLICY=1311;
 	public static int TIC_LABORMARKET=14;
+	public static int TIC_UNEMPLOYMENTBENEFITAMOUNT=169;
 	public static int TIC_PRODUCTION=15;
 	public static int TIC_RDOUTCOME=16;
 	public static int TIC_CONSUMPTIONDEMAND=17;

@@ -91,6 +91,9 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 		case StaticValues.TIC_GOVERNMENTLABOR:
 			computeLaborDemand();
 			break;
+		case StaticValues.TIC_UNEMPLOYMENTBENEFITAMOUNT:
+			determineUnemploymentBenefitAmount(event.getSimulationController());
+			break;
 		case StaticValues.TIC_TAXES:
 			collectTaxes(event.getSimulationController());
 			break;
@@ -173,38 +176,6 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 		profitsFromCB=cb.getCBProfits();
 	}
 
-	/**
-	 * 
-	 */
-	private void payUnemploymentBenefits(SimulationController simulationController) {
-		MacroPopulation macroPop = (MacroPopulation) simulationController.getPopulation();
-		Population households= (Population) macroPop.getPopulation(StaticValues.HOUSEHOLDS_ID);
-		double averageWage=0;
-		double employed=0;
-		for(Agent agent:households.getAgents()){
-			Households worker= (Households) agent;
-			if (worker.getEmployer()!=null){
-				averageWage+=worker.getWage();
-				employed+=1;
-			}
-		}
-		averageWage=averageWage/employed;
-		double unemploymentBenefit=averageWage*this.unemploymentBenefit;
-		double doleAmount=0;
-		for(Agent agent:households.getAgents()){
-			Households worker= (Households) agent;
-			
-			if (worker.getEmployer()==null){
-				LaborSupplier unemployed = (LaborSupplier) worker;
-				Deposit depositGov = (Deposit) this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-				Item payableStock = unemployed.getPayableStock(StaticValues.MKT_LABOR);
-				LiabilitySupplier payingSupplier = (LiabilitySupplier) depositGov.getLiabilityHolder();
-				payingSupplier.transfer(depositGov, payableStock, unemploymentBenefit);
-				doleAmount+=unemploymentBenefit;
-			}
-		}
-		this.doleExpenditure=doleAmount;
-	}
 
 	/**
 	 * Sets the labor demand equal to the fixed labor demand

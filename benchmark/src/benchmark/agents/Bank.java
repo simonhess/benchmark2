@@ -85,6 +85,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	private double capitalRatio;
 	private double CapitalAdequacyRatio;
 	private double liquidityRatio;
+	private double netLiquidityRatio;
 	protected double advancesInterests;
 	protected double reservesInterests;
 	protected double bondInterestReceived;
@@ -213,9 +214,11 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 				}
 			if (depositsValue==0){
 				this.liquidityRatio=0;
+				this.netLiquidityRatio=0;
 			}
 			else{
 			this.liquidityRatio=reservesValue/depositsValue;
+			this.netLiquidityRatio=this.getNetLiquidity()/depositsValue;
 			}
 			double outstandingLoans=0;
 			for (Item i:this.getItemsStockMatrix(true, StaticValues.SM_LOAN)){
@@ -870,7 +873,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 				externalFundingRate = interestPay/totValue;
 			}
 			
-			return this.advancesInterestRate-Math.max(0,Math.round(this.targetedLiquidityRatio * 100.0) / 100.0-Math.round(Math.max(0, this.liquidityRatio) * 100.0) / 100.0)*(externalFundingRate+this.reserveInterestRate);
+			return this.advancesInterestRate-Math.max(0,Math.round(this.targetedLiquidityRatio * 100.0) / 100.0-Math.round(Math.max(0, this.netLiquidityRatio) * 100.0) / 100.0)*(externalFundingRate+this.reserveInterestRate);
 		case StaticValues.MKT_INTERBANK:
 			return this.advancesInterestRate;
 		}
@@ -1572,5 +1575,13 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			}
 		double liquidity = reservesValue+interbankLoansGiven-interbankLoansReceived-advValue;
 		return liquidity;
+	}
+
+	public double getNetLiquidityRatio() {
+		return netLiquidityRatio;
+	}
+
+	public void setNetLiquidityRatio(double netLiquidityRatio) {
+		this.netLiquidityRatio = netLiquidityRatio;
 	}
 }

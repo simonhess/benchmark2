@@ -1800,6 +1800,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <property name="csKap" value="40000"/>
 <property name="capitalDuration" value="20"/>
 <property name="capitalProductivity" value="1"/>
+<property name="shareOfExpIncomeAsDeposit" value="2"/>
 <property name="iAdv" value="0.0075"/>
 <property name="iBonds" value="0.0075"/>
 <property name="iDep" value="0.007125"/>
@@ -1991,7 +1992,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="payableStockId"><util:constant static-field="benchmark.StaticValues.SM_DEP" /></property>
 		<property name="loanAmortizationType" value="0"/>
 		<property name="capitalAmortization" value="20"/>
-		<property name="shareOfExpIncomeAsDeposit" value="1"/>
 		<property name="minWageDiscount" value="1"/>
 		<property name="turnoverLabor" ref="turnoverVal"/>
 		<property name="prng" ref="prng" />
@@ -2466,7 +2466,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="loanAmortizationType" value="0" />
 		<property name="turnoverLabor" ref="turnoverVal" />
 		<property name="prng" ref="prng" /> 
-		<property name="shareOfExpIncomeAsDeposit" value="1" />
 		<property name="minWageDiscount" value="1" />
 		<property name="preferredDepositRatio" value="1"/>
 		<property name="preferredCashRatio" value="0"/>
@@ -3677,7 +3676,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="advancesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.MonetaryTaylor">
 				<property name="targetInflation" value="0.005"/>
-				<property name="naturalRateOfInterest" value="0.005"/>
+				<property name="naturalRateOfInterest" value="0.025"/>
 				<property name="inflationCoefficient" value="0.5"/>
 				<property name="outputGapCoefficient" value="0.0"/>
 	</bean>

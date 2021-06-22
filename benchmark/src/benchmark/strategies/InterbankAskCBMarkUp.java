@@ -53,9 +53,9 @@ public class InterbankAskCBMarkUp extends AbstractStrategy implements InterestRa
 		double interbankAskPrice = 0;
 		double excessLiquidity = bank.getExcessLiquidity();
 		if(excessLiquidity <= 0){
-			interbankAskPrice=avInterest+(adaptiveParameter*avInterest*distribution.nextDouble());
+			interbankAskPrice=avInterest+(adaptiveParameter*distribution.nextDouble());
 		}else{
-			interbankAskPrice=avInterest-(adaptiveParameter*avInterest*distribution.nextDouble());
+			interbankAskPrice=avInterest-(adaptiveParameter*distribution.nextDouble());
 		}
 		
 		if (interbankAskPrice<centralBankDepositRate+ interBankRiskPremium){

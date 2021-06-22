@@ -71,9 +71,9 @@ public class AdaptiveDepositInterestRate extends AbstractStrategy implements Int
 		double referenceVariable = liquidityDeficitPosition + opportunityCostPosition + profitOnReservesPosition;
 		double iR=0;
 		if(referenceVariable>0){
-			iR=avInterest+(adaptiveParameter*avInterest*distribution.nextDouble());
+			iR=avInterest+(adaptiveParameter*distribution.nextDouble());
 		}else{
-			iR=avInterest-(adaptiveParameter*avInterest*distribution.nextDouble());
+			iR=avInterest-(adaptiveParameter*distribution.nextDouble());
 		}
 		return Math.min(Math.max(iR, lender.getInterestRateLowerBound(mktId)),lender.getInterestRateUpperBound(mktId));
 	}

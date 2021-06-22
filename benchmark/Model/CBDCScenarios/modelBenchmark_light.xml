@@ -2312,7 +2312,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 
 	<bean id="capitalPricingStrategy" scope="prototype" parent="strategy"
 	class="jmab.strategies.AdaptiveMarkUpOnAC">
-	<property name="adaptiveParameter" value="1" />
+	<property name="adaptiveParameter" value="0.01" />
 	<property name="distribution" ref="foldedNormal1"/>
 	<property name="threshold" value="0.1"/>
 	<property name="markUp" value="0.075"/>
@@ -2617,7 +2617,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<bean id="consumptionPricingStrategy" scope="prototype" parent="strategy"
 	class="jmab.strategies.AdaptiveMarkUpOnAC">
-	<property name="adaptiveParameter" value="1" />
+	<property name="adaptiveParameter" value="0.01" />
 	<property name="distribution" ref="foldedNormal1"/>
 	<property name="threshold" value="0.1"/>
 	<property name="markUp" value="0.318857"/>
@@ -2969,7 +2969,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 			<util:constant static-field="benchmark.StaticValues.MKT_CREDIT" />
 		</property>
 		<!-- <property name="adaptiveParameter" value="1"/> -->
-		<property name="adaptiveParameter" value="1" />
+		<property name="adaptiveParameter" value="0.01" />
 		<property name="markup" value="0.0025" />
 		<property name="liabilitiesId">
 			<list>
@@ -3034,7 +3034,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="mktId">
 			<util:constant static-field="benchmark.StaticValues.MKT_DEPOSIT" />
 		</property>
-		<property name="adaptiveParameter" value="1" />
+		<property name="adaptiveParameter" value="0.01" />
 		<property name="liabilitiesId">
 			<list>
 				<util:constant static-field="benchmark.StaticValues.SM_DEP" />
@@ -3165,7 +3165,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 			<util:constant static-field="benchmark.StaticValues.SM_ADVANCES"/>
 		</property>
 		<property name="distribution" ref="foldedNormal1" />
-		<property name="adaptiveParameter" value="1" />
+		<property name="adaptiveParameter" value="0.01" />
 	</bean>  
 
 	<bean id="banksIlliquiditytrategy" scope="prototype" parent="strategy"

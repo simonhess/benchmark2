@@ -64,9 +64,9 @@ InterestRateStrategy {
 		double referenceVariable=lender.getCapitalAdequacyRatio();
 
 		if(referenceVariable>threshold){
-			markup-=markup*adaptiveParameter*distribution.nextDouble();
+			markup-=adaptiveParameter*distribution.nextDouble();
 		}else{
-			markup+=markup*adaptiveParameter*distribution.nextDouble();
+			markup+=adaptiveParameter*distribution.nextDouble();
 		}
 		if (markup < 0) markup = 0;
 		

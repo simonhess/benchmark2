@@ -397,7 +397,10 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 						principal=amount;
 					break;
 				}
-				payments[i][1]=principal;
+				if(loan.getAge()==loan.getLength()) { payments[i][1]=loan.getValue();
+				}else {
+				payments[i][1]=principal;	
+				}
 				payments[i][2]=loan.getValue();
 				toPay+=principal+interests;
 				totInterests +=interests;

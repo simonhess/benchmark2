@@ -594,7 +594,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			b.setRiskAversionC(riskAversionC);
 			b.setRiskAversionK(riskAversionK);
 			
-			FixedShareOfProfitsToPopulationAsShareOfWealthDividends dividendsStrategy = (FixedShareOfProfitsToPopulationAsShareOfWealthDividends) b.getStrategy(benchmark.StaticValues.STRATEGY_DIVIDENDS);
+			DividendsStrategy dividendsStrategy = (DividendsStrategy) b.getStrategy(benchmark.StaticValues.STRATEGY_DIVIDENDS);
 			
 			dividendsStrategy.setProfitShare(bsProfitShareAsDividends);
 			

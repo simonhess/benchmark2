@@ -301,6 +301,9 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	private void payInterbankInterests() {
 		// the list loans loads from the stock matrix
 		List<Item> loans=this.getItemsStockMatrix(false, StaticValues.SM_INTERBANK);
+		
+		if(loans.size()>0) {
+			
 		// reset total interest to 0
 		this.totInterestsInterbank = 0;
 		// define variable amountToPay here because it is used in the loop and after
@@ -361,6 +364,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			System.out.println("Insolvency " + this.getAgentId() +" due to interbankdebt service");
 			BankruptcyStrategy strategy = (BankruptcyStrategy)this.getStrategy(StaticValues.STRATEGY_BANKRUPTCY);
 			this.defaulted=true;
+		}
 		}
 	}
 	

@@ -72,10 +72,11 @@ public class AdaptiveDepositInterestRate extends AbstractStrategy implements Int
 		double iR=0;
 		if(referenceVariable>0){
 			iR=avInterest+(adaptiveParameter*distribution.nextDouble());
+			return Math.min(iR, lender.getInterestRateUpperBound(mktId));
 		}else{
 			iR=avInterest-(adaptiveParameter*distribution.nextDouble());
+			return Math.max(iR, lender.getInterestRateLowerBound(mktId));
 		}
-		return Math.min(Math.max(iR, lender.getInterestRateLowerBound(mktId)),lender.getInterestRateUpperBound(mktId));
 	}
 
 	/** 

@@ -365,6 +365,8 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 					dBankRes.setValue(dBankRes.getValue() - amountToPay);
 				}
 				loan.setValue(loan.getValue() - this.debtPayments[i][1]);
+				Bank bank = (Bank)loan.getAssetHolder();
+				bank.setTotInterestsLoans(bank.getTotInterestsLoans()+this.debtPayments[i][0]);
 			}
 			// Else, the firm defaults
 		} else {

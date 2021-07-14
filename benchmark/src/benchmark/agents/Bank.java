@@ -202,6 +202,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			// TODO set the interest rates here?
 			this.updateCentralBankInterestRates();
 			setCurrentNonPerformingLoans(StaticValues.SM_LOAN,0); // we delete non performing loans from previous period
+			this.totInterestsLoans=0;
 			this.defaulted=false;
 			computeExpectations();
 			double depositsValue=0;

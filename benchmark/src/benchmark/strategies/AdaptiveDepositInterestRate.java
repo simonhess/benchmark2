@@ -10,6 +10,7 @@ import benchmark.StaticValues;
 import benchmark.agents.Bank;
 import jmab.agents.MacroAgent;
 import jmab.population.MacroPopulation;
+import jmab.simulations.MacroSimulation;
 import jmab.stockmatrix.InterestBearingItem;
 import jmab.stockmatrix.Item;
 import jmab.stockmatrix.Loan;
@@ -30,10 +31,12 @@ import net.sourceforge.jabm.strategy.AbstractStrategy;
 public class AdaptiveDepositInterestRate extends AbstractStrategy implements InterestRateStrategy {
 
 	private double adaptiveParameter;
-	private AbstractDelegatedDistribution distribution; 
+	private AbstractDelegatedDistribution distribution;
+	private AbstractDelegatedDistribution depositRateChangeRisingDistribution;
+	private AbstractDelegatedDistribution depositRateChangeFallingDistribution;
 	private int[] liabilitiesId;
 	private int mktId;
-	
+	private int updateRound;
 	/* 
 	 * Main method used to compute the deposit interest rate
 	 */
@@ -69,13 +72,23 @@ public class AdaptiveDepositInterestRate extends AbstractStrategy implements Int
 		}else {profitOnReservesPosition = -1;}
 		// the deposit rate = average deposit rate + random if (liquidity position + opportunity cost position + profit on reserves position > 0)
 		double referenceVariable = liquidityDeficitPosition + opportunityCostPosition + profitOnReservesPosition;
-		double iR=0;
-		if(referenceVariable>0){
-			iR=avInterest+(adaptiveParameter*distribution.nextDouble());
-			return Math.min(iR, lender.getInterestRateUpperBound(mktId));
-		}else{
-			iR=avInterest-(adaptiveParameter*distribution.nextDouble());
-			return Math.max(iR, lender.getInterestRateLowerBound(mktId));
+		
+		int round = ((MacroSimulation)((SimulationController)this.scheduler).getSimulation()).getRound();
+			
+		if(round==updateRound) {
+			if(advancesRate<previousDepositRate) updateRound = round+depositRateChangeFallingDistribution.nextInt();
+			else updateRound = round+depositRateChangeRisingDistribution.nextInt();
+			
+			double iR=0;
+			if(referenceVariable>0){
+				iR=avInterest+(adaptiveParameter*distribution.nextDouble());
+				return Math.min(iR, lender.getInterestRateUpperBound(mktId));
+			}else{
+				iR=avInterest-(adaptiveParameter*distribution.nextDouble());
+				return Math.max(iR, lender.getInterestRateLowerBound(mktId));
+			}
+		}else {
+			return previousDepositRate;
 		}
 	}
 
@@ -136,6 +149,30 @@ public class AdaptiveDepositInterestRate extends AbstractStrategy implements Int
 
 	public void setMktId(int mktId) {
 		this.mktId = mktId;
+	}
+
+	public int getUpdateRound() {
+		return updateRound;
+	}
+
+	public void setUpdateRound(int updateRound) {
+		this.updateRound = updateRound;
+	}
+
+	public AbstractDelegatedDistribution getDepositRateChangeRisingDistribution() {
+		return depositRateChangeRisingDistribution;
+	}
+
+	public void setDepositRateChangeRisingDistribution(AbstractDelegatedDistribution depositRateChangeRisingDistribution) {
+		this.depositRateChangeRisingDistribution = depositRateChangeRisingDistribution;
+	}
+
+	public AbstractDelegatedDistribution getDepositRateChangeFallingDistribution() {
+		return depositRateChangeFallingDistribution;
+	}
+
+	public void setDepositRateChangeFallingDistribution(AbstractDelegatedDistribution depositRateChangeFallingDistribution) {
+		this.depositRateChangeFallingDistribution = depositRateChangeFallingDistribution;
 	}
 
 }

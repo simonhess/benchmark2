@@ -3031,7 +3031,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="banksDepInterestStrategy" scope="prototype" parent="strategy"
 		class="benchmark.strategies.AdaptiveDepositInterestRate">
 		<property name="distribution" ref="foldedNormal2" />
-		<property name="depositRateChangeDistribution" ref="depositRateChangeDistribution"/>
+		<property name="depositRateChangeRisingDistribution" ref="depositRateChangeRisingDistribution"/>
+		<property name="depositRateChangeFallingDistribution" ref="depositRateChangeFallingDistribution"/>
 		<property name="updateRound" value="1" />
 		<property name="mktId">
 			<util:constant static-field="benchmark.StaticValues.MKT_DEPOSIT" />
@@ -3678,7 +3679,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="advancesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.MonetaryTaylor">
 				<property name="targetInflation" value="0.005"/>
-				<property name="naturalRateOfInterest" value="0.005"/>
+				<property name="naturalRateOfInterest" value="0.0025"/>
 				<property name="inflationCoefficient" value="0.5"/>
 				<property name="outputGapCoefficient" value="0.0"/>
 	</bean>
@@ -3707,9 +3708,19 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<property name="prng" ref="prng" />
 	</bean>
 	
-	<bean id="depositRateChangeDistribution" class="net.sourceforge.jabm.distribution.NormalDistribution">
+	<bean id="depositRateChangeRisingDistribution" class="jmab.distribution.TruncatedNormalDistribution">
 				<property name="mean" value="4" />
 				<property name="stdev" value="1" />
 				<property name="prng" ref="prng" />
+				<property name="lowerBound" value="1" />
+				<property name="UpperBound" value="7" />
+	</bean>
+	
+	<bean id="depositRateChangeFallingDistribution" class="jmab.distribution.TruncatedNormalDistribution">
+				<property name="mean" value="2" />
+				<property name="stdev" value="1" />
+				<property name="prng" ref="prng" />
+				<property name="lowerBound" value="1" />
+				<property name="UpperBound" value="3" />
 	</bean>
 </beans>

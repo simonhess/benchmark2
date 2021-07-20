@@ -79,9 +79,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="laborMarket" />
 				<ref bean="depositMarket" />
 				<ref bean="bondMarket" />
-				<ref bean="reservesMarketBonds" />
 				<ref bean="reservesMarketBasel" />
 				<ref bean="interbankMarket" />
+				<ref bean="reservesMarketBonds" />
 				<!--<ref bean="reservesMarketBasel" />-->
 			</list>
 		</property>
@@ -90,6 +90,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="computeExpectationsTic" />
 				<ref bean="capitalPriceTic" />
 				<ref bean="consumptionPriceTic" />
+				<ref bean="cbPolicyTic" />
 				<ref bean="capitalMarketTic1" />
 				<ref bean="rdDecisionTic" />
 				<ref bean="investmentDemandTic" />
@@ -102,7 +103,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="laborSupplyTic" />
 				<ref bean="laborDemandTic" />
 				<ref bean="governmentLaborTic" />
-				<ref bean="cbPolicyTic" />
 				<ref bean="laborMarketTic" />
 				<ref bean="productionTic" />
 				<ref bean="rdOutcomeTic" />
@@ -3031,10 +3031,12 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="banksDepInterestStrategy" scope="prototype" parent="strategy"
 		class="benchmark.strategies.AdaptiveDepositInterestRate">
 		<property name="distribution" ref="foldedNormal2" />
+		<property name="depositRateChangeDistribution" ref="depositRateChangeDistribution"/>
+		<property name="updateRound" value="1" />
 		<property name="mktId">
 			<util:constant static-field="benchmark.StaticValues.MKT_DEPOSIT" />
 		</property>
-		<property name="adaptiveParameter" value="0.25" />
+		<property name="adaptiveParameter" value="0.5" />
 		<property name="liabilitiesId">
 			<list>
 				<util:constant static-field="benchmark.StaticValues.SM_DEP" />
@@ -3108,7 +3110,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="banksDividendsStrategy" scope="prototype" parent="strategy"
-	class="benchmark.strategies.FixedShareOfProfitsToPopulationAsShareOfWealthDividends">
+	class="benchmark.strategies.FixedShareOfProfitsDividendsIfSufficientCAR">
 		<property name="profitsLagId"><util:constant static-field="benchmark.StaticValues.LAG_PROFITAFTERTAX" /> </property>
 		<property name="profitShare" value="0.6" />
 		<property name="receiversId"><util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" /> </property>
@@ -3165,7 +3167,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 			<util:constant static-field="benchmark.StaticValues.SM_ADVANCES"/>
 		</property>
 		<property name="distribution" ref="foldedNormal1" />
-		<property name="adaptiveParameter" value="0.1" />
+		<property name="adaptiveParameter" value="1" />
 	</bean>  
 
 	<bean id="banksIlliquiditytrategy" scope="prototype" parent="strategy"
@@ -3676,7 +3678,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="advancesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.MonetaryTaylor">
 				<property name="targetInflation" value="0.005"/>
-				<property name="naturalRateOfInterest" value="0.025"/>
+				<property name="naturalRateOfInterest" value="0.005"/>
 				<property name="inflationCoefficient" value="0.5"/>
 				<property name="outputGapCoefficient" value="0.0"/>
 	</bean>
@@ -3702,6 +3704,12 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="foldedNormal2" class="jmab.distribution.FoldedNormalDistribution">
 				<property name="mean" value="0.0" />
 				<property name="stdev" value="0.0094" />
+				<property name="prng" ref="prng" />
+	</bean>
+	
+	<bean id="depositRateChangeDistribution" class="net.sourceforge.jabm.distribution.NormalDistribution">
+				<property name="mean" value="4" />
+				<property name="stdev" value="1" />
 				<property name="prng" ref="prng" />
 	</bean>
 </beans>

@@ -61,9 +61,9 @@ public class AdaptiveDepositInterestRate extends AbstractStrategy implements Int
 		}else {liquidityDeficitPosition = -1;}
 		// determine the opportunity cost position
 		double previousDepositRate = lender.getDepositInterestRate();
-		double advancesRate = lender.getAdvancesInterestRate();
+		double depositUpperBound = lender.getInterestRateUpperBound(mktId);
 		int opportunityCostPosition = 0;
-		if (previousDepositRate <= advancesRate) {opportunityCostPosition = 1;
+		if (previousDepositRate <= depositUpperBound) {opportunityCostPosition = 1;
 		}else {opportunityCostPosition = -1;}
 		// determine the profit on reserves position //
 		double reserveInterestRate = lender.getReserveInterestRate();
@@ -76,7 +76,7 @@ public class AdaptiveDepositInterestRate extends AbstractStrategy implements Int
 		int round = ((MacroSimulation)((SimulationController)this.scheduler).getSimulation()).getRound();
 			
 		if(round==updateRound) {
-			if(advancesRate<previousDepositRate) updateRound = round+depositRateChangeFallingDistribution.nextInt();
+			if(depositUpperBound<previousDepositRate) updateRound = round+depositRateChangeFallingDistribution.nextInt();
 			else updateRound = round+depositRateChangeRisingDistribution.nextInt();
 			
 			double iR=0;

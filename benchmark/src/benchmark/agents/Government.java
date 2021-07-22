@@ -302,7 +302,6 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	protected void emitBonds() {
 		Item deposit=this.getItemStockMatrix(true, StaticValues.SM_RESERVES);
 		double deficit=deposit.getValue();
-		System.out.println("gov deficit: "+deficit);
 		long quantity = 0;
 		if(deficit<0){
 			quantity = (long)Math.ceil(Math.abs(deficit)/this.bondPrice);

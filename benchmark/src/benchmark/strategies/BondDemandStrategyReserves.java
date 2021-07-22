@@ -40,7 +40,7 @@ public class BondDemandStrategyReserves extends AbstractStrategy implements Bond
 	 * @see jmab.strategies.BondDemandStrategy#BondDemand(double)
 	 */
 	@Override
-	public int bondDemand(BondSupplier supplier) {
+	public long bondDemand(BondSupplier supplier) {
 		Bank bank = (Bank) getAgent();
 		double liquidityRatio=bank.getTargetedLiquidityRatio();
 		SimulationController controller = (SimulationController)bank.getScheduler();
@@ -62,10 +62,10 @@ public class BondDemandStrategyReserves extends AbstractStrategy implements Bond
 			}
 		double bondsPrice= supplier.getBondPrice();
 		if (employableReserves/bondsPrice>=supplier.getBondSupply()){
-			return (int) Math.rint(supplier.getBondSupply()*Math.max(0, bank.getItemStockMatrix(true, StaticValues.SM_RESERVES).getValue()-liquidityRatio*bankDeposits)/employableReserves);
+			return (long) Math.rint(supplier.getBondSupply()*Math.max(0, bank.getItemStockMatrix(true, StaticValues.SM_RESERVES).getValue()-liquidityRatio*bankDeposits)/employableReserves);
 		}
 		else{
-			return (int) Math.rint(Math.max(0, bank.getItemStockMatrix(true, StaticValues.SM_RESERVES).getValue()-liquidityRatio*bankDeposits)/bondsPrice);
+			return (long) Math.rint(Math.max(0, bank.getItemStockMatrix(true, StaticValues.SM_RESERVES).getValue()-liquidityRatio*bankDeposits)/bondsPrice);
 		}
 	}
 	

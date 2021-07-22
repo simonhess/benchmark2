@@ -33,12 +33,12 @@ public class FullBondDemandStrategyEqual extends AbstractStrategy implements Bon
 	 * @see jmab.strategies.BondDemandStrategy#BondDemand(double)
 	 */
 	@Override
-	public int bondDemand(BondSupplier supplier) {
+	public long bondDemand(BondSupplier supplier) {
 		Bank bank = (Bank) getAgent();
 		SimulationController controller = (SimulationController)bank.getScheduler();
 		MacroPopulation macroPop = (MacroPopulation) controller.getPopulation();
 		Population banks = macroPop.getPopulation(bank.getPopulationId());
-		return (int) Math.ceil(supplier.getBondSupply()/(double)banks.getSize());
+		return (long) Math.ceil(supplier.getBondSupply()/(double)banks.getSize());
 	}
 
 	/* (non-Javadoc)

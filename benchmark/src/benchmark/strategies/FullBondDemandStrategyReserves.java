@@ -36,7 +36,7 @@ public class FullBondDemandStrategyReserves extends AbstractStrategy implements 
 	 * @see jmab.strategies.BondDemandStrategy#BondDemand(double)
 	 */
 	@Override
-	public int bondDemand(BondSupplier supplier) {
+	public long bondDemand(BondSupplier supplier) {
 		Bank bank = (Bank) getAgent();
 		SimulationController controller = (SimulationController)bank.getScheduler();
 		MacroPopulation macroPop = (MacroPopulation) controller.getPopulation();
@@ -46,7 +46,7 @@ public class FullBondDemandStrategyReserves extends AbstractStrategy implements 
 			MacroAgent tempB = (MacroAgent) b;
 			totalReserves+=tempB.getItemStockMatrix(true, StaticValues.SM_RESERVES).getValue();
 		}
-		return (int) Math.rint(supplier.getBondSupply()*bank.getItemStockMatrix(true, StaticValues.SM_RESERVES).getValue()/totalReserves);
+		return (long) Math.rint(supplier.getBondSupply()*bank.getItemStockMatrix(true, StaticValues.SM_RESERVES).getValue()/totalReserves);
 	}
 
 	/* (non-Javadoc)

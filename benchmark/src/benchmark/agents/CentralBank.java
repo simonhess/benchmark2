@@ -55,7 +55,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 
 	private double advancesInterestRate;
 	private double reserveInterestRate;
-	private int bondDemand;
+	private long bondDemand;
 	private double interestsOnAdvances;
 	private double interestsOnBonds;
 	private double bondInterestsReceived;
@@ -231,7 +231,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 		SimulationController controller = (SimulationController)this.getScheduler();
 		MacroPopulation macroPop = (MacroPopulation) controller.getPopulation();
 		Population banks = macroPop.getPopulation(StaticValues.BANKS_ID);
-		int banksBondDemand=0;
+		long banksBondDemand=0;
 		for(Agent b:banks.getAgents()){
 			Bank tempB= (Bank) b;
 			if(tempB.isActive(StaticValues.MKT_BONDS))
@@ -240,7 +240,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 		Population government=macroPop.getPopulation(StaticValues.GOVERNMENT_ID);
 		
 		Government gov= (Government) government.getAgentList().get(0);
-		int bondsSupply=gov.getBondSupply();
+		long bondsSupply=gov.getBondSupply();
 		this.bondDemand=bondsSupply-banksBondDemand;
 		Bond bondsIssued = (Bond) gov.getItemStockMatrix(false, StaticValues.SM_BONDS, gov); 
 		if (bondsIssued!=null && bondDemand>0){
@@ -327,7 +327,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	 * @see jmab.agents.BondDemander#getBondsDemand(double, jmab.agents.BondSupplier)
 	 */
 	@Override
-	public int getBondsDemand(double price, BondSupplier issuer) {
+	public long getBondsDemand(double price, BondSupplier issuer) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -420,7 +420,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 			buf.putDouble(interestsOnAdvances);
 			buf.putDouble(interestsOnBonds);
 			buf.putDouble(bondInterestsReceived);
-			buf.putInt(bondDemand);
+			buf.putLong(bondDemand);
 			out.write(buf.array());
 			byte[] smBytes = super.getStockMatrixBytes();
 			out.write(ByteBuffer.allocate(4).putInt(smBytes.length).array());

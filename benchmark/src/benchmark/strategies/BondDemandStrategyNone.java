@@ -33,7 +33,7 @@ public class BondDemandStrategyNone extends AbstractStrategy implements BondDema
 	 * @see jmab.strategies.BondDemandStrategy#BondDemand(double)
 	 */
 	@Override
-	public int bondDemand(BondSupplier supplier) {
+	public long bondDemand(BondSupplier supplier) {
 		
 			return 0;
 	}

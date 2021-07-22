@@ -75,7 +75,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	protected double reservesInterestsReceived;
 	protected double dividendsReceived;
 	protected double bondInterestReceived;
-	private int bondDemand;
+	private long bondDemand;
 	private BondSupplier selectedBondSupplier;
 	private double bondPrice;
 	private double bondInterestRate;
@@ -702,10 +702,10 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 		return this.reservesInterestsReceived;
 	}
 
-	public int getBondsDemand(double price, BondSupplier issuer) {
+	public long getBondsDemand(double price, BondSupplier issuer) {
 		return bondDemand;
 	}
-	public int getBondsDemand(){
+	public long getBondsDemand(){
 		return bondDemand;
 	}
 
@@ -759,7 +759,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	/**
 	 * @return the bondDemand
 	 */
-	public int getBondDemand() {
+	public long getBondDemand() {
 		return bondDemand;
 	}
 

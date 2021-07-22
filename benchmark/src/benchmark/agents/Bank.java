@@ -77,7 +77,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	private int advancesLength;
 	private int advancesAmortizationType;
 	private double bondPrice;
-	private int bondDemand;
+	private long bondDemand;
 	private BondSupplier selectedBondSupplier;
 	private double bondInterestRate;
 	private double riskAversionC;
@@ -695,10 +695,10 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	 * @see jmab.agents.BondDemander#getBondsDemand(double)
 	 */
 	@Override
-	public int getBondsDemand(double price, BondSupplier issuer) {
+	public long getBondsDemand(double price, BondSupplier issuer) {
 		return bondDemand;
 	}
-	public int getBondsDemand(){
+	public long getBondsDemand(){
 		return bondDemand;
 	}
 
@@ -974,7 +974,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	/**
 	 * @return the bondDemand
 	 */
-	public int getBondDemand() {
+	public long getBondDemand() {
 		return bondDemand;
 	}
 
@@ -1326,7 +1326,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			buf.putDouble(bondInterestReceived);
 			buf.putInt(advancesLength);
 			buf.putInt(advancesAmortizationType);
-			buf.putInt(bondDemand);
+			buf.putLong(bondDemand);
 			buf.putInt(selectedBondSupplier.getPopulationId());
 			buf.putLong(selectedBondSupplier.getAgentId());
 			out.write(buf.array());

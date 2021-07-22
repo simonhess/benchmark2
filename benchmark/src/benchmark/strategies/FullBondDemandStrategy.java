@@ -35,7 +35,7 @@ public class FullBondDemandStrategy extends AbstractStrategy implements BondDema
 	 * @see jmab.strategies.BondDemandStrategy#BondDemand(double)
 	 */
 	@Override
-	public int bondDemand(BondSupplier supplier) {
+	public long bondDemand(BondSupplier supplier) {
 		Bank bank = (Bank) getAgent();
 		SimulationController controller = (SimulationController)bank.getScheduler();
 		MacroPopulation macroPop = (MacroPopulation) controller.getPopulation();
@@ -45,7 +45,7 @@ public class FullBondDemandStrategy extends AbstractStrategy implements BondDema
 			MacroAgent tempB = (MacroAgent) b;
 			totalWealth+=tempB.getNetWealth();
 		}
-		return (int) Math.rint(supplier.getBondSupply()*bank.getNetWealth()/totalWealth);
+		return (long) Math.rint(supplier.getBondSupply()*bank.getNetWealth()/totalWealth);
 	}
 
 	/* (non-Javadoc)

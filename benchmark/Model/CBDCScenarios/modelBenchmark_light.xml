@@ -3016,7 +3016,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="banksBondStrategy" scope="prototype" parent="strategy"
-		class="benchmark.strategies.FullBondDemandStrategyEqual">
+		class="benchmark.strategies.FullBondDemandStrategyReserves">
 	</bean>
 	
 <!--	<bean id="banksDepInterestStrategy" scope="prototype" parent="strategy"
@@ -3037,7 +3037,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="mktId">
 			<util:constant static-field="benchmark.StaticValues.MKT_DEPOSIT" />
 		</property>
-		<property name="adaptiveParameter" value="0.5" />
+		<property name="adaptiveParameter" value="0.25" />
 		<property name="liabilitiesId">
 			<list>
 				<util:constant static-field="benchmark.StaticValues.SM_DEP" />
@@ -3679,18 +3679,18 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="advancesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.MonetaryTaylor">
 				<property name="targetInflation" value="0.005"/>
-				<property name="naturalRateOfInterest" value="0.0025"/>
-				<property name="inflationCoefficient" value="0.5"/>
-				<property name="outputGapCoefficient" value="0.0"/>
+				<property name="naturalRateOfInterest" value="0.005"/>
+				<property name="inflationCoefficient" value="0.25"/>
+				<property name="outputGapCoefficient" value="0.25"/>
 	</bean>
-	
-
-	<!-- 
+ 
+    <!--
 	<bean id="advancesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.MonetaryPolicyStatic">
-				<property name="staticAdvancesRate" value="0.005"/>
+				<property name="staticAdvancesRate" value="0.0075"/>
 	</bean>
 	-->
+	
 	<bean id="reservesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.ReservesStatic">
 		<property name="staticReservesRate" value="0.0"/>

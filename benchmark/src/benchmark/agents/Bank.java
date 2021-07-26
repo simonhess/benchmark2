@@ -337,7 +337,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 				amounts[1][i]=principal;
 				this.totInterestsInterbank+=interests;
 				// use previous to calculate total amount to pay
-				amountToPay=interests+principal;
+				amountToPay=interests;
 				debtBurden=amountToPay;
 			}
 		}	

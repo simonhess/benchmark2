@@ -40,10 +40,11 @@ public class GovernmentCBProfitConsumptionStrategy extends AbstractStrategy
 		GovernmentAntiCyclicalWithInvestment gov= (GovernmentAntiCyclicalWithInvestment) this.getAgent();
 		double demand = 0;
 		Deposit deposit = (Deposit) gov.getItemsStockMatrix(true, StaticValues.SM_RESERVES).get(1);
+		double previousCPrice = gov.getAggregateValue(StaticValues.LAG_CPRICE, 1);
 		if(deposit.getValue()>0) {
 	    demand=deposit.getValue();
 		}
-		return demand;
+		return demand/previousCPrice;
 	}
 
 	@Override

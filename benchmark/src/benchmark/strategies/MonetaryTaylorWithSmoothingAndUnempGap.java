@@ -31,7 +31,7 @@ import net.sourceforge.jabm.strategy.AbstractStrategy;
 @SuppressWarnings("serial")
 public class MonetaryTaylorWithSmoothingAndUnempGap extends AbstractStrategy implements
 		MonetaryPolicyStrategy {
-	
+
 	private int gdpAVID;
 	private int inflationAVID;
 	//private int inflationCoefficientId;
@@ -244,5 +244,12 @@ public class MonetaryTaylorWithSmoothingAndUnempGap extends AbstractStrategy imp
 		this.unemploymentGapCoefficient = unemploymentGapCoefficient;
 	}
 
+	public double getTargetUnemployment() {
+		return targetUnemployment;
+	}
+
+	public void setTargetUnemployment(double targetUnemployment) {
+		this.targetUnemployment = targetUnemployment;
+	}
 
 }

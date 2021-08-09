@@ -159,12 +159,6 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 				Bond bonds= (Bond) this.getItemStockMatrix(true, StaticValues.SM_BONDS);
 				this.interestsOnBonds=bonds.getValue()*bonds.getInterestRate();
 			}
-			// Set reserve interest rate of all reserves to rate from last period
-			List<Item> reserves = this.getItemsStockMatrix(false, StaticValues.SM_RESERVES);
-			for(Item r:reserves){
-				Deposit res = (Deposit)r;
-				res.setInterestRate(this.reserveInterestRate);
-			}
 			this.setActive(true, StaticValues.MKT_ADVANCES);
 		}
 		else if(event.getTic()==StaticValues.TIC_UPDATEEXPECTATIONS) {
@@ -222,6 +216,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 			Deposit res = (Deposit)r;
 			// Do not pay interest to the government
 			if(!(res.getAssetHolder() instanceof Government)&&res.getValue()>0) {
+			res.setInterestRate(this.getPassedValue(StaticValues.LAG_RESERVESINTEREST, 1));
 			DepositDemander depositor = (DepositDemander)res.getAssetHolder();
 			depositor.reservesInterestPaid(res.getInterestRate()*res.getValue());
 			totInterests+= res.getInterestRate()*res.getValue();

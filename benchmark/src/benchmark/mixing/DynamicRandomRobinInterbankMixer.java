@@ -114,8 +114,6 @@ public class DynamicRandomRobinInterbankMixer extends AbstractMarketMixer implem
 	public void invokeAgentInteractions(MarketPopulation population,
 			SimulationController simulation) {
 		invokeInteractions(population.getBuyers(),population.getSellers(),simulation);
-		population.getBuyers().setAgents(new ArrayList<Agent>());
-		population.getSellers().setAgents(new ArrayList<Agent>());	
 	}
 	
 	/**

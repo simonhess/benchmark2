@@ -61,26 +61,12 @@ import net.sourceforge.jabm.event.AgentArrivalEvent;
 @SuppressWarnings("serial")
 public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical implements LaborDemander, BondSupplier, GoodDemander{
 	
-	protected double unemploymentBenefit;
 	protected double doleExpenditure;
 	protected double profitsFromCB;
 	protected double desiredRealCapitalDemand;
 	protected ArrayList<Agent> selectedCapitalGoodSuppliers;
 	private double demand;
 
-	/**
-	 * @return the unemploymentBenefit
-	 */
-	public double getUnemploymentBenefit() {
-		return unemploymentBenefit;
-	}
-
-	/**
-	 * @param unemploymentBenefit the unemploymentBenefit to set
-	 */
-	public void setUnemploymentBenefit(double unemploymentBenefit) {
-		this.unemploymentBenefit = unemploymentBenefit;
-	}
 
 	/* (non-Javadoc)
 	 * @see jmab.agents.SimpleAbstractAgent#onTicArrived(AgentTicEvent)

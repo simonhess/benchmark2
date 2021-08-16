@@ -127,8 +127,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="bondMarket1Tic" />
 				<ref bean="bondDemandTic" />
 				<ref bean="cbBondsPurchasesTic" />
-				<ref bean="reservesDemandBondTic" />
-				<ref bean="reservesMarketBondTic" />
+				
+				<!--<ref bean="reservesDemandBondTic" />-->
+				<!--<ref bean="reservesMarketBondTic" />-->
 				<ref bean="bondMarket2Tic" />
 				<!-- 2 InterbankMarketTics -->
 				<ref bean="interbankDemandSupplyTic" />
@@ -583,16 +584,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="interbankMarket" class="jmab.simulations.SimpleMarketSimulation"
 		scope="simulation">
 		<property name="transaction" ref="interbankMktTransactionMechanism"></property>
-		<property name="sellersId">
-			<list>
-				<util:constant static-field="benchmark.StaticValues.BANKS_ID" />
-			</list>
-		</property>
-		<property name="buyersId">
-			<list>
-				<util:constant static-field="benchmark.StaticValues.BANKS_ID" />
-			</list>
-		</property>
 		<property name="marketId">
 			<util:constant static-field="benchmark.StaticValues.MKT_INTERBANK" />
 		</property>
@@ -1846,7 +1837,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <property name="hhsTax" value="7228.66846242667"/>
 <property name="hhsNomCons" value="33584.7082392147"/>
 <property name="hhsRealCons" value="31955.7222709687"/>
-<property name="propensityOOI" value="0.46884580621887"/>
+<property name="propensityOOI" value="0.518267851837506"/>
 <property name="hhsNW" value="64401.603503443"/>
 <property name="iLoans" value="0.0085"/>
 <property name="iReserves" value="0"/>
@@ -3675,21 +3666,23 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 
 
-	
+<!--
 	<bean id="advancesInterestRateStrategy" scope="prototype"
-		parent="strategy" class="benchmark.strategies.MonetaryTaylor">
+		parent="strategy" class="benchmark.strategies.MonetaryTaylorWithSmoothingAndUnempGap">
 				<property name="targetInflation" value="0.005"/>
 				<property name="naturalRateOfInterest" value="0.005"/>
 				<property name="inflationCoefficient" value="0.25"/>
-				<property name="outputGapCoefficient" value="0.25"/>
+				<property name="unemploymentGapCoefficient" value="0.25"/>
+				<property name="targetUnemployment" value="0"/>
+				<property name="smoothingParameter" value="0.5"/>
 	</bean>
- 
-    <!--
+ -->
+    
 	<bean id="advancesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.MonetaryPolicyStatic">
 				<property name="staticAdvancesRate" value="0.0075"/>
 	</bean>
-	-->
+	
 	
 	<bean id="reservesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.ReservesStatic">
@@ -3700,6 +3693,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<property name="mean" value="0.0" />
 				<property name="stdev" value="0.0094" />
 				<property name="prng" ref="prng" />
+				<!--<property name="lowerBound" value="0" />
+				<property name="UpperBound" value="0.02" />-->
 	</bean>
 	
 	<bean id="foldedNormal2" class="jmab.distribution.FoldedNormalDistribution">

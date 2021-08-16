@@ -44,9 +44,21 @@ public class FullBondDemandStrategyReserves extends AbstractStrategy implements 
 		double totalReserves=0;
 		for(Agent b:banks.getAgents()){
 			MacroAgent tempB = (MacroAgent) b;
-			totalReserves+=tempB.getItemStockMatrix(true, StaticValues.SM_RESERVES).getValue();
+			double bankRes =tempB.getItemStockMatrix(true, StaticValues.SM_RESERVES).getValue();
+			if(bankRes >0) {
+			totalReserves+=bankRes;
+			}
 		}
-		return (long) Math.rint(supplier.getBondSupply()*bank.getItemStockMatrix(true, StaticValues.SM_RESERVES).getValue()/totalReserves);
+		double thisBankReserves = bank.getItemStockMatrix(true, StaticValues.SM_RESERVES).getValue();
+		if(totalReserves>0) {
+			if(thisBankReserves>0) {
+				return (long) Math.rint(supplier.getBondSupply()*thisBankReserves/totalReserves);
+			}else {
+				return 0;
+			}
+		}else {
+			return (long) Math.ceil(supplier.getBondSupply()/(double)banks.getSize());
+		}
 	}
 
 	/* (non-Javadoc)

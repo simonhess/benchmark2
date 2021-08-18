@@ -952,7 +952,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		}			
 		//double expectedAverageCosts=(amortisationCosts+expectedVariableCosts)/this.getDesiredOutput();
 		
-		if(this.getDesiredOutput()>0){
+		if(this.getRequiredWorkers()>0){
 			
 			
 			double expectedVariableCosts=this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*this.getRequiredWorkers();

@@ -898,7 +898,7 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 			}
 		}
 
-		if (this.getDesiredOutput() > 0) {
+		if (this.getRequiredWorkers() > 0) {
 
 			expectedFixedCosts = totInterests / this.getDesiredOutput();
 

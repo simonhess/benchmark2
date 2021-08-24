@@ -61,8 +61,6 @@ import net.sourceforge.jabm.event.AgentArrivalEvent;
 @SuppressWarnings("serial")
 public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical implements LaborDemander, BondSupplier, GoodDemander{
 	
-	protected double doleExpenditure;
-	protected double profitsFromCB;
 	protected double desiredRealCapitalDemand;
 	protected ArrayList<Agent> selectedCapitalGoodSuppliers;
 	private double demand;

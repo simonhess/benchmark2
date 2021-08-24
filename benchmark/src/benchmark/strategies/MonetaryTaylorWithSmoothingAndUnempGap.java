@@ -9,12 +9,15 @@ import benchmark.agents.Government;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import jmab.agents.AbstractFirm;
 import jmab.agents.LaborDemander;
 import jmab.agents.LaborSupplier;
 import jmab.agents.MacroAgent;
+import jmab.expectations.PassedValues;
 import jmab.population.MacroPopulation;
+import jmab.simulations.AbstractMacroSimulation;
 import jmab.simulations.MacroSimulation;
 import jmab.stockmatrix.AbstractGood;
 import jmab.stockmatrix.Item;
@@ -72,8 +75,11 @@ public class MonetaryTaylorWithSmoothingAndUnempGap extends AbstractStrategy imp
 		Population govpop = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.GOVERNMENT_ID);
 		Government gov = (Government) govpop.getAgentList().get(0);
 		// 1. Calculate Consumer Price Inflation
-		double lastCPrice = gov.getAggregateValue(StaticValues.LAG_CPRICE, 2);
-		double currentCPrice = gov.getAggregateValue(StaticValues.LAG_CPRICE, 1);
+		AbstractMacroSimulation macroSim = (AbstractMacroSimulation)((SimulationController)this.scheduler).getSimulation();
+		Map<Integer, PassedValues> passedValues = macroSim.getPassedValues();
+		// Get lagged cPrice from passedValues map directly since getAggregateValue method cannot provide value from round -1
+		double lastCPrice = passedValues.get(StaticValues.LAG_CPRICE).getObservation(macroSim.getRound()-2);
+		double currentCPrice = passedValues.get(StaticValues.LAG_CPRICE).getObservation(macroSim.getRound()-1);
 		double inflation = (currentCPrice-lastCPrice)/lastCPrice;
 		// 2. Get nominal GDP
 		double nominalGDP = gov.getAggregateValue(StaticValues.LAG_NOMINALGDP, 1);

@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.TreeMap;
 
 import benchmark.StaticValues;
+import benchmark.strategies.InvestmentCapacityOperatingCashFlowExpected;
 import jmab.agents.AbstractFirm;
 import jmab.agents.CreditDemander;
 import jmab.agents.DepositDemander;
@@ -50,6 +51,7 @@ import jmab.stockmatrix.Loan;
 import jmab.strategies.BankruptcyStrategy;
 import jmab.strategies.DividendsStrategy;
 import jmab.strategies.FinanceStrategy;
+import jmab.strategies.InvestmentCapacityOperatingCashFlow;
 import jmab.strategies.InvestmentStrategy;
 import jmab.strategies.PricingStrategy;
 import jmab.strategies.ProductionStrategy;
@@ -59,6 +61,8 @@ import jmab.strategies.SelectLenderStrategy;
 import jmab.strategies.SelectSellerStrategy;
 import jmab.strategies.SelectWorkerStrategy;
 import jmab.strategies.TaxPayerStrategy;
+import net.sourceforge.jabm.Population;
+import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
 import net.sourceforge.jabm.agent.AgentList;
 import net.sourceforge.jabm.event.AgentArrivalEvent;
@@ -929,10 +933,31 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	 */
 	@Override
 	public double getPriceLowerBound() {
-		double expectedAverageCosts=0;
-		double expectedFixedCosts = 0;
-		// Calculate funding costs/ fixed costs
+		
+		// Get reference interest rate for loans (average interest rate of last period)
+		
+		SimulationController controller = (SimulationController)this.getScheduler();
+		MacroPopulation macroPop = (MacroPopulation) controller.getPopulation();
+		Population banks = macroPop.getPopulation(StaticValues.BANKS_ID);
+		
+		double inter=0;
+		double n=(double) banks.getSize();
+		for (Agent b:banks.getAgents()){
+			Bank bank = (Bank) b;
+			if (bank.getNumericBalanceSheet()[0][StaticValues.SM_LOAN]!=0&&bank.getNetWealth()>0){
+				inter+=bank.getPassedValue(StaticValues.LAG_LOANINTEREST, 1);
+			}
+			else{
+				n-=1;
+			}
+			}
+		
+		double avInterest=inter/n;
+		
+		// Calc DebtRatio
+		
 		List<Item> loans = this.getItemsStockMatrix(false, StaticValues.SM_LOAN);
+		double loansValue = 0;
 		double totInterests = 0;
 		for (int i = 0; i < loans.size(); i++) {
 			Loan loan = (Loan) loans.get(i);
@@ -940,83 +965,60 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 				double iRate = loan.getInterestRate();
 				double interests = iRate * loan.getValue();
 				totInterests += interests;
-
+				loansValue+=loan.getValue();
 			}
 		}
+		
+		double debtRatio = loansValue/(loansValue+this.getNetWealth());
+		
+		// Get deposits as loan ratio
+		
+		double depositRatio = 1;
+		
+		if (this instanceof ConsumptionFirmWagesEnd) {
+			depositRatio = ((ConsumptionFirmWagesEnd) this).getShareOfExpIncomeAsDeposit();
+		}
+		
+		// Get capital information
 		
 		List<Item> capitalStock= this.getItemsStockMatrix(true, StaticValues.SM_CAPGOOD);
 		double amortisationCosts=0;
+		double capitalAmount=0;
+		double capacity=0;
+		double capLaborRatio = 0;
 		for (Item i: capitalStock){
 			CapitalGood capital= (CapitalGood)i;
 			amortisationCosts+=capital.getPrice()*capital.getQuantity()/capital.getCapitalAmortization();
-		}			
-		//double expectedAverageCosts=(amortisationCosts+expectedVariableCosts)/this.getDesiredOutput();
-		
-		if(this.getRequiredWorkers()>0){
-			
-			
-			double expectedVariableCosts=this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*this.getRequiredWorkers();
-		    if (Double.isNaN(expectedVariableCosts)){
-		    	System.out.println("Error");
-		    }
-		    expectedFixedCosts = totInterests+amortisationCosts;
-			expectedAverageCosts=(expectedVariableCosts+expectedFixedCosts)/this.getDesiredOutput();
-			
-		
-		}else{
-			//We compute how many workers were needed to produce to amount of inventories left as in the getRequiredWorkersMethod, but using the quantity of 
-			//inventories instead of the desiredOutput
-			//First we order capital vintages according to their productivity
-			List<Item> currentCapitalStock = this.getItemsStockMatrix(true, StaticValues.SM_CAPGOOD);
-			//if (currentCapitalStock.size()==0){
-				//System.out.println("Error");
-			//}
-			TreeMap<Double,ArrayList<CapitalGood>> orderedCapital = new TreeMap<Double,ArrayList<CapitalGood>>();
-			for (Item item:currentCapitalStock){
-				CapitalGood capital=(CapitalGood)item;
-				double prod = capital.getProductivity();
-				if(orderedCapital.containsKey(prod)){
-					ArrayList<CapitalGood> list = orderedCapital.get(prod);
-					list.add(capital);
-				}else{
-					ArrayList<CapitalGood> list = new ArrayList<CapitalGood>();
-					list.add(capital);
-					orderedCapital.put(prod, list);
-				}	
-			}
-			//Then we calculate the number of workers need to produce the quantity of inventories left
-			//as they first employed the more productive vintages
-			ConsumptionGood inventoriesLeft= (ConsumptionGood) this.getItemStockMatrix(true, StaticValues.SM_CONSGOOD);
-			if (inventoriesLeft.getQuantity()==0){
-				expectedAverageCosts=0;
-			}
-			else{
-			double residualOutput=inventoriesLeft.getQuantity();
-			double requiredWorkers=0;
-			for (Double key:orderedCapital.descendingKeySet()){
-				for(CapitalGood capital:orderedCapital.get(key)){	
-					if (residualOutput>capital.getProductivity()*capital.getQuantity()){
-						requiredWorkers+=capital.getQuantity()/capital.getCapitalLaborRatio();
-						residualOutput-=capital.getProductivity()*capital.getQuantity();
-					}
-					else{
-						double requiredCapital=residualOutput/capital.getProductivity();
-						requiredWorkers+=requiredCapital/capital.getCapitalLaborRatio();
-						residualOutput-=requiredCapital*capital.getProductivity();
-					}
-				}
-			}
-			double expectedVariableCosts=this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*requiredWorkers;
-			//if (Double.isNaN(expectedVariableCosts)){
-				//System.out.println("Error");
-			//}
-			expectedFixedCosts = totInterests+amortisationCosts;
-			expectedAverageCosts=(expectedVariableCosts+expectedFixedCosts)/inventoriesLeft.getQuantity();
+			capitalAmount+=capital.getQuantity();
+			double prod = capital.getProductivity();
+			capacity+=capital.getQuantity()*prod;
+			capLaborRatio = capital.getCapitalLaborRatio();
 		}
-		}
-		expectedVariableCosts=expectedAverageCosts;
 		
-		return expectedAverageCosts;
+		if(capitalAmount==0) {
+			return 0;
+		}else {
+		
+		
+		InvestmentCapacityOperatingCashFlowExpected strategy1=(InvestmentCapacityOperatingCashFlowExpected) this.getStrategy(StaticValues.STRATEGY_INVESTMENT);
+		
+		double targetCapacityUtlization = strategy1.getTargetCapacityUtlization();
+		
+		double normalOutput = capacity*targetCapacityUtlization;
+		
+		double normalLaborCosts =this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*targetCapacityUtlization*(capitalAmount/capLaborRatio);
+		
+		// Calculate capital costs
+		
+		double normalCapitalCosts = (normalLaborCosts*depositRatio*avInterest+capitalAmount*avInterest)*debtRatio;
+		
+		// Calculate normal unit costs
+		
+		double normalUnitCosts = (normalLaborCosts+normalCapitalCosts+amortisationCosts)/normalOutput;
+		
+		
+		return normalUnitCosts;
+		}
 		
 	}
 

@@ -55,6 +55,8 @@ import jmab.strategies.SelectLenderStrategy;
 import jmab.strategies.SelectWorkerStrategy;
 import jmab.strategies.TaxPayerStrategy;
 import jmab.strategies.UpdateInventoriesProductivityStrategy;
+import net.sourceforge.jabm.Population;
+import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
 import net.sourceforge.jabm.agent.AgentList;
 import net.sourceforge.jabm.event.AgentArrivalEvent;
@@ -881,12 +883,37 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 	 */
 	@Override
 	public double getPriceLowerBound() {
+		
+		// Get reference interest rate for loans (average interest rate of last period)
+		
+				SimulationController controller = (SimulationController)this.getScheduler();
+				MacroPopulation macroPop = (MacroPopulation) controller.getPopulation();
+				Population banks = macroPop.getPopulation(StaticValues.BANKS_ID);
+				
+				double inter=0;
+				double n=(double) banks.getSize();
+				for (Agent b:banks.getAgents()){
+					Bank bank = (Bank) b;
+					if (bank.getNumericBalanceSheet()[0][StaticValues.SM_LOAN]!=0&&bank.getNetWealth()>0){
+						inter+=bank.getPassedValue(StaticValues.LAG_LOANINTEREST, 1);
+					}
+					else{
+						n-=1;
+					}
+					}
+				
+				double avInterest=inter/n;
+				
+		double normalUnitCosts = 0;
+		
+		
 		double expectedVariableCosts = this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()
 				/ this.getLaborProductivity();
 		double expectedAverageCosts = 0;
 		double expectedFixedCosts = 0;
 		// Calculate funding costs/ fixed costs
 		List<Item> loans = this.getItemsStockMatrix(false, StaticValues.SM_LOAN);
+		double loansValue = 0;
 		double totInterests = 0;
 		for (int i = 0; i < loans.size(); i++) {
 			Loan loan = (Loan) loans.get(i);
@@ -894,28 +921,52 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 				double iRate = loan.getInterestRate();
 				double interests = iRate * loan.getValue();
 				totInterests += interests;
-
+				loansValue+=loan.getValue();
 			}
 		}
+		
+		// Get deposits as loan ratio
+
+		double depositRatio = 1;
+
+		if (this instanceof CapitalFirmWagesEnd) {
+			depositRatio = ((CapitalFirmWagesEnd) this).getShareOfExpIncomeAsDeposit();
+		}
+		
+		double debtRatio = loansValue/(loansValue+this.getNetWealth());
 
 		if (this.getRequiredWorkers() > 0) {
-
-			expectedFixedCosts = totInterests / this.getDesiredOutput();
-
-			expectedAverageCosts = expectedVariableCosts + expectedFixedCosts;
+			
+			// Calculate capital costs
+			
+			double normalCapitalCosts = (this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*this.getRequiredWorkers()*depositRatio*avInterest)*debtRatio;
+			
+			// Calculate normal unit costs
+			
+			normalUnitCosts = (this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*this.getRequiredWorkers()+normalCapitalCosts)/ this.getDesiredOutput();
+			
+			return normalUnitCosts;
 
 		} else {
 			CapitalGood inventoriesLeft = (CapitalGood) this.getItemStockMatrix(true, StaticValues.SM_CAPGOOD);
 			if (inventoriesLeft.getQuantity() == 0) {
-				expectedAverageCosts = 0;
+				return 0;
 			} else {
 				double residualOutput = inventoriesLeft.getQuantity();
-				expectedFixedCosts = totInterests / residualOutput;
-				expectedAverageCosts = expectedVariableCosts + expectedFixedCosts;
+				double requiredWorkers = residualOutput/ this.getLaborProductivity();
+				
+				// Calculate capital costs
+				
+				double normalCapitalCosts = (this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*requiredWorkers*depositRatio*avInterest)*debtRatio;
+				
+				// Calculate normal unit costs
+				
+				normalUnitCosts = (this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()+normalCapitalCosts)/ residualOutput;
+				
+				return normalUnitCosts;
 			}
 
 		}
-		return expectedAverageCosts;
 	}
 
 	/* (non-Javadoc)

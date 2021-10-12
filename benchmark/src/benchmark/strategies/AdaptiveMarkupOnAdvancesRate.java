@@ -14,6 +14,8 @@
  */
 package benchmark.strategies;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.ByteBuffer;
 import java.util.List;
 
@@ -56,7 +58,17 @@ InterestRateStrategy {
 		// Calculate the amount of equity that is required to fulfill the deposit
 		// insurance requirement
 		double requiredEquityForDepositInsurance = lender.getNumericBalanceSheet()[1][StaticValues.SM_DEP]* lender.getDISReserveRatio();
-		double depositInsuranceCapitalRatio = requiredEquityForDepositInsurance/ lender.getNumericBalanceSheet()[0][StaticValues.SM_LOAN];
+		
+		double outstandingInterbankLoans=0;
+		for (Item i:lender.getItemsStockMatrix(true, StaticValues.SM_INTERBANK)){
+			outstandingInterbankLoans+=i.getValue();
+		}
+		
+		double depositInsuranceCapitalRatio = requiredEquityForDepositInsurance/ (lender.getNumericBalanceSheet()[0][StaticValues.SM_LOAN]+outstandingInterbankLoans);
+		
+		BigDecimal bd = BigDecimal.valueOf(depositInsuranceCapitalRatio);
+	    bd = bd.setScale(4, RoundingMode.HALF_UP);
+	    depositInsuranceCapitalRatio = bd.doubleValue();
 
 		threshold= lender.getTargetedCapitalAdequacyRatio()+depositInsuranceCapitalRatio; 
 		double advancesRate = lender.getAdvancesInterestRate();

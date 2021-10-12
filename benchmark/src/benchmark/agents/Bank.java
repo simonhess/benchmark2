@@ -16,6 +16,8 @@ package benchmark.agents;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -236,7 +238,10 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			}
 			else {
 				this.capitalRatio=this.getPassedValue(StaticValues.LAG_NETWEALTH, 1)/outstandingLoans;
-				this.CapitalAdequacyRatio=Math.round((this.getPassedValue(StaticValues.LAG_NETWEALTH, 1)/(outstandingLoans+outstandingInterbankLoans*1)) * 100d) / 100d;
+				this.CapitalAdequacyRatio=this.getPassedValue(StaticValues.LAG_NETWEALTH, 1)/(outstandingLoans+outstandingInterbankLoans*1);
+				BigDecimal bd = BigDecimal.valueOf(this.CapitalAdequacyRatio);
+			    bd = bd.setScale(4, RoundingMode.HALF_UP);
+			    this.CapitalAdequacyRatio = bd.doubleValue();
 			}
 			break;
 		case StaticValues.TIC_DEPINTERESTS:

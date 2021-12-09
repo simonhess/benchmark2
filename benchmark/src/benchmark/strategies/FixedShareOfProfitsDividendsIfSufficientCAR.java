@@ -38,8 +38,12 @@ import net.sourceforge.jabm.agent.Agent;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**
- * @author Alessandro Caiani and Antoine Godin
- *
+ * @author Joeri Schasfoort
+ * @author Simon Hess
+ * 
+ * With this strategy banks pay out dividends based on their CAR at the end of the period. If the CAR (based on current assets and net wealth minus profits) is above the target the bank pays out
+ * all profits. If the CAR is below the target banks pay out a fraction of their profits to recapitalize themselves.
+ * 
  */
 @SuppressWarnings("serial")
 public class FixedShareOfProfitsDividendsIfSufficientCAR extends AbstractStrategy implements
@@ -81,25 +85,59 @@ DividendsStrategy {
 			if (dividendPayer instanceof Bank){
 				Deposit payerDep = (Deposit)dividendPayer.getItemStockMatrix(true, reservesId);
 				LiabilitySupplier payingSupplier = (LiabilitySupplier) payerDep.getLiabilityHolder();
-				//if(profits>payerDep.getValue()){
-					//profits=payerDep.getValue();
-				//}
+	
 				Bank bank= (Bank) dividendPayer;
-				if(bank.getCapitalAdequacyRatio()>bank.getTargetedCapitalAdequacyRatio()) {
-				bank.setDividends(profits*profitShare);
+				
+				// Get target ratio
+				
+				double targetedCapitalRatio = bank.getTargetedCapitalAdequacyRatio();
+				
+				// Calculate get the actual capital ratio without profits
+				
+				double actualCapitalRatio;
+				
+				double outstandingLoans=0;
+				for (Item i:bank.getItemsStockMatrix(true, StaticValues.SM_LOAN)){
+					outstandingLoans+=i.getValue();
+				}
+				double outstandingInterbankLoans=0;
+				for (Item i:bank.getItemsStockMatrix(true, StaticValues.SM_INTERBANK)){
+					outstandingInterbankLoans+=i.getValue();
+				}
+				//ALE HAI AGGIUNTO QUESTO IL 24/1/2015
+				if (Math.floor(outstandingLoans)==0){
+					actualCapitalRatio=0;
+				}
+				else {
+					// consider current netwealth minus profits when calculating current capital (adequacy) ratio
+					actualCapitalRatio=(bank.getNetWealth()-profits)/(outstandingLoans+outstandingInterbankLoans*1);	
+				}
+				
+
+				if (targetedCapitalRatio > actualCapitalRatio) {
+					bank.setDividends(profits*profitShare);
+				}
+				else if (actualCapitalRatio > targetedCapitalRatio) {
+
+					bank.setDividends(profits);
+				}
+				
+				
 				for(Agent rec:receivers.getAgents()){
 					Households receiver =(Households) rec; 
 					double nw = receiversNW.get(receiver.getAgentId());
-					double toPay=profits*profitShare*nw/totalNW;
+					double toPay;
+					if(totalNW==0)
+						toPay = bank.getDividends()/receivers.getSize();
+					else
+						toPay= bank.getDividends()*nw/totalNW;	
 					
 					Item Payablestock = receiver.getPayableStock(StaticValues.MKT_LABOR);
 					
 					payingSupplier.transfer(payerDep, Payablestock,toPay);
 					receiver.setDividendsReceived(receiver.getDividendsReceived()+toPay);
 				}
-				}else {
-					bank.setDividends(0);
-				}
+
 			}
 			else{
 				// Calculate liquid assets of dividend payer

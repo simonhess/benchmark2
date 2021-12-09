@@ -57,6 +57,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="aggCBBSCSVReport" />
 				<ref bean="cAvPriceEventReport" />
 				<ref bean="cAvPriceCSVReport" />
+				<ref bean="cFirmsPricesEventReport" />
+				<ref bean="cFirmsPricesCSVReport" />
 				<ref bean="kAvPriceEventReport" />
 				<ref bean="kAvPriceCSVReport" />
 				<ref bean="loanAvInterestEventReport" />
@@ -89,6 +91,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="microCCapacityUtilizationCSVReport" />
 				<ref bean="banksCREventReport" />
 				<ref bean="banksCRCSVReport" />
+				<ref bean="banksCAREventReport" />
+				<ref bean="banksCARCSVReport" />
 				<ref bean="banksLREventReport" />
 				<ref bean="banksLRCSVReport" />
 				<ref bean="banksLossEventReport" />
@@ -117,6 +121,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="microInterbankDemandCSVReport" />
 				<ref bean="microInterbankSupplyEventReport" />
 				<ref bean="microInterbankSupplyCSVReport" />
+				<ref bean="banksDepositInterestEventReport" />
+				<ref bean="banksDepositInterestCSVReport" />
 				<ref bean="cbDepositInterestEventReport" />
 				<ref bean="cbDepositInterestCSVReport" />
 				<ref bean="cbAdvancesInterestEventReport" />

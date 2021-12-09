@@ -3478,6 +3478,56 @@
 	<property name="reportVariables" ref="banksCRReportVariables"/>
 </bean>
 
+<!--BANKS Capital Adequacy Ratio-->
+
+<bean id="banksCARComputer" class="benchmark.report.MicroBankCARComputer">
+	<property name="banksId"><util:constant static-field="benchmark.StaticValues.BANKS_ID"/></property>
+</bean>
+
+<bean id="banksCAREventReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.BANKSCARREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="banksCARTimeSeries"/>
+</bean>
+
+<bean id="banksCARCSVReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.BANKSCARREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="banksCARCSVReportVariables"/>
+</bean>
+
+<bean id="banksCARCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="banksCARReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="banksCapitalAdequacyRatio" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="banksCARReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="name" value="Banks CAR"/>
+	<property name="numberOfSeries" value="10"/>
+</bean>
+
+<bean id="banksCARTimeSeriesChart" class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="banksCARTimeSeries"/>
+	<property name="chartTitle" value="Banks CAR "/>
+	<property name="rangeAxisLabel" value="Banks"/>
+</bean>
+
+<bean id="banksCARTimeSeries" class="jmab.report.MicroSeriesReportVariables">
+	<property name="reportVariables" ref="banksCARReportVariables"/>
+</bean>
+
 <!--BANKS Liquidity Ratio-->
 
 <bean id="banksLRComputer" class="benchmark.report.MicroBankLRComputer">

@@ -239,7 +239,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="cCapacityUtilizationReportTic" />
 				<ref bean="banksSpecificInterestReportTic" />	
 				<ref bean="banksDepositInterestReportTic" />
-				<ref bean="banksCRReportTic" />	
+				<ref bean="banksCRReportTic" />
+				<ref bean="banksCARReportTic" />	
 				<ref bean="banksLRReportTic" />
 				<ref bean="banksLossReportTic" />
 				<ref bean="banksTaxesReportTic" />	
@@ -412,7 +413,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="consumptionMarketMixer" class="jmab.mixing.SelectionRandomRobinBuyerMixer"
 		scope="simulation">
 		<property name="prng" ref="prng" />
-		<property name="nbSellers" value="5"/>
+		<property name="nbSellers" value="10"/>
 	</bean>
 
 	<bean id="consumptionMktTransactionMechanism" class="jmab.mechanisms.AtOnceMechanism"
@@ -536,7 +537,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="depositMarketMixer" class="jmab.mixing.SelectionRandomRobinBuyerMixer"
 		scope="simulation">
 		<property name="prng" ref="prng" />
-		<property name="nbSellers" value="3"/>
+		<property name="nbSellers" value="6"/>
 	</bean>
 
 	<bean id="depositMktTransactionMechanism" class="jmab.mechanisms.DepositMechanism"
@@ -1346,6 +1347,13 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="computer" ref="banksCRComputer"/>
 	</bean>
 	
+	<bean id="banksCARReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSCARREPORT" /></property>
+	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSCARREPORT_ID" /></property>
+	<property name="variableName" value="Banks CAR"/>
+	<property name="computer" ref="banksCARComputer"/>
+	</bean>
+	
 	<bean id="banksLossReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSLOSSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSLOSSREPORT_ID" /></property>
@@ -1792,70 +1800,68 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <property name="capitalDuration" value="20"/>
 <property name="capitalProductivity" value="1"/>
 <property name="shareOfExpIncomeAsDeposit" value="2"/>
-<property name="iAdv" value="0.0075"/>
-<property name="iBonds" value="0.0075"/>
-<property name="iDep" value="0.007125"/>
+<property name="iAdv" value="0.01"/>
+<property name="iBonds" value="0.01"/>
+<property name="iDep" value="0.0095"/>
 <property name="targetedLiquidityRatio" value="0.05"/>
 <property name="targetedCapitalAdequacyRatio" value="0.08"/>
 <property name="DISReserveRatio" value="0"/>
 <property name="loanLength" value="20"/>
-<property name="csMarkup" value="0.0985"/>
+<property name="csMarkup" value="0.085"/>
 <property name="ksMarkup" value="0.085"/>
-<property name="bsMarkup" value="0.001"/>
-<property name="bsAdv" value="6266.84769528623"/>
-<property name="bsBonds" value="73853.8759903545"/>
+<property name="bsMarkup" value="0.0025"/>
+<property name="bsAdv" value="8437.94045145337"/>
+<property name="bsBonds" value="112703.992939493"/>
 <property name="bsCash" value="0"/>
-<property name="bsProfits" value="87.1227213196566"/>
-<property name="bsRes" value="6266.84769528623"/>
-<property name="bsTax" value="15.6820898375382"/>
-<property name="bsDiv" value="49.8053725455903"/>
-<property name="bsNW" value="4395.45456635552"/>
-<property name="bsProfitShareAsDividends" value="0.697157507042146"/>
-<property name="riskAversionK" value="12.932964083986"/>
-<property name="riskAversionC" value="7.76141757939026"/>
+<property name="bsProfits" value="193.237216837704"/>
+<property name="bsRes" value="8437.94045145337"/>
+<property name="bsTax" value="34.7826990307867"/>
+<property name="bsDiv" value="135.348271436424"/>
+<property name="bsNW" value="4728.31512695063"/>
+<property name="bsProfitShareAsDividends" value="0.854177421443739"/>
+<property name="riskAversionK" value="19.8922295102186"/>
+<property name="riskAversionC" value="4.55027945727144"/>
 <property name="cbBonds" value="0"/>
-<property name="cbProfits" value="46.7675201140763"/>
-<property name="seigniorage" value="46.5348458846531"/>
+<property name="cbProfits" value="83.9596064821231"/>
+<property name="seigniorage" value="83.5418969971375"/>
 <property name="csOutput" value="32000"/>
-<property name="cPrice" value="1.05097634640936"/>
+<property name="cPrice" value="1.04723382224436"/>
 <property name="csDep" value="50000"/>
 <property name="csInv" value="3200"/>
-<property name="csLoans" value="52682.5629701054"/>
-<property name="csLoans0" value="5176.91604520981"/>
-<property name="csOCF" value="3015.97068062512"/>
-<property name="csProfits" value="3385.34643817259"/>
-<property name="cUnitCost" value="0.956737684487352"/>
-<property name="csTax" value="609.362358871066"/>
-<property name="csDiv" value="2498.38567137137"/>
-<property name="targetCashFlow" value="0.0544219443736496"/>
-<property name="unemploymentBenefit" value="0.3"/>
+<property name="csLoans" value="57238.1697980748"/>
+<property name="csLoans0" value="5624.57828398064"/>
+<property name="csOCF" value="2371.99154150787"/>
+<property name="csProfits" value="3113.32656316858"/>
+<property name="cUnitCost" value="0.965192462898031"/>
+<property name="csTax" value="560.398781370345"/>
+<property name="csDiv" value="2297.63500361841"/>
+<property name="targetCashFlow" value="0.0427667874998787"/>
+<property name="unemploymentBenefit" value="0.2"/>
 <property name="gEmpl" value="1360"/>
-<property name="gRes" value="46.7675201140763"/>
-<property name="gBonds" value="73853.8759903545"/>
-<property name="hhsDep" value="64401.603503443"/>
-<property name="hhsNI" value="33890.600773277"/>
-<property name="hhsTax" value="7228.66846242667"/>
-<property name="hhsNomCons" value="33584.7082392147"/>
-<property name="hhsRealCons" value="31955.7222709687"/>
-<property name="propensityOOI" value="0.518267851837506"/>
-<property name="hhsNW" value="64401.603503443"/>
-<property name="iLoans" value="0.0085"/>
+<property name="gRes" value="83.9596064821231"/>
+<property name="gBonds" value="112703.992939493"/>
+<property name="hhsDep" value="107079.616899425"/>
+<property name="hhsNI" value="33946.6464962715"/>
+<property name="hhsTax" value="7311.2150845474"/>
+<property name="hhsNomCons" value="33427.9404148225"/>
+<property name="hhsRealCons" value="31920.2261278975"/>
+<property name="propensityOOI" value="0.200055690149567"/>
+<property name="hhsNW" value="107079.616899425"/>
+<property name="iLoans" value="0.0125"/>
 <property name="iReserves" value="0"/>
 <property name="ksOutput" value="2000"/>
-<property name="kPrice" value="2.72287241777904"/>
+<property name="kPrice" value="2.72508930148232"/>
 <property name="ksDep" value="10000"/>
 <property name="ksInv" value="200"/>
-<property name="ksLoans" value="2260.61910933865"/>
-<property name="ksLoans0" value="222.142482815121"/>
-<property name="ksOCF" value="196.621873969208"/>
-<property name="ksProfits" value="500.017768297066"/>
-<property name="kUnitCost" value="2.50955983205442"/>
-<property name="ksTax" value="90.0031982934719"/>
-<property name="ksDiv" value="369.013113003235"/>
+<property name="ksLoans" value="1865.76928880811"/>
+<property name="ksLoans0" value="183.342085565795"/>
+<property name="ksOCF" value="253.120411338885"/>
+<property name="ksProfits" value="523.998987972338"/>
+<property name="kUnitCost" value="2.51160304284085"/>
+<property name="ksTax" value="94.3198178350208"/>
+<property name="ksDiv" value="386.711253123585"/>
 <property name="laborProductivity" value="2"/>
 <property name="capitalLaborRatio" value="6.4"/>
-
-
 
 
 <property name="avpAllProdComputer" ref="AveragePriceAllProducersComputer"/>
@@ -2213,7 +2219,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="switchingStrategy2" scope="prototype"
 		class="jmab.strategies.SwitchingStrategySimple">
 		<property name="prng" ref="prng" />
-	    <property name="thresholdMean" value="0.15"/> 
+	    <property name="thresholdMean" value="0.2"/> 
 <!-- 		<property name="lambda" value="1"/>  -->
 		<property name="payOrReceive" value="false"/>
 	</bean>
@@ -2251,6 +2257,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="capitalDepositStrategy" scope="prototype" parent="strategy"
 		class="jmab.strategies.MostPayingDepositWithSwitching">
 		<property name="strategy" ref="switchingStrategy2" />
+		<!-- <property name="distribution" ref="logNormal1"/> -->
 	</bean>
 	
 	<bean id="capitalLaborStrategy" scope="prototype" parent="strategy"
@@ -2303,8 +2310,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 
 	<bean id="capitalPricingStrategy" scope="prototype" parent="strategy"
 	class="jmab.strategies.AdaptiveMarkUpOnAC">
-	<property name="adaptiveParameter" value="0.1" />
-	<property name="distribution" ref="foldedNormal1"/>
+	<property name="adaptiveParameter" value="1" />
+	<property name="distribution" ref="logNormal1"/>
 	<property name="threshold" value="0.1"/>
 	<property name="markUp" value="0.075"/>
 	</bean>
@@ -2553,6 +2560,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="consumptionDepositStrategy" scope="prototype" parent="strategy"
 		class="jmab.strategies.MostPayingDepositWithSwitching">
 		<property name="strategy" ref="switchingStrategy2" />
+		<!-- <property name="distribution" ref="logNormal1"/> -->
 	</bean>
 	
 	<bean id="consumptionLaborStrategy" scope="prototype" parent="strategy"
@@ -2608,11 +2616,34 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<bean id="consumptionPricingStrategy" scope="prototype" parent="strategy"
 	class="jmab.strategies.AdaptiveMarkUpOnAC">
-	<property name="adaptiveParameter" value="0.1" />
-	<property name="distribution" ref="foldedNormal1"/>
+	<property name="adaptiveParameter" value="1" />
+	<property name="distribution" ref="logNormal1"/>
 	<property name="threshold" value="0.1"/>
 	<property name="markUp" value="0.318857"/>
 	</bean>
+	
+	<!--
+	<bean id="consumptionPricingStrategy" scope="prototype" parent="strategy"
+		class="jmab.strategies.AdaptiveReturnOnAC">
+		<property name="adaptiveParameter" value="1" />
+		<property name="distribution" ref="foldedNormal1" />
+		<property name="threshold" value="0.1"></property>
+		<property name="capacityUtilisation" value="0.8"></property>
+		<property name="returnRate" value="0.0299164158606314"></property>
+		<property name="idCapacity">
+			<util:constant static-field="benchmark.StaticValues.LAG_CAPACITY" />
+		</property>
+		<property name="idCapitalValue">
+			<util:constant static-field="benchmark.StaticValues.LAG_CAPITALFINANCIALVALUE" />
+		</property>
+		<property name="idLoans">
+			<util:constant static-field="benchmark.StaticValues.SM_LOAN" />
+		</property>
+		<property name="idProduction">
+			<util:constant static-field="benchmark.StaticValues.LAG_PRODUCTION" />
+		</property>
+	</bean> 
+	-->
 	
 	<bean id="consumptionTaxesStrategy" scope="prototype" parent="strategy"
 	class="benchmark.strategies.ProfitsWealthTaxStrategy">
@@ -2955,7 +2986,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<bean id="banksBankSpecificLoanInterestStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.AdaptiveMarkupOnAdvancesRate">
-		<property name="distribution" ref="foldedNormal1" />
+		<property name="distribution" ref="logNormal1" />
 		<property name="mktId">
 			<util:constant static-field="benchmark.StaticValues.MKT_CREDIT" />
 		</property>
@@ -3021,14 +3052,12 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<bean id="banksDepInterestStrategy" scope="prototype" parent="strategy"
 		class="benchmark.strategies.AdaptiveDepositInterestRate">
-		<property name="distribution" ref="foldedNormal2" />
-		<property name="depositRateChangeRisingDistribution" ref="depositRateChangeRisingDistribution"/>
-		<property name="depositRateChangeFallingDistribution" ref="depositRateChangeFallingDistribution"/>
-		<property name="updateRound" value="1" />
+		<property name="distribution" ref="logNormal1" />
+		<property name="depositRateChangeDistribution" ref="logNormal2"/>
 		<property name="mktId">
 			<util:constant static-field="benchmark.StaticValues.MKT_DEPOSIT" />
 		</property>
-		<property name="adaptiveParameter" value="0.25" />
+		<property name="adaptiveParameter" value="0.1" />
 		<property name="liabilitiesId">
 			<list>
 				<util:constant static-field="benchmark.StaticValues.SM_DEP" />
@@ -3158,7 +3187,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="advancesId">
 			<util:constant static-field="benchmark.StaticValues.SM_ADVANCES"/>
 		</property>
-		<property name="distribution" ref="foldedNormal1" />
+		<property name="distribution" ref="logNormal1" />
 		<property name="adaptiveParameter" value="1" />
 	</bean>  
 
@@ -3357,11 +3386,12 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="householdsDepositsStrategy" scope="prototype" parent="strategy"
 		class="jmab.strategies.MostPayingDepositWithSwitching">
 		<property name="strategy" ref="switchingStrategy2" />
+		<!-- <property name="distribution" ref="logNormal1"/> -->
 	</bean>
 	
 	<bean id="householdsWageStrategy" scope="prototype" parent="strategy"
 		class="jmab.strategies.AdaptiveWageStrategy">
-		<property name="distribution" ref="foldedNormal1"/>
+		<property name="distribution" ref="logNormal1"/>
 		<property name="microThreshold" value="0.49"/>
 		<property name="macroThreshold" value="0.08"/>
 		<property name="macroAdaptiveParameter" value="1"/>
@@ -3666,22 +3696,23 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 
 
-<!--
+
 	<bean id="advancesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.MonetaryTaylorWithSmoothingAndUnempGap">
 				<property name="targetInflation" value="0.005"/>
 				<property name="naturalRateOfInterest" value="0.005"/>
-				<property name="inflationCoefficient" value="0.25"/>
-				<property name="unemploymentGapCoefficient" value="0.25"/>
-				<property name="targetUnemployment" value="0"/>
-				<property name="smoothingParameter" value="0.5"/>
+				<property name="inflationCoefficient" value="0.125"/>
+				<property name="unemploymentGapCoefficient" value="0.125"/>
+				<property name="targetUnemployment" value="0.08"/>
+				<property name="smoothingParameter" value="0.95"/>
 	</bean>
- -->
-    
+
+    <!-- 
 	<bean id="advancesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.MonetaryPolicyStatic">
-				<property name="staticAdvancesRate" value="0.0075"/>
+				<property name="staticAdvancesRate" value="0.01"/>
 	</bean>
+	 -->
 	
 	
 	<bean id="reservesInterestRateStrategy" scope="prototype"
@@ -3693,8 +3724,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<property name="mean" value="0.0" />
 				<property name="stdev" value="0.0094" />
 				<property name="prng" ref="prng" />
-				<!--<property name="lowerBound" value="0" />
-				<property name="UpperBound" value="0.02" />-->
 	</bean>
 	
 	<bean id="foldedNormal2" class="jmab.distribution.FoldedNormalDistribution">
@@ -3703,19 +3732,16 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<property name="prng" ref="prng" />
 	</bean>
 	
-	<bean id="depositRateChangeRisingDistribution" class="jmab.distribution.TruncatedNormalDistribution">
-				<property name="mean" value="4" />
-				<property name="stdev" value="1" />
+	<bean id="logNormal1" class="jmab.distribution.LognormalDistribution">
 				<property name="prng" ref="prng" />
-				<property name="lowerBound" value="1" />
-				<property name="UpperBound" value="7" />
+				<property name="lognormalMean" value="0.0075" />
+				<property name="lognormalStDev" value="0.005" />
 	</bean>
 	
-	<bean id="depositRateChangeFallingDistribution" class="jmab.distribution.TruncatedNormalDistribution">
-				<property name="mean" value="2" />
-				<property name="stdev" value="1" />
+	<bean id="logNormal2" class="jmab.distribution.LognormalDistribution">
 				<property name="prng" ref="prng" />
-				<property name="lowerBound" value="1" />
-				<property name="UpperBound" value="3" />
+				<property name="lognormalMean" value="0.0075" />
+				<property name="lognormalStDev" value="0.005" />
 	</bean>
+	
 </beans>

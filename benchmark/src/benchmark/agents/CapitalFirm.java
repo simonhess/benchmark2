@@ -933,7 +933,13 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 			depositRatio = ((CapitalFirmWagesEnd) this).getShareOfExpIncomeAsDeposit();
 		}
 		
-		double debtRatio = loansValue/(loansValue+this.getNetWealth());
+		double debtRatio;
+		
+		if(loansValue>0) {
+			debtRatio = loansValue/(loansValue+this.getNetWealth());
+		}else {
+			debtRatio = 0;
+		}
 
 		if (this.getRequiredWorkers() > 0) {
 			

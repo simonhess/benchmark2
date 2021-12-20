@@ -81,6 +81,8 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	private int csEmpl;
     private int ksEmpl;
 	
+    private double ksShareOfExpIncomeAsDeposit;
+    private double csShareOfExpIncomeAsDeposit;
     private double shareOfExpIncomeAsDeposit;
 	private double inventoryShare;
 	private int csKap;
@@ -307,7 +309,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			k.setLaborProductivity(laborProductivity);
 			k.setCapitalLaborRatio(capitalLaborRatio);
 			k.setLoanLength(loanLength);
-			k.setShareOfExpIncomeAsDeposit(shareOfExpIncomeAsDeposit);
+			k.setShareOfExpIncomeAsDeposit(ksShareOfExpIncomeAsDeposit);
 			
 			TargetExpectedInventoriesOutputStrategy productionStrategy = (TargetExpectedInventoriesOutputStrategy) k.getStrategy(benchmark.StaticValues.STRATEGY_PRODUCTION);
 			productionStrategy.setInventoryShare(inventoryShare);
@@ -435,7 +437,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			TargetExpectedInventoriesOutputStrategy productionStrategy = (TargetExpectedInventoriesOutputStrategy) c.getStrategy(benchmark.StaticValues.STRATEGY_PRODUCTION);
 			productionStrategy.setInventoryShare(inventoryShare);
 			c.setLoanLength(loanLength);
-			c.setShareOfExpIncomeAsDeposit(shareOfExpIncomeAsDeposit);
+			c.setShareOfExpIncomeAsDeposit(csShareOfExpIncomeAsDeposit);
 			
 			AdaptiveMarkUpOnAC pricingStrategy = (AdaptiveMarkUpOnAC) c.getStrategy(benchmark.StaticValues.STRATEGY_PRICING);
 			pricingStrategy.setMarkUp(csMarkup);
@@ -1639,6 +1641,22 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 
 	public void setShareOfExpIncomeAsDeposit(double shareOfExpIncomeAsDeposit) {
 		this.shareOfExpIncomeAsDeposit = shareOfExpIncomeAsDeposit;
+	}
+
+	public double getKsShareOfExpIncomeAsDeposit() {
+		return ksShareOfExpIncomeAsDeposit;
+	}
+
+	public void setKsShareOfExpIncomeAsDeposit(double ksShareOfExpIncomeAsDeposit) {
+		this.ksShareOfExpIncomeAsDeposit = ksShareOfExpIncomeAsDeposit;
+	}
+
+	public double getCsShareOfExpIncomeAsDeposit() {
+		return csShareOfExpIncomeAsDeposit;
+	}
+
+	public void setCsShareOfExpIncomeAsDeposit(double csShareOfExpIncomeAsDeposit) {
+		this.csShareOfExpIncomeAsDeposit = csShareOfExpIncomeAsDeposit;
 	}
 
 }

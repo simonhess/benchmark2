@@ -83,7 +83,6 @@ public class AdaptiveDepositInterestRate extends AbstractStrategy implements Int
 		
 			double iR=0;
 			
-			if(probX > 0.5) {
 			if(referenceVariable>0){
 				
 				if(depositUpperBound>previousDepositRate) {
@@ -108,9 +107,6 @@ public class AdaptiveDepositInterestRate extends AbstractStrategy implements Int
 				}else {
 					iR=avInterest-(adaptiveParameter*distribution.nextDouble());
 					return Math.max(iR, lender.getInterestRateLowerBound(mktId));}
-			}
-			}else {
-				return previousDepositRate;
 			}
 		
 //		old strategy

@@ -1980,6 +1980,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<key><util:constant static-field="benchmark.StaticValues.LAG_OPERATINGCASHFLOW"/></key></entry>
 			<entry value-ref="pastTaxes"> 
 				<key><util:constant static-field="benchmark.StaticValues.LAG_TAXES"/></key></entry>
+			<entry value-ref="pastDefaulted"> 
+				<key>
+				<util:constant static-field="benchmark.StaticValues.LAG_DEFAULTED"/></key></entry>
 		</map>
 		</property>
 		<property name="populationId"><util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID" /> </property>
@@ -2131,6 +2134,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
+	<bean id="pastDefaulted" class="jmab.expectations.TreeMapPassedValues"
+		scope="prototype">
+		<property name="nbLags" value="4"/>
+	</bean>
+	
 	<bean id="pastCapitalAmortization" class="jmab.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
@@ -2456,6 +2464,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 			<entry value-ref="pastTaxes"> 
 				<key><util:constant static-field="benchmark.StaticValues.LAG_TAXES"/></key>
 			</entry>
+			<entry value-ref="pastDefaulted"> 
+				<key>
+				<util:constant static-field="benchmark.StaticValues.LAG_DEFAULTED"/></key></entry>
 		</map>
 		</property>
 		<property name="numberMarkets" value="9" />
@@ -2993,7 +3004,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 			<util:constant static-field="benchmark.StaticValues.MKT_CREDIT" />
 		</property>
 		<!-- <property name="adaptiveParameter" value="1"/> -->
-		<property name="adaptiveParameter" value="0.1" />
+		<property name="adaptiveParameter" value="0.001" />
 		<property name="markup" value="0.0025" />
 		<property name="liabilitiesId">
 			<list>
@@ -3714,7 +3725,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		parent="strategy" class="benchmark.strategies.MonetaryPolicyStatic">
 				<property name="staticAdvancesRate" value="0.01"/>
 	</bean>
-	 -->
+	-->
 	
 	
 	<bean id="reservesInterestRateStrategy" scope="prototype"

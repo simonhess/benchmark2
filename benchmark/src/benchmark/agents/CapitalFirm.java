@@ -274,6 +274,11 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 		this.addValue(StaticValues.LAG_NETWEALTH,nW);
 		inventories.setAge(-1);
 		this.cleanSM();
+		if(this.defaulted==true) {
+			this.addValue(StaticValues.LAG_DEFAULTED,1);
+		}else {
+			this.addValue(StaticValues.LAG_DEFAULTED,0);
+		}
 	}
 
 	@Override

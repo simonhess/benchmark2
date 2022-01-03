@@ -48,10 +48,10 @@ import jmab.stockmatrix.ConsumptionGood;
 import jmab.stockmatrix.Deposit;
 import jmab.stockmatrix.Item;
 import jmab.stockmatrix.Loan;
+import jmab.strategies.AdaptiveMarkUpOnAC;
 import jmab.strategies.BankruptcyStrategy;
 import jmab.strategies.DividendsStrategy;
 import jmab.strategies.FinanceStrategy;
-import jmab.strategies.InvestmentCapacityOperatingCashFlow;
 import jmab.strategies.InvestmentStrategy;
 import jmab.strategies.PricingStrategy;
 import jmab.strategies.ProductionStrategy;
@@ -214,6 +214,12 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		this.addValue(StaticValues.LAG_NETWEALTH,nW);
 		inventories.setAge(-2);
 		this.cleanSM();
+		if(this.defaulted==true) {
+			// Set lagged defaulted value to 1 indicating that this firm was defaulted in the last round
+			this.addValue(StaticValues.LAG_DEFAULTED,1);
+		}else {
+			this.addValue(StaticValues.LAG_DEFAULTED,0);
+		}
 	}
 
 	@Override

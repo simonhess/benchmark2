@@ -388,6 +388,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			k.addValue(StaticValues.LAG_NETWEALTH, k.getNetWealth()*(1+distr.nextDouble()));
 			k.addValue(StaticValues.LAG_NOMINALINVENTORIES, lagKInv*kUnitCost);
 			k.addValue(StaticValues.LAG_OPERATINGCASHFLOW,kOCF);
+			k.addValue(StaticValues.LAG_DEFAULTED,0);
 			Expectation kWageExp = k.getExpectation(StaticValues.EXPECTATIONS_WAGES);
 			int nbObs = kWageExp.getNumberPeriod();
 			double[][] passedWage = new double[nbObs][2];
@@ -538,6 +539,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			c.addValue(StaticValues.LAG_NETWEALTH, c.getNetWealth()*(1+distr.nextDouble()));
 			c.addValue(StaticValues.LAG_NOMINALINVENTORIES, lagCInv*cUnitCost);
 			c.addValue(StaticValues.LAG_OPERATINGCASHFLOW, cOCF);
+			c.addValue(StaticValues.LAG_DEFAULTED,0);
 			Expectation cWageExp = c.getExpectation(StaticValues.EXPECTATIONS_WAGES);
 			int nbObs = cWageExp.getNumberPeriod();
 			double[][] passedWage = new double[nbObs][2];

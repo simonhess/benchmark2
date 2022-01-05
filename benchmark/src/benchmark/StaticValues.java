@@ -259,9 +259,9 @@ public interface StaticValues {
 	public static int LAG_ALLPRICE=35;
 	public static int LAG_REALGDP=36;
 	
-	public static int LAG_DEFAULTED=36;
-	
 	public static int LAG_RESERVESINTEREST=37;
+	
+	public static int LAG_DEFAULTED=38;
 	
 	public static int SM_CASH=0;
 	public static int SM_DEP=1;

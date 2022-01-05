@@ -242,11 +242,12 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		}
 		
 		double expectedProfits=expRevenues-(nbWorkers*expWages)+this.interestReceived-this.debtInterests+(shareInvenstories*expRealSales-inv)*uc-capitalAmortization;
-		double expectedTaxes=expectedProfits*profitTaxRate;
-		double expectedDividends=expectedProfits*(1-profitTaxRate)*profitShare;
-		double Inv=this.desiredRealCapitalDemand*((CapitalFirm)this.selectedCapitalGoodSuppliers.get(0)).getPrice();
+		double expectedTaxes=Math.max(0, expectedProfits*profitTaxRate);
+		double expectedDividends=Math.max(0,expectedProfits*(1-profitTaxRate)*profitShare);
+		double investment=this.desiredRealCapitalDemand*((CapitalFirm)this.selectedCapitalGoodSuppliers.get(0)).getPrice();
+		double expectedProfitsAfterTaxes = expectedProfits-expectedTaxes;
 		double totalFinancialRequirement=(nbWorkers*expWages)+
-				Inv+
+				investment+
 				this.debtBurden - this.interestReceived + expectedTaxes + expectedDividends-expRevenues+this.shareOfExpIncomeAsDeposit*(nbWorkers*expWages);
 		FinanceStrategy strategy =(FinanceStrategy)this.getStrategy(StaticValues.STRATEGY_FINANCE);
 		this.creditDemanded=strategy.computeCreditDemand(totalFinancialRequirement);

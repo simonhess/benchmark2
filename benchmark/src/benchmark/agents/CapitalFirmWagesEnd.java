@@ -229,8 +229,8 @@ public class CapitalFirmWagesEnd extends CapitalFirm implements GoodSupplier,
 		double profitShare=strategyDiv.getProfitShare();
 		double expRevenues = nomSalesExp.getExpectation();
 		double expectedProfits=expRevenues-(nbWorkers*expWages)+this.interestReceived-this.debtInterests+(shareInvenstories*expRealSales-inv)*uc;
-		double expectedTaxes=expectedProfits*profitTaxRate;
-		double expectedDividends=expectedProfits*(1-profitTaxRate)*profitShare;
+		double expectedTaxes=Math.max(0, expectedProfits*profitTaxRate);
+		double expectedDividends=Math.max(0,expectedProfits*(1-profitTaxRate)*profitShare);
 		double expectedFinancialRequirement=(nbWorkers*expWages)+(Math.floor(this.amountResearch/expWages))*expWages +
 				this.debtBurden - this.interestReceived + expectedDividends+expectedTaxes-expRevenues+ this.shareOfExpIncomeAsDeposit*(nbWorkers*expWages);
 		this.creditDemanded = strategy.computeCreditDemand(expectedFinancialRequirement);

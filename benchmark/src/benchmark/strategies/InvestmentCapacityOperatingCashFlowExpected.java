@@ -17,6 +17,7 @@ package benchmark.strategies;
 import java.nio.ByteBuffer;
 import java.util.List;
 
+import benchmark.StaticValues;
 import benchmark.agents.ConsumptionFirm;
 import jmab.population.MacroPopulation;
 import jmab.stockmatrix.CapitalGood;
@@ -160,11 +161,16 @@ public class InvestmentCapacityOperatingCashFlowExpected extends AbstractStrateg
 		double desiredOutput=investor.getDesiredOutput();
 		double capitalValue=investor.getPassedValue(pastCapitalId, 1);
 		double cashFlowRate= investor.getPassedValue(pastCashFlowId,1)/capitalValue;
+		
 		if (capacity==0||capitalValue==0){
 			return -1;
 		}
 		else{
 		double desiredRateOfGrowth=cashFlowRateWeight*(cashFlowRate-targetCashFlow)/targetCashFlow+capacityWeight*((desiredOutput/capacity)-targetCapacityUtlization)/targetCapacityUtlization;
+		if(investor.getPassedValue(StaticValues.LAG_DEFAULTED, 1)==1) {
+			desiredRateOfGrowth=capacityWeight*((desiredOutput/capacity)-targetCapacityUtlization)/targetCapacityUtlization;
+		}
+		
 		return Math.max(-1, desiredRateOfGrowth);
 		}
 		

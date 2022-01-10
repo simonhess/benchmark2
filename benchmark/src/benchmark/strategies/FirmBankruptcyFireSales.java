@@ -15,9 +15,12 @@
 package benchmark.strategies;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import benchmark.StaticValues;
+import benchmark.agents.CapitalFirm;
 import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.Households;
 import jmab.agents.AbstractFirm;
@@ -25,7 +28,9 @@ import jmab.agents.CreditSupplier;
 import jmab.agents.LiabilitySupplier;
 import jmab.agents.MacroAgent;
 import jmab.population.MacroPopulation;
+import jmab.stockmatrix.CapitalGood;
 import jmab.stockmatrix.Cash;
+import jmab.stockmatrix.ConsumptionGood;
 import jmab.stockmatrix.Deposit;
 import jmab.stockmatrix.Item;
 import jmab.stockmatrix.Loan;
@@ -144,9 +149,70 @@ public class FirmBankruptcyFireSales extends AbstractStrategy implements
 				else{
 					ownersDisbursment=capitalValue;
 				}
-				firm.setBailoutCost(ownersDisbursment);
+				// Allowance of inventory and reduction of excess capacities
 				SimulationController controller = (SimulationController)firm.getScheduler();
 				MacroPopulation macroPop = (MacroPopulation) controller.getPopulation();
+				
+				//Value adjustment of inventories
+				
+				Population cFirms = macroPop.getPopulation(StaticValues.CONSUMPTIONFIRMS_ID);
+				
+				double unitCostSum = 0;
+				
+				for(Agent h:cFirms.getAgents()){
+					ConsumptionFirm cFirm = (ConsumptionFirm) h;
+					ConsumptionGood inventories = (ConsumptionGood)cFirm.getItemStockMatrix(true, cFirm.getProductionStockId());
+					unitCostSum += inventories.getUnitCost();
+				}
+				double avUnitCost = unitCostSum/cFirms.getSize();
+				double valueAdjustmentAmount = 0;
+				
+				List<Item> consGoods=firm.getItemsStockMatrix(true, StaticValues.SM_CONSGOOD);
+				for (Item i:consGoods){
+					ConsumptionGood cGood = (ConsumptionGood) i;
+					valueAdjustmentAmount += cGood.getQuantity()*cGood.getUnitCost()-cGood.getQuantity()*avUnitCost;
+					cGood.setUnitCost(avUnitCost);
+				}
+				//ownersDisbursment+=valueAdjustmentAmount;
+				
+				// Reduce excess capacities
+				
+				InvestmentCapacityOperatingCashFlowExpected strategy1=(InvestmentCapacityOperatingCashFlowExpected) firm.getStrategy(StaticValues.STRATEGY_INVESTMENT);
+				double targetCapacityUtilization = strategy1.getTargetCapacityUtlization();
+				
+				double targetCapacity = firm.getPassedValue(StaticValues.LAG_PRODUCTION, 0)/targetCapacityUtilization;
+				double tempCapacity = 0;
+				
+				// Sort capital by age
+				
+				TreeMap<Integer,ArrayList<CapitalGood>> sortedCapital = new TreeMap<Integer,ArrayList<CapitalGood>>();
+				
+				for (Item i:capital){
+					CapitalGood kGood = (CapitalGood) i;
+					if(kGood.getAge()>=0&&kGood.getAge()<kGood.getCapitalDuration()) {
+						if(sortedCapital.containsKey(kGood.getAge())){
+							ArrayList<CapitalGood> list = sortedCapital.get(kGood.getAge());
+							list.add(kGood);
+						}else{
+							ArrayList<CapitalGood> list = new ArrayList<CapitalGood>();
+							list.add(kGood);
+							sortedCapital.put(kGood.getAge(), list);
+						}
+
+					}
+				}
+
+				for (Integer key:sortedCapital.keySet()){
+					for(CapitalGood kGood:sortedCapital.get(key)){
+						if(tempCapacity > targetCapacity) {
+							kGood.setObsolete(true);
+						}else{
+							tempCapacity+=kGood.getQuantity()*kGood.getProductivity();
+						}
+					}
+					}
+				
+				firm.setBailoutCost(ownersDisbursment);
 				Population households = macroPop.getPopulation(StaticValues.HOUSEHOLDS_ID);
 				double totalHouseholdsWealth=0;
 				for(Agent h:households.getAgents()){
@@ -177,6 +243,7 @@ public class FirmBankruptcyFireSales extends AbstractStrategy implements
 						totalBanksLoss-=amountToPay;
 					}
 				}
+				
 			} 
 			//all banks recover the same share of their outstanding credit as the total available funds are residualDeposits plus K
 			//discounted value and this sum is distributed across loans on the base of their weight on total outstanding loans. 
@@ -186,7 +253,158 @@ public class FirmBankruptcyFireSales extends AbstractStrategy implements
 				CreditSupplier lendingBank= (CreditSupplier) loan.getAssetHolder();
 				lendingBank.setCurrentNonPerformingLoans(StaticValues.SM_LOAN,lendingBank.getCurrentNonPerformingLoans(StaticValues.SM_LOAN)+banksLosses[i]);
 				loan.setValue(0);
-			} 
+			}
+			
+			// Recapitalize firm if nW is below average
+			
+			SimulationController controller = (SimulationController)firm.getScheduler();
+			MacroPopulation macroPop = (MacroPopulation) controller.getPopulation();
+			
+			if (firm instanceof ConsumptionFirm){
+			
+			Population cFirms = macroPop.getPopulation(StaticValues.CONSUMPTIONFIRMS_ID);
+			
+			double averageNetWealthSum = 0;
+			
+			List<Item> consGoods=firm.getItemsStockMatrix(true, StaticValues.SM_CONSGOOD);
+			
+			for(Agent h:cFirms.getAgents()){
+				ConsumptionFirm cFirm = (ConsumptionFirm) h;
+				averageNetWealthSum += cFirm.getPassedValue(StaticValues.LAG_NETWEALTH, 1);
+			}
+			
+			double firmAssets = 0;
+			
+			// Calculate firms assets
+
+			for (Item i:consGoods){
+				firmAssets += i.getValue();
+			}
+			List<Item> kGoods=firm.getItemsStockMatrix(true, StaticValues.SM_CAPGOOD);
+			for (Item i:kGoods){
+				CapitalGood kGood = (CapitalGood) i;
+				if(kGood.isObsolete()==false) {
+					firmAssets += i.getValue();
+				}
+			}
+			List<Item> cFirmPayingStocks = firm.getPayingStocks(0,null);
+			if(cFirmPayingStocks==null) {
+				System.out.println("null");
+			}
+			for (Item i:cFirmPayingStocks){
+				firmAssets += i.getValue();
+			}
+			
+			// Calculate firms current net wealth
+			double firmLoansSum = 0;
+			
+			for (Item i:loans){
+				firmLoansSum += i.getValue();
+			}
+			
+			double firmNW = firmAssets-firmLoansSum;
+			
+			double averageNetWealth = averageNetWealthSum/cFirms.getSize();
+			
+			Population households = macroPop.getPopulation(StaticValues.HOUSEHOLDS_ID);
+			
+			double totalNW = 0;
+			for (Agent receiver : households.getAgents()) {
+				totalNW += ((MacroAgent) receiver).getNetWealth();
+			}
+			
+			if(firmNW<averageNetWealth) {
+				double nwDelta = averageNetWealth-firmNW;
+				
+				Item targetStock = firm.getPayableStock(0);
+				
+				for (Agent rec : households.getAgents()) {
+					Households receiver = (Households) rec;
+					double hhnw = receiver.getNetWealth();
+					double toPay = hhnw * (nwDelta) / totalNW;
+
+					Item payablestock = receiver.getPayableStock(StaticValues.MKT_LABOR);
+					List<Item> hhPayingStocks = receiver.getPayingStocks(0, payablestock);
+					receiver.reallocateLiquidity(toPay, hhPayingStocks, payablestock);
+
+					LiabilitySupplier libHolder = (LiabilitySupplier) payablestock.getLiabilityHolder();
+
+					libHolder.transfer(payablestock, targetStock, toPay);
+				}
+				
+			}
+			}else if(firm instanceof CapitalFirm){
+				
+				Population kFirms = macroPop.getPopulation(StaticValues.CAPITALFIRMS_ID);
+				
+				double averageNetWealthSum = 0;
+				
+				for(Agent h:kFirms.getAgents()){
+					CapitalFirm cFirm = (CapitalFirm) h;
+					averageNetWealthSum += cFirm.getPassedValue(StaticValues.LAG_NETWEALTH, 1);
+				}
+				
+				double firmAssets = 0;
+				
+				// Calculate firms assets
+
+				List<Item> kGoods=firm.getItemsStockMatrix(true, StaticValues.SM_CAPGOOD);
+				for (Item i:kGoods){
+					CapitalGood kGood = (CapitalGood) i;
+					if(kGood.isObsolete()==false) {
+						firmAssets += i.getValue();
+					}
+				}
+				List<Item> kFirmPayingStocks = firm.getPayingStocks(0,null);
+				if(kFirmPayingStocks==null) {
+					System.out.println("null");
+				}
+				for (Item i:kFirmPayingStocks){
+					firmAssets += i.getValue();
+				}
+				
+				// Calculate firms current net wealth
+				double firmLoansSum = 0;
+				
+				for (Item i:loans){
+					firmLoansSum += i.getValue();
+				}
+				
+				double firmNW = firmAssets-firmLoansSum;
+				
+				double averageNetWealth = averageNetWealthSum/kFirms.getSize();
+				
+				Population households = macroPop.getPopulation(StaticValues.HOUSEHOLDS_ID);
+				
+				double totalNW = 0;
+				for (Agent receiver : households.getAgents()) {
+					totalNW += ((MacroAgent) receiver).getNetWealth();
+				}
+				
+				if(firmNW<averageNetWealth) {
+					double nwDelta = averageNetWealth-firmNW;
+					
+					Item targetStock = firm.getPayableStock(0);
+					
+					for (Agent rec : households.getAgents()) {
+						Households receiver = (Households) rec;
+						double hhnw = receiver.getNetWealth();
+						double toPay = hhnw * (nwDelta) / totalNW;
+
+						Item payablestock = receiver.getPayableStock(StaticValues.MKT_LABOR);
+						List<Item> hhPayingStocks = receiver.getPayingStocks(0, payablestock);
+						receiver.reallocateLiquidity(toPay, hhPayingStocks, payablestock);
+
+						LiabilitySupplier libHolder = (LiabilitySupplier) payablestock.getLiabilityHolder();
+
+						libHolder.transfer(payablestock, targetStock, toPay);
+					}
+					
+				}
+				
+				
+			}
+			
 		}
 	}
 	

@@ -287,10 +287,8 @@ public class FirmBankruptcyFireSales extends AbstractStrategy implements
 					firmAssets += i.getValue();
 				}
 			}
-			List<Item> cFirmPayingStocks = firm.getPayingStocks(0,null);
-			if(cFirmPayingStocks==null) {
-				System.out.println("null");
-			}
+			List<Item> cFirmPayingStocks = firm.getPayingStocks(StaticValues.MKT_LABOR,null);
+		
 			for (Item i:cFirmPayingStocks){
 				firmAssets += i.getValue();
 			}
@@ -355,10 +353,8 @@ public class FirmBankruptcyFireSales extends AbstractStrategy implements
 						firmAssets += i.getValue();
 					}
 				}
-				List<Item> kFirmPayingStocks = firm.getPayingStocks(0,null);
-				if(kFirmPayingStocks==null) {
-					System.out.println("null");
-				}
+				List<Item> kFirmPayingStocks = firm.getPayingStocks(StaticValues.MKT_LABOR,null);
+
 				for (Item i:kFirmPayingStocks){
 					firmAssets += i.getValue();
 				}

@@ -34,6 +34,7 @@ import jmab.stockmatrix.ConsumptionGood;
 import jmab.stockmatrix.Deposit;
 import jmab.stockmatrix.Item;
 import jmab.stockmatrix.Loan;
+import jmab.strategies.AdaptiveMarkUpOnAC;
 import jmab.strategies.BankruptcyStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
@@ -400,6 +401,37 @@ public class FirmBankruptcyFireSales extends AbstractStrategy implements
 				
 				
 			}
+			
+			// Set firm's mark up to an average level
+			
+			if (firm instanceof ConsumptionFirm){
+				Population pop = macroPop.getPopulation(StaticValues.CONSUMPTIONFIRMS_ID);
+				
+				double markupSum = 0;
+				for (Agent i:pop.getAgents()){
+					ConsumptionFirm cFirm= (ConsumptionFirm) i;
+					AdaptiveMarkUpOnAC tempStrategy = (AdaptiveMarkUpOnAC )cFirm.getStrategy(StaticValues.STRATEGY_PRICING);
+					markupSum += tempStrategy.getMarkUp();
+				}
+				
+				AdaptiveMarkUpOnAC strategy = (AdaptiveMarkUpOnAC )firm.getStrategy(StaticValues.STRATEGY_PRICING);
+				double avMarkup = markupSum/pop.getSize();
+				strategy.setMarkUp(avMarkup);	
+			}
+			else if (firm instanceof CapitalFirm){
+				Population pop = macroPop.getPopulation(StaticValues.CAPITALFIRMS_ID);
+				
+				double markupSum = 0;
+				for (Agent i:pop.getAgents()){
+					CapitalFirm kFirm= (CapitalFirm) i;
+					AdaptiveMarkUpOnAC tempStrategy = (AdaptiveMarkUpOnAC )kFirm.getStrategy(StaticValues.STRATEGY_PRICING);
+					markupSum += tempStrategy.getMarkUp();
+				}
+				
+				AdaptiveMarkUpOnAC strategy = (AdaptiveMarkUpOnAC )firm.getStrategy(StaticValues.STRATEGY_PRICING);
+				double avMarkup = markupSum/pop.getSize();
+				strategy.setMarkUp(avMarkup);	
+			}		
 			
 		}
 	}

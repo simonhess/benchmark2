@@ -977,12 +977,12 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		
 		double debtRatio;
 		
-		if(loansValue>0) {
+		if(loansValue>0&&this.getNetWealth()>0) {
 			debtRatio = loansValue/(loansValue+this.getNetWealth());
 		}else {
 			debtRatio = 0;
 		}
-		
+
 		// Get deposits as loan ratio
 		
 		double depositRatio = 1;

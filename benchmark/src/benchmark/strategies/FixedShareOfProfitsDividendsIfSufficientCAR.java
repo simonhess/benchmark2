@@ -114,7 +114,7 @@ DividendsStrategy {
 				}
 				
 
-				if (targetedCapitalRatio > actualCapitalRatio) {
+				if (targetedCapitalRatio >= actualCapitalRatio) {
 					bank.setDividends(profits*profitShare);
 				}
 				else if (actualCapitalRatio > targetedCapitalRatio) {

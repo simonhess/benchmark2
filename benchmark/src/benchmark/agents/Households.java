@@ -80,6 +80,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	private double bondPrice;
 	private double bondInterestRate;
 	private double unemploymentBenefitAmount;
+	private double bailoutcost;
 
 	/* (non-Javadoc)
 	 * @see jmab.agents.MacroAgent#onRoundFinished(net.sourceforge.jabm.event.RoundFinishedEvent)
@@ -248,6 +249,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	protected void onTicArrived(MacroTicEvent event) {
 		switch(event.getTic()){
 		case StaticValues.TIC_COMPUTEEXPECTATIONS:
+			setBailoutcost(0);
 			this.computeExpectations();
 			break;
 		case StaticValues.TIC_LABORSUPPLY:
@@ -776,6 +778,14 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 
 	public void setUnemploymentBenefitAmount(double unemploymentBenefitAmount) {
 		this.unemploymentBenefitAmount = unemploymentBenefitAmount;
+	}
+
+	public double getBailoutcost() {
+		return bailoutcost;
+	}
+
+	public void setBailoutcost(double bailoutcost) {
+		this.bailoutcost = bailoutcost;
 	}
 
 }

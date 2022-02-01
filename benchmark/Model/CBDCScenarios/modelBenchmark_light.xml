@@ -148,6 +148,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="avWageReportTic" />
 	            <ref bean="avNetIncomeReportTic" />
 	            <ref bean="giniReportTic" />
+	            <ref bean="hhBailoutCostStdDevReportTic" />
+	            <ref bean="hhAvBailoutCostReportTic" />
 	            <ref bean="avAllPriceReportTic" />
 	            <ref bean="cbAdvancesRateReportTic" />
 	            <ref bean="cbReservesRateReportTic" />
@@ -914,6 +916,20 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.GINIREPORT_ID" /></property>
 	<property name="variableName" value="gini"/>
 	<property name="computer" ref="giniComputer"/>
+	</bean>
+	
+	<bean id="hhBailoutCostStdDevReportTic" class="jmab.events.MacroVariableTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_HHBAILOUTCOSTSTDDEVREPORT" /></property>
+	<property name="variableId"><util:constant static-field="benchmark.StaticValues.HHBAILOUTCOSTSTDDEVREPORT_ID" /></property>
+	<property name="variableName" value="hhBailoutCostStdDev"/>
+	<property name="computer" ref="hhBailoutCostStdDevComputer"/>
+	</bean>
+	
+	<bean id="hhAvBailoutCostReportTic" class="jmab.events.MacroVariableTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_HHAVBAILOUTCOSTREPORT" /></property>
+	<property name="variableId"><util:constant static-field="benchmark.StaticValues.HHAVBAILOUTCOSTREPORT_ID" /></property>
+	<property name="variableName" value="hhAvBailoutCost"/>
+	<property name="computer" ref="hhAvBailoutCostComputer"/>
 	</bean>
 	
 	<bean id="avAllPriceReportTic" class="jmab.events.MacroVariableTicEvent">
@@ -3268,6 +3284,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_DEPOSITDEMAND"/>
 				<util:constant static-field="benchmark.StaticValues.TIC_UPDATEEXPECTATIONS"/>
 				<util:constant static-field="benchmark.StaticValues.TIC_BONDDEMAND"/>
+				<util:constant static-field="benchmark.StaticValues.TIC_BANKRUPTCY" />
 			</list>
 		</property>
 		<property name="expectations"> 

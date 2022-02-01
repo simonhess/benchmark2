@@ -147,7 +147,8 @@ public class BankBankruptcyBailin extends AbstractStrategy implements
 				receiver.reallocateLiquidity(toPay, payingStocks, payablestock);
 
 				LiabilitySupplier libHolder = (LiabilitySupplier) payablestock.getLiabilityHolder();
-
+				
+				receiver.setBailoutcost(toPay);
 				libHolder.transfer(payablestock, targetStock, toPay);
 			}
 			
@@ -203,7 +204,12 @@ public class BankBankruptcyBailin extends AbstractStrategy implements
 		}else {
 //		numberBailouts+=1;
 		for (Item deposit:bank.getItemsStockMatrix(false, depositId)){
+			double bailoutcost = -(deposit.getValue()*(nw)/totDeposits);
 			deposit.setValue(deposit.getValue()+(deposit.getValue()*(nw)/totDeposits));
+			if(deposit.getAssetHolder() instanceof Households) {
+				Households hh = (Households)deposit.getAssetHolder();
+				hh.setBailoutcost(bailoutcost);
+			}
 		}
 		
 		Item targetStock = bank.getItemStockMatrix(true, StaticValues.SM_RESERVES);

@@ -133,6 +133,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="cFirmsProfitsCSVReport" />
 				<ref bean="kFirmsProfitsEventReport" />
 				<ref bean="kFirmsProfitsCSVReport" />
+				<ref bean="hhBailoutCostStdDevEventReport" />
+				<ref bean="hhBailoutCostStdDevCSVReport" />
+				<ref bean="hhAvBailoutCostEventReport" />
+				<ref bean="hhAvBailoutCostCSVReport" />
 			</list>
 		</property>
 		

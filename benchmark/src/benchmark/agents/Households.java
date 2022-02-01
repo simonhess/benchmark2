@@ -81,6 +81,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	private double bondInterestRate;
 	private double unemploymentBenefitAmount;
 	private double bailoutcost;
+	private double liquidAssetsSum;
 
 	/* (non-Javadoc)
 	 * @see jmab.agents.MacroAgent#onRoundFinished(net.sourceforge.jabm.event.RoundFinishedEvent)
@@ -250,6 +251,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 		switch(event.getTic()){
 		case StaticValues.TIC_COMPUTEEXPECTATIONS:
 			setBailoutcost(0);
+			setLiquidAssetsSum(0);
 			this.computeExpectations();
 			break;
 		case StaticValues.TIC_LABORSUPPLY:
@@ -266,6 +268,23 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 			break;
 		case StaticValues.TIC_BONDDEMAND:
 			determineBondDemand();
+			break;
+		case StaticValues.TIC_BANKRUPTCY:
+			// Compute sum of all liquid assets before the bankruptcies are conducted
+			double liquidAssets=0;
+			List<Item> deposits=this.getItemsStockMatrix(true, StaticValues.SM_DEP);
+			List<Item> cash=this.getItemsStockMatrix(true, StaticValues.SM_CASH);
+			List<Item> reserves=this.getItemsStockMatrix(true, StaticValues.SM_RESERVES);
+			for (Item i: deposits){
+				liquidAssets+=i.getValue();
+			}
+			for (Item i: cash){
+				liquidAssets+=i.getValue();
+			}
+			for (Item i: reserves){
+				liquidAssets+=i.getValue();
+			}
+			setLiquidAssetsSum(liquidAssets);
 			break;
 		}
 	}
@@ -786,6 +805,14 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 
 	public void setBailoutcost(double bailoutcost) {
 		this.bailoutcost = bailoutcost;
+	}
+
+	public double getLiquidAssetsSum() {
+		return liquidAssetsSum;
+	}
+
+	public void setLiquidAssetsSum(double liquidAssetsSum) {
+		this.liquidAssetsSum = liquidAssetsSum;
 	}
 
 }

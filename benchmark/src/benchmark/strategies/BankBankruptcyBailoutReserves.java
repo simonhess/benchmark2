@@ -144,6 +144,8 @@ public class BankBankruptcyBailoutReserves extends AbstractStrategy implements
 			receiver.reallocateLiquidity(toPay, payingStocks, payablestock);
 
 			LiabilitySupplier libHolder = (LiabilitySupplier) payablestock.getLiabilityHolder();
+			
+			receiver.setBailoutcost(toPay);
 
 			libHolder.transfer(payablestock, targetStock, toPay);
 		}

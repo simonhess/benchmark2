@@ -5827,4 +5827,103 @@
 	<property name="fileNameExtension" value=".csv" />
 </bean>
 
+<!-- Household bailout cost standard deviation Report -->
+<bean id="hhBailoutCostStdDevComputer" class="benchmark.report.HhBailoutCostStdDevComputer">
+	<property name="householdId"><util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" /></property>
+</bean>
+
+<bean id="hhBailoutCostStdDevEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.HHBAILOUTCOSTSTDDEVREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="hhBailoutCostStdDevTimeSeries"/>
+</bean>
+
+<bean id="hhBailoutCostStdDevCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="hhBailoutCostStdDevReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="hhBailoutCostStdDev" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="hhBailoutCostStdDevCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.HHBAILOUTCOSTSTDDEVREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="hhBailoutCostStdDevCSVReportVariables"/>
+</bean>
+
+<bean id="hhBailoutCostStdDevReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="hhBailoutCostStdDev"/>
+</bean>
+
+<bean id="hhBailoutCostStdDevTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="hhBailoutCostStdDevTimeSeries"/>
+	<property name="chartTitle" value="hhBailoutCostStdDev"/>
+	<property name="rangeAxisLabel" value="hhBailoutCostStdDev"/>
+</bean>
+
+<bean id="hhBailoutCostStdDevTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="hhBailoutCostStdDevReportVariables"/>
+</bean>
+
+<!-- Households average bailout cost Report -->
+
+<bean id="hhAvBailoutCostComputer" class="benchmark.report.HhAvBailoutCostComputer">
+	<property name="householdId"><util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" /></property>
+</bean>
+
+<bean id="hhAvBailoutCostEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.HHAVBAILOUTCOSTREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="hhAvBailoutCostTimeSeries"/>
+</bean>
+
+<bean id="hhAvBailoutCostCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="hhAvBailoutCostReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="hhAvBailoutCost" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="hhAvBailoutCostCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.HHAVBAILOUTCOSTREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="hhAvBailoutCostCSVReportVariables"/>
+</bean>
+
+<bean id="hhAvBailoutCostReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="hhAvBailoutCost"/>
+</bean>
+
+<bean id="hhAvBailoutCostTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="hhAvBailoutCostTimeSeries"/>
+	<property name="chartTitle" value="hhAvBailoutCost"/>
+	<property name="rangeAxisLabel" value="hhAvBailoutCost"/>
+</bean>
+
+<bean id="hhAvBailoutCostTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="hhAvBailoutCostReportVariables"/>
+</bean>
+
 </beans>

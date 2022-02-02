@@ -14,6 +14,8 @@
  */
 package benchmark.strategies;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.List;
@@ -88,9 +90,6 @@ DividendsStrategy {
 	
 				Bank bank= (Bank) dividendPayer;
 				
-				// Get target ratio
-				
-				double targetedCapitalRatio = bank.getTargetedCapitalAdequacyRatio();
 				
 				// Calculate get the actual capital ratio without profits
 				
@@ -113,6 +112,17 @@ DividendsStrategy {
 					actualCapitalRatio=(bank.getNetWealth()-profits)/(outstandingLoans+outstandingInterbankLoans*1);	
 				}
 				
+				// Get target ratio
+				
+				double requiredEquityForDepositInsurance = bank.getNumericBalanceSheet()[1][StaticValues.SM_DEP]* bank.getDISReserveRatio();
+				
+				double depositInsuranceCapitalRatio = requiredEquityForDepositInsurance/ (bank.getNumericBalanceSheet()[0][StaticValues.SM_LOAN]+outstandingInterbankLoans);
+				
+				BigDecimal bd = BigDecimal.valueOf(depositInsuranceCapitalRatio);
+			    bd = bd.setScale(4, RoundingMode.HALF_UP);
+			    depositInsuranceCapitalRatio = bd.doubleValue();
+				
+				double targetedCapitalRatio = bank.getTargetedCapitalAdequacyRatio()+depositInsuranceCapitalRatio; 
 
 				if (targetedCapitalRatio >= actualCapitalRatio) {
 					bank.setDividends(profits*profitShare);

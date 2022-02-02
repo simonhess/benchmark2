@@ -137,6 +137,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="hhBailoutCostStdDevCSVReport" />
 				<ref bean="hhAvBailoutCostEventReport" />
 				<ref bean="hhAvBailoutCostCSVReport" />
+				<ref bean="interbankAvInterestEventReport" />
+				<ref bean="interbankAvInterestCSVReport" />
 			</list>
 		</property>
 		

@@ -5166,6 +5166,59 @@
 	<property name="reportVariables" ref="govInterestsBondsReportVariables"/>
 </bean>
 
+<!-- Average interbank rate -->
+
+<!-- dep Average interest Report -->
+<bean id="interbankAvInterestComputer" class="benchmark.report.AverageInterbankInterestRateComputer">
+	<property name="banksId"><util:constant static-field="benchmark.StaticValues.BANKS_ID" /></property>
+	<property name="stockId"><util:constant static-field="benchmark.StaticValues.SM_INTERBANK" /></property>
+</bean>
+
+<bean id="interbankAvInterestEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.AVINTERBANKINTERESTREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="interbankAvInterestTimeSeries"/>
+</bean>
+
+<bean id="interbankAvInterestCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="interbankAvInterestReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="banksInterbankAvInterest" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="interbankAvInterestCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.AVINTERBANKINTERESTREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="interbankAvInterestCSVReportVariables"/>
+</bean>
+
+<bean id="interbankAvInterestReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="interbankAvInterest"/>
+</bean>
+
+<bean id="interbankAvInterestTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="interbankAvInterestTimeSeries"/>
+	<property name="chartTitle" value="interbankAvInterest"/>
+	<property name="rangeAxisLabel" value="interbankAvInterest"/>
+</bean>
+
+<bean id="interbankAvInterestTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="interbankAvInterestReportVariables"/>
+</bean>
+
+
 <!--TOTAL LOANS SUPPLIED ON INTERBANK MARKET -->
 
 <bean id="microTotalInterBankLoansComputer" class="jmab.report.MicroTotalStockComputer">

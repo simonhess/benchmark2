@@ -258,6 +258,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="banksBailoutCostReportTic" />
 				<ref bean="cFirmsBailoutCostReportTic" />
 				<ref bean="kFirmsBailoutCostReportTic" />
+				<ref bean="interbankAvInterestReportTic" />
 				<!-- Reports
 				<ref bean="TFMReportTic" />
 				<ref bean="BSNetworkReportTic" /> 
@@ -881,6 +882,13 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AVDEPINTERESTREPORT_ID" /></property>
 	<property name="variableName" value="depAvInterest"/>
 	<property name="computer" ref="depAvInterestComputer"/>
+	</bean>
+	
+	<bean id="interbankAvInterestReportTic" class="jmab.events.MacroVariableTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AVINTERBANKINTERESTREPORT" /></property>
+	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AVINTERBANKINTERESTREPORT_ID" /></property>
+	<property name="variableName" value="interbankAvInterest"/>
+	<property name="computer" ref="interbankAvInterestComputer"/>
 	</bean>
 	
 	<bean id="loanAvInterestAskReportTic" class="jmab.events.MacroVariableTicEvent">

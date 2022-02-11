@@ -561,6 +561,55 @@
 	<property name="reportVariables" ref="avNetIncomeReportVariables"/>
 </bean>
 
+<!-- av nominal consumption Report -->
+<bean id="avNominalConsumptionComputer" class="benchmark.report.AverageNominalConsumptionComputer">
+	<property name="householdId"><util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" /></property>
+</bean>
+
+<bean id="avNominalConsumptionEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.AVNOMINALCONSUMPTIONREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="avNominalConsumptionTimeSeries"/>
+</bean>
+
+<bean id="avNominalConsumptionCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="avNominalConsumptionReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="hhAvNominalConsumption" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="avNominalConsumptionCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.AVNOMINALCONSUMPTIONREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="avNominalConsumptionCSVReportVariables"/>
+</bean>
+
+<bean id="avNominalConsumptionReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="avNominalConsumption"/>
+</bean>
+
+<bean id="avNominalConsumptionTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="avNominalConsumptionTimeSeries"/>
+	<property name="chartTitle" value="avNominalConsumption"/>
+	<property name="rangeAxisLabel" value="avNominalConsumption"/>
+</bean>
+
+<bean id="avNominalConsumptionTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="avNominalConsumptionReportVariables"/>
+</bean>
+
 <!-- Gini Report -->
 <bean id="giniComputer" class="benchmark.report.GiniComputer">
 	<property name="householdId"><util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" /></property>

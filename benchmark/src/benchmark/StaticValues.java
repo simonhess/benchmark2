@@ -173,6 +173,7 @@ public interface StaticValues {
 	public static int TIC_HHBAILOUTCOSTSTDDEVREPORT=178;
 	public static int TIC_HHAVBAILOUTCOSTREPORT=179;
 	public static int TIC_AVINTERBANKINTERESTREPORT=180;
+	public static int TIC_AVNOMINALCONSUMPTIONREPORT=181;
 	
 	// New Interbank TICs:
 	public static int TIC_INTERBANKDEMANDSUPPLY=138;
@@ -475,6 +476,7 @@ public interface StaticValues {
     public static int HHBAILOUTCOSTSTDDEVREPORT_ID=181;
     public static int HHAVBAILOUTCOSTREPORT_ID=182;
     public static int AVINTERBANKINTERESTREPORT_ID=183;
+    public static int AVNOMINALCONSUMPTIONREPORT_ID=184;
 
 	public static int TFM_CONS=0;
 	public static int TFM_WHH=1;

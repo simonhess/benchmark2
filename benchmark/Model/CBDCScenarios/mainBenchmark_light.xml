@@ -71,6 +71,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="avWageCSVReport" />
 				<ref bean="avNetIncomeEventReport" />
 				<ref bean="avNetIncomeCSVReport" />
+				<ref bean="avNominalConsumptionEventReport" />
+				<ref bean="avNominalConsumptionCSVReport" />
 				<ref bean="giniEventReport" />
 				<ref bean="giniCSVReport" />
 				<ref bean="AveragePriceAllProducersEventReport" />

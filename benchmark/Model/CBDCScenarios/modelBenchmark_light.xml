@@ -3225,15 +3225,13 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean> -->
 	
 	<bean id="banksInterbankRateStrategy" scope="prototype" parent="strategy"
-		class="benchmark.strategies.InterbankAskCBMarkUp">
+		class="benchmark.strategies.InterbankAskPerfectCompetition">
 		<property name="reserveId">
 			<util:constant static-field="benchmark.StaticValues.SM_RESERVES"/>
 		</property>
 		<property name="advancesId">
 			<util:constant static-field="benchmark.StaticValues.SM_ADVANCES"/>
 		</property>
-		<property name="distribution" ref="logNormal1" />
-		<property name="adaptiveParameter" value="1" />
 	</bean>  
 
 	<bean id="banksIlliquiditytrategy" scope="prototype" parent="strategy"

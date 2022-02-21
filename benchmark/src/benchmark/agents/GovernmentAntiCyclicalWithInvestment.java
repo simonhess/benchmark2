@@ -32,7 +32,9 @@ import jmab.agents.LiabilitySupplier;
 import jmab.agents.MacroAgent;
 import jmab.events.MacroTicEvent;
 import jmab.population.MacroPopulation;
+import jmab.population.MarketPopulation;
 import jmab.simulations.MacroSimulation;
+import jmab.simulations.SimpleMarketSimulation;
 import jmab.simulations.TwoStepMarketSimulation;
 import jmab.stockmatrix.Bond;
 import jmab.stockmatrix.Deposit;
@@ -134,9 +136,28 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 			}
 			break;
 		case StaticValues.MKT_CONSGOOD:
-			SelectSellerStrategy sellerStrategy = (SelectSellerStrategy) this.getStrategy(StaticValues.STRATEGY_BUYING);
-			MacroAgent seller = sellerStrategy.selectGoodSupplier(event.getObjects(), this.demand, true); 
-			macroSim.getActiveMarket().commit(this, seller, marketID);
+//			SelectSellerStrategy sellerStrategy = (SelectSellerStrategy) this.getStrategy(StaticValues.STRATEGY_BUYING);
+//			MacroAgent seller = sellerStrategy.selectGoodSupplier(event.getObjects(), this.demand, true); 
+//			macroSim.getActiveMarket().commit(this, seller, marketID);
+			
+			SimpleMarketSimulation marketSim = (SimpleMarketSimulation) macroSim.getActiveMarket();
+			MarketPopulation marketPop = marketSim.getPopulation();
+			List<Agent> sellers = marketPop.getSellers().getAgents();
+			double totalSupply = 0;
+			for(Agent a: sellers) {
+				ConsumptionFirm cF = (ConsumptionFirm) a;
+				Item output = cF.getItemStockMatrix(true, StaticValues.SM_CONSGOOD);
+				totalSupply+= output.getQuantity();
+			}
+			double initialDemand = this.demand;
+			for(Agent a: sellers) {
+				ConsumptionFirm cF = (ConsumptionFirm) a;
+				Item output = cF.getItemStockMatrix(true, StaticValues.SM_CONSGOOD);
+				double marketShare = output.getQuantity()/totalSupply;
+				double maxQuantity = marketShare*initialDemand;
+				this.demand = maxQuantity;
+				macroSim.getActiveMarket().commit(this, cF,marketID);
+			}
 			break;
 		}
 	}

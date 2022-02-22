@@ -417,7 +417,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="consumptionMarketMixer" class="jmab.mixing.SelectionRandomRobinBuyerMixer"
 		scope="simulation">
 		<property name="prng" ref="prng" />
-		<property name="nbSellers" value="10"/>
+		<property name="nbSellers" value="5"/>
 	</bean>
 
 	<bean id="consumptionMktTransactionMechanism" class="jmab.mechanisms.AtOnceMechanism"

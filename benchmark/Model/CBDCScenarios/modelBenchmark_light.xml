@@ -139,6 +139,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="reservesMarketBaselTic" />
 				<ref bean="computeAggregatesTic" />
 				<ref bean="nominalGDPReportTic" />
+				<ref bean="realGDPReportTic" />
 				<ref bean="cAvPriceReportTic" />
 				<ref bean="kAvPriceReportTic" />
 				<ref bean="loanAvInterestReportTic" />
@@ -855,6 +856,13 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.GDPREPORT_ID" /></property>
 	<property name="variableName" value="Nominal GDP"/>
 	<property name="computer" ref="nominalGDPComputer"/>
+	</bean>
+	
+	<bean id="realGDPReportTic" class="jmab.events.MacroVariableTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_REALGDPREPORT" /></property>
+	<property name="variableId"><util:constant static-field="benchmark.StaticValues.REALGDPREPORT_ID" /></property>
+	<property name="variableName" value="Real GDP"/>
+	<property name="computer" ref="realGDPComputer"/>
 	</bean>
 	
 	<bean id="cAvPriceReportTic" class="jmab.events.MacroVariableTicEvent">

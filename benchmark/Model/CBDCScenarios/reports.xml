@@ -94,7 +94,96 @@
 	<property name="reportVariables" ref="nominalGDPReportVariables"/>
 </bean>
 
-<!-- Average price of all producers report -->
+<!-- Real GDP Report -->
+<bean id="realGDPComputer" class="benchmark.report.RealGDPComputer">
+	<property name="gdpPopulationIds">
+		<list>
+	        <util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID"/>
+	        <util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID"/>
+	        <util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/>
+	        <util:constant static-field="benchmark.StaticValues.GOVERNMENT_ID"/>
+	 	</list>
+	</property>
+	<property name="gdpGoodsIds">
+		<list>
+	        <util:constant static-field="benchmark.StaticValues.SM_CAPGOOD"/>
+	        <util:constant static-field="benchmark.StaticValues.SM_CONSGOOD"/>
+	 	</list>
+	</property>
+	<property name="gdpGoodsAges">
+		<list>
+	        <value>0</value>
+	        <value>1</value>
+	 	</list>
+	</property>
+	<property name="governmentPopulationId"><util:constant static-field="benchmark.StaticValues.GOVERNMENT_ID"/></property>
+	<property name="goodPassedValueMap">
+			<map>
+				<entry> 
+					<key>
+						<util:constant static-field="benchmark.StaticValues.SM_CAPGOOD"/>
+					</key>
+					<util:constant static-field="benchmark.StaticValues.LAG_NOMINALINVENTORIES"/> 
+				</entry>
+				<entry> 
+					<key>
+						<util:constant static-field="benchmark.StaticValues.SM_CONSGOOD"/>
+					</key>
+					<util:constant static-field="benchmark.StaticValues.LAG_NOMINALINVENTORIES"/>
+				</entry>
+			</map>
+		</property>
+	<property name="priceIndexProducerId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID" /></property>
+	<property name="priceGoodId"><util:constant static-field="benchmark.StaticValues.SM_CONSGOOD" /></property>
+	<property name="realSaleId"><util:constant static-field="benchmark.StaticValues.LAG_REALSALES" /></property>
+	<property name="avpAllProdComputer" ref="AveragePriceAllProducersComputer"/>
+</bean>
+
+<bean id="realGDPEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.REALGDPREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="realGDPTimeSeries"/>
+</bean>
+
+<bean id="realGDPCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="realGDPReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="realGDP" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="realGDPCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.REALGDPREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="realGDPCSVReportVariables"/>
+</bean>
+
+<bean id="realGDPReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="Real GDP"/>
+</bean>
+
+<bean id="realGDPTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="realGDPTimeSeries"/>
+	<property name="chartTitle" value="nominal GDP"/>
+	<property name="rangeAxisLabel" value="GDP"/>
+</bean>
+
+<bean id="realGDPTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="realGDPReportVariables"/>
+</bean>
+
+<!-- Weighted average price of all producers (GDP deflator) report -->
 <bean id="AveragePriceAllProducersComputer" class="benchmark.report.AveragePriceAllProducersComputer">
 	<property name="populationIds">
 		<list>

@@ -208,6 +208,7 @@ public interface StaticValues {
 	
 	public static int TIC_AVLOANINTERESTASKREPORT=167;
 	public static int TIC_AVDEPINTERESTBIDREPORT=168;
+	public static int TIC_REALGDPREPORT=169;
 	
 	public static int TIC_POPULATIONHANDLER=1000;
 	public static int TIC_COMPUTEAGGREGATES=1001;
@@ -477,6 +478,7 @@ public interface StaticValues {
     public static int HHAVBAILOUTCOSTREPORT_ID=182;
     public static int AVINTERBANKINTERESTREPORT_ID=183;
     public static int AVNOMINALCONSUMPTIONREPORT_ID=184;
+    public static int REALGDPREPORT_ID=185;
 
 	public static int TFM_CONS=0;
 	public static int TFM_WHH=1;

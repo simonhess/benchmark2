@@ -25,6 +25,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 			<list>
 				<ref bean="nominalGDPEventReport" />
 				<ref bean="nominalGDPCSVReport" />
+				<ref bean="realGDPEventReport" />
+				<ref bean="realGDPCSVReport" />
 				<ref bean="nominalInvestmentEventReport" />
 				<ref bean="nominalInvestmentCSVReport" />
 				<ref bean="unemploymentEventReport" />

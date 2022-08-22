@@ -105,7 +105,8 @@ public class BankBankruptcyDepositInsurance extends AbstractStrategy implements
 			tot+=bank1.getCapitalRatio();
 			}
 		Uniform distribution = new Uniform(0,0.1,prng);
-		double car=tot/(banks.getSize()-1)+distribution.nextDouble();
+		//double car=tot/(banks.getSize()-1)+distribution.nextDouble();
+		double car = bank.getTargetedCapitalAdequacyRatio();
 		List<Item> loans=bank.getItemsStockMatrix(true, StaticValues.SM_LOAN);
 		double loansValue=0;
 		for (Item a:loans){

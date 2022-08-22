@@ -95,6 +95,8 @@ DividendsStrategy {
 				
 				double actualCapitalRatio;
 				
+				double actualCapital = bank.getNetWealth()-profits;
+				
 				double outstandingLoans=0;
 				for (Item i:bank.getItemsStockMatrix(true, StaticValues.SM_LOAN)){
 					outstandingLoans+=i.getValue();
@@ -109,27 +111,42 @@ DividendsStrategy {
 				}
 				else {
 					// consider current netwealth minus profits when calculating current capital (adequacy) ratio
-					actualCapitalRatio=(bank.getNetWealth()-profits)/(outstandingLoans+outstandingInterbankLoans*1);	
+					actualCapitalRatio=(bank.getNetWealth()-profits)/(outstandingLoans+outstandingInterbankLoans*1);
 				}
 				
 				// Get target ratio
 				
 				double requiredEquityForDepositInsurance = bank.getNumericBalanceSheet()[1][StaticValues.SM_DEP]* bank.getDISReserveRatio();
 				
-				double depositInsuranceCapitalRatio = requiredEquityForDepositInsurance/ (bank.getNumericBalanceSheet()[0][StaticValues.SM_LOAN]+outstandingInterbankLoans);
+				double depositInsuranceCapitalRatio=0;
+				
+				if(bank.getNumericBalanceSheet()[0][StaticValues.SM_LOAN]!=0) {
+					depositInsuranceCapitalRatio = requiredEquityForDepositInsurance/ (bank.getNumericBalanceSheet()[0][StaticValues.SM_LOAN]+outstandingInterbankLoans);
+				}
+				
+				
 				
 				BigDecimal bd = BigDecimal.valueOf(depositInsuranceCapitalRatio);
 			    bd = bd.setScale(4, RoundingMode.HALF_UP);
 			    depositInsuranceCapitalRatio = bd.doubleValue();
 				
 				double targetedCapitalRatio = bank.getTargetedCapitalAdequacyRatio()+depositInsuranceCapitalRatio; 
+				
+				double targetCapital = targetedCapitalRatio*(outstandingLoans+outstandingInterbankLoans);
+				
+				
 
 				if (targetedCapitalRatio >= actualCapitalRatio) {
-					bank.setDividends(profits*profitShare);
+
+					double div = Math.max(0, profits-(targetCapital-actualCapital)*0.25);
+					//div=profits;
+					bank.setDividends(div);
 				}
 				else if (actualCapitalRatio > targetedCapitalRatio) {
 
-					bank.setDividends(profits);
+					double div = profits+(actualCapital-targetCapital)*0.25;
+					//div=profits;
+					bank.setDividends(div);
 				}
 				
 				
@@ -188,8 +205,14 @@ DividendsStrategy {
 				}
 				
 			}
+		}else {
+			if (dividendPayer instanceof Bank){
+	
+				Bank bank= (Bank) dividendPayer;
+				bank.setDividends(0);
+			}
 		}
-
+		
 
 	}
 

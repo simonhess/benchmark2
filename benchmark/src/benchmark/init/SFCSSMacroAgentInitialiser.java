@@ -60,6 +60,7 @@ import jmab.strategies.MostPayingDepositWithSwitching;
 import jmab.strategies.TargetExpectedInventoriesOutputStrategy;
 import jmab.strategies.TaxPayerStrategy;
 import jmab.strategies.DividendsStrategy;
+import jmab.strategies.MarkupPricingStrategy;
 import net.sourceforge.jabm.Population;
 import cern.jet.random.Uniform;
 import cern.jet.random.engine.RandomEngine;
@@ -440,7 +441,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			c.setLoanLength(loanLength);
 			c.setShareOfExpIncomeAsDeposit(csShareOfExpIncomeAsDeposit);
 			
-			AdaptiveMarkUpOnAC pricingStrategy = (AdaptiveMarkUpOnAC) c.getStrategy(benchmark.StaticValues.STRATEGY_PRICING);
+			MarkupPricingStrategy pricingStrategy = (MarkupPricingStrategy) c.getStrategy(benchmark.StaticValues.STRATEGY_PRICING);
 			pricingStrategy.setMarkUp(csMarkup);
 
 			//Inventories

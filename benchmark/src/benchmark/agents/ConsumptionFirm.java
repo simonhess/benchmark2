@@ -231,9 +231,10 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 			TwoStepMarketSimulation sim = (TwoStepMarketSimulation)macroSim.getActiveMarket();
 			if(sim.isFirstStep()){				
 				this.selectedCapitalGoodSuppliers=event.getObjects();
-			}else if(sim.isSecondStep()){
 				InvestmentStrategy strategy1=(InvestmentStrategy) this.getStrategy(StaticValues.STRATEGY_INVESTMENT);
 				this.desiredCapacityGrowth=strategy1.computeDesiredGrowth();
+			}else if(sim.isSecondStep()){
+				
 				int nbSellers = this.selectedCapitalGoodSuppliers.size()+1;//There are nbSellers+1 options for the firm to invest
 				for(int i=0; i<nbSellers&&this.desiredRealCapitalDemand>0&&this.selectedCapitalGoodSuppliers.size()>0;i++){
 					SelectSellerStrategy buyingStrategy = (SelectSellerStrategy) this.getStrategy(StaticValues.STRATEGY_BUYING);

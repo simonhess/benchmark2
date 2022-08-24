@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
  */
-package expectations;
+package benchmark.expectations;
 
 import java.nio.ByteBuffer;
 

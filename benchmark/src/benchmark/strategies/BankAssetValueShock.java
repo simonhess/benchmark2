@@ -5,7 +5,6 @@ import java.util.Collections;
 
 import benchmark.StaticValues;
 import benchmark.agents.Bank;
-import benchmark.agents.BankWithAssetValueShock;
 import jmab.agents.MacroAgent;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;

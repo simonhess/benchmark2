@@ -121,6 +121,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="dividendsTic" />
 				<ref bean="depDemandTic" />
 				<ref bean="depMarketTic" />
+				<ref bean="ShockTic" />
 				<ref bean="bankruptcyTic" />
 				<ref bean="bankruptcyTic2" />
 				<ref bean="bondSupplyTic" />
@@ -842,6 +843,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	<bean id="populationHandlerTic" class="jmab.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_POPULATIONHANDLER" /></property>
+	</bean>
+	
+	<bean id="ShockTic" class="jmab.events.MacroTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_SHOCK" /></property>
 	</bean>
 	
 	<bean id="serializationTic" class="jmab.events.SerializationTicEvent">
@@ -3507,6 +3512,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_UPDATEEXPECTATIONS" />
 				<util:constant static-field="benchmark.StaticValues.TIC_CONSUMPTIONDEMAND" />
 				<util:constant static-field="benchmark.StaticValues.TIC_UNEMPLOYMENTBENEFITAMOUNT" />
+			<!-- <util:constant static-field="benchmark.StaticValues.TIC_SHOCK" />  -->
 			</list>
 		</property>
 		<property name="numberMarkets" value="9" />
@@ -3569,6 +3575,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark.StaticValues.STRATEGY_CONSUMPTION" />
 					</key> 
 				</entry>
+				<entry value-ref="governmentShockStrategy"> 
+					<key>
+						<util:constant static-field="benchmark.StaticValues.STRATEGY_SHOCK" />
+					</key> 
+				</entry>
 			</map>
 		</property>
 		<property name="scheduler" ref="simulationController" />
@@ -3596,6 +3607,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="governmentConsumptionStrategy" scope="prototype" parent="strategy"
 		class="benchmark.strategies.GovernmentCBProfitConsumptionStrategy">
 	</bean>
+	
+	<bean id="governmentShockStrategy" scope="prototype" parent="strategy"
+		class="benchmark.strategies.BankAssetValueShock">
+	</bean>
+	
 	
 		<!-- The population of CB (only one here)-->
 	<bean id="centralBanksPopulation" class="net.sourceforge.jabm.Population"

@@ -22,7 +22,7 @@ import java.util.Collection;
 import java.util.List;
 
 import benchmark.StaticValues;
-import benchmark.strategies.CentralBankProfitDistributionStrategy;
+import benchmark.strategies.ShockStrategy;
 import cern.jet.random.engine.RandomEngine;
 import jmab.agents.BondSupplier;
 import jmab.agents.GoodDemander;
@@ -107,9 +107,20 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 		case StaticValues.TIC_UPDATEEXPECTATIONS:
 			this.updateExpectations();
 			break;
+		case StaticValues.TIC_SHOCK:
+			this.performShock();
+			break;
 		}
+		
 	}
 	
+	private void performShock() {
+		// TODO Auto-generated method stub
+		ShockStrategy shockStrategy = (ShockStrategy) this.getStrategy(StaticValues.STRATEGY_SHOCK);
+		shockStrategy.performShock();
+		
+	}
+
 	public void onAgentArrival(AgentArrivalEvent event) {
 		MacroSimulation macroSim = (MacroSimulation)event.getSimulationController().getSimulation();
 		int marketID=macroSim.getActiveMarket().getMarketId();

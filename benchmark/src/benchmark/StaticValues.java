@@ -214,6 +214,7 @@ public interface StaticValues {
 	public static int TIC_COMPUTEAGGREGATES=1001;
 	public static int TIC_UPDATEEXPECTATIONS=1002;
 	public static int TIC_SERIALIZATION=1003;
+	public static int TIC_SHOCK = 1004;
 
 	
 	public static int EXPECTATIONS_NOMINALSALES=0;
@@ -329,6 +330,7 @@ public interface StaticValues {
 	public static int STRATEGY_DEFICITMANAGEMENT=39;
 	public static int STRATEGY_CBPROFITS = 40;
 	public static int STRATEGY_LENDING=41;
+	public static int STRATEGY_SHOCK = 42;
 	
 	public static int CAPITALFIRMS_ID=0;
 	public static int CONSUMPTIONFIRMS_ID=1;

@@ -36,6 +36,7 @@ import jmab.stockmatrix.Item;
 import jmab.stockmatrix.Loan;
 import jmab.strategies.AdaptiveMarkUpOnAC;
 import jmab.strategies.BankruptcyStrategy;
+import jmab.strategies.MarkupPricingStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -410,11 +411,11 @@ public class FirmBankruptcyFireSales extends AbstractStrategy implements
 				double markupSum = 0;
 				for (Agent i:pop.getAgents()){
 					ConsumptionFirm cFirm= (ConsumptionFirm) i;
-					AdaptiveMarkUpOnAC tempStrategy = (AdaptiveMarkUpOnAC )cFirm.getStrategy(StaticValues.STRATEGY_PRICING);
+					MarkupPricingStrategy tempStrategy = (MarkupPricingStrategy)cFirm.getStrategy(StaticValues.STRATEGY_PRICING);
 					markupSum += tempStrategy.getMarkUp();
 				}
 				
-				AdaptiveMarkUpOnAC strategy = (AdaptiveMarkUpOnAC )firm.getStrategy(StaticValues.STRATEGY_PRICING);
+				MarkupPricingStrategy strategy = (MarkupPricingStrategy)firm.getStrategy(StaticValues.STRATEGY_PRICING);
 				double avMarkup = markupSum/pop.getSize();
 				strategy.setMarkUp(avMarkup);	
 			}

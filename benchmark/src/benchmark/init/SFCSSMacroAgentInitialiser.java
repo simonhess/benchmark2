@@ -316,7 +316,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			TargetExpectedInventoriesOutputStrategy productionStrategy = (TargetExpectedInventoriesOutputStrategy) k.getStrategy(benchmark.StaticValues.STRATEGY_PRODUCTION);
 			productionStrategy.setInventoryShare(inventoryShare);
 			
-			AdaptiveMarkUpOnAC pricingStrategy = (AdaptiveMarkUpOnAC) k.getStrategy(benchmark.StaticValues.STRATEGY_PRICING);
+			MarkupPricingStrategy pricingStrategy = (MarkupPricingStrategy) k.getStrategy(benchmark.StaticValues.STRATEGY_PRICING);
 			pricingStrategy.setMarkUp(ksMarkup);
 			
 			//Inventories

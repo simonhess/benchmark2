@@ -135,6 +135,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="banksProfitsCSVReport" />
 				<ref bean="microBanksMarkupEventReport" />
 				<ref bean="microBanksMarkupCSVReport" />
+				<ref bean="microCMarkupEventReport" />
+				<ref bean="microCMarkupCSVReport" />
+				<ref bean="microKMarkupEventReport" />
+				<ref bean="microKMarkupCSVReport" />
 				<ref bean="cFirmsProfitsEventReport" />
 				<ref bean="cFirmsProfitsCSVReport" />
 				<ref bean="kFirmsProfitsEventReport" />

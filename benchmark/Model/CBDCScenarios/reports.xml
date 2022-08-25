@@ -6166,6 +6166,103 @@
 	<property name="reportVariables" ref="microBanksMarkupReportVariables"/>
 </bean>
 
+<!-- cFirm markup computer -->
+<bean id="microCMarkupComputer" class="benchmark.report.MicroMarkupComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/></property>
+</bean>
+
+<bean id="microCMarkupEventReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.CMARKUPREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="microCMarkupTimeSeries"/>
+</bean>
+
+<bean id="microCMarkupCSVReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.CMARKUPREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="microCMarkupCSVReportVariables"/>
+</bean>
+
+<bean id="microCMarkupCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="microCMarkupReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="cFirmsMarkup" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="microCMarkupReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="name" value="cFirms Markup"/>
+	<property name="numberOfSeries" value="100"/>
+</bean>
+
+<bean id="microCMarkupTimeSeriesChart" class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="microCMarkupTimeSeries"/>
+	<property name="chartTitle" value="Markup"/>
+	<property name="rangeAxisLabel" value="cFirms"/>
+</bean>
+
+<bean id="microCMarkupTimeSeries" class="jmab.report.MicroSeriesReportVariables">
+	<property name="reportVariables" ref="microCMarkupReportVariables"/>
+</bean>
+
+<!-- kFirm markup computer -->
+<bean id="microKMarkupComputer" class="benchmark.report.MicroMarkupComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/></property>
+</bean>
+
+<bean id="microKMarkupEventReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.KMARKUPREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="microKMarkupTimeSeries"/>
+</bean>
+
+<bean id="microKMarkupCSVReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.KMARKUPREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="microKMarkupCSVReportVariables"/>
+</bean>
+
+<bean id="microKMarkupCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="microKMarkupReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="kFirmsMarkup" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="microKMarkupReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="name" value="cFirms Markup"/>
+	<property name="numberOfSeries" value="100"/>
+</bean>
+
+<bean id="microKMarkupTimeSeriesChart" class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="microKMarkupTimeSeries"/>
+	<property name="chartTitle" value="Markup"/>
+	<property name="rangeAxisLabel" value="cFirms"/>
+</bean>
+
+<bean id="microKMarkupTimeSeries" class="jmab.report.MicroSeriesReportVariables">
+	<property name="reportVariables" ref="microKMarkupReportVariables"/>
+</bean>
 
 
 </beans>

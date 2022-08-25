@@ -250,6 +250,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="banksLossReportTic" />
 				<ref bean="banksTaxesReportTic" />
 				<ref bean="banksMarkupReportTic" />
+				<ref bean="cFirmsMarkupReportTic" />
+				<ref bean="kFirmsMarkupReportTic" />
 				<ref bean="cFirmsTaxesReportTic" />
 				<ref bean="hhTaxesReportTic" />	
 				<ref bean="kFirmsTaxesReportTic" />
@@ -1426,6 +1428,20 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSMARKUPREPORT_ID" /></property>
 	<property name="variableName" value="Banks Markup"/>
 	<property name="computer" ref="microBanksMarkupComputer"/>
+	</bean>
+	
+	<bean id="cFirmsMarkupReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CMARKUPREPORT" /></property>
+	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CMARKUPREPORT_ID" /></property>
+	<property name="variableName" value="cFirms Markup"/>
+	<property name="computer" ref="microCMarkupComputer"/>
+	</bean>
+	
+	<bean id="kFirmsMarkupReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KMARKUPREPORT" /></property>
+	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KMARKUPREPORT_ID" /></property>
+	<property name="variableName" value="kFirm Markup"/>
+	<property name="computer" ref="microKMarkupComputer"/>
 	</bean>
 	
 	<bean id="hhTaxesReportTic" class="jmab.events.MicroMultiVariablesTicEvent">

@@ -248,7 +248,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="banksCARReportTic" />	
 				<ref bean="banksLRReportTic" />
 				<ref bean="banksLossReportTic" />
-				<ref bean="banksTaxesReportTic" />	
+				<ref bean="banksTaxesReportTic" />
+				<ref bean="banksMarkupReportTic" />
 				<ref bean="cFirmsTaxesReportTic" />
 				<ref bean="hhTaxesReportTic" />	
 				<ref bean="kFirmsTaxesReportTic" />
@@ -1418,6 +1419,13 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSTAXESREPORT_ID" /></property>
 	<property name="variableName" value="Banks Taxes"/>
 	<property name="computer" ref="microTaxesBanksComputer"/>
+	</bean>
+	
+	<bean id="banksMarkupReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSMARKUPREPORT" /></property>
+	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSMARKUPREPORT_ID" /></property>
+	<property name="variableName" value="Banks Markup"/>
+	<property name="computer" ref="microBanksMarkupComputer"/>
 	</bean>
 	
 	<bean id="hhTaxesReportTic" class="jmab.events.MicroMultiVariablesTicEvent">

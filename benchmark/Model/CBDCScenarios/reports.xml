@@ -6117,4 +6117,55 @@
 	<property name="reportVariables" ref="hhAvBailoutCostReportVariables"/>
 </bean>
 
+<!-- Banks markup computer -->
+<bean id="microBanksMarkupComputer" class="benchmark.report.MicroMarkupComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.BANKS_ID"/></property>
+</bean>
+
+<bean id="microBanksMarkupEventReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.BANKSMARKUPREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="microBanksMarkupTimeSeries"/>
+</bean>
+
+<bean id="microBanksMarkupCSVReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.BANKSMARKUPREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="microBanksMarkupCSVReportVariables"/>
+</bean>
+
+<bean id="microBanksMarkupCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="microBanksMarkupReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="banksMarkup" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="microBanksMarkupReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="name" value="Banks Dividends"/>
+	<property name="numberOfSeries" value="10"/>
+</bean>
+
+<bean id="microBanksMarkupTimeSeriesChart" class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="microBanksMarkupTimeSeries"/>
+	<property name="chartTitle" value="Dividends"/>
+	<property name="rangeAxisLabel" value="Banks"/>
+</bean>
+
+<bean id="microBanksMarkupTimeSeries" class="jmab.report.MicroSeriesReportVariables">
+	<property name="reportVariables" ref="microBanksMarkupReportVariables"/>
+</bean>
+
+
+
 </beans>

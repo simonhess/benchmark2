@@ -29,6 +29,7 @@ import benchmark.agents.GovernmentAntiCyclicalWithInvestment;
 import benchmark.agents.Households;
 import benchmark.report.AveragePriceAllProducersComputer;
 import benchmark.strategies.AdaptiveMarkupOnAdvancesRate;
+import benchmark.strategies.AdaptiveMarkupOnAdvancesRateDF;
 import benchmark.strategies.FixedShareOfProfitsToPopulationAsShareOfWealthDividends;
 import benchmark.strategies.IncomeWealthTaxStrategy;
 import benchmark.strategies.InvestmentCapacityOperatingCashFlowExpected;
@@ -603,8 +604,13 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			
 			dividendsStrategy.setProfitShare(bsProfitShareAsDividends);
 			
-			AdaptiveMarkupOnAdvancesRate banksBankSpecificLoanInterestStrategy = (AdaptiveMarkupOnAdvancesRate) b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE);
-			banksBankSpecificLoanInterestStrategy.setMarkup(bsMarkup);
+			if(b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE) instanceof AdaptiveMarkupOnAdvancesRate){
+				AdaptiveMarkupOnAdvancesRate banksBankSpecificLoanInterestStrategy = (AdaptiveMarkupOnAdvancesRate) b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE);
+				banksBankSpecificLoanInterestStrategy.setMarkup(bsMarkup);
+			}else if(b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE) instanceof AdaptiveMarkupOnAdvancesRateDF){
+				AdaptiveMarkupOnAdvancesRateDF banksBankSpecificLoanInterestStrategy = (AdaptiveMarkupOnAdvancesRateDF) b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE);
+				banksBankSpecificLoanInterestStrategy.setMarkup(bsMarkup);
+			}
 			
 			//Cash Holdings
 			Cash cash = new Cash(bCash,(SimpleAbstractAgent)b,(SimpleAbstractAgent)cb);

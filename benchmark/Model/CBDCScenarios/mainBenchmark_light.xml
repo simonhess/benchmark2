@@ -125,6 +125,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="microInterbankDemandCSVReport" />
 				<ref bean="microInterbankSupplyEventReport" />
 				<ref bean="microInterbankSupplyCSVReport" />
+				<ref bean="banksSpecificInterestEventReport" />
+				<ref bean="banksSpecificInterestCSVReport" />
 				<ref bean="banksDepositInterestEventReport" />
 				<ref bean="banksDepositInterestCSVReport" />
 				<ref bean="cbDepositInterestEventReport" />

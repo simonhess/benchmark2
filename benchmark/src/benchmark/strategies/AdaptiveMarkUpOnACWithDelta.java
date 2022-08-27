@@ -16,6 +16,7 @@ package benchmark.strategies;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
@@ -53,7 +54,6 @@ MarkupPricingStrategy {
 	private double adaptiveParameter;
 	private AbstractDelegatedDistribution distribution;
 	private double markUp;
-	private int salesExpId;
 
 	/** 
 	 * This strategy changes in an adaptive way the price asked by producers on their output.
@@ -82,8 +82,8 @@ MarkupPricingStrategy {
 		
 		TargetExpectedInventoriesOutputStrategy strat = (TargetExpectedInventoriesOutputStrategy) producer.getStrategy(StaticValues.STRATEGY_PRODUCTION);
 		
-		AdaptiveExpectationWithDelta salesExp = (AdaptiveExpectationWithDelta) seller.getExpectation(salesExpId);	
-
+		AdaptiveExpectationWithDelta salesExp = (AdaptiveExpectationWithDelta) seller.getExpectation(StaticValues.EXPECTATIONS_REALSALES);
+		
 		double delta = salesExp.getDelta();
 		
 		if(delta<0) {
@@ -185,20 +185,6 @@ MarkupPricingStrategy {
 	 */
 	public void setMarkUp(double markUp) {
 		this.markUp = markUp;
-	}
-	
-	/**
-	 * @return the salesExpId
-	 */
-	public int getSalesExpId() {
-		return salesExpId;
-	}
-
-	/**
-	 * @param salesExpId the salesExpId to set
-	 */
-	public void setSalesExpId(int salesExpId) {
-		this.salesExpId = salesExpId;
 	}
 
 

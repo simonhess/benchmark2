@@ -317,7 +317,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			productionStrategy.setInventoryShare(inventoryShare);
 			
 			MarkupPricingStrategy pricingStrategy = (MarkupPricingStrategy) k.getStrategy(benchmark.StaticValues.STRATEGY_PRICING);
-			pricingStrategy.setMarkUp(ksMarkup);
+			pricingStrategy.setMarkUp(ksMarkup*(1+distr.nextDouble()));
 			
 			//Inventories
 			CapitalGood kGood = new CapitalGood(kInv*this.kPrice, kInv, k, k, this.kPrice, k.getCapitalProductivity(), 
@@ -406,6 +406,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 				passedSales[j][0]=kSales*(1+distr.nextDouble());
 				passedSales[j][1]=kSales*(1+distr.nextDouble());
 			}
+			passedSales[0][0]=k.getPassedValue(StaticValues.LAG_NOMINALSALES, 0);
 			kSalesExp.setPassedValues(passedSales);
 			Expectation kRSalesExp = k.getExpectation(StaticValues.EXPECTATIONS_REALSALES);
 			nbObs = kRSalesExp .getNumberPeriod();
@@ -414,6 +415,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 				passedRSales[j][0]=kOutput*(1+distr.nextDouble());
 				passedRSales[j][1]=kOutput*(1+distr.nextDouble());
 			}
+			passedRSales[0][0]=k.getPassedValue(StaticValues.LAG_REALSALES, 0);
 			kRSalesExp.setPassedValues(passedRSales);
 			k.addValue(StaticValues.LAG_TAXES,kTax);
 			k.computeExpectations();
@@ -443,7 +445,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			c.setShareOfExpIncomeAsDeposit(csShareOfExpIncomeAsDeposit);
 			
 			MarkupPricingStrategy pricingStrategy = (MarkupPricingStrategy) c.getStrategy(benchmark.StaticValues.STRATEGY_PRICING);
-			pricingStrategy.setMarkUp(csMarkup);
+			pricingStrategy.setMarkUp(csMarkup*(1+distr.nextDouble()));
 
 			//Inventories
 			ConsumptionGood cGood = new ConsumptionGood(cInv*this.cPrice, cInv, c, c, this.cPrice, 0);
@@ -557,6 +559,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 				passedSales[j][0]=cSales*(1+distr.nextDouble());
 				passedSales[j][1]=cSales*(1+distr.nextDouble());
 			}
+			passedSales[0][0]=c.getPassedValue(StaticValues.LAG_NOMINALSALES, 0);
 			cSalesExp.setPassedValues(passedSales);
 			Expectation cRSalesExp = c.getExpectation(StaticValues.EXPECTATIONS_REALSALES);
 			nbObs = cRSalesExp .getNumberPeriod();
@@ -565,6 +568,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 				passedRSales[j][0]=cOutput*(1+distr.nextDouble());
 				passedRSales[j][1]=cOutput*(1+distr.nextDouble());
 			}
+			passedRSales[0][0]=c.getPassedValue(StaticValues.LAG_REALSALES, 0);
 			cRSalesExp.setPassedValues(passedRSales);
 			
 			c.addValue(StaticValues.LAG_TAXES,cTax);

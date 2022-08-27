@@ -134,8 +134,8 @@ public class AdaptiveExpectationWithDelta implements Expectation {
 	@Override
 	public void updateExpectation() {
 		double result=adaptiveParam*passedValues[0][0]+(1-adaptiveParam)*passedValues [0][1];
-		result=0;
-		delta = passedValues [0][1]-passedValues[0][0];
+		result=passedValues [0][1];
+		this.delta = passedValues [0][1]-passedValues[0][0];
 
 		if(delta>0) {
 			result=passedValues [0][1]-stepSize;

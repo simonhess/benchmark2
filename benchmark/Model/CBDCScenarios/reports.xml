@@ -6217,7 +6217,7 @@
 
 <!-- kFirm markup computer -->
 <bean id="microKMarkupComputer" class="benchmark.report.MicroMarkupComputer">
-	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/></property>
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID"/></property>
 </bean>
 
 <bean id="microKMarkupEventReport" class="jmab.report.MicroSimEventReport">

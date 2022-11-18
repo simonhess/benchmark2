@@ -425,11 +425,11 @@ public class FirmBankruptcyFireSales extends AbstractStrategy implements
 				double markupSum = 0;
 				for (Agent i:pop.getAgents()){
 					CapitalFirm kFirm= (CapitalFirm) i;
-					AdaptiveMarkUpOnAC tempStrategy = (AdaptiveMarkUpOnAC )kFirm.getStrategy(StaticValues.STRATEGY_PRICING);
+					MarkupPricingStrategy tempStrategy = (MarkupPricingStrategy )kFirm.getStrategy(StaticValues.STRATEGY_PRICING);
 					markupSum += tempStrategy.getMarkUp();
 				}
 				
-				AdaptiveMarkUpOnAC strategy = (AdaptiveMarkUpOnAC )firm.getStrategy(StaticValues.STRATEGY_PRICING);
+				MarkupPricingStrategy strategy = (MarkupPricingStrategy )firm.getStrategy(StaticValues.STRATEGY_PRICING);
 				double avMarkup = markupSum/pop.getSize();
 				strategy.setMarkUp(avMarkup);	
 			}		

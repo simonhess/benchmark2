@@ -972,7 +972,7 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 				
 				// Calculate normal unit costs
 				
-				normalUnitCosts = (this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()+normalCapitalCosts)/ residualOutput;
+				normalUnitCosts = (this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*requiredWorkers+normalCapitalCosts)/ residualOutput;
 				
 				return normalUnitCosts;
 			}

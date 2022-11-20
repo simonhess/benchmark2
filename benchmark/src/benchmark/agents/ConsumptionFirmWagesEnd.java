@@ -45,6 +45,7 @@ import jmab.stockmatrix.Deposit;
 import jmab.stockmatrix.Item;
 import jmab.strategies.DividendsStrategy;
 import jmab.strategies.FinanceStrategy;
+import jmab.strategies.InvestmentStrategy;
 import benchmark.strategies.ProfitsWealthTaxStrategy;
 import jmab.strategies.SelectSellerStrategy;
 import jmab.strategies.TargetExpectedInventoriesOutputStrategy;
@@ -79,6 +80,8 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 			computePrice();
 			break;
 		case StaticValues.TIC_INVESTMENTDEMAND:
+			InvestmentStrategy strategy1=(InvestmentStrategy) this.getStrategy(StaticValues.STRATEGY_INVESTMENT);
+			this.desiredCapacityGrowth=strategy1.computeDesiredGrowth();
 			SelectSellerStrategy buyingStrategy = (SelectSellerStrategy) this.getStrategy(StaticValues.STRATEGY_BUYING);
 			computeDesiredInvestment(buyingStrategy.selectGoodSupplier(this.selectedCapitalGoodSuppliers, 0.0, true));
 			break;

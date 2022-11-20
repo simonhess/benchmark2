@@ -179,6 +179,8 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 			computePrice();
 			break;
 		case StaticValues.TIC_INVESTMENTDEMAND:
+			InvestmentStrategy strategy1=(InvestmentStrategy) this.getStrategy(StaticValues.STRATEGY_INVESTMENT);
+			this.desiredCapacityGrowth=strategy1.computeDesiredGrowth();
 			SelectSellerStrategy buyingStrategy = (SelectSellerStrategy) this.getStrategy(StaticValues.STRATEGY_BUYING);
 			computeDesiredInvestment(buyingStrategy.selectGoodSupplier(this.selectedCapitalGoodSuppliers, 0.0, true));
 			break;
@@ -231,15 +233,14 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 			TwoStepMarketSimulation sim = (TwoStepMarketSimulation)macroSim.getActiveMarket();
 			if(sim.isFirstStep()){				
 				this.selectedCapitalGoodSuppliers=event.getObjects();
-				InvestmentStrategy strategy1=(InvestmentStrategy) this.getStrategy(StaticValues.STRATEGY_INVESTMENT);
-				this.desiredCapacityGrowth=strategy1.computeDesiredGrowth();
 			}else if(sim.isSecondStep()){
+				if(this.selectedCapitalGoodSuppliers.isEmpty()) this.selectedCapitalGoodSuppliers=event.getObjects();
 				
 				int nbSellers = this.selectedCapitalGoodSuppliers.size()+1;//There are nbSellers+1 options for the firm to invest
 				for(int i=0; i<nbSellers&&this.desiredRealCapitalDemand>0&&this.selectedCapitalGoodSuppliers.size()>0;i++){
 					SelectSellerStrategy buyingStrategy = (SelectSellerStrategy) this.getStrategy(StaticValues.STRATEGY_BUYING);
 					MacroAgent selSupplier = buyingStrategy.selectGoodSupplier(this.selectedCapitalGoodSuppliers, 0.0, true);
-					computeDesiredInvestment(selSupplier);
+					//computeDesiredInvestment(selSupplier);
 					macroSim.getActiveMarket().commit(this, selSupplier,marketID);
 					this.selectedCapitalGoodSuppliers.remove(selSupplier);
 				}

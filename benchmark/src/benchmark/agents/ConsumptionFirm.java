@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.TreeMap;
 
 import benchmark.StaticValues;
+import benchmark.expectations.NoExpectation;
 import benchmark.strategies.InvestmentCapacityOperatingCashFlowExpected;
 import jmab.agents.AbstractFirm;
 import jmab.agents.CreditDemander;
@@ -724,6 +725,23 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	 * Computes the price of the capital good using a strategy
 	 */
 	protected void computePrice() {
+		
+		if (this.getExpectation(StaticValues.EXPECTATIONS_WAGES) instanceof NoExpectation) {
+			double avWage = 0;
+			for (Agent a : employees) {
+				Households hh = (Households) a;
+				avWage += hh.getWage();
+			}
+			avWage /= employees.size();
+			NoExpectation exp = (NoExpectation) this
+					.getExpectation(StaticValues.EXPECTATIONS_WAGES);
+			if (Double.isNaN(avWage)) {
+
+			} else {
+				exp.setExpectation(avWage);
+			}
+		}
+	
 		ConsumptionGood inventories = (ConsumptionGood)this.getItemStockMatrix(true, this.getProductionStockId());
 		if(inventories==null)
 			inventories=new ConsumptionGood(0, 0,this, this, 0,(int)Double.POSITIVE_INFINITY);

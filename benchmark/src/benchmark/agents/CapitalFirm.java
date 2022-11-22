@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import benchmark.StaticValues;
-import cern.jet.random.engine.RandomEngine;
+import benchmark.expectations.NoExpectation;
 import jmab.agents.AbstractFirm;
 import jmab.agents.CreditDemander;
 import jmab.agents.DepositDemander;
@@ -608,6 +608,22 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 	 * Computes the price of the capital good using a strategy
 	 */
 	protected void computePrice() {
+		
+		if (this.getExpectation(StaticValues.EXPECTATIONS_WAGES) instanceof NoExpectation) {
+			double avWage = 0;
+			for (Agent a : employees) {
+				Households hh = (Households) a;
+				avWage += hh.getWage();
+			}
+			avWage /= employees.size();
+			NoExpectation exp = (NoExpectation) this.getExpectation(StaticValues.EXPECTATIONS_WAGES);
+			if (Double.isNaN(avWage)) {
+
+			} else {
+				exp.setExpectation(avWage);
+			}
+		}
+		
 		CapitalGood inventories = (CapitalGood)this.getItemStockMatrix(true, this.getProductionStockId());
 		if(inventories==null)
 			inventories=new CapitalGood(0, 0, this,this, 0,this.capitalProductivity,(int)Double.POSITIVE_INFINITY, 

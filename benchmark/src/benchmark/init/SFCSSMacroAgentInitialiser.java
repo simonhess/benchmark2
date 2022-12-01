@@ -323,6 +323,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			CapitalGood kGood = new CapitalGood(kInv*this.kPrice, kInv, k, k, this.kPrice, k.getCapitalProductivity(), 
 					k.getCapitalDuration(), k.getCapitalAmortization(), k.getCapitalLaborRatio());
 			kGood.setUnitCost(kUnitCost);
+			kGood.setAge(0);
 			k.addItemStockMatrix(kGood, true, StaticValues.SM_CAPGOOD);
 
 			//Workers

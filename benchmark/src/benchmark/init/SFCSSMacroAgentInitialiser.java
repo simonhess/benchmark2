@@ -27,6 +27,7 @@ import benchmark.agents.Government;
 import benchmark.agents.GovernmentAntiCyclical;
 import benchmark.agents.GovernmentAntiCyclicalWithInvestment;
 import benchmark.agents.Households;
+import benchmark.expectations.AdaptiveExpectationTargetInventories;
 import benchmark.report.AveragePriceAllProducersComputer;
 import benchmark.strategies.AdaptiveMarkupOnAdvancesRate;
 import benchmark.strategies.AdaptiveMarkupOnAdvancesRateDF;
@@ -418,6 +419,10 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			}
 			passedRSales[0][0]=k.getPassedValue(StaticValues.LAG_REALSALES, 0);
 			kRSalesExp.setPassedValues(passedRSales);
+			if(kRSalesExp instanceof AdaptiveExpectationTargetInventories) {
+				((AdaptiveExpectationTargetInventories) kRSalesExp).setAgent(k);
+			}
+			
 			k.addValue(StaticValues.LAG_TAXES,kTax);
 			k.computeExpectations();
 		}
@@ -571,6 +576,10 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			}
 			passedRSales[0][0]=c.getPassedValue(StaticValues.LAG_REALSALES, 0);
 			cRSalesExp.setPassedValues(passedRSales);
+			
+			if(cRSalesExp instanceof AdaptiveExpectationTargetInventories) {
+				((AdaptiveExpectationTargetInventories) cRSalesExp).setAgent(c);
+			}
 			
 			c.addValue(StaticValues.LAG_TAXES,cTax);
 

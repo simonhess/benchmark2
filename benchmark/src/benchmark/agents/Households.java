@@ -510,15 +510,11 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	 */
 	@Override
 	public double getMicroReferenceVariableForWage() {
-		if(this.employer==null){
-			double averageUnemployment = 1;
-			for(int i=1; i<this.employmentWageLag;i++){
-				averageUnemployment+=this.getPassedValue(StaticValues.LAG_EMPLOYED, i);
+			double averageUnemployment = 0;
+			for(int i=1; i<=this.employmentWageLag;i++){
+				if(this.getPassedValue(StaticValues.LAG_EMPLOYED, i)==0) averageUnemployment++;
 			}
 			return averageUnemployment/employmentWageLag;
-		}
-		else
-			return 0;
 	}
 
 	/**
@@ -540,10 +536,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	 */
 	@Override
 	public double getMacroReferenceVariableForWage() {
-		if(this.employer==null)
-			return 0;
-		else
-			return this.getAggregateValue(StaticValues.LAG_AGGUNEMPLOYMENT, 1);
+		return this.getAggregateValue(StaticValues.LAG_AGGUNEMPLOYMENT, 1);
 	}
 	
 	/**

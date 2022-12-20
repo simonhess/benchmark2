@@ -41,6 +41,7 @@ import jmab.stockmatrix.ConsumptionGood;
 import jmab.stockmatrix.Deposit;
 import jmab.stockmatrix.Item;
 import jmab.strategies.BondDemandStrategy;
+import jmab.strategies.CheapestGoodSupplierWithSwitching;
 import jmab.strategies.ConsumptionStrategy;
 import jmab.strategies.SelectDepositSupplierStrategy;
 import jmab.strategies.SelectSellerStrategy;
@@ -52,6 +53,7 @@ import net.sourceforge.jabm.agent.Agent;
 import net.sourceforge.jabm.event.AgentArrivalEvent;
 import net.sourceforge.jabm.event.RoundFinishedEvent;
 import benchmark.StaticValues;
+import benchmark.expectations.NoExpectation;
 
 
 /**
@@ -379,6 +381,11 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	 * 
 	 */
 	private void computeConsumptionDemand() {
+		if (this.getExpectation(StaticValues.EXPECTATIONS_CONSPRICE) instanceof NoExpectation) {
+			CheapestGoodSupplierWithSwitching sellerStrategy = (CheapestGoodSupplierWithSwitching) this.getStrategy(StaticValues.STRATEGY_BUYING);
+			NoExpectation exp = (NoExpectation) this.getExpectation(StaticValues.EXPECTATIONS_CONSPRICE);
+			exp.setExpectation(sellerStrategy.getPreviousGoodSupplier().getPrice(null, 0));
+		}
 		this.updateIncome();
 		ConsumptionStrategy strategy = (ConsumptionStrategy)this.getStrategy(StaticValues.STRATEGY_CONSUMPTION);
 		this.setDemand(strategy.computeRealConsumptionDemand(), StaticValues.MKT_CONSGOOD);

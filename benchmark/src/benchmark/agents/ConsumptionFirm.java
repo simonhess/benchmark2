@@ -513,7 +513,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 			}
 			ConsumptionGood inventories = (ConsumptionGood)this.getItemStockMatrix(true, this.getProductionStockId());
 			inventories.setQuantity(inventories.getQuantity()+outputQty);
-			inventories.setUnitCost((amortisationCosts+this.getWageBill())/outputQty);
+			inventories.setUnitCost((amortisationCosts+this.getWageBill()+this.debtInterests)/outputQty);
 		}
 		else{
 			List<Item> currentCapitalStock = this.getItemsStockMatrix(true, StaticValues.SM_CAPGOOD);

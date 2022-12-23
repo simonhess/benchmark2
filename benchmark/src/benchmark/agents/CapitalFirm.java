@@ -444,7 +444,7 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 			}
 			CapitalGood inventories = (CapitalGood)this.getItemStockMatrix(true, this.getProductionStockId());
 			inventories.setQuantity(inventories.getQuantity()+outputQty);
-			inventories.setUnitCost(this.getWageBill()/outputQty);
+			inventories.setUnitCost((this.getWageBill()+this.debtInterests)/outputQty);
 		}
 		this.addValue(StaticValues.LAG_PRODUCTION, outputQty);
 	}

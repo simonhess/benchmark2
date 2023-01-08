@@ -272,6 +272,9 @@ public interface StaticValues {
 	
 	public static int LAG_DEFAULTED=38;
 	
+	public static int LAG_AVCPRICE=39;
+	public static int LAG_AVKPRICE=40;
+	
 	public static int SM_CASH=0;
 	public static int SM_DEP=1;
 	public static int SM_CONSGOOD=2;

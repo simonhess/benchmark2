@@ -178,6 +178,7 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	 * 
 	 */
 	protected void updateAggregateVariables() {
+		
 		MacroSimulation sim = (MacroSimulation)((SimulationController)this.scheduler).getSimulation();
 		this.setAggregateValue(StaticValues.LAG_AGGUNEMPLOYMENT, 
 				uComputer.computeVariable(sim));
@@ -243,17 +244,21 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 		Population bpop = macroPop.getPopulation(StaticValues.BANKS_ID);
 		
 		double tG = 0;
+		double avCPrice = 0;
+		double avKPrice = 0;
 		
 		for (Agent i:cfpop.getAgents()){
 			ConsumptionFirm firm= (ConsumptionFirm) i;
 			tG+=firm.getPassedValue(StaticValues.LAG_TAXES, 0);
+			avCPrice+=firm.getPrice();
 		}
 		
 		for (Agent i:kfpop.getAgents()){
 			CapitalFirm firm= (CapitalFirm) i;
 			tG+=firm.getPassedValue(StaticValues.LAG_TAXES, 0);
+			avKPrice+=firm.getPrice();
 		}
-		
+
 		for (Agent i:hhpop.getAgents()){
 			Households hh= (Households) i;
 			tG+=hh.getPassedValue(StaticValues.LAG_TAXES, 0);
@@ -266,6 +271,14 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 
 		this.setAggregateValue(StaticValues.LAG_GOVTAX, 
 				tG);
+		
+		avCPrice/=cfpop.getSize();
+		avKPrice/=kfpop.getSize();
+		
+		this.setAggregateValue(StaticValues.LAG_AVCPRICE, 
+				avCPrice);
+		this.setAggregateValue(StaticValues.LAG_AVKPRICE, 
+				avKPrice);
 
 	}
 	

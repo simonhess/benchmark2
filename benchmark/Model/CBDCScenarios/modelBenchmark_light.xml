@@ -69,6 +69,16 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark.StaticValues.LAG_GOVTAX" />
 					</key>
 				</entry>
+				<entry value-ref="pastAVCPrice">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_AVCPRICE" />
+					</key>
+				</entry>
+				<entry value-ref="pastAVKPrice">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_AVKPRICE" />
+					</key>
+				</entry>
 			</map>
 		</property>
 		<property name="markets">
@@ -87,7 +97,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		</property>
 		<property name="events">
 			<list>
-				<ref bean="computeExpectationsTic" />
+				<ref bean="computeExpectationsTic" />		
 				<ref bean="capitalPriceTic" />
 				<ref bean="consumptionPriceTic" />
 				<ref bean="cbPolicyTic" />
@@ -340,6 +350,16 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="pastGovTax" class="jmab.expectations.TreeMapPassedValues"
+		scope="simulation">
+		<property name="nbLags" value="4"></property>
+	</bean>
+	
+	<bean id="pastAVCPrice" class="jmab.expectations.TreeMapPassedValues"
+		scope="simulation">
+		<property name="nbLags" value="4"></property>
+	</bean>
+	
+	<bean id="pastAVKPrice" class="jmab.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
@@ -3798,13 +3818,14 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<property name="targetUnemployment" value="0.08"/>
 				<property name="smoothingParameter" value="0.95"/>
 	</bean>
-
+    
     <!-- 
 	<bean id="advancesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.MonetaryPolicyStatic">
 				<property name="staticAdvancesRate" value="0.01"/>
 	</bean>
 	-->
+	
 	
 	
 	<bean id="reservesInterestRateStrategy" scope="prototype"

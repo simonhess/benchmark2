@@ -173,7 +173,7 @@ public class CapitalFirmWagesEnd extends CapitalFirm implements GoodSupplier,
 	@Override
 	protected void computeLaborDemand() {
 		Expectation expectation = this.getExpectation(StaticValues.EXPECTATIONS_WAGES);
-		
+
 		int currentWorkers = this.employees.size();
 		AgentList emplPop = new AgentList();
 		for(MacroAgent ag : this.employees)
@@ -186,7 +186,7 @@ public class CapitalFirmWagesEnd extends CapitalFirm implements GoodSupplier,
 		currentWorkers = this.employees.size();
 		double expWages = expectation.getExpectation();
 		int nbWorkers = this.getRequiredWorkers()+(int)Math.round(this.amountResearch/expWages);
-		
+
 		if(nbWorkers>currentWorkers){
 			this.laborDemand=nbWorkers-currentWorkers;
 		}else{
@@ -227,7 +227,8 @@ public class CapitalFirmWagesEnd extends CapitalFirm implements GoodSupplier,
 		double profitTaxRate=taxStrategy.getProfitTaxRate();
 		double shareInvenstories=strategyProd.getInventoryShare();
 		double profitShare=strategyDiv.getProfitShare();
-		double expRevenues = nomSalesExp.getExpectation();
+		//double expRevenues = nomSalesExp.getExpectation();
+		double expRevenues = expRealSales*this.getPrice();
 		double expectedProfits=expRevenues-(nbWorkers*expWages)+this.interestReceived-this.debtInterests+(shareInvenstories*expRealSales-inv)*uc;
 		double expectedTaxes=Math.max(0, expectedProfits*profitTaxRate);
 		double expectedDividends=Math.max(0,expectedProfits*(1-profitTaxRate)*profitShare);

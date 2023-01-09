@@ -66,7 +66,6 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	private double shareOfExpIncomeAsDeposit;
 
 
-
 	@Override
 	protected void onTicArrived(MacroTicEvent event) {
 		switch(event.getTic()){
@@ -182,7 +181,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	 */
 	@Override
 	protected void computeLaborDemand() {
-		
+
 		int currentWorkers = this.employees.size();
 		AgentList emplPop = new AgentList();
 		for(MacroAgent ag : this.employees)
@@ -193,7 +192,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		}
 		cleanEmployeeList();
 		currentWorkers = this.employees.size();
-		
+
 		int nbWorkers= this.getRequiredWorkers();	
 		if(nbWorkers>currentWorkers){
 			this.laborDemand=nbWorkers-currentWorkers;
@@ -226,7 +225,8 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		ConsumptionGood inventories = (ConsumptionGood)this.getItemStockMatrix(true, StaticValues.SM_CONSGOOD); 
 		double uc=inventories.getUnitCost();
 		int inv = (int)inventories.getQuantity();
-		double expRevenues=nomSalesExp.getExpectation();
+		//double expRevenues=nomSalesExp.getExpectation();
+		double expRevenues = expRealSales*this.getPrice();
 		int nbWorkers = this.getRequiredWorkers();
 		Expectation expectation = this.getExpectation(StaticValues.EXPECTATIONS_WAGES);
 		double expWages = expectation.getExpectation();

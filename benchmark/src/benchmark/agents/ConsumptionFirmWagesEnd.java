@@ -160,6 +160,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 				for(MacroAgent ag : this.employees)
 					emplPop.add(ag);
 				emplPop.shuffle(prng);
+				
 				for(int i=0;i<currentWorkers;i++){
 					LaborSupplier employee = (LaborSupplier) emplPop.get(i);
 					double wage = employee.getWage();
@@ -221,10 +222,12 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		this.computeDebtPayments();
 		Expectation nomSalesExp=this.getExpectation(StaticValues.EXPECTATIONS_NOMINALSALES);
 		Expectation realSalesExp=this.getExpectation(StaticValues.EXPECTATIONS_REALSALES);
+		double lNomInv=(double)this.getPassedValue(StaticValues.LAG_NOMINALINVENTORIES, 1);
 		double expRealSales=realSalesExp.getExpectation();
 		ConsumptionGood inventories = (ConsumptionGood)this.getItemStockMatrix(true, StaticValues.SM_CONSGOOD); 
-		double uc=inventories.getUnitCost();
-		int inv = (int)inventories.getQuantity();
+		//double uc=inventories.getUnitCost();
+		double uc=this.getPriceLowerBound();
+		//int inv = (int)inventories.getQuantity();
 		//double expRevenues=nomSalesExp.getExpectation();
 		double expRevenues = expRealSales*this.getPrice();
 		int nbWorkers = this.getRequiredWorkers();
@@ -244,7 +247,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 				capitalAmortization+=cap.getQuantity()*cap.getPrice()/cap.getCapitalAmortization();
 		}
 		
-		double expectedProfits=expRevenues-(nbWorkers*expWages)+this.interestReceived-this.debtInterests+(shareInvenstories*expRealSales-inv)*uc-capitalAmortization;
+		double expectedProfits=expRevenues-(nbWorkers*expWages)+this.interestReceived-this.debtInterests+(shareInvenstories*expRealSales)*uc-lNomInv-capitalAmortization;
 		double expectedTaxes=Math.max(0, expectedProfits*profitTaxRate);
 		double expectedDividends=Math.max(0,expectedProfits*(1-profitTaxRate)*profitShare);
 		double investment=this.desiredRealCapitalDemand*((CapitalFirm)this.selectedCapitalGoodSuppliers.get(0)).getPrice();

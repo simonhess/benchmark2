@@ -214,10 +214,12 @@ public class CapitalFirmWagesEnd extends CapitalFirm implements GoodSupplier,
 		FinanceStrategy strategy = (FinanceStrategy)this.getStrategy(StaticValues.STRATEGY_FINANCE);
 		Expectation wageExp = this.getExpectation(StaticValues.EXPECTATIONS_WAGES);
 		Expectation nomSalesExp = this.getExpectation(StaticValues.EXPECTATIONS_NOMINALSALES);
+		double lNomInv=(double)this.getPassedValue(StaticValues.LAG_NOMINALINVENTORIES, 1);
 		Expectation realSalesExp=this.getExpectation(StaticValues.EXPECTATIONS_REALSALES);
 		double expRealSales=realSalesExp.getExpectation();
 		CapitalGood inventories = (CapitalGood)this.getItemStockMatrix(true, StaticValues.SM_CAPGOOD); 
-		double uc=inventories.getUnitCost();
+		//double uc=inventories.getUnitCost();
+		double uc=this.getPriceLowerBound();
 		int inv = (int)inventories.getQuantity();
 		int nbWorkers = this.getRequiredWorkers();
 		double expWages = wageExp.getExpectation();
@@ -229,7 +231,7 @@ public class CapitalFirmWagesEnd extends CapitalFirm implements GoodSupplier,
 		double profitShare=strategyDiv.getProfitShare();
 		//double expRevenues = nomSalesExp.getExpectation();
 		double expRevenues = expRealSales*this.getPrice();
-		double expectedProfits=expRevenues-(nbWorkers*expWages)+this.interestReceived-this.debtInterests+(shareInvenstories*expRealSales-inv)*uc;
+		double expectedProfits=expRevenues-(nbWorkers*expWages)+this.interestReceived-this.debtInterests+(shareInvenstories*expRealSales)*uc-lNomInv;
 		double expectedTaxes=Math.max(0, expectedProfits*profitTaxRate);
 		double expectedDividends=Math.max(0,expectedProfits*(1-profitTaxRate)*profitShare);
 		double expectedFinancialRequirement=(nbWorkers*expWages)+(Math.floor(this.amountResearch/expWages))*expWages +

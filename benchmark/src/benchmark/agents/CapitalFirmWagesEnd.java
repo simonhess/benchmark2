@@ -68,6 +68,7 @@ public class CapitalFirmWagesEnd extends CapitalFirm implements GoodSupplier,
 			this.defaulted=false;
 			computeExpectations();
 			determineOutput();
+			computeDebtPayments();
 			break;
 		case StaticValues.TIC_CAPITALPRICE:
 			computePrice();

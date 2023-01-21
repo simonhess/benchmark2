@@ -233,6 +233,7 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 			this.defaulted=false;
 			computeExpectations();
 			determineOutput();
+			computeDebtPayments();
 			break;
 		case StaticValues.TIC_CAPITALPRICE:
 			computePrice();
@@ -904,73 +905,14 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 	 */
 	@Override
 	public double getPriceLowerBound() {
-		
-		// Get reference interest rate for loans (average interest rate of last period)
-		
-				SimulationController controller = (SimulationController)this.getScheduler();
-				MacroPopulation macroPop = (MacroPopulation) controller.getPopulation();
-				Population banks = macroPop.getPopulation(StaticValues.BANKS_ID);
-				
-				double inter=0;
-				double n=(double) banks.getSize();
-				for (Agent b:banks.getAgents()){
-					Bank bank = (Bank) b;
-					if (bank.getNumericBalanceSheet()[0][StaticValues.SM_LOAN]!=0&&bank.getNetWealth()>0){
-						inter+=bank.getPassedValue(StaticValues.LAG_LOANINTEREST, 1);
-					}
-					else{
-						n-=1;
-					}
-					}
-				
-				double avInterest=inter/n;
-				
+					
 		double normalUnitCosts = 0;
-		
-		
-		double expectedVariableCosts = this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()
-				/ this.getLaborProductivity();
-		double expectedAverageCosts = 0;
-		double expectedFixedCosts = 0;
-		// Calculate funding costs/ fixed costs
-		List<Item> loans = this.getItemsStockMatrix(false, StaticValues.SM_LOAN);
-		double loansValue = 0;
-		double totInterests = 0;
-		for (int i = 0; i < loans.size(); i++) {
-			Loan loan = (Loan) loans.get(i);
-			if (loan.getAge() > 0) {
-				double iRate = loan.getInterestRate();
-				double interests = iRate * loan.getValue();
-				totInterests += interests;
-				loansValue+=loan.getValue();
-			}
-		}
-		
-		// Get deposits as loan ratio
-
-		double depositRatio = 1;
-
-		if (this instanceof CapitalFirmWagesEnd) {
-			depositRatio = ((CapitalFirmWagesEnd) this).getShareOfExpIncomeAsDeposit();
-		}
-		
-		double debtRatio;
-		
-		if(loansValue>0&&this.getNetWealth()>0) {
-			debtRatio = loansValue/(loansValue+this.getNetWealth());
-		}else {
-			debtRatio = 0;
-		}
 
 		if (this.getRequiredWorkers() > 0) {
 			
-			// Calculate capital costs
-			
-			double normalCapitalCosts = (this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*this.getRequiredWorkers()*depositRatio*avInterest)*debtRatio;
-			
 			// Calculate normal unit costs
 			
-			normalUnitCosts = (this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*this.getRequiredWorkers()+normalCapitalCosts)/ this.getDesiredOutput();
+			normalUnitCosts = (this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*this.getRequiredWorkers()+this.debtInterests)/ this.getDesiredOutput();
 			
 			return normalUnitCosts;
 
@@ -982,13 +924,9 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 				double residualOutput = inventoriesLeft.getQuantity();
 				double requiredWorkers = residualOutput/ this.getLaborProductivity();
 				
-				// Calculate capital costs
-				
-				double normalCapitalCosts = (this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*requiredWorkers*depositRatio*avInterest)*debtRatio;
-				
 				// Calculate normal unit costs
 				
-				normalUnitCosts = (this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*requiredWorkers+normalCapitalCosts)/ residualOutput;
+				normalUnitCosts = (this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*requiredWorkers+this.debtInterests)/ residualOutput;
 				
 				return normalUnitCosts;
 			}

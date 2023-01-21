@@ -74,6 +74,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 			this.defaulted=false;
 			computeExpectations();
 			determineOutput();
+			computeDebtPayments();
 			break;
 		case StaticValues.TIC_CONSUMPTIONPRICE:
 			computePrice();

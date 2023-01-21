@@ -95,7 +95,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	private double cashAmount;
 	private double depositAmount;
 	private double reservesAmount;
-	
+
 
 //TODO check whether targetStock and its getters/setters are really used.
 	/**
@@ -175,6 +175,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 			this.defaulted=false;
 			computeExpectations();
 			determineOutput();
+			computeDebtPayments();
 			break;
 		case StaticValues.TIC_CONSUMPTIONPRICE:
 			computePrice();
@@ -960,57 +961,6 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	@Override
 	public double getPriceLowerBound() {
 		
-		// Get reference interest rate for loans (average interest rate of last period)
-		
-		SimulationController controller = (SimulationController)this.getScheduler();
-		MacroPopulation macroPop = (MacroPopulation) controller.getPopulation();
-		Population banks = macroPop.getPopulation(StaticValues.BANKS_ID);
-		
-		double inter=0;
-		double n=(double) banks.getSize();
-		for (Agent b:banks.getAgents()){
-			Bank bank = (Bank) b;
-			if (bank.getNumericBalanceSheet()[0][StaticValues.SM_LOAN]!=0&&bank.getNetWealth()>0){
-				inter+=bank.getPassedValue(StaticValues.LAG_LOANINTEREST, 1);
-			}
-			else{
-				n-=1;
-			}
-			}
-		
-		double avInterest=inter/n;
-		
-		// Calc DebtRatio
-		
-		List<Item> loans = this.getItemsStockMatrix(false, StaticValues.SM_LOAN);
-		double loansValue = 0;
-		double totInterests = 0;
-		for (int i = 0; i < loans.size(); i++) {
-			Loan loan = (Loan) loans.get(i);
-			if (loan.getAge() > 0) {
-				double iRate = loan.getInterestRate();
-				double interests = iRate * loan.getValue();
-				totInterests += interests;
-				loansValue+=loan.getValue();
-			}
-		}
-		
-		double debtRatio;
-		
-		if(loansValue>0&&this.getNetWealth()>0) {
-			debtRatio = loansValue/(loansValue+this.getNetWealth());
-		}else {
-			debtRatio = 0;
-		}
-
-		// Get deposits as loan ratio
-		
-		double depositRatio = 1;
-		
-		if (this instanceof ConsumptionFirmWagesEnd) {
-			depositRatio = ((ConsumptionFirmWagesEnd) this).getShareOfExpIncomeAsDeposit();
-		}
-		
 		// Get capital information
 		
 		List<Item> capitalStock= this.getItemsStockMatrix(true, StaticValues.SM_CAPGOOD);
@@ -1031,7 +981,6 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 			return 0;
 		}else {
 		
-		
 		InvestmentCapacityOperatingCashFlowExpected strategy1=(InvestmentCapacityOperatingCashFlowExpected) this.getStrategy(StaticValues.STRATEGY_INVESTMENT);
 		
 		double targetCapacityUtlization = strategy1.getTargetCapacityUtlization();
@@ -1039,14 +988,10 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		double normalOutput = capacity*targetCapacityUtlization;
 		
 		double normalLaborCosts =this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*targetCapacityUtlization*(capitalAmount/capLaborRatio);
-		
-		// Calculate capital costs
-		
-		double normalCapitalCosts = (normalLaborCosts*depositRatio*avInterest+capitalAmount*avInterest)*debtRatio;
-		
+				
 		// Calculate normal unit costs
 		
-		double normalUnitCosts = (normalLaborCosts+normalCapitalCosts+amortisationCosts)/normalOutput;
+		double normalUnitCosts = (normalLaborCosts+this.debtInterests+amortisationCosts)/normalOutput;
 		
 		
 		return normalUnitCosts;

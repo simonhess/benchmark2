@@ -616,7 +616,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		for(int i=0;i<loans.size();i++){
 			principal+=debtPayments[i][1];
 		}
-		operatingNetCashFlow=profitsAfterTaxes+capitalAmortization-varInv-principal;
+		operatingNetCashFlow=profitsAfterTaxes+capitalAmortization-varInv;
 		this.addValue(StaticValues.LAG_OPERATINGCASHFLOW,operatingNetCashFlow);
 	}
 

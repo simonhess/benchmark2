@@ -708,7 +708,7 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 		for(int i=0;i<loans.size();i++){
 			principal+=debtPayments[i][1];
 		}
-		operatingNetCashFlow=profitsAfterTaxes-varInv-principal;
+		operatingNetCashFlow=profitsAfterTaxes-varInv;
 		this.addValue(StaticValues.LAG_OPERATINGCASHFLOW,operatingNetCashFlow);
 	}
 

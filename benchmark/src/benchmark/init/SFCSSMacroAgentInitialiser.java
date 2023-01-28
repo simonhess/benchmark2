@@ -31,6 +31,7 @@ import benchmark.expectations.AdaptiveExpectationTargetInventories;
 import benchmark.report.AveragePriceAllProducersComputer;
 import benchmark.strategies.AdaptiveMarkupOnAdvancesRate;
 import benchmark.strategies.AdaptiveMarkupOnAdvancesRateDF;
+import benchmark.strategies.AdaptiveMarkupOnAdvancesRateDemandDriven;
 import benchmark.strategies.FixedShareOfProfitsToPopulationAsShareOfWealthDividends;
 import benchmark.strategies.IncomeWealthTaxStrategy;
 import benchmark.strategies.InvestmentCapacityOperatingCashFlowExpected;
@@ -194,7 +195,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	 */
 	@Override
 	public void initialise(MacroPopulation population, MacroSimulation sim) {	
-
+		
 		Population households = population.getPopulation(StaticValues.HOUSEHOLDS_ID);
 		Population banks = population.getPopulation(StaticValues.BANKS_ID);
 		Population kFirms = population.getPopulation(StaticValues.CAPITALFIRMS_ID);
@@ -486,6 +487,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 				Households hh = (Households) households.getAgentList().get(hWorkerCounter);
 				hh.setEmployer(c);
 				hh.addValue(StaticValues.LAG_EMPLOYED,1);
+	
 				c.addEmployee(hh);
 				hWorkerCounter++;
 			}
@@ -624,6 +626,9 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			}else if(b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE) instanceof AdaptiveMarkupOnAdvancesRateDF){
 				AdaptiveMarkupOnAdvancesRateDF banksBankSpecificLoanInterestStrategy = (AdaptiveMarkupOnAdvancesRateDF) b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE);
 				banksBankSpecificLoanInterestStrategy.setMarkup(bsMarkup);
+			}else if(b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE) instanceof AdaptiveMarkupOnAdvancesRateDemandDriven){
+				AdaptiveMarkupOnAdvancesRateDemandDriven banksBankSpecificLoanInterestStrategy = (AdaptiveMarkupOnAdvancesRateDemandDriven) b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE);
+				banksBankSpecificLoanInterestStrategy.setMarkup(bsMarkup);
 			}
 			
 			//Cash Holdings
@@ -758,6 +763,8 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		govt.setAggregateValue(StaticValues.LAG_REALGDP, nomGDP/govt.getAggregateValue(StaticValues.LAG_ALLPRICE, 0));
 		govt.setAggregateValue(StaticValues.LAG_POTENTIALGDP, govt.getAggregateValue(StaticValues.LAG_REALGDP, 0));
 		govt.setAggregateValue(StaticValues.LAG_GOVTAX, (ksTax+csTax+hhsTax+bsTax));
+		govt.setAggregateValue(StaticValues.LAG_AVCPRICE, cPrice);
+		govt.setAggregateValue(StaticValues.LAG_AVKPRICE, kPrice);
 		
 		// Set lagged values for the second last period
 		

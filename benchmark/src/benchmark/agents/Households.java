@@ -309,11 +309,13 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 		double[] price=new double[1];
 		price[0]=0;
 		List<Item> cons = this.getItemsStockMatrix(true, StaticValues.SM_CONSGOOD);
+		double consValue = 0;
 		int qty=0;
 		for(Item item:cons){
 			ConsumptionGood c = (ConsumptionGood)item;
 			price[0]+=c.getPrice()*c.getQuantity();
 			qty+=c.getQuantity();
+			consValue+=c.getPrice()*c.getQuantity();
 		}
 		if (qty!=0){
 		price[0]=price[0]/qty;}
@@ -321,7 +323,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 			price[0]=this.getExpectation(StaticValues.EXPECTATIONS_CONSPRICE).getExpectation();
 		}
 		this.getExpectation(StaticValues.EXPECTATIONS_CONSPRICE).addObservation(price);
-		double nW=this.getNetWealth();
+		double nW=this.getNetWealth()-consValue;
 		this.addValue(StaticValues.LAG_NETWEALTH,nW);
 		double employed;
 		if(this.employer==null)

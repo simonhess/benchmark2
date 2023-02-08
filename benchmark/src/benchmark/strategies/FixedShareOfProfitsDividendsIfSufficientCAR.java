@@ -138,13 +138,13 @@ DividendsStrategy {
 
 				if (targetedCapitalRatio >= actualCapitalRatio) {
 
-					double div = Math.max(0, profits-(targetCapital-actualCapital)*0.25);
+					double div = Math.max(0, profits-(targetCapital-actualCapital));
 					//div=profits;
 					bank.setDividends(div);
 				}
 				else if (actualCapitalRatio > targetedCapitalRatio) {
 
-					double div = profits+(actualCapital-targetCapital)*0.25;
+					double div = profits+(actualCapital-targetCapital);
 					//div=profits;
 					bank.setDividends(div);
 				}

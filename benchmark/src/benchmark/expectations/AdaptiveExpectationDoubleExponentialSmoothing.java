@@ -146,6 +146,13 @@ public class AdaptiveExpectationDoubleExponentialSmoothing implements Expectatio
 	public double getExpectation() {
 		return this.expectation;
 	}
+	
+	/* (non-Javadoc)
+	 * Returns the prediction t periods ahead
+	 */
+	public double getExpectation(int t) {
+		return this.level+t*this.trend;
+	}
 
 	/* (non-Javadoc)
 	 * @see jmab.expectations.Expectation#addObservation(double[])

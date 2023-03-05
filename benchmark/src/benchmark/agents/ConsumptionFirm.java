@@ -611,13 +611,21 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		double inv=(double) this.getPassedValue(StaticValues.LAG_NOMINALINVENTORIES, 0);
 		double inv1=(double)this.getPassedValue(StaticValues.LAG_NOMINALINVENTORIES, 1);
 		double varInv=inv-inv1;
+		operatingNetCashFlow=profitsAfterTaxes+capitalAmortization-varInv;
+		this.addValue(StaticValues.LAG_OPERATINGCASHFLOW,operatingNetCashFlow);
 		List<Item> loans=this.getItemsStockMatrix(false, StaticValues.SM_LOAN);
 		double principal=0;
 		for(int i=0;i<loans.size();i++){
 			principal+=debtPayments[i][1];
 		}
-		operatingNetCashFlow=profitsAfterTaxes+capitalAmortization-varInv;
-		this.addValue(StaticValues.LAG_OPERATINGCASHFLOW,operatingNetCashFlow);
+		double EBITDA = profitsAfterTaxes+capitalAmortization+this.debtInterests+taxes;
+		double[] ocf = new double[1];
+		ocf[0] = EBITDA;
+		this.getExpectation(StaticValues.EXPECTATIONS_EBITDA).addObservation(ocf);
+		double[] expUnleveredFreeCashFlowPerCapacity = new double[1];
+		expUnleveredFreeCashFlowPerCapacity[0]=(operatingNetCashFlow+this.debtInterests)/this.getPassedValue(StaticValues.LAG_CAPACITY, 0);
+		this.getExpectation(StaticValues.EXPECTATIONS_UNLEVEREDFREECASHFLOWPERCAPACITY).addObservation(expUnleveredFreeCashFlowPerCapacity);
+		
 	}
 
 	/**

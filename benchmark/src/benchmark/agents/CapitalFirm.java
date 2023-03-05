@@ -703,13 +703,17 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 		this.addValue(StaticValues.LAG_PROFITAFTERTAX, profitsAfterTaxes);
 		double operatingNetCashFlow=0;
 		double varInv=this.getPassedValue(StaticValues.LAG_NOMINALINVENTORIES, 0)-this.getPassedValue(StaticValues.LAG_NOMINALINVENTORIES, 1);
+		operatingNetCashFlow=profitsAfterTaxes-varInv;
+		this.addValue(StaticValues.LAG_OPERATINGCASHFLOW,operatingNetCashFlow);
 		List<Item> loans=this.getItemsStockMatrix(false, StaticValues.SM_LOAN);
 		double principal=0;
 		for(int i=0;i<loans.size();i++){
 			principal+=debtPayments[i][1];
 		}
-		operatingNetCashFlow=profitsAfterTaxes-varInv;
-		this.addValue(StaticValues.LAG_OPERATINGCASHFLOW,operatingNetCashFlow);
+		double EBITDA = profitsAfterTaxes+this.debtInterests+taxes;
+		double[] ocf = new double[1];
+		ocf[0] = EBITDA;
+		this.getExpectation(StaticValues.EXPECTATIONS_EBITDA).addObservation(ocf);
 	}
 
 	/**

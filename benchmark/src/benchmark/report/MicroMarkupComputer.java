@@ -21,6 +21,7 @@ import benchmark.StaticValues;
 import benchmark.agents.Bank;
 import benchmark.agents.CapitalFirm;
 import benchmark.agents.ConsumptionFirm;
+import benchmark.strategies.AdaptiveMarkupOnAdvancesRateProfitGrowth;
 import benchmark.strategies.AdaptiveMarkupOnAdvancesRate;
 import benchmark.strategies.AdaptiveMarkupOnAdvancesRateDF;
 import jmab.agents.AbstractFirm;
@@ -58,6 +59,9 @@ public class MicroMarkupComputer extends AbstractMicroComputer implements MicroM
 						markup = banksBankSpecificLoanInterestStrategy.getMarkup();
 					}else if(bank.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE) instanceof AdaptiveMarkupOnAdvancesRateDF){
 						AdaptiveMarkupOnAdvancesRateDF banksBankSpecificLoanInterestStrategy = (AdaptiveMarkupOnAdvancesRateDF) bank.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE);
+						markup = banksBankSpecificLoanInterestStrategy.getMarkup();
+					}else if(bank.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE) instanceof AdaptiveMarkupOnAdvancesRateProfitGrowth){
+						AdaptiveMarkupOnAdvancesRateProfitGrowth banksBankSpecificLoanInterestStrategy = (AdaptiveMarkupOnAdvancesRateProfitGrowth) bank.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE);
 						markup = banksBankSpecificLoanInterestStrategy.getMarkup();
 					}
 				result.put(bank.getAgentId(), markup);

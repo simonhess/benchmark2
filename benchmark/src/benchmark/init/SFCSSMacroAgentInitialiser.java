@@ -27,6 +27,7 @@ import benchmark.agents.Government;
 import benchmark.agents.GovernmentAntiCyclical;
 import benchmark.agents.GovernmentAntiCyclicalWithInvestment;
 import benchmark.agents.Households;
+import benchmark.expectations.AdaptiveExpectationDoubleExponentialSmoothing;
 import benchmark.expectations.AdaptiveExpectationTargetInventories;
 import benchmark.report.AveragePriceAllProducersComputer;
 import benchmark.strategies.AdaptiveMarkupOnAdvancesRate;
@@ -303,6 +304,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		double kOCF=ksOCF/kSize;
 		double lMat=0;
 		double kTax = ksTax/kSize;
+		double kTotalLoan = ksLoans/kSize;
 		
 		for(int i = 0 ; i < kSize ; i++){
 			CapitalFirmWagesEnd k = (CapitalFirmWagesEnd) kFirms.getAgentList().get(i);
@@ -423,6 +425,18 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			if(kRSalesExp instanceof AdaptiveExpectationTargetInventories) {
 				((AdaptiveExpectationTargetInventories) kRSalesExp).setAgent(k);
 			}
+			Expectation kOCFExp = k.getExpectation(StaticValues.EXPECTATIONS_EBITDA);
+			nbObs = kOCFExp .getNumberPeriod();
+			double[][] passedOCF = new double[nbObs][2];
+			for(int j = 0; j<nbObs; j++){
+				passedOCF[j][0]=(kOCF+kTotalLoan*iLoans)*(1+distr.nextDouble());
+				passedOCF[j][1]=(kOCF+kTotalLoan*iLoans)*(1+distr.nextDouble());
+			}
+			kOCFExp.setPassedValues(passedOCF);
+			if(kOCFExp instanceof AdaptiveExpectationDoubleExponentialSmoothing) {
+				((AdaptiveExpectationDoubleExponentialSmoothing) kOCFExp).setLevel(passedOCF[0][0]);
+			}
+			
 			
 			k.addValue(StaticValues.LAG_TAXES,kTax);
 			k.computeExpectations();
@@ -438,6 +452,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		double cOutput=csOutput/cSize;
 		double cOCF=csOCF/cSize;
 		double cTax = csTax/cSize;
+		double cTotalLoan = csLoans/cSize;
 		for(int i = 0 ; i < cSize ; i++){
 			ConsumptionFirmWagesEnd c = (ConsumptionFirmWagesEnd) cFirms.getAgentList().get(i);
 			
@@ -582,6 +597,31 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			if(cRSalesExp instanceof AdaptiveExpectationTargetInventories) {
 				((AdaptiveExpectationTargetInventories) cRSalesExp).setAgent(c);
 			}
+			Expectation cOCFExp = c.getExpectation(StaticValues.EXPECTATIONS_EBITDA);
+			nbObs = cOCFExp .getNumberPeriod();
+			double[][] passedOCF = new double[nbObs][2];
+			for(int j = 0; j<nbObs; j++){
+				passedOCF[j][0]=(cOCF+this.iLoans*cTotalLoan+cTax)*(1+distr.nextDouble());
+				passedOCF[j][1]=(cOCF+this.iLoans*cTotalLoan+cTax)*(1+distr.nextDouble());
+			}
+			cOCFExp.setPassedValues(passedOCF);
+			if(cOCFExp instanceof AdaptiveExpectationDoubleExponentialSmoothing) {
+				((AdaptiveExpectationDoubleExponentialSmoothing) cOCFExp).setLevel(passedOCF[0][0]);
+			}
+			
+			Expectation cUFCFPerCapExp = c.getExpectation(StaticValues.EXPECTATIONS_UNLEVEREDFREECASHFLOWPERCAPACITY);
+			nbObs = cUFCFPerCapExp .getNumberPeriod();
+			double[][] pastUFCFPerCap = new double[nbObs][2];
+			double UFCFPerCap = (cOCF+cTotalLoan*iLoans/(1+gr))/cCap;
+			for(int j = 0; j<nbObs; j++){
+				pastUFCFPerCap[j][0]=UFCFPerCap*(1+distr.nextDouble());
+				pastUFCFPerCap[j][1]=UFCFPerCap*(1+distr.nextDouble());
+			}
+			cUFCFPerCapExp.setPassedValues(pastUFCFPerCap);
+			if(cUFCFPerCapExp instanceof AdaptiveExpectationDoubleExponentialSmoothing) {
+				((AdaptiveExpectationDoubleExponentialSmoothing) cUFCFPerCapExp).setLevel(pastUFCFPerCap[0][0]);
+			}
+			
 			
 			c.addValue(StaticValues.LAG_TAXES,cTax);
 
@@ -672,6 +712,9 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			b.addValue(StaticValues.LAG_INTERBANKINTEREST,this.iAdv);
 			b.addValue(StaticValues.LAG_TOTINTERBANKSUPPLY,0);
 			b.addValue(StaticValues.LAG_TOTINTERBANKDEMAND,0);
+			Map<Integer, PassedValues> passedValues = b.getPassedValues();
+			passedValues.get(StaticValues.LAG_PROFITAFTERTAX).addObservation(b.getPassedValue(StaticValues.LAG_PROFITAFTERTAX, 0)/(1+gr), sim.getRound()-1);
+			passedValues.get(StaticValues.LAG_PROFITAFTERTAX).addObservation(passedValues.get(StaticValues.LAG_PROFITAFTERTAX).getObservation(-1)/(1+gr), sim.getRound()-2);
 			double[][] bs = b.getNumericBalanceSheet();
 			Expectation bDepExp = b.getExpectation(StaticValues.EXPECTATIONS_DEPOSITS);
 			int nbObs = bDepExp.getNumberPeriod();

@@ -32,7 +32,7 @@ import benchmark.expectations.AdaptiveExpectationTargetInventories;
 import benchmark.report.AveragePriceAllProducersComputer;
 import benchmark.strategies.AdaptiveMarkupOnAdvancesRate;
 import benchmark.strategies.AdaptiveMarkupOnAdvancesRateDF;
-import benchmark.strategies.AdaptiveMarkupOnAdvancesRateDemandDriven;
+import benchmark.strategies.AdaptiveMarkupOnAdvancesRateProfitGrowth;
 import benchmark.strategies.FixedShareOfProfitsToPopulationAsShareOfWealthDividends;
 import benchmark.strategies.IncomeWealthTaxStrategy;
 import benchmark.strategies.InvestmentCapacityOperatingCashFlowExpected;
@@ -666,8 +666,8 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			}else if(b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE) instanceof AdaptiveMarkupOnAdvancesRateDF){
 				AdaptiveMarkupOnAdvancesRateDF banksBankSpecificLoanInterestStrategy = (AdaptiveMarkupOnAdvancesRateDF) b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE);
 				banksBankSpecificLoanInterestStrategy.setMarkup(bsMarkup);
-			}else if(b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE) instanceof AdaptiveMarkupOnAdvancesRateDemandDriven){
-				AdaptiveMarkupOnAdvancesRateDemandDriven banksBankSpecificLoanInterestStrategy = (AdaptiveMarkupOnAdvancesRateDemandDriven) b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE);
+			}else if(b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE) instanceof AdaptiveMarkupOnAdvancesRateProfitGrowth){
+				AdaptiveMarkupOnAdvancesRateProfitGrowth banksBankSpecificLoanInterestStrategy = (AdaptiveMarkupOnAdvancesRateProfitGrowth) b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE);
 				banksBankSpecificLoanInterestStrategy.setMarkup(bsMarkup);
 			}
 			

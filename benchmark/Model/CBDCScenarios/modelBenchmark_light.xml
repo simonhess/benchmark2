@@ -2827,9 +2827,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	
 	<bean id="consumptionKDemand" scope="prototype" parent="strategy"
-		class="benchmark.strategies.RealCapitalDemandAdaptive">
+		class="benchmark.strategies.RealCapitalDemandAdaptiveNPV">
 		<property name="capitalGoodId"><util:constant static-field="benchmark.StaticValues.SM_CAPGOOD" /> </property>
 		<property name="productionStockId"><util:constant static-field="benchmark.StaticValues.SM_CAPGOOD" /> </property>
+		<property name="adaptiveParameter" value="20" />
+		<property name="distribution" ref="logNormal1"/>
 	<!--	<property name="wagesExpectationId"><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_WAGES" /> </property> -->
 	</bean>
 	

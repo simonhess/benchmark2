@@ -246,11 +246,15 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 		double tG = 0;
 		double avCPrice = 0;
 		double avKPrice = 0;
+		double cFirmTotalProfit = 0;
+		double cFirmTotalEquity = 0;
 		
 		for (Agent i:cfpop.getAgents()){
 			ConsumptionFirm firm= (ConsumptionFirm) i;
 			tG+=firm.getPassedValue(StaticValues.LAG_TAXES, 0);
 			avCPrice+=firm.getPrice();
+			cFirmTotalProfit+=firm.getPassedValue(StaticValues.LAG_PROFITAFTERTAX, 0);
+			cFirmTotalEquity+=firm.getPassedValue(StaticValues.LAG_NETWEALTH, 1);
 		}
 		
 		for (Agent i:kfpop.getAgents()){
@@ -258,7 +262,7 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 			tG+=firm.getPassedValue(StaticValues.LAG_TAXES, 0);
 			avKPrice+=firm.getPrice();
 		}
-
+		
 		for (Agent i:hhpop.getAgents()){
 			Households hh= (Households) i;
 			tG+=hh.getPassedValue(StaticValues.LAG_TAXES, 0);
@@ -279,7 +283,9 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 				avCPrice);
 		this.setAggregateValue(StaticValues.LAG_AVKPRICE, 
 				avKPrice);
-
+		double avCFirmCostOfEquity = cFirmTotalProfit/cFirmTotalEquity;
+		
+		this.setAggregateValue(StaticValues.LAG_AVCFIRMCOSTOFEQUITY, avCFirmCostOfEquity);
 	}
 	
 	protected void updateExpectations() {

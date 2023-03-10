@@ -809,6 +809,13 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		govt.setAggregateValue(StaticValues.LAG_AVCPRICE, cPrice);
 		govt.setAggregateValue(StaticValues.LAG_AVKPRICE, kPrice);
 		
+		double cFirmsTotalEquity = 0;
+		for(int i = 0 ; i < cSize ; i++){
+			ConsumptionFirmWagesEnd c = (ConsumptionFirmWagesEnd) cFirms.getAgentList().get(i);
+			cFirmsTotalEquity+=c.getPassedValue(StaticValues.LAG_NETWEALTH, 0);
+		}	
+		govt.setAggregateValue(StaticValues.LAG_AVCFIRMCOSTOFEQUITY, (cProfit-cTax)/cFirmsTotalEquity);
+		
 		// Set lagged values for the second last period
 		
 		AbstractMacroSimulation macroSim = (AbstractMacroSimulation) sim;

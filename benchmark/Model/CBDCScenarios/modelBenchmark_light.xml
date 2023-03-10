@@ -79,6 +79,12 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark.StaticValues.LAG_AVKPRICE" />
 					</key>
 				</entry>
+				<entry value-ref="pastAVcFirmCostOfEquity">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_AVCFIRMCOSTOFEQUITY" />
+					</key>
+				</entry>
+				
 			</map>
 		</property>
 		<property name="markets">
@@ -360,6 +366,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="pastAVKPrice" class="jmab.expectations.TreeMapPassedValues"
+		scope="simulation">
+		<property name="nbLags" value="4"></property>
+	</bean>
+	
+	<bean id="pastAVcFirmCostOfEquity" class="jmab.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>

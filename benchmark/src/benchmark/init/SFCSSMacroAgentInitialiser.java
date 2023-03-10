@@ -120,6 +120,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	private double ksLoans;
 	private double ksDep;
 	private double iLoans;
+	private double ksEBITDA;
 	
 	// cFirms
 	private int csOutput;
@@ -133,6 +134,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	private double csTax;
 	private double csDiv;
 	private double csLoans;
+	private double csEBITDA;
 	
     // hhs, banks and gov
 	private int totEmpl;
@@ -302,6 +304,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		double kSales=ksSales/kSize;
 		double kOutput=ksOutput/kSize;
 		double kOCF=ksOCF/kSize;
+		double kEBITDA=ksEBITDA/kSize;
 		double lMat=0;
 		double kTax = ksTax/kSize;
 		double kTotalLoan = ksLoans/kSize;
@@ -425,16 +428,16 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			if(kRSalesExp instanceof AdaptiveExpectationTargetInventories) {
 				((AdaptiveExpectationTargetInventories) kRSalesExp).setAgent(k);
 			}
-			Expectation kOCFExp = k.getExpectation(StaticValues.EXPECTATIONS_EBITDA);
-			nbObs = kOCFExp .getNumberPeriod();
-			double[][] passedOCF = new double[nbObs][2];
+			Expectation kEBITDAExp = k.getExpectation(StaticValues.EXPECTATIONS_EBITDA);
+			nbObs = kEBITDAExp .getNumberPeriod();
+			double[][] passedEBITDA = new double[nbObs][2];
 			for(int j = 0; j<nbObs; j++){
-				passedOCF[j][0]=(kOCF+kTotalLoan*iLoans)*(1+distr.nextDouble());
-				passedOCF[j][1]=(kOCF+kTotalLoan*iLoans)*(1+distr.nextDouble());
+				passedEBITDA[j][0]=(kEBITDA)*(1+distr.nextDouble());
+				passedEBITDA[j][1]=(kEBITDA)*(1+distr.nextDouble());
 			}
-			kOCFExp.setPassedValues(passedOCF);
-			if(kOCFExp instanceof AdaptiveExpectationDoubleExponentialSmoothing) {
-				((AdaptiveExpectationDoubleExponentialSmoothing) kOCFExp).setLevel(passedOCF[0][0]);
+			kEBITDAExp.setPassedValues(passedEBITDA);
+			if(kEBITDAExp instanceof AdaptiveExpectationDoubleExponentialSmoothing) {
+				((AdaptiveExpectationDoubleExponentialSmoothing) kEBITDAExp).setLevel(passedEBITDA[0][0]);
 			}
 			
 			
@@ -451,6 +454,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		double cSales=csSales/cSize;
 		double cOutput=csOutput/cSize;
 		double cOCF=csOCF/cSize;
+		double cEBITDA=csEBITDA/cSize;
 		double cTax = csTax/cSize;
 		double cTotalLoan = csLoans/cSize;
 		for(int i = 0 ; i < cSize ; i++){
@@ -597,16 +601,16 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			if(cRSalesExp instanceof AdaptiveExpectationTargetInventories) {
 				((AdaptiveExpectationTargetInventories) cRSalesExp).setAgent(c);
 			}
-			Expectation cOCFExp = c.getExpectation(StaticValues.EXPECTATIONS_EBITDA);
-			nbObs = cOCFExp .getNumberPeriod();
-			double[][] passedOCF = new double[nbObs][2];
+			Expectation cEBITDAExp = c.getExpectation(StaticValues.EXPECTATIONS_EBITDA);
+			nbObs = cEBITDAExp .getNumberPeriod();
+			double[][] passedEBITDA = new double[nbObs][2];
 			for(int j = 0; j<nbObs; j++){
-				passedOCF[j][0]=(cOCF+this.iLoans*cTotalLoan+cTax)*(1+distr.nextDouble());
-				passedOCF[j][1]=(cOCF+this.iLoans*cTotalLoan+cTax)*(1+distr.nextDouble());
+				passedEBITDA[j][0]=(cEBITDA)*(1+distr.nextDouble());
+				passedEBITDA[j][1]=(cEBITDA)*(1+distr.nextDouble());
 			}
-			cOCFExp.setPassedValues(passedOCF);
-			if(cOCFExp instanceof AdaptiveExpectationDoubleExponentialSmoothing) {
-				((AdaptiveExpectationDoubleExponentialSmoothing) cOCFExp).setLevel(passedOCF[0][0]);
+			cEBITDAExp.setPassedValues(passedEBITDA);
+			if(cEBITDAExp instanceof AdaptiveExpectationDoubleExponentialSmoothing) {
+				((AdaptiveExpectationDoubleExponentialSmoothing) cEBITDAExp).setLevel(passedEBITDA[0][0]);
 			}
 			
 			Expectation cUFCFPerCapExp = c.getExpectation(StaticValues.EXPECTATIONS_UNLEVEREDFREECASHFLOWPERCAPACITY);
@@ -1737,6 +1741,22 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 
 	public void setCsShareOfExpIncomeAsDeposit(double csShareOfExpIncomeAsDeposit) {
 		this.csShareOfExpIncomeAsDeposit = csShareOfExpIncomeAsDeposit;
+	}
+
+	public double getKsEBITDA() {
+		return ksEBITDA;
+	}
+
+	public void setKsEBITDA(double ksEBITDA) {
+		this.ksEBITDA = ksEBITDA;
+	}
+
+	public double getCsEBITDA() {
+		return csEBITDA;
+	}
+
+	public void setCsEBITDA(double csEBITDA) {
+		this.csEBITDA = csEBITDA;
 	}
 
 }

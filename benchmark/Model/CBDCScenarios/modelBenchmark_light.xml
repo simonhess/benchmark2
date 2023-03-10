@@ -1886,7 +1886,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<!-- The basic initialiser of agents -->
 	<bean id="sfcAgentsInitialiser"
 	    class="benchmark.init.SFCSSMacroAgentInitialiser">
-	    <property name="uniformDistr" value="0.0"/>
+	    <property name="uniformDistr" value="0.005"/>
 		<property name="prng" ref="prng" />
 		
 <property name="hhWage" value="5"/>
@@ -1909,61 +1909,63 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <property name="loanLength" value="20"/>
 <property name="csMarkup" value="0.075"/>
 <property name="ksMarkup" value="0.105"/>
-<property name="bsMarkup" value="0.0025"/>
-<property name="bsAdv" value="5234.44653336655"/>
-<property name="bsBonds" value="60230.1580352334"/>
+<property name="bsMarkup" value="0.005"/>
+<property name="bsAdv" value="4806.79659846979"/>
+<property name="bsBonds" value="51764.2295776109"/>
 <property name="bsCash" value="0"/>
-<property name="bsProfits" value="120.210828012377"/>
-<property name="bsRes" value="5234.44653336655"/>
-<property name="bsTax" value="21.6379490422279"/>
-<property name="bsDiv" value="79.3391464881657"/>
-<property name="bsNW" value="3865.98022887806"/>
-<property name="bsProfitShareAsDividends" value="0.804878048780453"/>
-<property name="riskAversionK" value="26.1076925325364"/>
-<property name="riskAversionC" value="9.36090519136234"/>
+<property name="bsProfits" value="239.950802464768"/>
+<property name="bsRes" value="4806.79659846979"/>
+<property name="bsTax" value="43.1911444436583"/>
+<property name="bsDiv" value="177.563593823925"/>
+<property name="bsNW" value="3858.40890363348"/>
+<property name="bsProfitShareAsDividends" value="0.902439024390227"/>
+<property name="riskAversionK" value="7.19722457733622"/>
+<property name="riskAversionC" value="7.19722457733622"/>
 <property name="cbBonds" value="0"/>
 <property name="cbProfits" value="0"/>
 <property name="seigniorage" value="0"/>
 <property name="csOutput" value="32000"/>
-<property name="cPrice" value="1.0200978972187"/>
+<property name="cPrice" value="1.02412772551781"/>
 <property name="csDep" value="25000"/>
 <property name="csInv" value="3200"/>
-<property name="csLoans" value="46526.1351809761"/>
-<property name="csLoans0" value="4571.94719012955"/>
-<property name="csOCF" value="2774.26584325559"/>
-<property name="csProfits" value="2292.53517940254"/>
-<property name="cUnitCost" value="0.948928276482516"/>
-<property name="csTax" value="412.656332292456"/>
-<property name="csDiv" value="1691.89096239907"/>
-<property name="targetCashFlow" value="0.049298257805245"/>
+<property name="csLoans" value="46438.7666364165"/>
+<property name="csLoans0" value="4563.36181396944"/>
+<property name="csOCF" value="7126.76207314179"/>
+<property name="csProfits" value="2301.59168581023"/>
+<property name="cUnitCost" value="0.952676953970052"/>
+<property name="csTax" value="414.286503445842"/>
+<property name="csDiv" value="1698.57466412795"/>
+<property name="targetCashFlow" value="0.12716185512938"/>
 <property name="unemploymentBenefit" value="0.325"/>
 <property name="gEmpl" value="1360"/>
 <property name="gRes" value="0"/>
-<property name="gBonds" value="60230.1580352334"/>
-<property name="hhsDep" value="69688.930667331"/>
-<property name="hhsNI" value="32979.0932403075"/>
-<property name="hhsTax" value="7011.02046738457"/>
-<property name="hhsNomCons" value="32643.1327109986"/>
+<property name="gBonds" value="51764.2295776109"/>
+<property name="hhsDep" value="61135.9319693958"/>
+<property name="hhsNI" value="33064.9718634099"/>
+<property name="hhsTax" value="7029.87187245582"/>
+<property name="hhsNomCons" value="32772.0872165698"/>
 <property name="hhsRealCons" value="32000"/>
-<property name="propensityOOI" value="0.464160057618519"/>
-<property name="hhsNW" value="69688.930667331"/>
-<property name="iLoans" value="0.0025"/>
+<property name="propensityOOI" value="0.531200934123201"/>
+<property name="hhsNW" value="61135.9319693958"/>
+<property name="iLoans" value="0.005"/>
 <property name="iReserves" value="0"/>
 <property name="ksOutput" value="2000"/>
-<property name="kPrice" value="2.76497198076667"/>
+<property name="kPrice" value="2.76742396977163"/>
 <property name="ksDep" value="10000"/>
 <property name="ksInv" value="200"/>
-<property name="ksLoans" value="1798.61767999961"/>
-<property name="ksLoans0" value="176.743351155329"/>
-<property name="ksOCF" value="262.642059969067"/>
-<property name="ksProfits" value="527.959576345937"/>
-<property name="kUnitCost" value="2.50223708666667"/>
-<property name="ksTax" value="95.0327237422686"/>
-<property name="ksDiv" value="389.634167343301"/>
+<property name="ksLoans" value="1791.34465900191"/>
+<property name="ksLoans0" value="176.028658912252"/>
+<property name="ksOCF" value="430.818777891619"/>
+<property name="ksProfits" value="528.42777316141"/>
+<property name="kUnitCost" value="2.5044560812413"/>
+<property name="ksTax" value="95.1169991690538"/>
+<property name="ksDiv" value="389.979696593121"/>
 <property name="laborProductivity" value="2"/>
 <property name="capitalLaborRatio" value="6.4"/>
 <property name="ksShareOfExpIncomeAsDeposit" value="2"/>
 <property name="csShareOfExpIncomeAsDeposit" value="1"/>
+<property name="csEBITDA" value="7787.2542128519"/>
+<property name="ksEBITDA" value="537.339935644007"/>
 
 
 

@@ -3671,7 +3671,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<!-- The government prototype instantiated from the Households Class -->
-	<bean id="governmentPrototype" scope="prototype" class="benchmark.agents.GovernmentAntiCyclicalWithInvestment"> 
+	<bean id="governmentPrototype" scope="prototype" class="benchmark.agents.GovernmentAntiCyclical"> 
 		<!-- From AbstractAgent -->
 		<property name="strategy" ref="governmentMacroStrategy"/>
 		<property name="scheduler" ref="simulationController" />
@@ -3785,7 +3785,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="governmentDistributeCBProfitsStrategy" scope="prototype" parent="strategy"
-		class="benchmark.strategies.CentralBankProfitDistributionBasedOnLiquAssets">
+		class="benchmark.strategies.CentralBankProfitDistributionNone">
 	</bean>
 	
 	<bean id="governmentBuyingStrategy" scope="prototype" parent="strategy"

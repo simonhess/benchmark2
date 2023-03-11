@@ -98,8 +98,11 @@ public class GovernmentAntiCyclical extends Government implements LaborDemander,
 			payWages();
 			payUnemploymentBenefits(event.getSimulationController());
 			break;
-		case StaticValues.TIC_UPDATEEXPECTATIONS:
+		case StaticValues.TIC_COMPUTEAGGREGATES:
 			this.updateAggregateVariables();
+			break;
+		case StaticValues.TIC_UPDATEEXPECTATIONS:
+			this.updateExpectations();
 			break;
 		}
 	}

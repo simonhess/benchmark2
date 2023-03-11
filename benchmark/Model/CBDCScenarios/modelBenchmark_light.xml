@@ -3368,7 +3368,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="defaultComputer" ref="loanDefaultComputer"/>
 	</bean>
 	
-	<bean id="loanDefaultComputer" scope="prototype" class="benchmark.strategies.DeterministicLogisticCashFlowComputer">
+	<bean id="loanDefaultComputer" scope="prototype" class="benchmark.strategies.DeterministicLogisticDSCRComputer">
 		<property name="loansId"><util:constant static-field="benchmark.StaticValues.SM_LOAN" /> </property>	
 	</bean>
 

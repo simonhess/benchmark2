@@ -1945,7 +1945,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <property name="hhsTax" value="7029.87187245582"/>
 <property name="hhsNomCons" value="32772.0872165698"/>
 <property name="hhsRealCons" value="32000"/>
-<property name="propensityOOI" value="0.531200934123201"/>
+<property name="propensityOOI" value="0.548249517630095"/>
 <property name="hhsNW" value="61135.9319693958"/>
 <property name="iLoans" value="0.005"/>
 <property name="iReserves" value="0"/>
@@ -3614,7 +3614,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="householdsConsumptionStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.ConsumptionFixedPropensitiesOOIWWithPersistency">
+		class="benchmark.strategies.ConsumptionFixedPropensitiesOOIWWithPersistency">
 		<property name="persistency" value="0"/>
 		<property name="propensityOOW" value="0.25"></property> 
 <!-- 		TEMP -->

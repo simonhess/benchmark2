@@ -59,7 +59,7 @@ import jmab.strategies.AdaptiveMarkUpOnAC;
 import jmab.strategies.BestQualityPriceCapitalSupplierWithSwitching;
 import jmab.strategies.CheapestGoodSupplierWithSwitching;
 import jmab.strategies.CheapestLenderWithSwitching;
-import jmab.strategies.ConsumptionFixedPropensitiesOOIWWithPersistency;
+import benchmark.strategies.ConsumptionFixedPropensitiesOOIWWithPersistency;
 import jmab.strategies.MostPayingDepositWithSwitching;
 import jmab.strategies.TargetExpectedInventoriesOutputStrategy;
 import jmab.strategies.TaxPayerStrategy;

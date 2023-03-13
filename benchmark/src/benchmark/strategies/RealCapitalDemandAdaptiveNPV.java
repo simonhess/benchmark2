@@ -123,7 +123,9 @@ public class RealCapitalDemandAdaptiveNPV extends AbstractStrategy implements
 //		
 //		return newCapitalRealDemand;
 		
-		return this.investment;
+		return (int) Math.round(this.investment);
+		
+//		return this.investment;
 	}
 	
 	/**

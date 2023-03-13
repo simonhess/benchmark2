@@ -2185,7 +2185,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
     </property>
 	</bean> 
 	
-	<bean id="expRSales" class="benchmark.expectations.AdaptiveExpectationTargetInventories"
+	<bean id="expRSales" class="benchmark.expectations.AdaptiveExpectationExpectedVsActualValue"
 		scope="prototype">
 		<property name="numberPeriod" value="4"/>
 		<property name="nbVariables" value="1"/>
@@ -2207,10 +2207,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				</array>
         </array>
     </property>
-    <property name="scheduler" ref="simulationController" />
 	</bean>
 	
-	<bean id="expRSalesK" class="benchmark.expectations.AdaptiveExpectationTargetInventories"
+	<bean id="expRSalesK" class="benchmark.expectations.AdaptiveExpectationExpectedVsActualValue"
 		scope="prototype">
 		<property name="numberPeriod" value="4"/>
 		<property name="nbVariables" value="1"/>
@@ -2232,10 +2231,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				</array>
         </array>
     </property>
-    <property name="scheduler" ref="simulationController" />
 	</bean>
 	
-		<bean id="expRSalesC" class="benchmark.expectations.AdaptiveExpectationTargetInventories"
+		<bean id="expRSalesC" class="benchmark.expectations.AdaptiveExpectationExpectedVsActualValue"
 		scope="prototype">
 		<property name="numberPeriod" value="4"/>
 		<property name="nbVariables" value="1"/>
@@ -2257,7 +2255,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				</array>
         </array>
     </property>
-    <property name="scheduler" ref="simulationController" />
 	</bean>
 	
 	
@@ -2545,7 +2542,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 
 	<bean id="capitalPricingStrategy" scope="prototype" parent="strategy"
-	class="benchmark.strategies.AdaptiveMarkUpOnACTargetInventories">
+	class="benchmark.strategies.AdaptiveMarkUpOnACExpectedVsActualValue">
 	<property name="adaptiveParameter" value="0.1" />
 	<property name="distribution" ref="logNormal1"/>
 	<property name="threshold" value="0.1"/>
@@ -2860,7 +2857,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="consumptionPricingStrategy" scope="prototype" parent="strategy"
-	class="benchmark.strategies.AdaptiveMarkUpOnACTargetInventories">
+	class="benchmark.strategies.AdaptiveMarkUpOnACExpectedVsActualValue">
 	<property name="adaptiveParameter" value="0.1" />
 	<property name="distribution" ref="logNormal1"/>
 	<property name="threshold" value="0.1"/>

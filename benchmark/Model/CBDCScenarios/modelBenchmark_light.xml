@@ -399,6 +399,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="firstTicId"><util:constant static-field="benchmark.StaticValues.TIC_CAPITALMARKET1" /></property>
 		<property name="secondTicId"><util:constant static-field="benchmark.StaticValues.TIC_CAPITALMARKET2" /></property>
 		<property name="initialiser" ref="capitalMarketInitialiser" />
+		<property name="nbRuns" value="20"/>
 	</bean>
 	
 
@@ -607,6 +608,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="firstTicId"><util:constant static-field="benchmark.StaticValues.TIC_BONDMARKET1" /></property>
 		<property name="secondTicId"><util:constant static-field="benchmark.StaticValues.TIC_BONDMARKET2" /></property>
 		<property name="initialiser" ref="bondMarketInitialiser" />
+		<property name="nbRuns" value="1"/>
 	</bean>
 
 	<bean id="bondMarketInitialiser" class="jmab.init.RandomMarketInitialiser"

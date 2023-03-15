@@ -3634,7 +3634,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="householdsWageStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.AdaptiveWageStrategy">
+		class="benchmark.strategies.AdaptiveWageStrategy">
 		<property name="distribution" ref="logNormal1"/>
 		<property name="microThreshold" value="0.99"/>
 		<property name="macroThreshold" value="0.08"/>

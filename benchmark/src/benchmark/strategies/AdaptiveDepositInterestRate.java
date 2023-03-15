@@ -77,36 +77,16 @@ public class AdaptiveDepositInterestRate extends AbstractStrategy implements Int
 		}else {profitOnReservesPosition = -1;}
 		// the deposit rate = average deposit rate + random if (liquidity position + opportunity cost position + profit on reserves position > 0)
 		double referenceVariable = liquidityDeficitPosition + opportunityCostPosition + profitOnReservesPosition;
-		
-		double random = depositRateChangeDistribution.nextDouble();
-		double probX = depositRateChangeDistribution.cdfLognormal(random);
-		
+				
 			double iR=0;
 			
 			if(referenceVariable>0){
-				
-				if(depositUpperBound>previousDepositRate) {
-					if(probX > 0.75) {
-						iR=avInterest+(adaptiveParameter*distribution.nextDouble());
-						return Math.min(iR, lender.getInterestRateUpperBound(mktId));
-					}else {
-						return previousDepositRate;
-					}
-				}else {
+
 				iR=avInterest+(adaptiveParameter*distribution.nextDouble());
-				return Math.min(iR, lender.getInterestRateUpperBound(mktId));}
+				return Math.min(iR, lender.getInterestRateUpperBound(mktId));
 			}else{
-				
-				if(depositUpperBound>previousDepositRate) {
-					if(probX > 0.75) {
-						iR=avInterest-(adaptiveParameter*distribution.nextDouble());
-						return Math.max(iR, lender.getInterestRateLowerBound(mktId));
-					}else {
-						return previousDepositRate;
-					}
-				}else {
-					iR=avInterest-(adaptiveParameter*distribution.nextDouble());
-					return Math.max(iR, lender.getInterestRateLowerBound(mktId));}
+				iR=avInterest-(adaptiveParameter*distribution.nextDouble());
+				return Math.max(iR, lender.getInterestRateLowerBound(mktId));
 			}
 		
 //		old strategy

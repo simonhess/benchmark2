@@ -77,6 +77,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="avNominalConsumptionCSVReport" />
 				<ref bean="giniEventReport" />
 				<ref bean="giniCSVReport" />
+				<ref bean="cGoodSupplierSwitchingRateEventReport" />
+				<ref bean="cGoodSupplierSwitchingRateCSVReport" />
+				<ref bean="kGoodSupplierSwitchingRateEventReport" />
+				<ref bean="kGoodSupplierSwitchingRateCSVReport" />
 				<ref bean="AveragePriceAllProducersEventReport" />
 				<ref bean="AveragePriceAllProducersCSVReport" />
 				<ref bean="kFirmsBankruptcyEventReport" />

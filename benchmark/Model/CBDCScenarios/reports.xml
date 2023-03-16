@@ -699,6 +699,107 @@
 	<property name="reportVariables" ref="avNominalConsumptionReportVariables"/>
 </bean>
 
+
+<!-- cGoodSupplierSwitchingRate Report -->
+<bean id="cGoodSupplierSwitchingRateComputer" class="benchmark.report.cGoodSupplierSwitchingRateComputer">
+	<property name="householdId"><util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" /></property>
+</bean>
+
+<bean id="cGoodSupplierSwitchingRateEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.CGOODSUPPLIERSWITCHINGRATEREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="cGoodSupplierSwitchingRateTimeSeries"/>
+</bean>
+
+<bean id="cGoodSupplierSwitchingRateCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="cGoodSupplierSwitchingRateReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="cGoodSupplierSwitchingRate" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="cGoodSupplierSwitchingRateCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.CGOODSUPPLIERSWITCHINGRATEREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="cGoodSupplierSwitchingRateCSVReportVariables"/>
+</bean>
+
+<bean id="cGoodSupplierSwitchingRateReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="cGoodSupplierSwitchingRate"/>
+</bean>
+
+<bean id="cGoodSupplierSwitchingRateTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="cGoodSupplierSwitchingRateTimeSeries"/>
+	<property name="chartTitle" value="cGoodSupplierSwitchingRate"/>
+	<property name="rangeAxisLabel" value="cGoodSupplierSwitchingRate"/>
+</bean>
+
+<bean id="cGoodSupplierSwitchingRateTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="cGoodSupplierSwitchingRateReportVariables"/>
+</bean>
+
+<!-- kGoodSupplierSwitchingRate Report -->
+<bean id="kGoodSupplierSwitchingRateComputer" class="benchmark.report.kGoodSupplierSwitchingRateComputer">
+		<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID" /></property>
+</bean>
+
+<bean id="kGoodSupplierSwitchingRateEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.KGOODSUPPLIERSWITCHINGRATEREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="kGoodSupplierSwitchingRateTimeSeries"/>
+</bean>
+
+<bean id="kGoodSupplierSwitchingRateCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="kGoodSupplierSwitchingRateReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="kGoodSupplierSwitchingRate" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="kGoodSupplierSwitchingRateCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.KGOODSUPPLIERSWITCHINGRATEREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="kGoodSupplierSwitchingRateCSVReportVariables"/>
+</bean>
+
+<bean id="kGoodSupplierSwitchingRateReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="kGoodSupplierSwitchingRate"/>
+</bean>
+
+<bean id="kGoodSupplierSwitchingRateTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="kGoodSupplierSwitchingRateTimeSeries"/>
+	<property name="chartTitle" value="kGoodSupplierSwitchingRate"/>
+	<property name="rangeAxisLabel" value="kGoodSupplierSwitchingRate"/>
+</bean>
+
+<bean id="kGoodSupplierSwitchingRateTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="kGoodSupplierSwitchingRateReportVariables"/>
+</bean>
+
+
+
 <!-- Gini Report -->
 <bean id="giniComputer" class="benchmark.report.GiniComputer">
 	<property name="householdId"><util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" /></property>

@@ -162,9 +162,9 @@ public interface StaticValues {
 	public static int TIC_AVNETINCOMEREPORT=135;
 	public static int TIC_CAGGCONSCREDITREPORT=136;
 	public static int TIC_KAGGCONSCREDITREPORT=137;
-	public static int TIC_CRSALESEXPERRORREPORT=170;
-	public static int TIC_KRSALESEXPERRORREPORT=171;
-	public static int TIC_HHPRICESEXPERRORREPORT=172;
+//	public static int TIC_CRSALESEXPERRORREPORT=170;
+//	public static int TIC_KRSALESEXPERRORREPORT=171;
+//	public static int TIC_HHPRICESEXPERRORREPORT=172;
 	public static int TIC_GINIREPORT=173;
 	public static int TIC_AVALLPRICEREPORT=174;
 	public static int TIC_CBADVRATEREPORT=175;
@@ -218,6 +218,8 @@ public interface StaticValues {
 	public static int TIC_UPDATEEXPECTATIONS=1002;
 	public static int TIC_SERIALIZATION=1003;
 	public static int TIC_SHOCK = 1004;
+	public static int TIC_CGOODSUPPLIERSWITCHINGRATEREPORT=1005;
+	public static int TIC_KGOODSUPPLIERSWITCHINGRATEREPORT=1005;
 
 	
 	public static int EXPECTATIONS_NOMINALSALES=0;
@@ -493,6 +495,8 @@ public interface StaticValues {
     public static int BANKSMARKUPREPORT_ID=186;
     public static int CMARKUPREPORT_ID=187;
     public static int KMARKUPREPORT_ID=188;
+    public static int CGOODSUPPLIERSWITCHINGRATEREPORT_ID=189;
+    public static int KGOODSUPPLIERSWITCHINGRATEREPORT_ID=190;
 
 	public static int TFM_CONS=0;
 	public static int TFM_WHH=1;

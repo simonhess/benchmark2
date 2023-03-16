@@ -167,6 +167,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	            <ref bean="avNetIncomeReportTic" />
 	            <ref bean="avNominalConsumptionReportTic" />
 	            <ref bean="giniReportTic" />
+	            <ref bean="cGoodSupplierSwitchingRateReportTic" />
+	            <ref bean="kGoodSupplierSwitchingRateReportTic" />
 	            <ref bean="hhBailoutCostStdDevReportTic" />
 	            <ref bean="hhAvBailoutCostReportTic" />
 	            <ref bean="avAllPriceReportTic" />
@@ -981,6 +983,20 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.GINIREPORT_ID" /></property>
 	<property name="variableName" value="gini"/>
 	<property name="computer" ref="giniComputer"/>
+	</bean>
+	
+	<bean id="cGoodSupplierSwitchingRateReportTic" class="jmab.events.MacroVariableTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CGOODSUPPLIERSWITCHINGRATEREPORT" /></property>
+	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CGOODSUPPLIERSWITCHINGRATEREPORT_ID" /></property>
+	<property name="variableName" value="cGoodSupplierSwitchingRate"/>
+	<property name="computer" ref="cGoodSupplierSwitchingRateComputer"/>
+	</bean>
+	
+	<bean id="kGoodSupplierSwitchingRateReportTic" class="jmab.events.MacroVariableTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KGOODSUPPLIERSWITCHINGRATEREPORT" /></property>
+	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KGOODSUPPLIERSWITCHINGRATEREPORT_ID" /></property>
+	<property name="variableName" value="kGoodSupplierSwitchingRate"/>
+	<property name="computer" ref="kGoodSupplierSwitchingRateComputer"/>
 	</bean>
 	
 	<bean id="hhBailoutCostStdDevReportTic" class="jmab.events.MacroVariableTicEvent">

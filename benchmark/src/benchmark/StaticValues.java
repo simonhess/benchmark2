@@ -219,7 +219,9 @@ public interface StaticValues {
 	public static int TIC_SERIALIZATION=1003;
 	public static int TIC_SHOCK = 1004;
 	public static int TIC_CGOODSUPPLIERSWITCHINGRATEREPORT=1005;
-	public static int TIC_KGOODSUPPLIERSWITCHINGRATEREPORT=1005;
+	public static int TIC_KGOODSUPPLIERSWITCHINGRATEREPORT=1006;
+	
+	public static int  TIC_MICROSIMPLECSVREPORT =1007;
 
 	
 	public static int EXPECTATIONS_NOMINALSALES=0;
@@ -279,6 +281,8 @@ public interface StaticValues {
 	public static int LAG_AVCPRICE=39;
 	public static int LAG_AVKPRICE=40;
 	public static int LAG_AVCFIRMCOSTOFEQUITY=41;
+	public static int LAG_EBITDA=42;
+	public static int LAG_UNLEVEREDFREECASHFLOW=43;
 	
 	public static int SM_CASH=0;
 	public static int SM_DEP=1;

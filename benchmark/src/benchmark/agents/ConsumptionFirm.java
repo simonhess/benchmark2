@@ -619,11 +619,13 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 			principal+=debtPayments[i][1];
 		}
 		double EBITDA = profitsAfterTaxes+capitalAmortization+this.debtInterests+taxes;
+		this.addValue(StaticValues.LAG_EBITDA,EBITDA);
 		double[] ocf = new double[1];
 		ocf[0] = EBITDA;
 		this.getExpectation(StaticValues.EXPECTATIONS_EBITDA).addObservation(ocf);
 		double[] expUnleveredFreeCashFlowPerCapacity = new double[1];
 		expUnleveredFreeCashFlowPerCapacity[0]=(operatingNetCashFlow+this.debtInterests)/this.getPassedValue(StaticValues.LAG_CAPACITY, 0);
+		this.addValue(StaticValues.LAG_UNLEVEREDFREECASHFLOW,(operatingNetCashFlow+this.debtInterests));
 		this.getExpectation(StaticValues.EXPECTATIONS_UNLEVEREDFREECASHFLOWPERCAPACITY).addObservation(expUnleveredFreeCashFlowPerCapacity);
 		
 	}

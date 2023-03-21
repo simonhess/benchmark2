@@ -711,6 +711,7 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 			principal+=debtPayments[i][1];
 		}
 		double EBITDA = profitsAfterTaxes+this.debtInterests+taxes;
+		this.addValue(StaticValues.LAG_EBITDA,EBITDA);
 		double[] ocf = new double[1];
 		ocf[0] = EBITDA;
 		this.getExpectation(StaticValues.EXPECTATIONS_EBITDA).addObservation(ocf);

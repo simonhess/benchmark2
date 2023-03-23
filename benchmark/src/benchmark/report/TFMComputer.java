@@ -213,7 +213,7 @@ public class TFMComputer extends AbstractMicroComputer implements
 			}
 		}
 		
-		GovernmentAntiCyclicalWithInvestment gov = (GovernmentAntiCyclicalWithInvestment) gpop.getAgentList().get(0);
+		GovernmentAntiCyclical gov = (GovernmentAntiCyclical) gpop.getAgentList().get(0);
 		wG = gov.getWageBill();
 		doleG = unemployed*(wCF+wKF+wG)/(hhpop.getSize()-unemployed)*gov.getUnemploymentBenefit();
 		

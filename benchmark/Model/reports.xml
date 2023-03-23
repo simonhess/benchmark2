@@ -94,7 +94,96 @@
 	<property name="reportVariables" ref="nominalGDPReportVariables"/>
 </bean>
 
-<!-- Average price of all producers report -->
+<!-- Real GDP Report -->
+<bean id="realGDPComputer" class="benchmark.report.RealGDPComputer">
+	<property name="gdpPopulationIds">
+		<list>
+	        <util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID"/>
+	        <util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID"/>
+	        <util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/>
+	        <util:constant static-field="benchmark.StaticValues.GOVERNMENT_ID"/>
+	 	</list>
+	</property>
+	<property name="gdpGoodsIds">
+		<list>
+	        <util:constant static-field="benchmark.StaticValues.SM_CAPGOOD"/>
+	        <util:constant static-field="benchmark.StaticValues.SM_CONSGOOD"/>
+	 	</list>
+	</property>
+	<property name="gdpGoodsAges">
+		<list>
+	        <value>0</value>
+	        <value>1</value>
+	 	</list>
+	</property>
+	<property name="governmentPopulationId"><util:constant static-field="benchmark.StaticValues.GOVERNMENT_ID"/></property>
+	<property name="goodPassedValueMap">
+			<map>
+				<entry> 
+					<key>
+						<util:constant static-field="benchmark.StaticValues.SM_CAPGOOD"/>
+					</key>
+					<util:constant static-field="benchmark.StaticValues.LAG_NOMINALINVENTORIES"/> 
+				</entry>
+				<entry> 
+					<key>
+						<util:constant static-field="benchmark.StaticValues.SM_CONSGOOD"/>
+					</key>
+					<util:constant static-field="benchmark.StaticValues.LAG_NOMINALINVENTORIES"/>
+				</entry>
+			</map>
+		</property>
+	<property name="priceIndexProducerId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID" /></property>
+	<property name="priceGoodId"><util:constant static-field="benchmark.StaticValues.SM_CONSGOOD" /></property>
+	<property name="realSaleId"><util:constant static-field="benchmark.StaticValues.LAG_REALSALES" /></property>
+	<property name="avpAllProdComputer" ref="AveragePriceAllProducersComputer"/>
+</bean>
+
+<bean id="realGDPEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.REALGDPREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="realGDPTimeSeries"/>
+</bean>
+
+<bean id="realGDPCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="realGDPReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="realGDP" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="realGDPCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.REALGDPREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="realGDPCSVReportVariables"/>
+</bean>
+
+<bean id="realGDPReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="Real GDP"/>
+</bean>
+
+<bean id="realGDPTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="realGDPTimeSeries"/>
+	<property name="chartTitle" value="nominal GDP"/>
+	<property name="rangeAxisLabel" value="GDP"/>
+</bean>
+
+<bean id="realGDPTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="realGDPReportVariables"/>
+</bean>
+
+<!-- Weighted average price of all producers (GDP deflator) report -->
 <bean id="AveragePriceAllProducersComputer" class="benchmark.report.AveragePriceAllProducersComputer">
 	<property name="populationIds">
 		<list>
@@ -560,6 +649,156 @@
 <bean id="avNetIncomeTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
 	<property name="reportVariables" ref="avNetIncomeReportVariables"/>
 </bean>
+
+<!-- av nominal consumption Report -->
+<bean id="avNominalConsumptionComputer" class="benchmark.report.AverageNominalConsumptionComputer">
+	<property name="householdId"><util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" /></property>
+</bean>
+
+<bean id="avNominalConsumptionEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.AVNOMINALCONSUMPTIONREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="avNominalConsumptionTimeSeries"/>
+</bean>
+
+<bean id="avNominalConsumptionCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="avNominalConsumptionReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="hhAvNominalConsumption" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="avNominalConsumptionCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.AVNOMINALCONSUMPTIONREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="avNominalConsumptionCSVReportVariables"/>
+</bean>
+
+<bean id="avNominalConsumptionReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="avNominalConsumption"/>
+</bean>
+
+<bean id="avNominalConsumptionTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="avNominalConsumptionTimeSeries"/>
+	<property name="chartTitle" value="avNominalConsumption"/>
+	<property name="rangeAxisLabel" value="avNominalConsumption"/>
+</bean>
+
+<bean id="avNominalConsumptionTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="avNominalConsumptionReportVariables"/>
+</bean>
+
+
+<!-- cGoodSupplierSwitchingRate Report -->
+<bean id="cGoodSupplierSwitchingRateComputer" class="benchmark.report.cGoodSupplierSwitchingRateComputer">
+	<property name="householdId"><util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" /></property>
+</bean>
+
+<bean id="cGoodSupplierSwitchingRateEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.CGOODSUPPLIERSWITCHINGRATEREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="cGoodSupplierSwitchingRateTimeSeries"/>
+</bean>
+
+<bean id="cGoodSupplierSwitchingRateCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="cGoodSupplierSwitchingRateReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="cGoodSupplierSwitchingRate" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="cGoodSupplierSwitchingRateCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.CGOODSUPPLIERSWITCHINGRATEREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="cGoodSupplierSwitchingRateCSVReportVariables"/>
+</bean>
+
+<bean id="cGoodSupplierSwitchingRateReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="cGoodSupplierSwitchingRate"/>
+</bean>
+
+<bean id="cGoodSupplierSwitchingRateTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="cGoodSupplierSwitchingRateTimeSeries"/>
+	<property name="chartTitle" value="cGoodSupplierSwitchingRate"/>
+	<property name="rangeAxisLabel" value="cGoodSupplierSwitchingRate"/>
+</bean>
+
+<bean id="cGoodSupplierSwitchingRateTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="cGoodSupplierSwitchingRateReportVariables"/>
+</bean>
+
+<!-- kGoodSupplierSwitchingRate Report -->
+<bean id="kGoodSupplierSwitchingRateComputer" class="benchmark.report.kGoodSupplierSwitchingRateComputer">
+		<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID" /></property>
+</bean>
+
+<bean id="kGoodSupplierSwitchingRateEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.KGOODSUPPLIERSWITCHINGRATEREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="kGoodSupplierSwitchingRateTimeSeries"/>
+</bean>
+
+<bean id="kGoodSupplierSwitchingRateCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="kGoodSupplierSwitchingRateReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="kGoodSupplierSwitchingRate" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="kGoodSupplierSwitchingRateCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.KGOODSUPPLIERSWITCHINGRATEREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="kGoodSupplierSwitchingRateCSVReportVariables"/>
+</bean>
+
+<bean id="kGoodSupplierSwitchingRateReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="kGoodSupplierSwitchingRate"/>
+</bean>
+
+<bean id="kGoodSupplierSwitchingRateTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="kGoodSupplierSwitchingRateTimeSeries"/>
+	<property name="chartTitle" value="kGoodSupplierSwitchingRate"/>
+	<property name="rangeAxisLabel" value="kGoodSupplierSwitchingRate"/>
+</bean>
+
+<bean id="kGoodSupplierSwitchingRateTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="kGoodSupplierSwitchingRateReportVariables"/>
+</bean>
+
+
 
 <!-- Gini Report -->
 <bean id="giniComputer" class="benchmark.report.GiniComputer">
@@ -3478,6 +3717,56 @@
 	<property name="reportVariables" ref="banksCRReportVariables"/>
 </bean>
 
+<!--BANKS Capital Adequacy Ratio-->
+
+<bean id="banksCARComputer" class="benchmark.report.MicroBankCARComputer">
+	<property name="banksId"><util:constant static-field="benchmark.StaticValues.BANKS_ID"/></property>
+</bean>
+
+<bean id="banksCAREventReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.BANKSCARREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="banksCARTimeSeries"/>
+</bean>
+
+<bean id="banksCARCSVReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.BANKSCARREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="banksCARCSVReportVariables"/>
+</bean>
+
+<bean id="banksCARCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="banksCARReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="banksCapitalAdequacyRatio" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="banksCARReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="name" value="Banks CAR"/>
+	<property name="numberOfSeries" value="10"/>
+</bean>
+
+<bean id="banksCARTimeSeriesChart" class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="banksCARTimeSeries"/>
+	<property name="chartTitle" value="Banks CAR "/>
+	<property name="rangeAxisLabel" value="Banks"/>
+</bean>
+
+<bean id="banksCARTimeSeries" class="jmab.report.MicroSeriesReportVariables">
+	<property name="reportVariables" ref="banksCARReportVariables"/>
+</bean>
+
 <!--BANKS Liquidity Ratio-->
 
 <bean id="banksLRComputer" class="benchmark.report.MicroBankLRComputer">
@@ -5116,6 +5405,59 @@
 	<property name="reportVariables" ref="govInterestsBondsReportVariables"/>
 </bean>
 
+<!-- Average interbank rate -->
+
+<!-- dep Average interest Report -->
+<bean id="interbankAvInterestComputer" class="benchmark.report.AverageInterbankInterestRateComputer">
+	<property name="banksId"><util:constant static-field="benchmark.StaticValues.BANKS_ID" /></property>
+	<property name="stockId"><util:constant static-field="benchmark.StaticValues.SM_INTERBANK" /></property>
+</bean>
+
+<bean id="interbankAvInterestEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.AVINTERBANKINTERESTREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="interbankAvInterestTimeSeries"/>
+</bean>
+
+<bean id="interbankAvInterestCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="interbankAvInterestReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="banksInterbankAvInterest" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="interbankAvInterestCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.AVINTERBANKINTERESTREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="interbankAvInterestCSVReportVariables"/>
+</bean>
+
+<bean id="interbankAvInterestReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="interbankAvInterest"/>
+</bean>
+
+<bean id="interbankAvInterestTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="interbankAvInterestTimeSeries"/>
+	<property name="chartTitle" value="interbankAvInterest"/>
+	<property name="rangeAxisLabel" value="interbankAvInterest"/>
+</bean>
+
+<bean id="interbankAvInterestTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="interbankAvInterestReportVariables"/>
+</bean>
+
+
 <!--TOTAL LOANS SUPPLIED ON INTERBANK MARKET -->
 
 <bean id="microTotalInterBankLoansComputer" class="jmab.report.MicroTotalStockComputer">
@@ -5776,5 +6118,252 @@
 	<property name="fileName" value="FlowNet"/>
 	<property name="fileNameExtension" value=".csv" />
 </bean>
+
+<!-- Household bailout cost standard deviation Report -->
+<bean id="hhBailoutCostStdDevComputer" class="benchmark.report.HhBailoutCostStdDevComputer">
+	<property name="householdId"><util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" /></property>
+</bean>
+
+<bean id="hhBailoutCostStdDevEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.HHBAILOUTCOSTSTDDEVREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="hhBailoutCostStdDevTimeSeries"/>
+</bean>
+
+<bean id="hhBailoutCostStdDevCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="hhBailoutCostStdDevReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="hhBailoutCostStdDev" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="hhBailoutCostStdDevCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.HHBAILOUTCOSTSTDDEVREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="hhBailoutCostStdDevCSVReportVariables"/>
+</bean>
+
+<bean id="hhBailoutCostStdDevReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="hhBailoutCostStdDev"/>
+</bean>
+
+<bean id="hhBailoutCostStdDevTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="hhBailoutCostStdDevTimeSeries"/>
+	<property name="chartTitle" value="hhBailoutCostStdDev"/>
+	<property name="rangeAxisLabel" value="hhBailoutCostStdDev"/>
+</bean>
+
+<bean id="hhBailoutCostStdDevTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="hhBailoutCostStdDevReportVariables"/>
+</bean>
+
+<!-- Households average bailout cost Report -->
+
+<bean id="hhAvBailoutCostComputer" class="benchmark.report.HhAvBailoutCostComputer">
+	<property name="householdId"><util:constant static-field="benchmark.StaticValues.HOUSEHOLDS_ID" /></property>
+</bean>
+
+<bean id="hhAvBailoutCostEventReport" class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.HHAVBAILOUTCOSTREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="hhAvBailoutCostTimeSeries"/>
+</bean>
+
+<bean id="hhAvBailoutCostCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="hhAvBailoutCostReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="hhAvBailoutCost" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="hhAvBailoutCostCSVReport"	class="jmab.report.MacroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MacroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.HHAVBAILOUTCOSTREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="hhAvBailoutCostCSVReportVariables"/>
+</bean>
+
+<bean id="hhAvBailoutCostReportVariables" class="jmab.report.MacroVariableReport">
+	<property name="name" value="hhAvBailoutCost"/>
+</bean>
+
+<bean id="hhAvBailoutCostTimeSeriesChart" 
+		class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="hhAvBailoutCostTimeSeries"/>
+	<property name="chartTitle" value="hhAvBailoutCost"/>
+	<property name="rangeAxisLabel" value="hhAvBailoutCost"/>
+</bean>
+
+<bean id="hhAvBailoutCostTimeSeries" class="net.sourceforge.jabm.report.SeriesReportVariables">
+	<property name="reportVariables" ref="hhAvBailoutCostReportVariables"/>
+</bean>
+
+<!-- Banks markup computer -->
+<bean id="microBanksMarkupComputer" class="benchmark.report.MicroMarkupComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.BANKS_ID"/></property>
+</bean>
+
+<bean id="microBanksMarkupEventReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.BANKSMARKUPREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="microBanksMarkupTimeSeries"/>
+</bean>
+
+<bean id="microBanksMarkupCSVReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.BANKSMARKUPREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="microBanksMarkupCSVReportVariables"/>
+</bean>
+
+<bean id="microBanksMarkupCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="microBanksMarkupReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="banksMarkup" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="microBanksMarkupReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="name" value="Banks Dividends"/>
+	<property name="numberOfSeries" value="10"/>
+</bean>
+
+<bean id="microBanksMarkupTimeSeriesChart" class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="microBanksMarkupTimeSeries"/>
+	<property name="chartTitle" value="Dividends"/>
+	<property name="rangeAxisLabel" value="Banks"/>
+</bean>
+
+<bean id="microBanksMarkupTimeSeries" class="jmab.report.MicroSeriesReportVariables">
+	<property name="reportVariables" ref="microBanksMarkupReportVariables"/>
+</bean>
+
+<!-- cFirm markup computer -->
+<bean id="microCMarkupComputer" class="benchmark.report.MicroMarkupComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/></property>
+</bean>
+
+<bean id="microCMarkupEventReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.CMARKUPREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="microCMarkupTimeSeries"/>
+</bean>
+
+<bean id="microCMarkupCSVReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.CMARKUPREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="microCMarkupCSVReportVariables"/>
+</bean>
+
+<bean id="microCMarkupCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="microCMarkupReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="cFirmsMarkup" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="microCMarkupReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="name" value="cFirms Markup"/>
+	<property name="numberOfSeries" value="100"/>
+</bean>
+
+<bean id="microCMarkupTimeSeriesChart" class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="microCMarkupTimeSeries"/>
+	<property name="chartTitle" value="Markup"/>
+	<property name="rangeAxisLabel" value="cFirms"/>
+</bean>
+
+<bean id="microCMarkupTimeSeries" class="jmab.report.MicroSeriesReportVariables">
+	<property name="reportVariables" ref="microCMarkupReportVariables"/>
+</bean>
+
+<!-- kFirm markup computer -->
+<bean id="microKMarkupComputer" class="benchmark.report.MicroMarkupComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID"/></property>
+</bean>
+
+<bean id="microKMarkupEventReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent">
+		</bean>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.KMARKUPREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="microKMarkupTimeSeries"/>
+</bean>
+
+<bean id="microKMarkupCSVReport" class="jmab.report.MicroSimEventReport">
+	<property name="eventPrototype">
+		<bean class="jmab.events.MicroSimEvent"/>
+	</property>
+	<property name="variableId">
+	        <util:constant static-field="benchmark.StaticValues.KMARKUPREPORT_ID"/>
+	</property>
+	<property name="reportVariables" ref="microKMarkupCSVReportVariables"/>
+</bean>
+
+<bean id="microKMarkupCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="microKMarkupReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="kFirmsMarkup" />
+	<property name="fileNameExtension" value=".csv" />
+	<property name="passThrough" value="true" />
+</bean>
+
+<bean id="microKMarkupReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="name" value="cFirms Markup"/>
+	<property name="numberOfSeries" value="100"/>
+</bean>
+
+<bean id="microKMarkupTimeSeriesChart" class="net.sourceforge.jabm.view.TimeSeriesChart">
+	<property name="series" ref="microKMarkupTimeSeries"/>
+	<property name="chartTitle" value="Markup"/>
+	<property name="rangeAxisLabel" value="cFirms"/>
+</bean>
+
+<bean id="microKMarkupTimeSeries" class="jmab.report.MicroSeriesReportVariables">
+	<property name="reportVariables" ref="microKMarkupReportVariables"/>
+</bean>
+
 
 </beans>

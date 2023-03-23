@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--  "Innovation, Demand, and Finance in an Agent Based-Stock Flow Consistent model" 
+Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kinsella, S., Stiglitz, J.
+ -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<import resource="modelBenchmark.xml"/>
+	<import resource="reports.xml" />
+	
+	<bean id="simulationController" 
+			class="net.sourceforge.jabm.SpringSimulationController"
+			scope="singleton">
+			
+		<property name="simulationBeanName">
+		   <idref local="macroSimulation"/>
+		</property>
+	
+		<property name="numSimulations" value="1"/>	
+		
+		<property name="reports">
+			<list>
+				<ref bean="nominalGDPEventReport" />
+				<ref bean="nominalGDPCSVReport" />
+				<ref bean="realGDPEventReport" />
+				<ref bean="realGDPCSVReport" />
+				<ref bean="nominalInvestmentEventReport" />
+				<ref bean="nominalInvestmentCSVReport" />
+				<ref bean="unemploymentEventReport" />
+				<ref bean="unemploymentCSVReport" />
+				<ref bean="bankCreditEventReport" />
+				<ref bean="microBankCreditCSVReport" />
+				<ref bean="creditDegreeEventReport" />
+				<ref bean="creditDegreeCSVReport" />
+				<ref bean="realInvEventReport" />
+				<ref bean="microRealInvCSVReport" />
+				<ref bean="microRealSalesKEventReport" />
+				<ref bean="microRealSalesKCSVReport" />
+				<ref bean="microRealSalesCEventReport" />
+				<ref bean="microRealSalesCCSVReport" />
+				<ref bean="microNominalSalesKEventReport" />
+				<ref bean="microNominalSalesKCSVReport" />
+				<ref bean="microNominalSalesCEventReport" />
+				<ref bean="microNominalSalesCCSVReport" />
+				<ref bean="aggHHBSEventReport" />
+				<ref bean="aggHHBSCSVReport" />
+				<ref bean="aggCFBSEventReport" />
+				<ref bean="aggCFBSCSVReport" />
+				<ref bean="aggKFBSEventReport" />
+				<ref bean="aggKFBSCSVReport" />
+				<ref bean="aggBBSEventReport" />
+				<ref bean="aggBBSCSVReport" />
+				<ref bean="aggGBSEventReport" />
+				<ref bean="aggGBSCSVReport" />
+				<ref bean="aggCBBSEventReport" />
+				<ref bean="aggCBBSCSVReport" />
+				<ref bean="cAvPriceEventReport" />
+				<ref bean="cAvPriceCSVReport" />
+				<ref bean="cFirmsPricesEventReport" />
+				<ref bean="cFirmsPricesCSVReport" />
+				<ref bean="kAvPriceEventReport" />
+				<ref bean="kAvPriceCSVReport" />
+				<ref bean="loanAvInterestEventReport" />
+				<ref bean="loanAvInterestCSVReport" />
+				<ref bean="depAvInterestEventReport" />
+				<ref bean="depAvInterestCSVReport" />
+				<ref bean="depAvInterestBidEventReport" />
+				<ref bean="depAvInterestBidCSVReport" />
+				<ref bean="avWageEventReport" />
+				<ref bean="avWageCSVReport" />
+				<ref bean="avNetIncomeEventReport" />
+				<ref bean="avNetIncomeCSVReport" />
+				<ref bean="avNominalConsumptionEventReport" />
+				<ref bean="avNominalConsumptionCSVReport" />
+				<ref bean="giniEventReport" />
+				<ref bean="giniCSVReport" />
+				<ref bean="cGoodSupplierSwitchingRateEventReport" />
+				<ref bean="cGoodSupplierSwitchingRateCSVReport" />
+				<ref bean="kGoodSupplierSwitchingRateEventReport" />
+				<ref bean="kGoodSupplierSwitchingRateCSVReport" />
+				<ref bean="AveragePriceAllProducersEventReport" />
+				<ref bean="AveragePriceAllProducersCSVReport" />
+				<ref bean="kFirmsBankruptcyEventReport" />
+				<ref bean="kFirmsBankruptcyCSVReport" />
+				<ref bean="cFirmsBankruptcyEventReport" />
+				<ref bean="cFirmsBankruptcyCSVReport" />
+				<ref bean="banksBankruptcyEventReport" />
+				<ref bean="banksBankruptcyCSVReport" />
+				<ref bean="cAggConsCreditEventReport" />
+				<ref bean="cAggConsCreditCSVReport" />
+				<ref bean="kAggConsCreditEventReport" />
+				<ref bean="kAggConsCreditCSVReport" />
+				<ref bean="cCapacityEventReport" />
+				<ref bean="microCCapacityCSVReport" />	
+				<ref bean="cCapacityUtilizationEventReport" />
+				<ref bean="microCCapacityUtilizationCSVReport" />
+				<ref bean="banksCREventReport" />
+				<ref bean="banksCRCSVReport" />
+				<ref bean="banksCAREventReport" />
+				<ref bean="banksCARCSVReport" />
+				<ref bean="banksLREventReport" />
+				<ref bean="banksLRCSVReport" />
+				<ref bean="banksLossEventReport" />
+				<ref bean="banksLossCSVReport" />
+				<ref bean="microBailoutCostKEventReport" />
+				<ref bean="microBailoutCostKCSVReport" />
+				<ref bean="microBailoutCostCEventReport" />
+				<ref bean="microBailoutCostCCSVReport" />
+				<ref bean="microBailoutCostBanksEventReport" />
+				<ref bean="microBailoutCostBanksCSVReport" />
+				<!-- Added extra interbank reporters -->
+				<ref bean="microTotalInterBankLoansEventReport" />
+				<ref bean="microTotalInterBankLoansCSVReport" />
+				<ref bean="microTotalInterBankCreditObtainedEventReport" />
+				<ref bean="microTotalInterBankCreditObtainedCSVReport" />
+				<ref bean="microAverageInterBankAskRateEventReport" />
+				<ref bean="microAverageInterBankAskRateCSVReport" />
+				<ref bean="microTotalInterBankConstrainedCreditEventReport" />
+				<ref bean="microTotalInterBankConstrainedCreditCSVReport" />
+				<ref bean="microTotalInterBankDebtServiceEventReport" />
+				<ref bean="microTotalInterBankDebtServiceCSVReport" />
+				<!-- ANTOINE ADD 28 APRIL -->
+				<ref bean="microInterbankRateEventReport" />
+				<ref bean="microInterbankRateCSVReport" />
+				<ref bean="microInterbankDemandEventReport" />
+				<ref bean="microInterbankDemandCSVReport" />
+				<ref bean="microInterbankSupplyEventReport" />
+				<ref bean="microInterbankSupplyCSVReport" />
+				<ref bean="banksSpecificInterestEventReport" />
+				<ref bean="banksSpecificInterestCSVReport" />
+				<ref bean="banksDepositInterestEventReport" />
+				<ref bean="banksDepositInterestCSVReport" />
+				<ref bean="cbDepositInterestEventReport" />
+				<ref bean="cbDepositInterestCSVReport" />
+				<ref bean="cbAdvancesInterestEventReport" />
+				<ref bean="cbAdvancesInterestCSVReport" />
+				<ref bean="banksProfitsEventReport" />
+				<ref bean="banksProfitsCSVReport" />
+				<ref bean="microBanksMarkupEventReport" />
+				<ref bean="microBanksMarkupCSVReport" />
+				<ref bean="microCMarkupEventReport" />
+				<ref bean="microCMarkupCSVReport" />
+				<ref bean="microKMarkupEventReport" />
+				<ref bean="microKMarkupCSVReport" />
+				<ref bean="cFirmsProfitsEventReport" />
+				<ref bean="cFirmsProfitsCSVReport" />
+				<ref bean="kFirmsProfitsEventReport" />
+				<ref bean="kFirmsProfitsCSVReport" />
+				<ref bean="hhBailoutCostStdDevEventReport" />
+				<ref bean="hhBailoutCostStdDevCSVReport" />
+				<ref bean="hhAvBailoutCostEventReport" />
+				<ref bean="hhAvBailoutCostCSVReport" />
+				<ref bean="interbankAvInterestEventReport" />
+				<ref bean="interbankAvInterestCSVReport" />
+				<ref bean="TFMEventReport" />
+				<ref bean="TFMCSVReport" />
+				<ref bean="realCDesOutputEventReport" />
+				<ref bean="realCDesOutputCSVReport" />
+				<ref bean="realKDesOutputEventReport" />
+				<ref bean="realKDesOutputCSVReport" />
+				<ref bean="cEmployeeEventReport" />
+				<ref bean="cOCFEventReport" />
+				<ref bean="cOCFCSVReport" />
+				<ref bean="kOCFEventReport" />
+				<ref bean="kOCFCSVReport" />
+				<ref bean="microOutputKEventReport" />
+				<ref bean="microOutputKCSVReport" />
+				<ref bean="microOutputCEventReport" />
+				<ref bean="microOutputCCSVReport" />
+			</list>
+		</property>
+		
+		<property name="modelDescription" 
+			value="Caiani et Al. - Innovation, Demand, and Finance in an Agent Based-Stock Flow Consistent model"/>
+			
+	</bean>
+
+	<bean id="fileNamePrefix" class="net.sourceforge.jabm.util.MutableStringWrapper"
+		scope="singleton">
+		<constructor-arg value="data/" />
+	</bean>
+
+</beans>

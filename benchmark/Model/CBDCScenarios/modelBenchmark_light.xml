@@ -4024,13 +4024,13 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="logNormal1" class="jmab.distribution.LognormalDistribution">
 				<property name="prng" ref="prng" />
 				<property name="lognormalMean" value="0.0075" />
-				<property name="lognormalStDev" value="0.0025" />
+				<property name="lognormalStDev" value="0.005" />
 	</bean>
 	
 	<bean id="logNormal2" class="jmab.distribution.LognormalDistribution">
 				<property name="prng" ref="prng" />
 				<property name="lognormalMean" value="0.0075" />
-				<property name="lognormalStDev" value="0.0025" />
+				<property name="lognormalStDev" value="0.005" />
 	</bean>
 	
 	

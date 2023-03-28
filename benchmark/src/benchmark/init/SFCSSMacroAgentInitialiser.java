@@ -66,6 +66,7 @@ import jmab.strategies.TaxPayerStrategy;
 import jmab.strategies.DividendsStrategy;
 import jmab.strategies.MarkupPricingStrategy;
 import net.sourceforge.jabm.Population;
+import net.sourceforge.jabm.agent.Agent;
 import cern.jet.random.Uniform;
 import cern.jet.random.engine.RandomEngine;
 
@@ -716,6 +717,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			b.addValue(StaticValues.LAG_INTERBANKINTEREST,this.iAdv);
 			b.addValue(StaticValues.LAG_TOTINTERBANKSUPPLY,0);
 			b.addValue(StaticValues.LAG_TOTINTERBANKDEMAND,0);
+			b.addValue(StaticValues.LAG_DEPOSITS,(csDep+ksDep+hhsDep)/bSize);
 			Map<Integer, PassedValues> passedValues = b.getPassedValues();
 			passedValues.get(StaticValues.LAG_PROFITAFTERTAX).addObservation(b.getPassedValue(StaticValues.LAG_PROFITAFTERTAX, 0)/(1+gr), sim.getRound()-1);
 			passedValues.get(StaticValues.LAG_PROFITAFTERTAX).addObservation(passedValues.get(StaticValues.LAG_PROFITAFTERTAX).getObservation(-1)/(1+gr), sim.getRound()-2);
@@ -812,6 +814,35 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		govt.setAggregateValue(StaticValues.LAG_GOVTAX, (ksTax+csTax+hhsTax+bsTax));
 		govt.setAggregateValue(StaticValues.LAG_AVCPRICE, cPrice);
 		govt.setAggregateValue(StaticValues.LAG_AVKPRICE, kPrice);
+		
+		// Calculate nonBankMoneySupply
+		
+		double nonBankMoneySupply = govt.getNumericBalanceSheet()[0][StaticValues.SM_DEP]
+				+govt.getNumericBalanceSheet()[0][StaticValues.SM_RESERVES]
+				+govt.getNumericBalanceSheet()[0][StaticValues.SM_CASH];
+		
+		for (Agent i:cFirms.getAgents()){
+			ConsumptionFirm firm= (ConsumptionFirm) i;
+			nonBankMoneySupply +=firm.getNumericBalanceSheet()[0][StaticValues.SM_DEP];
+			nonBankMoneySupply += firm.getNumericBalanceSheet()[0][StaticValues.SM_RESERVES];
+			nonBankMoneySupply += firm.getNumericBalanceSheet()[0][StaticValues.SM_CASH];
+		}
+		
+		for (Agent i:kFirms.getAgents()){
+			CapitalFirm firm= (CapitalFirm) i;
+			nonBankMoneySupply +=firm.getNumericBalanceSheet()[0][StaticValues.SM_DEP];
+			nonBankMoneySupply += firm.getNumericBalanceSheet()[0][StaticValues.SM_RESERVES];
+			nonBankMoneySupply += firm.getNumericBalanceSheet()[0][StaticValues.SM_CASH];
+		}
+		
+		for (Agent i:households.getAgents()){
+			Households hh= (Households) i;
+			nonBankMoneySupply +=hh.getNumericBalanceSheet()[0][StaticValues.SM_DEP];
+			nonBankMoneySupply += hh.getNumericBalanceSheet()[0][StaticValues.SM_RESERVES];
+			nonBankMoneySupply += hh.getNumericBalanceSheet()[0][StaticValues.SM_CASH];
+		}
+		
+		govt.setAggregateValue(StaticValues.LAG_NONBANKMONEYSUPPLY, nonBankMoneySupply);
 		
 		double cFirmsTotalEquity = 0;
 		for(int i = 0 ; i < cSize ; i++){

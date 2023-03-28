@@ -248,6 +248,10 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 		double avKPrice = 0;
 		double cFirmTotalProfit = 0;
 		double cFirmTotalEquity = 0;
+
+		double nonBankMoneySupply = this.getNumericBalanceSheet()[0][StaticValues.SM_DEP]
+				+this.getNumericBalanceSheet()[0][StaticValues.SM_RESERVES]
+				+this.getNumericBalanceSheet()[0][StaticValues.SM_CASH];
 		
 		for (Agent i:cfpop.getAgents()){
 			ConsumptionFirm firm= (ConsumptionFirm) i;
@@ -255,17 +259,26 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 			avCPrice+=firm.getPrice();
 			cFirmTotalProfit+=firm.getPassedValue(StaticValues.LAG_PROFITAFTERTAX, 0);
 			cFirmTotalEquity+=firm.getPassedValue(StaticValues.LAG_NETWEALTH, 1);
+			nonBankMoneySupply +=firm.getNumericBalanceSheet()[0][StaticValues.SM_DEP];
+			nonBankMoneySupply += firm.getNumericBalanceSheet()[0][StaticValues.SM_RESERVES];
+			nonBankMoneySupply += firm.getNumericBalanceSheet()[0][StaticValues.SM_CASH];
 		}
 		
 		for (Agent i:kfpop.getAgents()){
 			CapitalFirm firm= (CapitalFirm) i;
 			tG+=firm.getPassedValue(StaticValues.LAG_TAXES, 0);
 			avKPrice+=firm.getPrice();
+			nonBankMoneySupply +=firm.getNumericBalanceSheet()[0][StaticValues.SM_DEP];
+			nonBankMoneySupply += firm.getNumericBalanceSheet()[0][StaticValues.SM_RESERVES];
+			nonBankMoneySupply += firm.getNumericBalanceSheet()[0][StaticValues.SM_CASH];
 		}
 		
 		for (Agent i:hhpop.getAgents()){
 			Households hh= (Households) i;
 			tG+=hh.getPassedValue(StaticValues.LAG_TAXES, 0);
+			nonBankMoneySupply +=hh.getNumericBalanceSheet()[0][StaticValues.SM_DEP];
+			nonBankMoneySupply += hh.getNumericBalanceSheet()[0][StaticValues.SM_RESERVES];
+			nonBankMoneySupply += hh.getNumericBalanceSheet()[0][StaticValues.SM_CASH];
 		}
 		
 		for (Agent i:bpop.getAgents()){
@@ -284,6 +297,8 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 		this.setAggregateValue(StaticValues.LAG_AVKPRICE, 
 				avKPrice);
 		double avCFirmCostOfEquity = cFirmTotalProfit/cFirmTotalEquity;
+		this.setAggregateValue(StaticValues.LAG_NONBANKMONEYSUPPLY, 
+				nonBankMoneySupply);
 		
 		this.setAggregateValue(StaticValues.LAG_AVCFIRMCOSTOFEQUITY, avCFirmCostOfEquity);
 	}

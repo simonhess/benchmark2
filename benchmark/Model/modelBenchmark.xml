@@ -84,6 +84,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark.StaticValues.LAG_AVCFIRMCOSTOFEQUITY" />
 					</key>
 				</entry>
+				<entry value-ref="pastNonBankMoneySupply">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_NONBANKMONEYSUPPLY" />
+					</key>
+				</entry>
 				
 			</map>
 		</property>
@@ -375,6 +380,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="pastAVcFirmCostOfEquity" class="jmab.expectations.TreeMapPassedValues"
+		scope="simulation">
+		<property name="nbLags" value="4"></property>
+	</bean>
+
+	<bean id="pastNonBankMoneySupply" class="jmab.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
@@ -2521,7 +2531,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<bean id="capitalDepositStrategy" scope="prototype" parent="strategy"
 		class="jmab.strategies.MostPayingDepositWithSwitching">
-		<property name="strategy" ref="switchingStrategy2" />
+		<property name="strategy" ref="switchingStrategy5" />
 		<!-- <property name="distribution" ref="logNormal1"/> -->
 	</bean>
 	
@@ -2835,7 +2845,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<bean id="consumptionDepositStrategy" scope="prototype" parent="strategy"
 		class="jmab.strategies.MostPayingDepositWithSwitching">
-		<property name="strategy" ref="switchingStrategy2" />
+		<property name="strategy" ref="switchingStrategy5" />
 		<!-- <property name="distribution" ref="logNormal1"/> -->
 	</bean>
 	
@@ -3060,6 +3070,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark.StaticValues.LAG_TOTINTERBANKDEMAND" />
 					</key>
 				</entry>
+				<entry value-ref="pastDeposits">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_DEPOSITS" />
+					</key>
+				</entry>
 			
 		</map>
 		</property>
@@ -3155,6 +3170,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="nbLags" value="4"></property>
 	</bean>
 	
+	<bean id="pastDeposits" class="jmab.expectations.TreeMapPassedValues"
+		scope="prototype">
+		<property name="nbLags" value="4"></property>
+	</bean>
 	
 	<bean id="banksMacroStrategy" scope="prototype"
 		class="jmab.strategies.MacroMultipleStrategy">
@@ -3316,7 +3335,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="banksBondStrategy" scope="prototype" parent="strategy"
-		class="benchmark.strategies.FullBondDemandStrategyReserves">
+		class="benchmark.strategies.FullBondDemandStrategyDeposits">
 	</bean>
 	
 <!--	<bean id="banksDepInterestStrategy" scope="prototype" parent="strategy"
@@ -3663,7 +3682,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<bean id="householdsDepositsStrategy" scope="prototype" parent="strategy"
 		class="jmab.strategies.MostPayingDepositWithSwitching">
-		<property name="strategy" ref="switchingStrategy2" />
+		<property name="strategy" ref="switchingStrategy5" />
 		<!-- <property name="distribution" ref="logNormal1"/> -->
 	</bean>
 	
@@ -4047,6 +4066,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="cFirmsUFCFReport" />
 				<ref bean="cFirmsRealSalesExpReport" />
 				<ref bean="kFirmsRealSalesExpReport" />
+				<ref bean="banksDepositsStockReport" />
+				<ref bean="banksBondsReport" />
 			</list>
 		</property>
 	</bean>
@@ -4239,6 +4260,54 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="cFirmsUFCFReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="numberOfSeries" value="100"/>
+	</bean>
+	
+	<!-- cFirms Bank Dep report -->
+	
+	<bean id="banksDepositsStockReport" class="jmab.report.MicroSimpleCSVReport">
+	<property name="computer" ref="banksDepositsStockComputer"/>
+	<property name="CSVreportVariable" ref="banksDepositsStockCSVReportVariables"/>
+	</bean>
+	
+	<bean id="banksDepositsStockComputer" class="benchmark.report.MicroStockVariableComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.BANKS_ID"/></property>
+	<property name="stockId"><util:constant static-field="benchmark.StaticValues.SM_DEP"/></property>
+	<property name="asset" value="false" />
+	</bean>
+	
+	<bean id="banksDepositsStockCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="banksDepositsStockReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="banksDepositsStock" />
+	<property name="passThrough" value="true" />
+	</bean>
+	
+	<bean id="banksDepositsStockReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="numberOfSeries" value="100"/>
+	</bean>
+	
+	<!-- cFirms Bank Bond report -->
+	
+	<bean id="banksBondsReport" class="jmab.report.MicroSimpleCSVReport">
+	<property name="computer" ref="banksBondsComputer"/>
+	<property name="CSVreportVariable" ref="banksBondsCSVReportVariables"/>
+	</bean>
+	
+	<bean id="banksBondsComputer" class="benchmark.report.MicroStockVariableComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.BANKS_ID"/></property>
+	<property name="stockId"><util:constant static-field="benchmark.StaticValues.SM_BONDS"/></property>
+	<property name="asset" value="true" />
+	</bean>
+	
+	<bean id="banksBondsCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="banksBondsReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="banksBonds" />
+	<property name="passThrough" value="true" />
+	</bean>
+	
+	<bean id="banksBondsReportVariables" class="jmab.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	

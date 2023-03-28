@@ -475,6 +475,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		// end interbank expectations
 		double[] deposit = new double[1];
 		deposit[0]=this.getNumericBalanceSheet()[1][StaticValues.SM_DEP];
+		this.addValue(StaticValues.LAG_DEPOSITS,this.getNumericBalanceSheet()[1][StaticValues.SM_DEP]);
 		this.getExpectation(StaticValues.EXPECTATIONS_DEPOSITS).addObservation(deposit);
 		this.cleanSM();
 	}

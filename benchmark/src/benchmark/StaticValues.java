@@ -284,6 +284,10 @@ public interface StaticValues {
 	public static int LAG_EBITDA=42;
 	public static int LAG_UNLEVEREDFREECASHFLOW=43;
 	
+	public static int LAG_NONBANKMONEYSUPPLY=44;
+	public static int LAG_DEPOSITS=45;
+	
+	
 	public static int SM_CASH=0;
 	public static int SM_DEP=1;
 	public static int SM_CONSGOOD=2;

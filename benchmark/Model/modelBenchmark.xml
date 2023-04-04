@@ -357,7 +357,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	<bean id="pastKPrice" class="jmab.expectations.TreeMapPassedValues"
 		scope="simulation">
-		<property name="nbLags" value="4"></property>
+		<property name="nbLags" value="20"></property>
 	</bean>
 	<bean id="pastAllPrice" class="jmab.expectations.TreeMapPassedValues"
 		scope="simulation">

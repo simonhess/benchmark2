@@ -20,11 +20,13 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 import benchmark.StaticValues;
 import benchmark.expectations.NoExpectation;
 import benchmark.strategies.InvestmentCapacityOperatingCashFlowExpected;
+import benchmark.strategies.RealLumpyCapitalDemandAdaptiveNPV;
 import jmab.agents.AbstractFirm;
 import jmab.agents.CreditDemander;
 import jmab.agents.DepositDemander;
@@ -40,7 +42,10 @@ import jmab.agents.PriceSetterWithTargets;
 import jmab.agents.ProfitsTaxPayer;
 import jmab.events.MacroTicEvent;
 import jmab.expectations.Expectation;
+import jmab.expectations.PassedValues;
+import jmab.expectations.TreeMapPassedValues;
 import jmab.population.MacroPopulation;
+import jmab.simulations.AbstractMacroSimulation;
 import jmab.simulations.MacroSimulation;
 import jmab.simulations.TwoStepMarketSimulation;
 import jmab.stockmatrix.CapitalGood;
@@ -973,6 +978,21 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		
 		// Get capital information
 		
+		Population govpop = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.GOVERNMENT_ID);
+		Government gov = (Government) govpop.getAgentList().get(0);
+		
+		AbstractMacroSimulation macroSim = (AbstractMacroSimulation)((SimulationController)this.scheduler).getSimulation();
+		Map<Integer, PassedValues> passedValues = macroSim.getPassedValues();
+		
+		// Computer average k Price over the last 20 periods
+		TreeMapPassedValues pastKprice = (TreeMapPassedValues)passedValues.get(StaticValues.LAG_KPRICE);
+
+		double avkPrice = 0;
+		for(int i =1; i<=pastKprice.getNbLags();i++) {
+			avkPrice+=pastKprice.getObservation(macroSim.getRound()-i);
+		}
+		avkPrice/=pastKprice.getNbLags();
+		
 		List<Item> capitalStock= this.getItemsStockMatrix(true, StaticValues.SM_CAPGOOD);
 		double amortisationCosts=0;
 		double capitalAmount=0;
@@ -980,7 +1000,12 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		double capLaborRatio = 0;
 		for (Item i: capitalStock){
 			CapitalGood capital= (CapitalGood)i;
-			amortisationCosts+=capital.getPrice()*capital.getQuantity()/capital.getCapitalAmortization();
+			if(this.getStrategy(StaticValues.STRATEGY_CAPITALDEMAND) instanceof RealLumpyCapitalDemandAdaptiveNPV) {
+				amortisationCosts+=avkPrice*capital.getQuantity()/capital.getCapitalAmortization();
+			}
+			else {
+				amortisationCosts+=capital.getPrice()*capital.getQuantity()/capital.getCapitalAmortization();
+			}
 			capitalAmount+=capital.getQuantity();
 			double prod = capital.getProductivity();
 			capacity+=capital.getQuantity()*prod;

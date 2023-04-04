@@ -37,6 +37,7 @@ import benchmark.strategies.FixedShareOfProfitsToPopulationAsShareOfWealthDivide
 import benchmark.strategies.IncomeWealthTaxStrategy;
 import benchmark.strategies.InvestmentCapacityOperatingCashFlowExpected;
 import benchmark.strategies.ProfitsWealthTaxStrategy;
+import benchmark.strategies.RealLumpyCapitalDemandAdaptiveNPV;
 import jmab.agents.CreditSupplier;
 import jmab.agents.DepositSupplier;
 import jmab.agents.GoodSupplier;
@@ -44,6 +45,7 @@ import jmab.agents.MacroAgent;
 import jmab.agents.SimpleAbstractAgent;
 import jmab.expectations.Expectation;
 import jmab.expectations.PassedValues;
+import jmab.expectations.TreeMapPassedValues;
 import jmab.init.AbstractMacroAgentInitialiser;
 import jmab.init.MacroAgentInitialiser;
 import jmab.population.MacroPopulation;
@@ -488,6 +490,18 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			double cCap = this.csKap/cSize;
 			double cCapPerPeriod=cCap/kMat;
 			double capitalValue=0;//Changed this, because we assume the capital stock to work fine until it becomes obsolete
+			if(c.getStrategy(StaticValues.STRATEGY_CAPITALDEMAND) instanceof RealLumpyCapitalDemandAdaptiveNPV) {
+				int age = (i%kMat);
+				for(int j = 0 ; j < kMat ; j++){
+					CapitalGood kGood = new CapitalGood(this.kPrice*cCapPerPeriod*(1-j/kAm)/Math.pow((1+gr),j), cCapPerPeriod, c, kFirm, 
+							this.kPrice/Math.pow((1+gr),j),kFirm.getCapitalProductivity(),kMat,(int)kAm,kFirm.getCapitalLaborRatio());
+					kGood.setAge(age);
+					kGood.setUnitCost(kUnitCost);
+					capitalValue+=kGood.getValue();
+					c.addItemStockMatrix(kGood, true, StaticValues.SM_CAPGOOD);
+				}
+				
+			}else {
 			for(int j = 0 ; j < kMat ; j++){
 				CapitalGood kGood = new CapitalGood(this.kPrice*cCapPerPeriod*(1-j/kAm)/Math.pow((1+gr),j), cCapPerPeriod, c, kFirm, 
 						this.kPrice/Math.pow((1+gr),j),kFirm.getCapitalProductivity(),kMat,(int)kAm,kFirm.getCapitalLaborRatio());
@@ -495,6 +509,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 				kGood.setUnitCost(kUnitCost);
 				capitalValue+=kGood.getValue();
 				c.addItemStockMatrix(kGood, true, StaticValues.SM_CAPGOOD);
+			}
 			}
 
 			//Previous cpaital supplier
@@ -860,6 +875,14 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		passedValues.get(StaticValues.LAG_ALLPRICE).addObservation(govt.getAggregateValue(StaticValues.LAG_ALLPRICE, 0)/(1+gr), sim.getRound()-1);
 		passedValues.get(StaticValues.LAG_CPRICE).addObservation(cPrice/(1+gr), sim.getRound()-1);
 		passedValues.get(StaticValues.LAG_KPRICE).addObservation(kPrice/(1+gr), sim.getRound()-1);
+		
+		
+		// Set past k prices so that c firms can use them to calculate amortisation costs as part of their normal units costs calculation 
+		TreeMapPassedValues pastKprice = (TreeMapPassedValues)passedValues.get(StaticValues.LAG_KPRICE);
+
+		for(int i =0; i<pastKprice.getNbLags();i++) {
+			pastKprice.addObservation(kPrice/Math.pow((1+gr),i),  sim.getRound()-i);
+		}
 		
 		macroSim.setPassedValues(passedValues);
 	}

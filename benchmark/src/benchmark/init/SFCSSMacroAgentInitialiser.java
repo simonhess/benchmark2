@@ -14,6 +14,8 @@
  */
 package benchmark.init;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import benchmark.StaticValues;
@@ -447,6 +449,10 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			k.addValue(StaticValues.LAG_TAXES,kTax);
 			k.computeExpectations();
 		}
+		
+		
+
+		
 
 		//Consumption Firms
 		int cInv = csInv/cSize;
@@ -460,9 +466,20 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		double cEBITDA=csEBITDA/cSize;
 		double cTax = csTax/cSize;
 		double cTotalLoan = csLoans/cSize;
+		
+		double cLoanCap = csLoans0/cSize*0.6598883366749332; //Amount of loans which are invested in capital
+		double cLoanRest = csLoans0/cSize*0.3401116633250668; //Amount of loans which are invested in other assets
+		
+		HashMap<Integer,ArrayList<Loan>> loanList = new HashMap<Integer,ArrayList<Loan>>();
+		
+		for(int k = 0;k<20;k++) {
+			ArrayList<Loan> aL = new ArrayList<Loan>();
+			loanList.put(k+1, aL);
+		}
+		
 		for(int i = 0 ; i < cSize ; i++){
 			ConsumptionFirmWagesEnd c = (ConsumptionFirmWagesEnd) cFirms.getAgentList().get(i);
-			
+
 			// Steady state values
 			InvestmentCapacityOperatingCashFlowExpected investmentStrategy = (InvestmentCapacityOperatingCashFlowExpected) c.getStrategy(benchmark.StaticValues.STRATEGY_INVESTMENT);
 			
@@ -499,8 +516,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 					kGood.setUnitCost(kUnitCost);
 					capitalValue+=kGood.getValue();
 					c.addItemStockMatrix(kGood, true, StaticValues.SM_CAPGOOD);
-				}
-				
+				}	
 			}else {
 			for(int j = 0 ; j < kMat ; j++){
 				CapitalGood kGood = new CapitalGood(this.kPrice*cCapPerPeriod*(1-j/kAm)/Math.pow((1+gr),j), cCapPerPeriod, c, kFirm, 
@@ -553,6 +569,39 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			//Loans
 			bankLoanIterator=bankId;
 			lMat = c.getLoanLength();
+			
+			if(c.getStrategy(StaticValues.STRATEGY_CAPITALDEMAND) instanceof RealLumpyCapitalDemandAdaptiveNPV) {
+							
+				// Create loans to finance capital goods
+				for(int j = 0 ; j <= lMat-1 ; j++){
+					Bank loanBank = (Bank) banks.getAgentList().get(bankLoanIterator);
+					bankLoanIterator++;
+					if(bankLoanIterator>=bSize)bankLoanIterator=0;
+					Loan loan = new Loan(cLoanCap*(1/(Math.pow((1+gr),j)))*((lMat-j)/lMat), loanBank, null, this.iLoans, j+1, c.getLoanAmortizationType(), (int)lMat);
+					loan.setInitialAmount(cLoanCap/Math.pow((1+gr),j));
+					loanBank.addItemStockMatrix(loan, true, StaticValues.SM_LOAN);
+					ArrayList<Loan> aL = loanList.get(loan.getAge());
+					aL.add(loan);
+					
+					//Set last period lender as previous lender in the firm's borrowing strategy
+					if (j==1){
+						CheapestLenderWithSwitching borrowingStrategy = (CheapestLenderWithSwitching) c.getStrategy(StaticValues.STRATEGY_BORROWING);
+						CreditSupplier previousCreditor= (CreditSupplier) bank;
+						borrowingStrategy.setPreviousLender(previousCreditor);
+					}
+				}
+				// Create loans to finance other assets
+				for(int j = 0 ; j <= lMat-1 ; j++){
+					Bank loanBank = (Bank) banks.getAgentList().get(bankLoanIterator);
+					bankLoanIterator++;
+					if(bankLoanIterator>=bSize)bankLoanIterator=0;
+					Loan loan = new Loan(cLoanRest*(1/(Math.pow((1+gr),j)))*((lMat-j)/lMat), loanBank, c, this.iLoans, j+1, c.getLoanAmortizationType(), (int)lMat);
+					loan.setInitialAmount(cLoanRest/Math.pow((1+gr),j));
+					c.addItemStockMatrix(loan, false, StaticValues.SM_LOAN);
+					loanBank.addItemStockMatrix(loan, true, StaticValues.SM_LOAN);
+				}
+				
+			}else {
 
 			for(int j = 0 ; j <= lMat-1 ; j++){
 				Bank loanBank = (Bank) banks.getAgentList().get(bankLoanIterator);
@@ -568,6 +617,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 					CreditSupplier previousCreditor= (CreditSupplier) bank;
 					borrowingStrategy.setPreviousLender(previousCreditor);
 				}
+			}
 
 			}
 
@@ -642,10 +692,42 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 				((AdaptiveExpectationDoubleExponentialSmoothing) cUFCFPerCapExp).setLevel(pastUFCFPerCap[0][0]);
 			}
 			
+			// Set past debt Interest values 
+			
+			Map<Integer, PassedValues> firmPassedValues = c.getPassedValues();
+			
+			TreeMapPassedValues pastDebtInterest = (TreeMapPassedValues)firmPassedValues.get(StaticValues.LAG_DEBTINTEREST);
+
+			for(int k =0; k<pastDebtInterest.getNbLags();k++) {
+				pastDebtInterest.addObservation(cTotalLoan*iLoans/Math.pow((1+gr),k),  sim.getRound()-k);
+			}
 			
 			c.addValue(StaticValues.LAG_TAXES,cTax);
 
 			c.computeExpectations();
+		}
+		
+		MacroAgent refAgent = (MacroAgent)cFirms.getAgentList().get(0);
+		// Distribute loans to firms proportionally to their remaining capacity
+		if(refAgent.getStrategy(StaticValues.STRATEGY_CAPITALDEMAND) instanceof RealLumpyCapitalDemandAdaptiveNPV) {
+		
+		for(int i = 0 ; i < cSize ; i++){
+			ConsumptionFirmWagesEnd c = (ConsumptionFirmWagesEnd) cFirms.getAgentList().get(i);
+			
+			int ageCapacity = (i%20);
+			
+			double investingFirmsEveryRound=cSize/20;
+			double loansPerFirm=100/investingFirmsEveryRound;
+			
+			ArrayList<Loan> aL = loanList.get(ageCapacity+1);
+			
+			for(int k = 0;k<loansPerFirm;k++) {
+				Loan l =aL.remove(0);
+				l.setLiabilityHolder(c);
+				c.addItemStockMatrix(l, false, StaticValues.SM_LOAN);
+			}
+		}
+		
 		}
 
 		//Banks
@@ -848,6 +930,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			nonBankMoneySupply +=firm.getNumericBalanceSheet()[0][StaticValues.SM_DEP];
 			nonBankMoneySupply += firm.getNumericBalanceSheet()[0][StaticValues.SM_RESERVES];
 			nonBankMoneySupply += firm.getNumericBalanceSheet()[0][StaticValues.SM_CASH];
+			
 		}
 		
 		for (Agent i:households.getAgents()){

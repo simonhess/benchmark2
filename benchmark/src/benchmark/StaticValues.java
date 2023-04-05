@@ -286,6 +286,7 @@ public interface StaticValues {
 	
 	public static int LAG_NONBANKMONEYSUPPLY=44;
 	public static int LAG_DEPOSITS=45;
+	public static int LAG_DEBTINTEREST=46;
 	
 	
 	public static int SM_CASH=0;

@@ -632,7 +632,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		expUnleveredFreeCashFlowPerCapacity[0]=(operatingNetCashFlow+this.debtInterests)/this.getPassedValue(StaticValues.LAG_CAPACITY, 0);
 		this.addValue(StaticValues.LAG_UNLEVEREDFREECASHFLOW,(operatingNetCashFlow+this.debtInterests));
 		this.getExpectation(StaticValues.EXPECTATIONS_UNLEVEREDFREECASHFLOWPERCAPACITY).addObservation(expUnleveredFreeCashFlowPerCapacity);
-		
+		this.addValue(StaticValues.LAG_DEBTINTEREST,(this.debtInterests));
 	}
 
 	/**
@@ -984,10 +984,23 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		AbstractMacroSimulation macroSim = (AbstractMacroSimulation)((SimulationController)this.scheduler).getSimulation();
 		Map<Integer, PassedValues> passedValues = macroSim.getPassedValues();
 		
+		// Compute average debt interest
+		
+		Map<Integer, PassedValues> firmPassedValues = this.getPassedValues();
+		
+		TreeMapPassedValues pastDebtInterest = (TreeMapPassedValues)firmPassedValues.get(StaticValues.LAG_DEBTINTEREST);
+
+		double avDebtInterest = 0;
+		for(int i =1; i<=pastDebtInterest.getNbLags();i++) {
+			avDebtInterest+=pastDebtInterest.getObservation(macroSim.getRound()-i);
+		}
+		avDebtInterest/=pastDebtInterest.getNbLags();
+		
 		// Computer average k Price over the last 20 periods
 		TreeMapPassedValues pastKprice = (TreeMapPassedValues)passedValues.get(StaticValues.LAG_KPRICE);
 
 		double avkPrice = 0;
+		
 		for(int i =1; i<=pastKprice.getNbLags();i++) {
 			avkPrice+=pastKprice.getObservation(macroSim.getRound()-i);
 		}
@@ -1023,12 +1036,19 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		double normalOutput = capacity*targetCapacityUtlization;
 		
 		double normalLaborCosts =this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*targetCapacityUtlization*(capitalAmount/capLaborRatio);
-				
+		
+		double capitalCosts = 0;
+		if(this.getStrategy(StaticValues.STRATEGY_CAPITALDEMAND) instanceof RealLumpyCapitalDemandAdaptiveNPV){
+			capitalCosts=avDebtInterest;
+		}else{
+			capitalCosts=this.debtInterests;
+		}
+		
 		// Calculate normal unit costs
 		
-		double normalUnitCosts = (normalLaborCosts+this.debtInterests+amortisationCosts)/normalOutput;
+		double normalUnitCosts = (normalLaborCosts+capitalCosts+amortisationCosts)/normalOutput;
 		
-		
+
 		return normalUnitCosts;
 		}
 		

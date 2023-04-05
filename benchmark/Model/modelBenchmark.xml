@@ -2382,6 +2382,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
+	
+		<bean id="pastDebtInterest" class="jmab.expectations.TreeMapPassedValues"
+		scope="prototype">
+		<property name="nbLags" value="20"/>
+	</bean>
 
 	<bean id="pastTaxes" class="jmab.expectations.TreeMapPassedValues"
 		scope="prototype">
@@ -2740,6 +2745,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<key><util:constant static-field="benchmark.StaticValues.LAG_EBITDA"/></key></entry>
 			<entry value-ref="pastUnleveredFreeCashFlow"> 
 				<key><util:constant static-field="benchmark.StaticValues.LAG_UNLEVEREDFREECASHFLOW"/></key></entry>
+				<entry value-ref="pastDebtInterest"> 
+				<key><util:constant static-field="benchmark.StaticValues.LAG_DEBTINTEREST"/></key></entry>
 		</map>
 		</property>
 		<property name="numberMarkets" value="9" />

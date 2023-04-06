@@ -912,31 +912,16 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 	public double getPriceLowerBound() {
 					
 		double normalUnitCosts = 0;
-
-		if (this.getRequiredWorkers() > 0) {
-			
-			// Calculate normal unit costs
-			
-			normalUnitCosts = (this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*this.getRequiredWorkers()+this.debtInterests)/ this.getDesiredOutput();
-			
-			return normalUnitCosts;
-
-		} else {
-			CapitalGood inventoriesLeft = (CapitalGood) this.getItemStockMatrix(true, StaticValues.SM_CAPGOOD);
-			if (inventoriesLeft.getQuantity() == 0) {
-				return 0;
-			} else {
-				double residualOutput = inventoriesLeft.getQuantity();
-				double requiredWorkers = residualOutput/ this.getLaborProductivity();
-				
-				// Calculate normal unit costs
-				
-				normalUnitCosts = (this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*requiredWorkers+this.debtInterests)/ residualOutput;
-				
-				return normalUnitCosts;
-			}
-
-		}
+		
+		double expSales = this.getExpectation(StaticValues.EXPECTATIONS_REALSALES).getExpectation();
+		double requiredWorkers = expSales/ this.getLaborProductivity();
+		
+		// Calculate normal unit costs with expected sales as reference variable
+		
+		normalUnitCosts = (this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*requiredWorkers+this.debtInterests)/ expSales;
+		
+		return normalUnitCosts;
+		
 	}
 
 	/* (non-Javadoc)

@@ -467,14 +467,11 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		double cTax = csTax/cSize;
 		double cTotalLoan = csLoans/cSize;
 		
-		double cLoanCap = csLoans0/cSize*0.6598883366749332; //Amount of loans which are invested in capital
-		double cLoanRest = csLoans0/cSize*0.3401116633250668; //Amount of loans which are invested in other assets
-		
-		HashMap<Integer,ArrayList<Loan>> loanList = new HashMap<Integer,ArrayList<Loan>>();
+		HashMap<Integer,ArrayList<CapitalGood>> capList = new HashMap<Integer,ArrayList<CapitalGood>>();
 		
 		for(int k = 0;k<20;k++) {
-			ArrayList<Loan> aL = new ArrayList<Loan>();
-			loanList.put(k+1, aL);
+			ArrayList<CapitalGood> cL = new ArrayList<CapitalGood>();
+			capList.put(k, cL);
 		}
 		
 		for(int i = 0 ; i < cSize ; i++){
@@ -508,15 +505,17 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			double cCapPerPeriod=cCap/kMat;
 			double capitalValue=0;//Changed this, because we assume the capital stock to work fine until it becomes obsolete
 			if(c.getStrategy(StaticValues.STRATEGY_CAPITALDEMAND) instanceof RealLumpyCapitalDemandAdaptiveNPV) {
-				int age = (i%kMat);
 				for(int j = 0 ; j < kMat ; j++){
 					CapitalGood kGood = new CapitalGood(this.kPrice*cCapPerPeriod*(1-j/kAm)/Math.pow((1+gr),j), cCapPerPeriod, c, kFirm, 
 							this.kPrice/Math.pow((1+gr),j),kFirm.getCapitalProductivity(),kMat,(int)kAm,kFirm.getCapitalLaborRatio());
-					kGood.setAge(age);
+					kGood.setAge(j);
 					kGood.setUnitCost(kUnitCost);
 					capitalValue+=kGood.getValue();
-					c.addItemStockMatrix(kGood, true, StaticValues.SM_CAPGOOD);
-				}	
+					//c.addItemStockMatrix(kGood, true, StaticValues.SM_CAPGOOD);
+					ArrayList<CapitalGood> cL = capList.get(j);
+					cL.add(kGood);
+				}
+				
 			}else {
 			for(int j = 0 ; j < kMat ; j++){
 				CapitalGood kGood = new CapitalGood(this.kPrice*cCapPerPeriod*(1-j/kAm)/Math.pow((1+gr),j), cCapPerPeriod, c, kFirm, 
@@ -572,35 +571,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			
 			if(c.getStrategy(StaticValues.STRATEGY_CAPITALDEMAND) instanceof RealLumpyCapitalDemandAdaptiveNPV) {
 							
-				// Create loans to finance capital goods
-				for(int j = 0 ; j <= lMat-1 ; j++){
-					Bank loanBank = (Bank) banks.getAgentList().get(bankLoanIterator);
-					bankLoanIterator++;
-					if(bankLoanIterator>=bSize)bankLoanIterator=0;
-					Loan loan = new Loan(cLoanCap*(1/(Math.pow((1+gr),j)))*((lMat-j)/lMat), loanBank, null, this.iLoans, j+1, c.getLoanAmortizationType(), (int)lMat);
-					loan.setInitialAmount(cLoanCap/Math.pow((1+gr),j));
-					loanBank.addItemStockMatrix(loan, true, StaticValues.SM_LOAN);
-					ArrayList<Loan> aL = loanList.get(loan.getAge());
-					aL.add(loan);
-					
-					//Set last period lender as previous lender in the firm's borrowing strategy
-					if (j==1){
-						CheapestLenderWithSwitching borrowingStrategy = (CheapestLenderWithSwitching) c.getStrategy(StaticValues.STRATEGY_BORROWING);
-						CreditSupplier previousCreditor= (CreditSupplier) bank;
-						borrowingStrategy.setPreviousLender(previousCreditor);
-					}
-				}
-				// Create loans to finance other assets
-				for(int j = 0 ; j <= lMat-1 ; j++){
-					Bank loanBank = (Bank) banks.getAgentList().get(bankLoanIterator);
-					bankLoanIterator++;
-					if(bankLoanIterator>=bSize)bankLoanIterator=0;
-					Loan loan = new Loan(cLoanRest*(1/(Math.pow((1+gr),j)))*((lMat-j)/lMat), loanBank, c, this.iLoans, j+1, c.getLoanAmortizationType(), (int)lMat);
-					loan.setInitialAmount(cLoanRest/Math.pow((1+gr),j));
-					c.addItemStockMatrix(loan, false, StaticValues.SM_LOAN);
-					loanBank.addItemStockMatrix(loan, true, StaticValues.SM_LOAN);
-				}
-				
+
 			}else {
 
 			for(int j = 0 ; j <= lMat-1 ; j++){
@@ -708,7 +679,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		}
 		
 		MacroAgent refAgent = (MacroAgent)cFirms.getAgentList().get(0);
-		// Distribute loans to firms proportionally to their remaining capacity
+		// Distribute loans to firms proportionally to the financial value of their capacity
 		if(refAgent.getStrategy(StaticValues.STRATEGY_CAPITALDEMAND) instanceof RealLumpyCapitalDemandAdaptiveNPV) {
 		
 		for(int i = 0 ; i < cSize ; i++){
@@ -717,14 +688,46 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			int ageCapacity = (i%20);
 			
 			double investingFirmsEveryRound=cSize/20;
-			double loansPerFirm=100/investingFirmsEveryRound;
+			double loansPerFirm=cSize/investingFirmsEveryRound;
 			
-			ArrayList<Loan> aL = loanList.get(ageCapacity+1);
+			ArrayList<CapitalGood> cL = capList.get(ageCapacity);
 			
-			for(int k = 0;k<loansPerFirm;k++) {
-				Loan l =aL.remove(0);
-				l.setLiabilityHolder(c);
-				c.addItemStockMatrix(l, false, StaticValues.SM_LOAN);
+			double capValue = 0;
+			
+			for(int k = 0;k<loansPerFirm;k++) {	
+				CapitalGood kGood = cL.remove(0);
+				kGood.setAssetHolder(c);
+				c.addItemStockMatrix(kGood, true, StaticValues.SM_CAPGOOD);
+				capValue+=kGood.getValue();
+			}
+			
+			double capRatio = capValue/54406.30427561643;
+			
+			double loanValue = csLoans*capRatio;
+			
+			double aLSum = 0;
+			
+			double loanPerBank = loanValue/banks.getSize();
+			
+			for(int k = 0;k<banks.getSize();k++) {
+			
+				int j = ageCapacity;
+				Bank loanBank = (Bank) banks.getAgentList().get(bankLoanIterator);
+				bankLoanIterator++;
+				if(bankLoanIterator>=bSize)bankLoanIterator=0;
+				Loan loan = new Loan(loanPerBank, loanBank, null, this.iLoans, j+1, c.getLoanAmortizationType(), (int)lMat);
+				loan.setInitialAmount(loanPerBank*lMat/(lMat-ageCapacity));
+				loanBank.addItemStockMatrix(loan, true, StaticValues.SM_LOAN);
+				loan.setLiabilityHolder(c);
+				c.addItemStockMatrix(loan, false, StaticValues.SM_LOAN);
+				
+				//Set last period lender as previous lender in the firm's borrowing strategy
+				if (k==0){
+					CheapestLenderWithSwitching borrowingStrategy = (CheapestLenderWithSwitching) c.getStrategy(StaticValues.STRATEGY_BORROWING);
+					CreditSupplier previousCreditor= (CreditSupplier) loanBank;
+					borrowingStrategy.setPreviousLender(previousCreditor);
+				}
+					
 			}
 		}
 		

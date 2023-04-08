@@ -2170,9 +2170,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="numberPeriod" value="4"/>
 		<property name="nbVariables" value="1"/>
 		<property name="adaptiveParam" value="0"/>
-		<property name="alpha" value="0.1"/>
-		<property name="beta" value="0.1"/>
-		<property name="trend" value="0.005"/>
+		<property name="alpha" value="0.05"/>
+		<property name="beta" value="0.05"/>
+		<property name="trend" value="0.0075"/>
 		<property name="weights">
 			<array>
 				<array>
@@ -2196,9 +2196,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="numberPeriod" value="4"/>
 		<property name="nbVariables" value="1"/>
 		<property name="adaptiveParam" value="0"/>
-		<property name="alpha" value="0.1"/>
-		<property name="beta" value="0.1"/>
-		<property name="trend" value="0.005"/>
+		<property name="alpha" value="0.05"/>
+		<property name="beta" value="0.05"/>
+		<property name="trend" value="0.0075"/>
 		<property name="weights">
 			<array>
 				<array>

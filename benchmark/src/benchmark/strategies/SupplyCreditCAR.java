@@ -18,6 +18,7 @@ import java.util.List;
 
 import benchmark.StaticValues;
 import benchmark.agents.Bank;
+import jmab.expectations.Expectation;
 import jmab.population.MacroPopulation;
 import jmab.stockmatrix.InterestBearingItem;
 import jmab.stockmatrix.Item;
@@ -26,7 +27,7 @@ import jmab.strategies.SupplyCreditStrategy;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**
- * @author Alessandro Caiani and Antoine Godin
+ * @author Simon Hess
  *
  */
 @SuppressWarnings("serial")
@@ -41,34 +42,13 @@ public class SupplyCreditCAR extends AbstractStrategy implements
 		
 		Bank b = (Bank) this.getAgent();
 		
-		
-		double expectedProfits = 0;
-
-		double depositsValue=0;
-		for(List<Item> list:b.getAssetStock()) {
-			for(Item i:list) {
-				if(i instanceof InterestBearingItem) {
-				InterestBearingItem iI = (InterestBearingItem) i;
-				expectedProfits+=iI.getValue()*iI.getInterestRate();
-				}
-			}
-			
-		}
-
-		for(List<Item> list:b.getLiabilityStock()) {
-			for(Item i:list) {
-				if(i instanceof InterestBearingItem) {
-				InterestBearingItem iI = (InterestBearingItem) i;
-				expectedProfits-=iI.getValue()*iI.getInterestRate();
-				}
-			}
-			
-		}
-		ProfitsWealthTaxStrategy strategy = (ProfitsWealthTaxStrategy) b.getStrategy(StaticValues.STRATEGY_TAXES);
-		double expectedAfterTaxProfits = expectedProfits*strategy.getProfitTaxRate();
-		double expAfterTaxProfits=expectedAfterTaxProfits;
+		Expectation exp = b.getExpectation(StaticValues.EXPECTATIONS_PROFITAFTERTAX);
+		double expAfterTaxProfits=exp.getExpectation();
 		
 		double expNW = b.getPassedValue(StaticValues.LAG_NETWEALTH, 1)+expAfterTaxProfits;
+		
+		
+		
 		
 		// Calculate principal payment
 		

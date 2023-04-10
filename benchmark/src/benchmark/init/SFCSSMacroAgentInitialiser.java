@@ -467,6 +467,8 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		double cTax = csTax/cSize;
 		double cTotalLoan = csLoans/cSize;
 		
+		double csCapFinancialValue=0;
+		
 		HashMap<Integer,ArrayList<CapitalGood>> capList = new HashMap<Integer,ArrayList<CapitalGood>>();
 		
 		for(int k = 0;k<20;k++) {
@@ -514,6 +516,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 					//c.addItemStockMatrix(kGood, true, StaticValues.SM_CAPGOOD);
 					ArrayList<CapitalGood> cL = capList.get(j);
 					cL.add(kGood);
+					csCapFinancialValue+=kGood.getValue();
 				}
 				
 			}else {
@@ -700,12 +703,10 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 				c.addItemStockMatrix(kGood, true, StaticValues.SM_CAPGOOD);
 				capValue+=kGood.getValue();
 			}
-			
-			double capRatio = capValue/54406.30427561643;
+
+			double capRatio = capValue/csCapFinancialValue;
 			
 			double loanValue = csLoans*capRatio;
-			
-			double aLSum = 0;
 			
 			double loanPerBank = loanValue/banks.getSize();
 			

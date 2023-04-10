@@ -833,6 +833,18 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			}
 			bDepExp.setPassedValues(passedbDep);
 			
+			Expectation bProfitExp = b.getExpectation(StaticValues.EXPECTATIONS_PROFITAFTERTAX);
+			nbObs = bProfitExp .getNumberPeriod();
+			double[][] passedProfit = new double[nbObs][2];
+			for(int j = 0; j<nbObs; j++){
+				passedProfit[j][0]=(bProfit-bTax)*(1+distr.nextDouble());
+				passedProfit[j][1]=(bProfit-bTax)*(1+distr.nextDouble());
+			}
+			if(bProfitExp instanceof AdaptiveExpectationDoubleExponentialSmoothing) {
+				((AdaptiveExpectationDoubleExponentialSmoothing) bProfitExp).setLevel(passedProfit[0][0]);
+			}
+			bProfitExp.setPassedValues(passedProfit);
+			
 			b.addValue(StaticValues.LAG_TAXES,bTax);
 			
 			double liquidityRatio;

@@ -44,7 +44,7 @@ import net.sourceforge.jabm.strategy.AbstractStrategy;
  * @author Simon Hess
  * 
  * With this strategy banks pay out dividends based on their CAR at the end of the period. If the CAR (based on current assets and net wealth minus profits) is above the target the bank pays out
- * all profits. If the CAR is below the target banks pay out a fraction of their profits to recapitalize themselves.
+ * all profits plus a fraction of excess capital. If the CAR is below the target banks pay out a fraction of their profits to recapitalize themselves.
  * 
  */
 @SuppressWarnings("serial")
@@ -137,14 +137,14 @@ DividendsStrategy {
 				
 
 				if (targetedCapitalRatio >= actualCapitalRatio) {
-
+					
 					double div = Math.max(0, profits-(targetCapital-actualCapital));
 					//div=profits;
 					bank.setDividends(div);
 				}
 				else if (actualCapitalRatio > targetedCapitalRatio) {
 
-					double div = profits+(actualCapital-targetCapital);
+					double div = profits+(actualCapital-targetCapital)*0.25;
 					//div=profits;
 					bank.setDividends(div);
 				}

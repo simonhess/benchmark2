@@ -289,6 +289,7 @@ public interface StaticValues {
 	public static int LAG_DEPOSITS=45;
 	public static int LAG_DEBTINTEREST=46;
 	
+	public static int LAG_AVCFIRMEQUITYRATIO=47;
 	
 	public static int SM_CASH=0;
 	public static int SM_DEP=1;

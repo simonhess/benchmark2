@@ -248,6 +248,7 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 		double avKPrice = 0;
 		double cFirmTotalProfit = 0;
 		double cFirmTotalEquity = 0;
+		double cFirmTotalLoans = 0;
 
 		double nonBankMoneySupply = this.getNumericBalanceSheet()[0][StaticValues.SM_DEP]
 				+this.getNumericBalanceSheet()[0][StaticValues.SM_RESERVES]
@@ -262,6 +263,9 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 			nonBankMoneySupply +=firm.getNumericBalanceSheet()[0][StaticValues.SM_DEP];
 			nonBankMoneySupply += firm.getNumericBalanceSheet()[0][StaticValues.SM_RESERVES];
 			nonBankMoneySupply += firm.getNumericBalanceSheet()[0][StaticValues.SM_CASH];
+			for (Item loan:firm.getItemsStockMatrix(false, StaticValues.SM_LOAN)){
+				cFirmTotalLoans+=loan.getValue();
+			}
 		}
 		
 		for (Agent i:kfpop.getAgents()){
@@ -301,6 +305,7 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 				nonBankMoneySupply);
 		
 		this.setAggregateValue(StaticValues.LAG_AVCFIRMCOSTOFEQUITY, avCFirmCostOfEquity);
+		this.setAggregateValue(StaticValues.LAG_AVCFIRMEQUITYRATIO, cFirmTotalEquity/(cFirmTotalEquity+cFirmTotalLoans));
 	}
 	
 	protected void updateExpectations() {

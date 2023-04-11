@@ -89,6 +89,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark.StaticValues.LAG_NONBANKMONEYSUPPLY" />
 					</key>
 				</entry>
+				<entry value-ref="pastAVcFirmEquityRatio">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.LAG_AVCFIRMEQUITYRATIO" />
+					</key>
+				</entry>
 				
 			</map>
 		</property>
@@ -385,6 +390,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 
 	<bean id="pastNonBankMoneySupply" class="jmab.expectations.TreeMapPassedValues"
+		scope="simulation">
+		<property name="nbLags" value="4"></property>
+	</bean>
+	
+	<bean id="pastAVcFirmEquityRatio" class="jmab.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>

@@ -964,6 +964,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			cFirmsTotalEquity+=c.getPassedValue(StaticValues.LAG_NETWEALTH, 0);
 		}	
 		govt.setAggregateValue(StaticValues.LAG_AVCFIRMCOSTOFEQUITY, (cProfit-cTax)/cFirmsTotalEquity);
+		govt.setAggregateValue(StaticValues.LAG_AVCFIRMEQUITYRATIO, cFirmsTotalEquity/(csLoans+cFirmsTotalEquity));
 		
 		// Set lagged values for the second last period
 		

@@ -4114,6 +4114,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="kFirmsRealSalesExpReport" />
 				<ref bean="banksDepositsStockReport" />
 				<ref bean="banksBondsReport" />
+				<ref bean="cFirmsInvestmentTargetReport" />
+				
 			</list>
 		</property>
 	</bean>
@@ -4354,6 +4356,28 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="banksBondsReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="numberOfSeries" value="100"/>
+	</bean>
+	
+	<!-- cFirms Investment target report -->
+	
+	<bean id="cFirmsInvestmentTargetReport" class="jmab.report.MicroSimpleCSVReport">
+	<property name="computer" ref="cFirmsInvestmentTargetComputer"/>
+	<property name="CSVreportVariable" ref="cFirmsInvestmentTargetCSVReportVariables"/>
+	</bean>
+	
+	<bean id="cFirmsInvestmentTargetComputer" class="benchmark.report.MicroTargetInvestmentComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/></property>
+	</bean>
+	
+	<bean id="cFirmsInvestmentTargetCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="cFirmsInvestmentTargetReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="cFirmsInvestmentTarget" />
+	<property name="passThrough" value="true" />
+	</bean>
+	
+	<bean id="cFirmsInvestmentTargetReportVariables" class="jmab.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	

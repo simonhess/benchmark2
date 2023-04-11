@@ -18,6 +18,7 @@ import java.nio.ByteBuffer;
 import java.util.List;
 
 import benchmark.StaticValues;
+import benchmark.agents.Bank;
 import benchmark.agents.CapitalFirm;
 import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.Government;
@@ -32,6 +33,7 @@ import jmab.stockmatrix.Item;
 import jmab.strategies.RealCapitalDemandStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
+import net.sourceforge.jabm.agent.Agent;
 import net.sourceforge.jabm.distribution.AbstractDelegatedDistribution;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
@@ -83,22 +85,27 @@ public class RealLumpyCapitalDemandAdaptiveNPV extends AbstractStrategy implemen
 			}
 		double desiredCapacity= (1+investor.getDesiredCapacityGrowth())*currentCapacity;
 		
-		ConsumptionFirm c = (ConsumptionFirm) this.getAgent();
-		
-		double debtValue = 0;
-		for (Item i:c.getItemsStockMatrix(false, StaticValues.SM_LOAN)){
-			debtValue+=i.getValue();
+		double avInterest=0;
+		Population banks =((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.BANKS_ID);
+		double inter=0;
+		double n=(double) banks.getSize();
+		for (Agent b:banks.getAgents()){
+			Bank bank = (Bank) b;
+			if (bank.getNumericBalanceSheet()[0][StaticValues.SM_LOAN]!=0&&bank.getNetWealth()>0){
+				inter+=bank.getPassedValue(StaticValues.LAG_LOANINTEREST, 1);
+			}
+			else{
+				n-=1;
+			}
 		}
-		
-		double equityValue = c.getNetWealth();
-		
-		double costOfDebt = c.getDebtInterests()/debtValue;
+		avInterest=inter/n;
 		
 		Population govpop = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.GOVERNMENT_ID);
 		Government gov = (Government) govpop.getAgentList().get(0);
 		double costOfEquity = gov.getAggregateValue(StaticValues.LAG_AVCFIRMCOSTOFEQUITY, 1);
+		double equityRatio = gov.getAggregateValue(StaticValues.LAG_AVCFIRMEQUITYRATIO, 1);
 		
-		double wacc = equityValue/(equityValue+debtValue)*costOfEquity+debtValue/(equityValue+debtValue)*costOfDebt;
+		double wacc = equityRatio*costOfEquity+(1-equityRatio)*avInterest;
 
 		double desInv = desiredCapacity-currentCapacity;
 		
@@ -112,7 +119,6 @@ public class RealLumpyCapitalDemandAdaptiveNPV extends AbstractStrategy implemen
 			double expUFCF=desInv*expUFCFCapRatio.getExpectation(i);
 			NPV += expUFCF/Math.pow((1+wacc), i);
 		}
-		
 		
 		if (desiredCapacity>currentCapacity&&NPV>0){
 			this.investment+=adaptiveParameter*distribution.nextDouble();
@@ -207,6 +213,14 @@ public class RealLumpyCapitalDemandAdaptiveNPV extends AbstractStrategy implemen
 
 	public void setDistribution(AbstractDelegatedDistribution distribution) {
 		this.distribution = distribution;
+	}
+	
+	public double getInvestment() {
+		return investment;
+	}
+
+	public void setInvestment(double investment) {
+		this.investment = investment;
 	}
 	
 	

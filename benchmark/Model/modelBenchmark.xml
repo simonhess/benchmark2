@@ -477,7 +477,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	
-	<bean id="creditMarket" class="jmab.simulations.SimpleMarketSimulation" scope="simulation">
+	<bean id="creditMarket" class="jmab.simulations.SimpleCreditMarketSimulation" scope="simulation">
 		<property name="transaction" ref="creditMktTransactionMechanism"/>
 		<property name="sellersId">
 			<list>
@@ -495,7 +495,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="scheduler" ref="simulationController"/>
 		<property name="ticId"><util:constant static-field="benchmark.StaticValues.TIC_CREDITMARKET" /></property>
 		<property name="initialiser" ref="creditMarketInitialiser" />
-		<property name="nbRuns" value="1"/>
+		<property name="nbRuns" value="10"/>
 	</bean>
 
 	<bean id="creditMarketInitialiser" class="jmab.init.RandomMarketInitialiser"
@@ -507,7 +507,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="creditMarketMixer" class="jmab.mixing.SelectionRandomRobinBuyerMixer"
 		scope="simulation">
 		<property name="prng" ref="prng" />
-		<property name="nbSellers" value="3"/>
+		<property name="nbSellers" value="4"/>
 	</bean>
 
 

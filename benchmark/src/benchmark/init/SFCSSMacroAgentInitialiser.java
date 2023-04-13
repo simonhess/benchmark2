@@ -682,58 +682,76 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		}
 		
 		MacroAgent refAgent = (MacroAgent)cFirms.getAgentList().get(0);
+		
 		// Distribute loans to firms proportionally to the financial value of their capacity
 		if(refAgent.getStrategy(StaticValues.STRATEGY_CAPITALDEMAND) instanceof RealLumpyCapitalDemandAdaptiveNPV) {
-		
+			
+			RealLumpyCapitalDemandAdaptiveNPV capitalDemandStrategy = (RealLumpyCapitalDemandAdaptiveNPV)refAgent.getStrategy(StaticValues.STRATEGY_CAPITALDEMAND);
+			
 		for(int i = 0 ; i < cSize ; i++){
 			ConsumptionFirmWagesEnd c = (ConsumptionFirmWagesEnd) cFirms.getAgentList().get(i);
+			CapitalFirm kFirm = (CapitalFirm) kFirms.getAgentList().get(0);
+			int kMat = kFirm.getCapitalDuration();
 			
-			int ageCapacity = (i%20);
+			int investmentFrequency = capitalDemandStrategy.getInvestmentFrequency();
 			
-			double investingFirmsEveryRound=cSize/20;
+			double investingFirmsEveryRound=cSize/investmentFrequency;
 			double loansPerFirm=cSize/investingFirmsEveryRound;
+			double investmentsPerKDuration= kMat/investmentFrequency;
 			
-			ArrayList<CapitalGood> cL = capList.get(ageCapacity);
+			double kQuantity = 0;
 			
-			double capValue = 0;
-			
-			for(int k = 0;k<loansPerFirm;k++) {	
-				CapitalGood kGood = cL.remove(0);
-				kGood.setAssetHolder(c);
-				c.addItemStockMatrix(kGood, true, StaticValues.SM_CAPGOOD);
-				capValue+=kGood.getValue();
-			}
-
-			double capRatio = capValue/csCapFinancialValue;
-			
-			double loanValue = csLoans*capRatio;
-			
-			double loanPerBank = loanValue/banks.getSize();
-			
-			for(int k = 0;k<banks.getSize();k++) {
-			
-				int j = ageCapacity;
-				Bank loanBank = (Bank) banks.getAgentList().get(bankLoanIterator);
-				bankLoanIterator++;
-				if(bankLoanIterator>=bSize)bankLoanIterator=0;
-				Loan loan = new Loan(loanPerBank, loanBank, null, this.iLoans, j+1, c.getLoanAmortizationType(), (int)lMat);
-				loan.setInitialAmount(loanPerBank*lMat/(lMat-ageCapacity));
-				loanBank.addItemStockMatrix(loan, true, StaticValues.SM_LOAN);
-				loan.setLiabilityHolder(c);
-				c.addItemStockMatrix(loan, false, StaticValues.SM_LOAN);
+			for(int j = 0; j<investmentsPerKDuration;j++) {
 				
-				//Set last period lender as previous lender in the firm's borrowing strategy
-				if (k==0){
-					CheapestLenderWithSwitching borrowingStrategy = (CheapestLenderWithSwitching) c.getStrategy(StaticValues.STRATEGY_BORROWING);
-					CreditSupplier previousCreditor= (CreditSupplier) loanBank;
-					borrowingStrategy.setPreviousLender(previousCreditor);
+				double capValue = 0;
+				
+				int capAge =(i%investmentFrequency)+j*investmentFrequency;
+				
+				ArrayList<CapitalGood> cL = capList.get(capAge);
+				
+				for(int k = 0;k<loansPerFirm;k++) {	
+					CapitalGood kGood = cL.remove(0);
+					kGood.setAssetHolder(c);
+					c.addItemStockMatrix(kGood, true, StaticValues.SM_CAPGOOD);
+					capValue+=kGood.getValue();
+					kQuantity+=kGood.getQuantity();
 				}
+				
+				// Distribute loans
+				double capRatio = capValue/csCapFinancialValue;
+				
+				double loanValue = csLoans*capRatio;
+				
+				double loanPerBank = loanValue/banks.getSize();
+				
+				for(int k = 0;k<banks.getSize();k++) {
+				
+					Bank loanBank = (Bank) banks.getAgentList().get(bankLoanIterator);
+					bankLoanIterator++;
+					if(bankLoanIterator>=bSize)bankLoanIterator=0;
+					Loan loan = new Loan(loanPerBank, loanBank, null, this.iLoans, capAge+1, c.getLoanAmortizationType(), (int)lMat);
+					loan.setInitialAmount(loanPerBank*lMat/(lMat-capAge));
+					loanBank.addItemStockMatrix(loan, true, StaticValues.SM_LOAN);
+					loan.setLiabilityHolder(c);
+					c.addItemStockMatrix(loan, false, StaticValues.SM_LOAN);
 					
+					//Set last period lender as previous lender in the firm's borrowing strategy
+					if (k==0&&j==0){
+						CheapestLenderWithSwitching borrowingStrategy = (CheapestLenderWithSwitching) c.getStrategy(StaticValues.STRATEGY_BORROWING);
+						CreditSupplier previousCreditor= (CreditSupplier) loanBank;
+						borrowingStrategy.setPreviousLender(previousCreditor);
+					}
+						
+				}
+				
+				
 			}
+			
 		}
 		
 		}
-
+		
+		
 		//Banks
 		double bCash = this.bsCash/bSize;
 		double bRes = this.bsRes/bSize;

@@ -50,6 +50,7 @@ public class RealLumpyCapitalDemandAdaptiveNPV extends AbstractStrategy implemen
 	int productionStockId;
 	int capitalGoodId;
 	double investment;
+	int investmentFrequency;
 
 	/* (non-Javadoc)
 	 * @see jmab.strategies.RealCapitalDemandStrategy#computeRealCapitalDemand(jmab.agents.MacroAgent)
@@ -66,8 +67,9 @@ public class RealLumpyCapitalDemandAdaptiveNPV extends AbstractStrategy implemen
 				CapitalGood good= (CapitalGood)j;
 				investment+=good.getQuantity();
 			}
-			this.investment =investment;
-		
+			CapitalGood k = (CapitalGood) capStock.get(0);
+			double investmentsPerKDuration= k.getCapitalDuration()/investmentFrequency;
+			this.investment =investment/investmentsPerKDuration;
 		}
 		
 		
@@ -83,6 +85,7 @@ public class RealLumpyCapitalDemandAdaptiveNPV extends AbstractStrategy implemen
 					residualCapacity+=oldCapital.getProductivity()*oldCapital.getQuantity();
 				}
 			}
+		
 		double desiredCapacity= (1+investor.getDesiredCapacityGrowth())*currentCapacity;
 		
 		double avInterest=0;
@@ -221,6 +224,14 @@ public class RealLumpyCapitalDemandAdaptiveNPV extends AbstractStrategy implemen
 
 	public void setInvestment(double investment) {
 		this.investment = investment;
+	}
+
+	public int getInvestmentFrequency() {
+		return investmentFrequency;
+	}
+
+	public void setInvestmentFrequency(int investmentFrequency) {
+		this.investmentFrequency = investmentFrequency;
 	}
 	
 	

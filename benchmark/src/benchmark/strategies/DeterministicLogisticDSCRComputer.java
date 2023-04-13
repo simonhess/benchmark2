@@ -20,6 +20,7 @@ import benchmark.StaticValues;
 import benchmark.agents.Bank;
 import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.Government;
+import benchmark.expectations.AdaptiveExpectationDoubleExponentialSmoothing;
 import jmab.agents.CreditDemander;
 import jmab.agents.MacroAgent;
 import jmab.expectations.Expectation;
@@ -94,15 +95,38 @@ public class DeterministicLogisticDSCRComputer implements
 			
 		}
 
-		Expectation exp = creditDemander.getExpectation(StaticValues.EXPECTATIONS_EBITDA);
+		AdaptiveExpectationDoubleExponentialSmoothing exp = (AdaptiveExpectationDoubleExponentialSmoothing) creditDemander.getExpectation(StaticValues.EXPECTATIONS_EBITDA);
 		double expEBITDA=exp.getExpectation();
-
+		
 		Bank creditSupplier1= (Bank) creditSupplier;
 		CreditDemander creditDemander1= (CreditDemander) creditDemander;
 		double demandedLoanInterestPaymentPerPeriod=creditSupplier1.getInterestRate(loansId, creditDemander, demanded, creditDemander1.decideLoanLength(StaticValues.SM_LOAN))*demanded;
 		double demandedLoanPaymentsPerPeriod=demandedLoanInterestPaymentPerPeriod+demanded/creditDemander1.decideLoanLength(StaticValues.SM_LOAN);
 		double bankRiskAversion=creditSupplier1.getRiskAversion(creditDemander);
+		
+		if(creditDemander1 instanceof ConsumptionFirm) {
+			if(creditDemander1.getStrategy(StaticValues.STRATEGY_CAPITALDEMAND) instanceof RealLumpyCapitalDemandAdaptiveNPV) {
+				
+				double avDebtService = 0;
+				double avExpEBITDA = 0;
+				double residualDebt = demanded;
+				double periodicRePayment=demanded*(double) 1/ (double) creditDemander1.decideLoanLength(StaticValues.SM_LOAN);
+				for (int t=1; t<=creditDemander1.decideLoanLength(StaticValues.SM_LOAN); t++){
+					avDebtService += toPay+(periodicRePayment+residualDebt*creditSupplier1.getInterestRate(loansId, creditDemander, demanded, creditDemander1.decideLoanLength(StaticValues.SM_LOAN)));
+					residualDebt-=periodicRePayment;
+					avExpEBITDA+= exp.getExpectation(t);
+				}
+				avDebtService/=creditDemander1.decideLoanLength(StaticValues.SM_LOAN);
+				avExpEBITDA/=creditDemander1.decideLoanLength(StaticValues.SM_LOAN);
+				
+				double probability=1/(1+Math.exp(bankRiskAversion*avExpEBITDA/avDebtService-5));
+				
+				return probability;
+			}
+		}
+		
 		double totalDebtService = demandedLoanPaymentsPerPeriod+toPay;
+		
 		double probability=1/(1+Math.exp(bankRiskAversion*expEBITDA/totalDebtService-5));
 
 		return probability;

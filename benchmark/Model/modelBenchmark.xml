@@ -2567,7 +2567,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<bean id="capitalBorrowingStrategy" scope="prototype" parent="strategy"
 		class="jmab.strategies.CheapestLenderWithSwitching">
-		<property name="strategy" ref="switchingStrategy5" />
+		<property name="strategy" ref="switchingStrategy6" />
+		<property name="idLoanSM"><util:constant static-field="benchmark.StaticValues.SM_LOAN" /> </property>
 	</bean>
 	
 	<bean id="capitalDepositStrategy" scope="prototype" parent="strategy"
@@ -2883,7 +2884,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<bean id="consumptionBorrowingStrategy" scope="prototype" parent="strategy"
 		class="jmab.strategies.CheapestLenderWithSwitching">
-		<property name="strategy" ref="switchingStrategy5" />
+		<property name="strategy" ref="switchingStrategy6" />
+		<property name="idLoanSM"><util:constant static-field="benchmark.StaticValues.SM_LOAN" /> </property>
 	</bean>
 	
 	<bean id="consumptionDepositStrategy" scope="prototype" parent="strategy"
@@ -2900,7 +2902,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		class="jmab.strategies.BestQualityPriceCapitalSupplierWithSwitching">
 		<property name="productionStockId"><util:constant static-field="benchmark.StaticValues.SM_CAPGOOD" /> </property>
 		<property name="wagesExpectationsId"><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_WAGES" /> </property>
-		<property name="strategy" ref="switchingStrategy6"/>
+		<property name="strategy" ref="switchingStrategy5"/>
 	</bean>
 	
 	<bean id="consumptionInvestmentStrategy" scope="prototype" parent="strategy"
@@ -2919,6 +2921,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="capitalGoodId"><util:constant static-field="benchmark.StaticValues.SM_CAPGOOD" /> </property>
 		<property name="productionStockId"><util:constant static-field="benchmark.StaticValues.SM_CAPGOOD" /> </property>
 		<property name="adaptiveParameter" value="20" />
+	<!--	<property name="investmentFrequency" value="10" />  -->
 		<property name="distribution" ref="logNormal1"/>
 	<!--	<property name="wagesExpectationId"><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_WAGES" /> </property> -->
 	</bean>

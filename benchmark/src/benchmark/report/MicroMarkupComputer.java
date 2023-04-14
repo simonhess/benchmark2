@@ -29,6 +29,7 @@ import jmab.population.MacroPopulation;
 import jmab.report.AbstractMicroComputer;
 import jmab.report.MicroMultipleVariablesComputer;
 import jmab.simulations.MacroSimulation;
+import jmab.strategies.MarkupInterestRateStrategy;
 import jmab.strategies.MarkupPricingStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
@@ -63,7 +64,12 @@ public class MicroMarkupComputer extends AbstractMicroComputer implements MicroM
 					}else if(bank.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE) instanceof AdaptiveMarkupOnAdvancesRateProfitGrowth){
 						AdaptiveMarkupOnAdvancesRateProfitGrowth banksBankSpecificLoanInterestStrategy = (AdaptiveMarkupOnAdvancesRateProfitGrowth) bank.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE);
 						markup = banksBankSpecificLoanInterestStrategy.getMarkup();
+					}else if(bank.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE) instanceof MarkupInterestRateStrategy){
+						MarkupInterestRateStrategy banksBankSpecificLoanInterestStrategy = (MarkupInterestRateStrategy) bank.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE);
+						markup = banksBankSpecificLoanInterestStrategy.getMarkup();
 					}
+					
+					
 				result.put(bank.getAgentId(), markup);
 				}
 				else{

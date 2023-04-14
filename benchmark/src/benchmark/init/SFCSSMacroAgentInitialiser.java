@@ -68,6 +68,7 @@ import jmab.strategies.MostPayingDepositWithSwitching;
 import jmab.strategies.TargetExpectedInventoriesOutputStrategy;
 import jmab.strategies.TaxPayerStrategy;
 import jmab.strategies.DividendsStrategy;
+import jmab.strategies.MarkupInterestRateStrategy;
 import jmab.strategies.MarkupPricingStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
@@ -792,6 +793,9 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 				banksBankSpecificLoanInterestStrategy.setMarkup(bsMarkup);
 			}else if(b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE) instanceof AdaptiveMarkupOnAdvancesRateProfitGrowth){
 				AdaptiveMarkupOnAdvancesRateProfitGrowth banksBankSpecificLoanInterestStrategy = (AdaptiveMarkupOnAdvancesRateProfitGrowth) b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE);
+				banksBankSpecificLoanInterestStrategy.setMarkup(bsMarkup);
+			}else if(b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE) instanceof MarkupInterestRateStrategy){
+				MarkupInterestRateStrategy banksBankSpecificLoanInterestStrategy = (MarkupInterestRateStrategy) b.getStrategy(benchmark.StaticValues.STRATEGY_LOANBANKINTERESTRATE);
 				banksBankSpecificLoanInterestStrategy.setMarkup(bsMarkup);
 			}
 			

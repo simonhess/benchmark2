@@ -517,7 +517,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="creditMarketMixer" class="jmab.mixing.SelectionRandomRobinBuyerMixer"
 		scope="simulation">
 		<property name="prng" ref="prng" />
-		<property name="nbSellers" value="4"/>
+		<property name="nbSellers" value="2"/>
 	</bean>
 
 
@@ -3331,13 +3331,13 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="banksBankSpecificLoanInterestStrategy" scope="prototype"
-		parent="strategy" class="benchmark.strategies.AdaptiveMarkupOnAdvancesRateProfitGrowth">
+		parent="strategy" class="benchmark.strategies.AdaptiveMarkupOnAdvancesRateProfit">
 		<property name="distribution" ref="logNormal1" />
 		<property name="mktId">
 			<util:constant static-field="benchmark.StaticValues.MKT_CREDIT" />
 		</property>
 		<!-- <property name="adaptiveParameter" value="1"/> -->
-		<property name="adaptiveParameter" value="0.01" />
+		<property name="adaptiveParameter" value="0.001" />
 		<property name="markup" value="0.0025" />
 		<property name="liabilitiesId">
 			<list>

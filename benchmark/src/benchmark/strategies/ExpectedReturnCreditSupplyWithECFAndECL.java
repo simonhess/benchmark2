@@ -66,7 +66,9 @@ public class ExpectedReturnCreditSupplyWithECFAndECL extends AbstractStrategy im
 		for (Item capital:creditDemander.getItemsStockMatrix(true, capitalId) ){
 				capitalValue+=capital.getValue()*haircut;
 			}
-		expectedShareRecovered=Math.min(1, capitalValue/totCurrentDebt);
+		if(totCurrentDebt!=0) {
+			expectedShareRecovered=Math.min(1, capitalValue/totCurrentDebt);
+		}
 		int duration=((CreditDemander)creditDemander).decideLoanLength(loansId);
 		double interest=creditSupplier.getInterestRate(loansId, creditDemander, required, duration);
 		double advancesInterestRate = creditSupplier.getAdvancesInterestRate();

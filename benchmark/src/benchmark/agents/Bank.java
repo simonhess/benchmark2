@@ -238,7 +238,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			}
 			else {
 				this.capitalRatio=this.getPassedValue(StaticValues.LAG_NETWEALTH, 1)/outstandingLoans;
-				this.CapitalAdequacyRatio=this.getPassedValue(StaticValues.LAG_NETWEALTH, 1)/(outstandingLoans+outstandingInterbankLoans*1);
+				this.CapitalAdequacyRatio=this.getPassedValue(StaticValues.LAG_NETWEALTH, 1)/(outstandingLoans+outstandingInterbankLoans*0);
 				BigDecimal bd = BigDecimal.valueOf(this.CapitalAdequacyRatio);
 			    bd = bd.setScale(4, RoundingMode.HALF_UP);
 			    this.CapitalAdequacyRatio = bd.doubleValue();

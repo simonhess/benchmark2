@@ -4113,7 +4113,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="banksDepositsStockReport" />
 				<ref bean="banksBondsReport" />
 				<ref bean="cFirmsInvestmentTargetReport" />
-				
+				<ref bean="cFirmsRemainingCreditDemandReport" />
+				<ref bean="kFirmsRemainingCreditDemandReport" />
+				<ref bean="cFirmsLeverageReport" />
+				<ref bean="kFirmsLeverageReport" />
 			</list>
 		</property>
 	</bean>
@@ -4376,6 +4379,106 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="cFirmsInvestmentTargetReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="numberOfSeries" value="100"/>
+	</bean>
+	
+	<!-- cFirms remaining credit demand report -->
+	
+	<bean id="cFirmsRemainingCreditDemandReport" class="jmab.report.MicroSimpleCSVReport">
+	<property name="computer" ref="cFirmsRemainingCreditDemandComputer"/>
+	<property name="CSVreportVariable" ref="cFirmsRemainingCreditDemandCSVReportVariables"/>
+	</bean>
+	
+	<bean id="cFirmsRemainingCreditDemandComputer" class="jmab.report.MicroAgentsConstrainedCreditComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/></property>
+	<property name="idLoanSM"><util:constant static-field="benchmark.StaticValues.SM_LOAN"/></property>
+</bean>
+	
+	<bean id="cFirmsRemainingCreditDemandCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="cFirmsRemainingCreditDemandReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="cFirmsRemainingCreditDemand" />
+	<property name="passThrough" value="true" />
+	</bean>
+	
+	<bean id="cFirmsRemainingCreditDemandReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="numberOfSeries" value="100"/>
+	</bean>
+	
+		<!-- kFirms remaining credit demand report -->
+	
+	<bean id="kFirmsRemainingCreditDemandReport" class="jmab.report.MicroSimpleCSVReport">
+	<property name="computer" ref="kFirmsRemainingCreditDemandComputer"/>
+	<property name="CSVreportVariable" ref="kFirmsRemainingCreditDemandCSVReportVariables"/>
+	</bean>
+	
+	<bean id="kFirmsRemainingCreditDemandComputer" class="jmab.report.MicroAgentsConstrainedCreditComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID"/></property>
+	<property name="idLoanSM"><util:constant static-field="benchmark.StaticValues.SM_LOAN"/></property>
+</bean>
+	
+	<bean id="kFirmsRemainingCreditDemandCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="kFirmsRemainingCreditDemandReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="kFirmsRemainingCreditDemand" />
+	<property name="passThrough" value="true" />
+	</bean>
+	
+	<bean id="kFirmsRemainingCreditDemandReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="numberOfSeries" value="100"/>
+	</bean>
+	
+			<!-- cFirms lev report -->
+	
+	<bean id="cFirmsLeverageReport" class="jmab.report.MicroSimpleCSVReport">
+	<property name="computer" ref="cFirmsLeverageComputer"/>
+	<property name="CSVreportVariable" ref="cFirmsLeverageCSVReportVariables"/>
+	</bean>
+	
+	<bean id="cFirmsLeverageComputer" class="jmab.report.MicroFirmsLeverageComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/></property>
+	<property name="liabilityIds">
+		<list>
+			<util:constant static-field="benchmark.StaticValues.SM_LOAN"/>
+		</list>
+	</property>
+</bean>
+	
+	<bean id="cFirmsLeverageCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="cFirmsLeverageReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="cFirmsLeverage" />
+	<property name="passThrough" value="true" />
+	</bean>
+	
+	<bean id="cFirmsLeverageReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="numberOfSeries" value="100"/>
+	</bean>
+	
+				<!-- kFirms lev report -->
+	
+	<bean id="kFirmsLeverageReport" class="jmab.report.MicroSimpleCSVReport">
+	<property name="computer" ref="kFirmsLeverageComputer"/>
+	<property name="CSVreportVariable" ref="kFirmsLeverageCSVReportVariables"/>
+	</bean>
+	
+	<bean id="kFirmsLeverageComputer" class="jmab.report.MicroFirmsLeverageComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID"/></property>
+	<property name="liabilityIds">
+		<list>
+			<util:constant static-field="benchmark.StaticValues.SM_LOAN"/>
+		</list>
+	</property>
+</bean>
+	
+	<bean id="kFirmsLeverageCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="kFirmsLeverageReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="kFirmsLeverage" />
+	<property name="passThrough" value="true" />
+	</bean>
+	
+	<bean id="kFirmsLeverageReportVariables" class="jmab.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	

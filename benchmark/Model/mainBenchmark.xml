@@ -149,6 +149,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="cFirmsProfitsCSVReport" />
 				<ref bean="kFirmsProfitsEventReport" />
 				<ref bean="kFirmsProfitsCSVReport" />
+				<ref bean="cFirmsDebtServiceEventReport" />
+				<ref bean="cFirmsDebtServiceCSVReport" />
+				<ref bean="kFirmsDebtServiceEventReport" />
+				<ref bean="kFirmsDebtServiceCSVReport" />
 				<ref bean="hhBailoutCostStdDevEventReport" />
 				<ref bean="hhBailoutCostStdDevCSVReport" />
 				<ref bean="hhAvBailoutCostEventReport" />

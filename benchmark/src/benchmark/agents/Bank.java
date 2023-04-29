@@ -35,6 +35,7 @@ import jmab.agents.InterestRateSetterWithTargets;
 import jmab.agents.MacroAgent;
 import jmab.agents.ProfitsTaxPayer;
 import jmab.events.MacroTicEvent;
+import jmab.expectations.Expectation;
 import jmab.population.MacroPopulation;
 import jmab.simulations.MacroSimulation;
 import jmab.simulations.TwoStepMarketSimulation;
@@ -480,6 +481,22 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		deposit[0]=this.getNumericBalanceSheet()[1][StaticValues.SM_DEP];
 		this.addValue(StaticValues.LAG_DEPOSITS,this.getNumericBalanceSheet()[1][StaticValues.SM_DEP]);
 		this.getExpectation(StaticValues.EXPECTATIONS_DEPOSITS).addObservation(deposit);
+		
+		
+		double newLoansThisPeriod=0;
+		for (Item item:this.getItemsStockMatrix(true, StaticValues.SM_LOAN)){
+			Loan loan = (Loan) item;
+			if(loan.getAge()==0) {
+				newLoansThisPeriod+=loan.getInitialAmount();
+			}
+		}
+		double[] realNewLoans = new double[1];
+		Population govpop = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.GOVERNMENT_ID);
+		Government gov = (Government) govpop.getAgentList().get(0);
+		double cPrice = gov.getAggregateValue(StaticValues.LAG_CPRICE, 0);
+		realNewLoans[0]=newLoansThisPeriod/cPrice;
+		this.getExpectation(StaticValues.EXPECTATIONS_REALNEWLOANS).addObservation(realNewLoans);
+		
 		this.cleanSM();
 	}
 

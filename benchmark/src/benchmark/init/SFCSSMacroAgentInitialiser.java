@@ -30,6 +30,7 @@ import benchmark.agents.GovernmentAntiCyclical;
 import benchmark.agents.GovernmentAntiCyclicalWithInvestment;
 import benchmark.agents.Households;
 import benchmark.expectations.AdaptiveExpectationDoubleExponentialSmoothing;
+import benchmark.expectations.AdaptiveExpectationExpectedVsActualValue;
 import benchmark.expectations.AdaptiveExpectationTargetInventories;
 import benchmark.report.AveragePriceAllProducersComputer;
 import benchmark.strategies.AdaptiveMarkupOnAdvancesRate;
@@ -58,6 +59,7 @@ import jmab.stockmatrix.CapitalGood;
 import jmab.stockmatrix.Cash;
 import jmab.stockmatrix.ConsumptionGood;
 import jmab.stockmatrix.Deposit;
+import jmab.stockmatrix.Item;
 import jmab.stockmatrix.Loan;
 import jmab.strategies.AdaptiveMarkUpOnAC;
 import jmab.strategies.BestQualityPriceCapitalSupplierWithSwitching;
@@ -866,6 +868,27 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 				((AdaptiveExpectationDoubleExponentialSmoothing) bProfitExp).setLevel(passedProfit[0][0]);
 			}
 			bProfitExp.setPassedValues(passedProfit);
+			
+			// Set past values of real new loans expectation
+			Expectation bRealNewLoansExp = b.getExpectation(StaticValues.EXPECTATIONS_REALNEWLOANS);
+			nbObs = bRealNewLoansExp .getNumberPeriod();
+			double[][] passedRealNewLoans = new double[nbObs][2];
+			double newLoansLastPeriod=0;
+			for (Item item:b.getItemsStockMatrix(true, StaticValues.SM_LOAN)){
+				Loan loan = (Loan) item;
+				if(loan.getAge()==1) {
+					newLoansLastPeriod+=loan.getInitialAmount();
+				}
+			}
+			double pastRealLoans = newLoansLastPeriod/cPrice;
+			for(int j = 0; j<nbObs; j++){
+				passedRealNewLoans[j][0]=(pastRealLoans)*(1+distr.nextDouble());
+				passedRealNewLoans[j][1]=(pastRealLoans)*(1+distr.nextDouble());
+			}
+			if(bRealNewLoansExp instanceof AdaptiveExpectationExpectedVsActualValue) {
+				((AdaptiveExpectationExpectedVsActualValue) bRealNewLoansExp).setAdaptiveParam(pastRealLoans);;
+			}
+			bRealNewLoansExp.setPassedValues(passedRealNewLoans);
 			
 			b.addValue(StaticValues.LAG_TAXES,bTax);
 			

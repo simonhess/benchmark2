@@ -38,7 +38,7 @@ import net.sourceforge.jabm.distribution.AbstractDelegatedDistribution;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**
- * @author Alessandro Caiani and Antoine Godin
+ * @author Simon Hess
  *
  */
 @SuppressWarnings("serial")
@@ -54,8 +54,9 @@ MarkupInterestRateStrategy {
 	/* (non-Javadoc)
 	 * @see jmab.strategies.InterestRateStrategy#computeInterestRate(jmab.agents.MacroAgent, double, int)
 	 * 
-	 * This strategy computes the banks interest rate on loans based on the profits of the past two periods. If profits from the last period
-	 * are greater than the those from the period before that the bank computes its new markup by adding a random amount to the average markup of all banks.
+	 * This strategy computes the banks interest rate on loans based on the new loans issued in the last period
+	 * and the expected loans issued for that period. If the new loans issued in the last period
+	 * are greater than the expected ones the bank computes its new markup by adding a random amount to the average markup of all banks.
 	 * Otherwise it subtracts an random amount of it. The interest rate on loans is computed by adding the new markup to the advances rate.
 	 * 
 	 * 

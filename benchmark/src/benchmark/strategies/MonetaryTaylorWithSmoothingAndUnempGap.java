@@ -100,7 +100,7 @@ public class MonetaryTaylorWithSmoothingAndUnempGap extends AbstractStrategy imp
 		// Compute the interest rate according to the taylor rule
 		double AdvancesRate = previosAdvancesRate*smoothingParameter+(1-smoothingParameter)*(inflation + naturalRateOfInterest + inflationCoefficient*(inflation - targetInflation) + unemploymentGapCoefficient* (targetUnemployment-unemploymentRate));
 
-		AdvancesRate = (double)Math.round(AdvancesRate * 10000d) / 10000d;
+		AdvancesRate = (double)Math.round(AdvancesRate * 1000000d) / 1000000d;
 		
 //		System.out.println((Math.log(realGDP) - Math.log(potentialGDP)));
 //		System.out.println("nom GDP: "+nominalGDP);

@@ -4144,6 +4144,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="kFirmsRemainingCreditDemandReport" />
 				<ref bean="cFirmsLeverageReport" />
 				<ref bean="kFirmsLeverageReport" />
+				<ref bean="cFirmsDividendsReport" />
+				<ref bean="kFirmsDividendsReport" />
+				<ref bean="banksDividendsReport" />
+				
 			</list>
 		</property>
 	</bean>
@@ -4506,6 +4510,72 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="kFirmsLeverageReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="numberOfSeries" value="100"/>
+	</bean>
+	
+				<!-- cFirms div report -->
+	
+	<bean id="cFirmsDividendsReport" class="jmab.report.MicroSimpleCSVReport">
+	<property name="computer" ref="cFirmsDividendsComputer"/>
+	<property name="CSVreportVariable" ref="cFirmsDividendsCSVReportVariables"/>
+	</bean>
+	
+	<bean id="cFirmsDividendsComputer" class="benchmark.report.MicroDividendsComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/></property>
+	</bean>
+	
+	<bean id="cFirmsDividendsCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="cFirmsDividendsReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="cFirmsDividends" />
+	<property name="passThrough" value="true" />
+	</bean>
+	
+	<bean id="cFirmsDividendsReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="numberOfSeries" value="100"/>
+	</bean>
+	
+					<!-- kFirms div report -->
+	
+	<bean id="kFirmsDividendsReport" class="jmab.report.MicroSimpleCSVReport">
+	<property name="computer" ref="kFirmsDividendsComputer"/>
+	<property name="CSVreportVariable" ref="kFirmsDividendsCSVReportVariables"/>
+	</bean>
+	
+	<bean id="kFirmsDividendsComputer" class="benchmark.report.MicroDividendsComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID"/></property>
+	</bean>
+	
+	<bean id="kFirmsDividendsCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="kFirmsDividendsReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="kFirmsDividends" />
+	<property name="passThrough" value="true" />
+	</bean>
+	
+	<bean id="kFirmsDividendsReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="numberOfSeries" value="100"/>
+	</bean>
+	
+					<!-- Banks div report -->
+	
+	<bean id="banksDividendsReport" class="jmab.report.MicroSimpleCSVReport">
+	<property name="computer" ref="banksDividendsComputer"/>
+	<property name="CSVreportVariable" ref="banksDividendsCSVReportVariables"/>
+	</bean>
+	
+	<bean id="banksDividendsComputer" class="benchmark.report.MicroDividendsComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.BANKS_ID"/></property>
+	</bean>
+	
+	<bean id="banksDividendsCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="banksDividendsReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="banksDividends" />
+	<property name="passThrough" value="true" />
+	</bean>
+	
+	<bean id="banksDividendsReportVariables" class="jmab.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	

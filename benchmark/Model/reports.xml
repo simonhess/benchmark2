@@ -5494,7 +5494,7 @@
 <bean id="microTotalInterBankLoansCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="microTotalInterBankLoansReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
-	<property name="fileNameSuffix" value="microTotInterbankLoanSupply" />
+	<property name="fileNameSuffix" value="banksInterbankTotLoanSupply" />
 	<property name="fileNameExtension" value=".csv" />
 	<property name="passThrough" value="true" />
 </bean>
@@ -5549,7 +5549,7 @@
 <bean id="microTotalInterBankCreditObtainedCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="microTotalInterBankCreditObtainedReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
-	<property name="fileNameSuffix" value="microTotalInterBankCreditObtained" />
+	<property name="fileNameSuffix" value="banksInterBankTotalCreditObtained" />
 	<property name="fileNameExtension" value=".csv" />
 	<property name="passThrough" value="true" />
 </bean>
@@ -5605,7 +5605,7 @@
 <bean id="microAverageInterBankAskRateCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="microAverageInterBankAskRateReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
-	<property name="fileNameSuffix" value="microAverageInterBankAskRate" />
+	<property name="fileNameSuffix" value="banksInterbankAverageAskRate" />
 	<property name="fileNameExtension" value=".csv" />
 	<property name="passThrough" value="true" />
 </bean>
@@ -5660,7 +5660,7 @@
 <bean id="microTotalInterBankConstrainedCreditCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="microTotalInterBankConstrainedCreditReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
-	<property name="fileNameSuffix" value="microTotConstrainedInterbankCredit" />
+	<property name="fileNameSuffix" value="banksInterbankTotConstrainedCredit" />
 	<property name="fileNameExtension" value=".csv" />
 	<property name="passThrough" value="true" />
 </bean>
@@ -5712,7 +5712,7 @@
 <bean id="microTotalInterBankDebtServiceCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="microTotalInterBankDebtServiceReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
-	<property name="fileNameSuffix" value="microInterbankDebtService" />
+	<property name="fileNameSuffix" value="banksInterbankDebtService" />
 	<property name="fileNameExtension" value=".csv" />
 	<property name="passThrough" value="true" />
 </bean>
@@ -5768,7 +5768,7 @@
 <bean id="microInterbankRateCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="microInterbankRateReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
-	<property name="fileNameSuffix" value="microInterbankRate" />
+	<property name="fileNameSuffix" value="banksInterbankRate" />
 	<property name="fileNameExtension" value=".csv" />
 	<property name="passThrough" value="true" />
 </bean>
@@ -5824,7 +5824,7 @@
 <bean id="microInterbankDemandCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="microInterbankDemandReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
-	<property name="fileNameSuffix" value="microInterbankDemand" />
+	<property name="fileNameSuffix" value="banksInterbankDemand" />
 	<property name="fileNameExtension" value=".csv" />
 	<property name="passThrough" value="true" />
 </bean>
@@ -5880,7 +5880,7 @@
 <bean id="microInterbankSupplyCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="microInterbankSupplyReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
-	<property name="fileNameSuffix" value="microInterbankSupply" />
+	<property name="fileNameSuffix" value="banksInterbankSupply" />
 	<property name="fileNameExtension" value=".csv" />
 	<property name="passThrough" value="true" />
 </bean>

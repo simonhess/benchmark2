@@ -212,6 +212,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="aggBBSReportTic" />
 				<ref bean="aggGBSReportTic" />
 				<ref bean="aggCBBSReportTic" />
+				<ref bean="cAggConsCreditReportTic" />
+				<ref bean="kAggConsCreditReportTic" />
 				<ref bean="realCDesOutputReportTic" />
 				<ref bean="realKDesOutputReportTic" />
 				<ref bean="cEmployeeReportTic" />
@@ -1187,6 +1189,23 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KAGGREGATEDEBTREPORT" /></property>
 	<property name="variableName" value="Capital Firms' Aggregate Outstanding Debt"/>
 	<property name="computer" ref="kAggregateDebtComputer"/>
+	</bean>
+	
+	
+	<!-- cFirm contrained credit report -->
+		<bean id="cAggConsCreditReportTic" class="jmab.events.MacroVariableTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CAGGCONSCREDITREPORT"/></property>
+	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CAGGCONSCREDITREPORT_ID" /></property>
+	<property name="variableName" value="Consumption Firms' constrained credit"/>
+	<property name="computer" ref="cAggConsCreditComputer"/>
+	</bean>
+	
+	<!-- kFirm contrained credit report -->
+		<bean id="kAggConsCreditReportTic" class="jmab.events.MacroVariableTicEvent">
+	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KAGGCONSCREDITREPORT"/></property>
+	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KAGGCONSCREDITREPORT_ID" /></property>
+	<property name="variableName" value="Consumption Firms' constrained credit"/>
+	<property name="computer" ref="kAggConsCreditComputer"/>
 	</bean>
 	
 
@@ -4091,7 +4110,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		parent="strategy" class="benchmark.strategies.MonetaryPolicyStatic">
 				<property name="staticAdvancesRate" value="0.005"/>
 	</bean>
-	
 	
 	
 	<bean id="reservesInterestRateStrategy" scope="prototype"

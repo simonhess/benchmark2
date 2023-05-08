@@ -903,7 +903,7 @@
 
 
 <bean id="kAggConsCreditComputer" class="benchmark.report.ConstrainedCreditComputer">
-	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID" /></property>
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID" /></property>
 	<property name="idLoanSM"><util:constant static-field="benchmark.StaticValues.SM_LOAN" /></property>
 	
 </bean>

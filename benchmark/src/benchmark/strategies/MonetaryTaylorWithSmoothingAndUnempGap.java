@@ -52,7 +52,6 @@ public class MonetaryTaylorWithSmoothingAndUnempGap extends AbstractStrategy imp
 	private double naturalRateOfInterest;
 	private double inflationCoefficient;
 	private double unemploymentGapCoefficient;
-	private double targetUnemployment;
 	private double smoothingParameter;
 	
 	public double getTaylorInterestRate() {
@@ -81,33 +80,20 @@ public class MonetaryTaylorWithSmoothingAndUnempGap extends AbstractStrategy imp
 		double lastCPrice = passedValues.get(StaticValues.LAG_CPRICE).getObservation(macroSim.getRound()-2);
 		double currentCPrice = passedValues.get(StaticValues.LAG_CPRICE).getObservation(macroSim.getRound()-1);
 		double inflation = (currentCPrice-lastCPrice)/lastCPrice;
-		// 2. Get nominal GDP
-		double nominalGDP = gov.getAggregateValue(StaticValues.LAG_NOMINALGDP, 1);
-		// 3. Get real GDP 
-		double realGDP = gov.getAggregateValue(StaticValues.LAG_REALGDP, 1);
-		// 4. Get Potential GDP
-		double potentialGDP = gov.getAggregateValue(StaticValues.LAG_POTENTIALGDP, 1);
+
 		CentralBank agent= (CentralBank) this.getAgent();
-		// get from central bank 
-		// 5. expectedNaturalRate
-		double expectedNaturalRate = agent.getExpectedNaturalRate();
 		
 		double previosAdvancesRate = agent.getAdvancesInterestRate();
 		
 		// Get unemployment rate
 		double unemploymentRate = gov.getAggregateValue(StaticValues.LAG_AGGUNEMPLOYMENT, 1);
+		
+		double targetUnemployment = agent.getExpectation(StaticValues.EXPECTATIONS_UNEMPLOYMENT).getExpectation();
 	
 		// Compute the interest rate according to the taylor rule
 		double AdvancesRate = previosAdvancesRate*smoothingParameter+(1-smoothingParameter)*(inflation + naturalRateOfInterest + inflationCoefficient*(inflation - targetInflation) + unemploymentGapCoefficient* (targetUnemployment-unemploymentRate));
 
 		AdvancesRate = (double)Math.round(AdvancesRate * 1000000d) / 1000000d;
-		
-//		System.out.println((Math.log(realGDP) - Math.log(potentialGDP)));
-//		System.out.println("nom GDP: "+nominalGDP);
-//		System.out.println("realGDP: "+realGDP);
-//		System.out.println("potentialGDP: "+potentialGDP);
-//		System.out.println("cAVGPrices: "+currentCPrice);
-//      System.out.println(AdvancesRate);
 		
 		return Math.max(AdvancesRate,0); // return the AdvancesRate
 		/*/
@@ -248,14 +234,6 @@ public class MonetaryTaylorWithSmoothingAndUnempGap extends AbstractStrategy imp
 
 	public void setUnemploymentGapCoefficient(double unemploymentGapCoefficient) {
 		this.unemploymentGapCoefficient = unemploymentGapCoefficient;
-	}
-
-	public double getTargetUnemployment() {
-		return targetUnemployment;
-	}
-
-	public void setTargetUnemployment(double targetUnemployment) {
-		this.targetUnemployment = targetUnemployment;
 	}
 
 }

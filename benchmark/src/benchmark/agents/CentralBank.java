@@ -160,6 +160,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 				this.interestsOnBonds=bonds.getValue()*bonds.getInterestRate();
 			}
 			this.setActive(true, StaticValues.MKT_ADVANCES);
+			computeExpectations();
 		}
 		else if(event.getTic()==StaticValues.TIC_UPDATEEXPECTATIONS) {
 			this.updateExpectations();
@@ -184,6 +185,12 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	 */
 	private void updateExpectations() { 
 		this.addValue(StaticValues.LAG_RESERVESINTEREST, this.reserveInterestRate);
+		Population govpop = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.GOVERNMENT_ID);
+		Government gov = (Government) govpop.getAgentList().get(0);
+		double[] unempl = new double[1];
+		double unemplRate = gov.getAggregateValue(StaticValues.LAG_AGGUNEMPLOYMENT, 0);
+		unempl[0]=unemplRate;
+		this.getExpectation(StaticValues.EXPECTATIONS_UNEMPLOYMENT).addObservation(unempl);
 		this.cleanSM();
 	}
 	

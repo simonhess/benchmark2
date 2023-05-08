@@ -948,6 +948,16 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		
 		cb.addValue(StaticValues.LAG_RESERVESINTEREST,iReserves);
 		
+		Expectation cbUnemplExp = cb.getExpectation(StaticValues.EXPECTATIONS_UNEMPLOYMENT);
+		int nbObs = cbUnemplExp.getNumberPeriod();
+		double[][] passedUnmpl = new double[nbObs][2];
+		double passedValueUnempl = (hhSize-csEmpl-ksEmpl-gEmpl)/Double.valueOf(hhSize);
+		for(int j = 0; j<nbObs; j++){
+			passedUnmpl[j][0]=passedValueUnempl;
+			passedUnmpl[j][1]=passedValueUnempl;
+		}
+		cbUnemplExp.setPassedValues(passedUnmpl);
+		
 		//TODO: Add Aggregate values, we could use the macrosimulation
 		
 		double publicServantsWages = 0;
@@ -959,7 +969,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		// GDP calculation
 		double nomGDP = publicServantsWages + csSales+ ksSales;
 		
-		govt.setAggregateValue(StaticValues.LAG_AGGUNEMPLOYMENT, 0.08*(1+distr.nextDouble()));//TODO
+		govt.setAggregateValue(StaticValues.LAG_AGGUNEMPLOYMENT, (hhSize-csEmpl-ksEmpl-gEmpl)/Double.valueOf(hhSize)*(1+distr.nextDouble()));//TODO
 		govt.setAggregateValue(StaticValues.LAG_INFLATION, 0);//TODO
 		govt.setAggregateValue(StaticValues.LAG_AGGCREDIT, csLoans+ksLoans);//TODO
 		govt.setAggregateValue(StaticValues.LAG_NOMINALGDP, nomGDP);//TODO

@@ -4003,6 +4003,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark.StaticValues.EXPECTATIONS_POTENTIALGDP" />
 					</key>
 				</entry>
+				<entry value-ref="expUnemployment">
+					<key>
+						<util:constant static-field="benchmark.StaticValues.EXPECTATIONS_UNEMPLOYMENT" />
+					</key>
+				</entry>
 			</map>
 		</property>
 		<property name="passedValues">
@@ -4026,6 +4031,30 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
+	
+	<bean id="expUnemployment" class="jmab.expectations.SimpleAdaptiveExpectation"
+		scope="prototype">
+		<property name="numberPeriod" value="4" />
+		<property name="nbVariables" value="1" />
+		<property name="adaptiveParam" value="0.05" />
+		<property name="weights">
+			<array>
+				<array>
+					<value>1.0</value>
+				</array>
+				<array>
+					<value>0.0</value>
+				</array>
+				<array>
+					<value>0.0</value>
+				</array>
+				<array>
+					<value>0.0</value>
+				</array>
+			</array>
+		</property>
+	</bean>
+	
 	
 	<bean id="expNaturalRate" class="jmab.expectations.SimpleAdaptiveExpectation"
 		scope="prototype">
@@ -4094,22 +4123,21 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 
 
-<!-- 
-	<bean id="advancesInterestRateStrategy" scope="prototype"
+<!--	<bean id="advancesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.MonetaryTaylorWithSmoothingAndUnempGap">
-				<property name="targetInflation" value="0.005"/>
-				<property name="naturalRateOfInterest" value="0.005"/>
-				<property name="inflationCoefficient" value="0.125"/>
-				<property name="unemploymentGapCoefficient" value="0.125"/>
-				<property name="targetUnemployment" value="0.08"/>
-				<property name="smoothingParameter" value="0.95"/>
-	</bean>
--->
-    
+				<property name="targetInflation" value="0.0075"/>
+				<property name="naturalRateOfInterest" value="-0.0025"/>
+				<property name="inflationCoefficient" value="0.5"/>
+				<property name="unemploymentGapCoefficient" value="0.0"/>
+				<property name="smoothingParameter" value="0.5"/>
+	</bean> -->
+
+
 	<bean id="advancesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.MonetaryPolicyStatic">
 				<property name="staticAdvancesRate" value="0.005"/>
 	</bean>
+	
 	
 	
 	<bean id="reservesInterestRateStrategy" scope="prototype"

@@ -256,6 +256,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		double totalFinancialRequirement=(nbWorkers*expWages)+
 				investment+
 				this.debtBurden - this.interestReceived + expectedTaxes + expectedDividends-expRevenues+this.shareOfExpIncomeAsDeposit*(nbWorkers*expWages);
+		totalFinancialRequirement=Math.max(totalFinancialRequirement,Math.ceil(nbWorkers*expWages));
 		FinanceStrategy strategy =(FinanceStrategy)this.getStrategy(StaticValues.STRATEGY_FINANCE);
 		this.creditDemanded=strategy.computeCreditDemand(totalFinancialRequirement);
 		if(creditDemanded>0){

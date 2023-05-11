@@ -139,6 +139,7 @@ public class CapitalFirmWagesEnd extends CapitalFirm implements GoodSupplier,
 					emplPop.add(ag);
 				emplPop.shuffle(prng);
 				for(int i=0;i<currentWorkers;i++){
+					
 					LaborSupplier employee = (LaborSupplier) emplPop.get(i);
 					Item payableStock = employee.getPayableStock(StaticValues.MKT_LABOR);
 					LiabilitySupplier payingSupplier = (LiabilitySupplier) targetStock.getLiabilityHolder();
@@ -237,6 +238,7 @@ public class CapitalFirmWagesEnd extends CapitalFirm implements GoodSupplier,
 		double expectedDividends=Math.max(0,expectedProfits*(1-profitTaxRate)*profitShare);
 		double expectedFinancialRequirement=(nbWorkers*expWages)+(Math.floor(this.amountResearch/expWages))*expWages +
 				this.debtBurden - this.interestReceived + expectedDividends+expectedTaxes-expRevenues+ this.shareOfExpIncomeAsDeposit*(nbWorkers*expWages);
+		expectedFinancialRequirement=Math.max(expectedFinancialRequirement,Math.ceil(nbWorkers*expWages));
 		this.creditDemanded = strategy.computeCreditDemand(expectedFinancialRequirement);
 		if(creditDemanded>0)
 			this.setActive(true, StaticValues.MKT_CREDIT);

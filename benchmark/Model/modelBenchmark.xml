@@ -297,8 +297,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="interbankAvInterestReportTic" />
 				
 				<ref bean="microSimpleCSVReportTic" />
-				<ref bean="TFMReportTic" />
+				
 				<!-- Reports	
+				<ref bean="TFMReportTic" />
 				<ref bean="BSNetworkReportTic" /> 
 				<ref bean="FlowNetworkReportTic" />
 				 -->
@@ -4195,7 +4196,9 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="cFirmsDividendsReport" />
 				<ref bean="kFirmsDividendsReport" />
 				<ref bean="banksDividendsReport" />
-				
+				<ref bean="cbExpUnemploymentReport" />
+				<ref bean="banksLoansGrantedReport" />
+				<ref bean="banksExpRealLoansGrantedReport" />
 			</list>
 		</property>
 	</bean>
@@ -4213,7 +4216,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="cFirmsRealSalesExpCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
-	<property name="reportVariables" ref="cFirmsPricesReportVariables"/>
+	<property name="reportVariables" ref="cFirmsRealSalesExpReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="cFirmsRealSalesExp" />
 	<property name="passThrough" value="true" />
@@ -4236,7 +4239,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="kFirmsRealSalesExpCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
-	<property name="reportVariables" ref="kFirmsPricesReportVariables"/>
+	<property name="reportVariables" ref="kFirmsRealSalesExpReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="kFirmsRealSalesExp" />
 	<property name="passThrough" value="true" />
@@ -4261,7 +4264,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="cFirmsEBITDACSVReportVariables" class="jmab.report.MacroCSVReportVariables">
-	<property name="reportVariables" ref="cFirmsPricesReportVariables"/>
+	<property name="reportVariables" ref="cFirmsEBITDAReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="cFirmsEBITDA" />
 	<property name="passThrough" value="true" />
@@ -4284,7 +4287,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="cFirmsExpEBITDACSVReportVariables" class="jmab.report.MacroCSVReportVariables">
-	<property name="reportVariables" ref="cFirmsPricesReportVariables"/>
+	<property name="reportVariables" ref="cFirmsExpEBITDAReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="cFirmsExpEBITDA" />
 	<property name="passThrough" value="true" />
@@ -4309,7 +4312,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="kFirmsEBITDACSVReportVariables" class="jmab.report.MacroCSVReportVariables">
-	<property name="reportVariables" ref="kFirmsPricesReportVariables"/>
+	<property name="reportVariables" ref="kFirmsEBITDAReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="kFirmsEBITDA" />
 	<property name="passThrough" value="true" />
@@ -4318,7 +4321,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="kFirmsEBITDAReportVariables" class="jmab.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
-	
 	
 	<!-- kFirms EBITDA Expectation report -->
 	
@@ -4333,7 +4335,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="kFirmsExpEBITDACSVReportVariables" class="jmab.report.MacroCSVReportVariables">
-	<property name="reportVariables" ref="kFirmsPricesReportVariables"/>
+	<property name="reportVariables" ref="kFirmsExpEBITDAReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="kFirmsExpEBITDA" />
 	<property name="passThrough" value="true" />
@@ -4357,7 +4359,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="cFirmsExpUFCFperCapacityCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
-	<property name="reportVariables" ref="cFirmsPricesReportVariables"/>
+	<property name="reportVariables" ref="cFirmsExpUFCFperCapacityReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="cFirmsExpUFCFperCapacity" />
 	<property name="passThrough" value="true" />
@@ -4381,7 +4383,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="cFirmsUFCFCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
-	<property name="reportVariables" ref="cFirmsPricesReportVariables"/>
+	<property name="reportVariables" ref="cFirmsUFCFReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="cFirmsUFCF" />
 	<property name="passThrough" value="true" />
@@ -4627,6 +4629,74 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
+			<!-- cb unemployment Expectation report -->
+	
+	<bean id="cbExpUnemploymentReport" class="jmab.report.MicroSimpleCSVReport">
+	<property name="computer" ref="cbExpUnemploymentComputer"/>
+	<property name="CSVreportVariable" ref="cbExpUnemploymentCSVReportVariables"/>
+	</bean>
+	
+	<bean id="cbExpUnemploymentComputer" class="benchmark.report.MicroExpectationComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CB_ID"/></property>
+	<property name="ExpId"><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_UNEMPLOYMENT"/></property>
+	</bean>
+	
+	<bean id="cbExpUnemploymentCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="cbExpUnemploymentReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="cbExpUnemployment" />
+	<property name="passThrough" value="true" />
+	</bean>
+	
+	<bean id="cbExpUnemploymentReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="numberOfSeries" value="1"/>
+	</bean>
+	
+				<!-- banks Loans Granted report -->
+	
+	<bean id="banksLoansGrantedReport" class="jmab.report.MicroSimpleCSVReport">
+	<property name="computer" ref="banksLoansGrantedComputer"/>
+	<property name="CSVreportVariable" ref="banksLoansGrantedCSVReportVariables"/>
+	</bean>
+	
+	<bean id="banksLoansGrantedComputer" class="benchmark.report.MicroLoansGrantedComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.BANKS_ID"/></property>
+	<property name="loansId"><util:constant static-field="benchmark.StaticValues.SM_LOAN" /> </property>
+	</bean>
+	
+	<bean id="banksLoansGrantedCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="banksLoansGrantedReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="banksLoansGranted" />
+	<property name="passThrough" value="true" />
+	</bean>
+	
+	<bean id="banksLoansGrantedReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="numberOfSeries" value="100"/>
+	</bean>
+	
+				<!-- banks real loans granted Expectation report -->
+	
+	<bean id="banksExpRealLoansGrantedReport" class="jmab.report.MicroSimpleCSVReport">
+	<property name="computer" ref="banksExpRealLoansGrantedComputer"/>
+	<property name="CSVreportVariable" ref="banksExpRealLoansGrantedCSVReportVariables"/>
+	</bean>
+	
+	<bean id="banksExpRealLoansGrantedComputer" class="benchmark.report.MicroExpectationComputer">
+	<property name="populationId"><util:constant static-field="benchmark.StaticValues.BANKS_ID"/></property>
+	<property name="ExpId"><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_REALNEWLOANS"/></property>
+	</bean>
+	
+	<bean id="banksExpRealLoansGrantedCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<property name="reportVariables" ref="banksExpRealLoansGrantedReportVariables"/>
+	<property name="fileNamePrefix" ref="fileNamePrefix" />
+	<property name="fileNameSuffix" value="banksExpRealLoansGranted" />
+	<property name="passThrough" value="true" />
+	</bean>
+	
+	<bean id="banksExpRealLoansGrantedReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<property name="numberOfSeries" value="100"/>
+	</bean>
 	
 	
 </beans>

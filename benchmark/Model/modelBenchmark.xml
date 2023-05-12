@@ -606,7 +606,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="depositMarketMixer" class="jmab.mixing.SelectionRandomRobinBuyerMixer"
 		scope="simulation">
 		<property name="prng" ref="prng" />
-		<property name="nbSellers" value="6"/>
+		<property name="nbSellers" value="4"/>
 	</bean>
 
 	<bean id="depositMktTransactionMechanism" class="jmab.mechanisms.DepositMechanism"
@@ -1952,7 +1952,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<!-- The basic initialiser of agents -->
 	<bean id="sfcAgentsInitialiser"
 	    class="benchmark.init.SFCSSMacroAgentInitialiser">
-	    <property name="uniformDistr" value="0.005"/>
+	    <property name="uniformDistr" value="0.0075"/>
 		<property name="prng" ref="prng" />
 		
 <property name="hhWage" value="5"/>
@@ -4133,7 +4133,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 
 
-<!--	<bean id="advancesInterestRateStrategy" scope="prototype"
+	<bean id="advancesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.MonetaryTaylorWithSmoothingAndUnempGap">
 				<property name="targetInflation" value="0.0075"/>
 				<property name="naturalRateOfInterest" value="0.0075"/>
@@ -4141,13 +4141,13 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<property name="unemploymentGapCoefficient" value="0.5"/>
 				<property name="smoothingParameter" value="0.0"/>
 	</bean>
--->
 
+<!--
 	<bean id="advancesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.MonetaryPolicyStatic">
 				<property name="staticAdvancesRate" value="0.015"/>
 	</bean> 
-	
+-->	
 	
 	<bean id="reservesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.ReservesStatic">

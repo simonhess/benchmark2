@@ -57,7 +57,12 @@ public class InterbankAskPerfectCompetition extends AbstractStrategy implements 
 		double centralBankDepositRate = bank.getReserveInterestRate();
 		double centralBankAdvancesRate = bank.getAdvancesInterestRate();
 		
-		double targetLiquidityCoverageRatio = totalReserves/totalRequiredReserves;
+		double targetLiquidityCoverageRatio =0;
+		if(totalRequiredReserves==0) {
+			targetLiquidityCoverageRatio=1;
+		}else {
+			targetLiquidityCoverageRatio = Math.max(0,totalReserves/totalRequiredReserves);
+		}
 
 		double interbankRate = centralBankAdvancesRate-(centralBankAdvancesRate-centralBankDepositRate)*Math.min(1, targetLiquidityCoverageRatio);
 				

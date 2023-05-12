@@ -222,6 +222,8 @@ public interface StaticValues {
 	public static int TIC_KGOODSUPPLIERSWITCHINGRATEREPORT=1006;
 	
 	public static int  TIC_MICROSIMPLECSVREPORT =1007;
+	
+	public static int  TIC_BANKSUPDATECBINTERESTRATES =1008;
 
 	
 	public static int EXPECTATIONS_NOMINALSALES=0;

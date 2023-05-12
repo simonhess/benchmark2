@@ -203,7 +203,6 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			setBailoutCost(0);
 			setDebtBurden(0);
 			// TODO set the interest rates here?
-			this.updateCentralBankInterestRates();
 			setCurrentNonPerformingLoans(StaticValues.SM_LOAN,0); // we delete non performing loans from previous period
 			this.totInterestsLoans=0;
 			this.defaulted=false;
@@ -244,6 +243,9 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			    bd = bd.setScale(4, RoundingMode.HALF_UP);
 			    this.CapitalAdequacyRatio = bd.doubleValue();
 			}
+			break;
+		case StaticValues.TIC_BANKSUPDATECBINTERESTRATES:
+			this.updateCentralBankInterestRates();
 			break;
 		case StaticValues.TIC_DEPINTERESTS:
 			payDepositInterests();

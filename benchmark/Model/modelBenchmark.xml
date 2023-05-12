@@ -121,6 +121,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="capitalPriceTic" />
 				<ref bean="consumptionPriceTic" />
 				<ref bean="cbPolicyTic" />
+				<ref bean="banksUpdateCBInterestRatesTic" />
 				<ref bean="capitalMarketTic1" />
 				<ref bean="rdDecisionTic" />
 				<ref bean="investmentDemandTic" />
@@ -884,6 +885,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="cbPolicyTic" class="jmab.events.MacroTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_CBPOLICY" />
+		</property>
+	</bean>
+	<bean id="banksUpdateCBInterestRatesTic" class="jmab.events.MacroTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_BANKSUPDATECBINTERESTRATES" />
 		</property>
 	</bean>
 	<bean id="reservesInterestTic" class="jmab.events.MacroTicEvent">
@@ -3079,6 +3085,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_UPDATEEXPECTATIONS" />
 				<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKINTERESTS" />
 				<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKDEMANDSUPPLY" />
+				<util:constant static-field="benchmark.StaticValues.TIC_BANKSUPDATECBINTERESTRATES" />
 			</list>
 		</property>
 		<property name="expectations"> 
@@ -4140,7 +4147,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		parent="strategy" class="benchmark.strategies.MonetaryPolicyStatic">
 				<property name="staticAdvancesRate" value="0.015"/>
 	</bean> 
-	
 	
 	
 	<bean id="reservesInterestRateStrategy" scope="prototype"

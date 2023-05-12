@@ -159,8 +159,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="hhAvBailoutCostCSVReport" />
 				<ref bean="interbankAvInterestEventReport" />
 				<ref bean="interbankAvInterestCSVReport" />
-				<ref bean="TFMEventReport" />
-				<ref bean="TFMCSVReport" />
+				<!-- <ref bean="TFMEventReport" />
+				<ref bean="TFMCSVReport" /> -->
 				<ref bean="realCDesOutputEventReport" />
 				<ref bean="realCDesOutputCSVReport" />
 				<ref bean="realKDesOutputEventReport" />

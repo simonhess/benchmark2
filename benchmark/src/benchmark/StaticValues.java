@@ -238,6 +238,7 @@ public interface StaticValues {
 	public static int EXPECTATIONS_PROFITAFTERTAX = 9;
 	public static int EXPECTATIONS_REALNEWLOANS = 10;
 	public static int EXPECTATIONS_UNEMPLOYMENT = 11;
+	public static int EXPECTATIONS_EBITDAMINUSCAPEX = 12;
 
 	
 	public static int LAG_INVENTORIES=0;
@@ -295,6 +296,7 @@ public interface StaticValues {
 	public static int LAG_DEBTINTEREST=46;
 	
 	public static int LAG_AVCFIRMEQUITYRATIO=47;
+	public static int LAG_EBITDAMINUSCAPEX=48;
 	
 	public static int SM_CASH=0;
 	public static int SM_DEP=1;

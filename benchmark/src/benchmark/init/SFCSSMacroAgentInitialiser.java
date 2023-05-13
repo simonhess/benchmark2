@@ -143,6 +143,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	private double csDiv;
 	private double csLoans;
 	private double csEBITDA;
+	private double csEBITDAminusCAPEX;
 	
     // hhs, banks and gov
 	private int totEmpl;
@@ -466,7 +467,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 		double cSales=csSales/cSize;
 		double cOutput=csOutput/cSize;
 		double cOCF=csOCF/cSize;
-		double cEBITDA=csEBITDA/cSize;
+		double cEBITDAminusCAPEX=csEBITDAminusCAPEX/cSize;
 		double cTax = csTax/cSize;
 		double cTotalLoan = csLoans/cSize;
 		
@@ -644,16 +645,16 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			if(cRSalesExp instanceof AdaptiveExpectationTargetInventories) {
 				((AdaptiveExpectationTargetInventories) cRSalesExp).setAgent(c);
 			}
-			Expectation cEBITDAExp = c.getExpectation(StaticValues.EXPECTATIONS_EBITDA);
-			nbObs = cEBITDAExp .getNumberPeriod();
+			Expectation cEBITDAminusCAPEXExp = c.getExpectation(StaticValues.EXPECTATIONS_EBITDAMINUSCAPEX);
+			nbObs = cEBITDAminusCAPEXExp .getNumberPeriod();
 			double[][] passedEBITDA = new double[nbObs][2];
 			for(int j = 0; j<nbObs; j++){
-				passedEBITDA[j][0]=(cEBITDA)*(1+distr.nextDouble());
-				passedEBITDA[j][1]=(cEBITDA)*(1+distr.nextDouble());
+				passedEBITDA[j][0]=(cEBITDAminusCAPEX)*(1+distr.nextDouble());
+				passedEBITDA[j][1]=(cEBITDAminusCAPEX)*(1+distr.nextDouble());
 			}
-			cEBITDAExp.setPassedValues(passedEBITDA);
-			if(cEBITDAExp instanceof AdaptiveExpectationDoubleExponentialSmoothing) {
-				((AdaptiveExpectationDoubleExponentialSmoothing) cEBITDAExp).setLevel(passedEBITDA[0][0]);
+			cEBITDAminusCAPEXExp.setPassedValues(passedEBITDA);
+			if(cEBITDAminusCAPEXExp instanceof AdaptiveExpectationDoubleExponentialSmoothing) {
+				((AdaptiveExpectationDoubleExponentialSmoothing) cEBITDAminusCAPEXExp).setLevel(passedEBITDA[0][0]);
 			}
 			
 			Expectation cUFCFPerCapExp = c.getExpectation(StaticValues.EXPECTATIONS_UNLEVEREDFREECASHFLOWPERCAPACITY);
@@ -1966,6 +1967,14 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 
 	public void setCsEBITDA(double csEBITDA) {
 		this.csEBITDA = csEBITDA;
+	}
+
+	public double getCsEBITDAminusCAPEX() {
+		return csEBITDAminusCAPEX;
+	}
+
+	public void setCsEBITDAminusCAPEX(double csEBITDAminusCAPEX) {
+		this.csEBITDAminusCAPEX = csEBITDAminusCAPEX;
 	}
 
 }

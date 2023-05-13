@@ -95,11 +95,19 @@ public class DeterministicLogisticDSCRComputer implements
 			
 		}
 
-		AdaptiveExpectationDoubleExponentialSmoothing exp = (AdaptiveExpectationDoubleExponentialSmoothing) creditDemander.getExpectation(StaticValues.EXPECTATIONS_EBITDA);
-		double expEBITDA=exp.getExpectation();
-		
+		AdaptiveExpectationDoubleExponentialSmoothing exp=null;
+		double expEBITDA=0;
 		Bank creditSupplier1= (Bank) creditSupplier;
 		CreditDemander creditDemander1= (CreditDemander) creditDemander;
+		if(creditDemander1 instanceof ConsumptionFirm) {
+			exp = (AdaptiveExpectationDoubleExponentialSmoothing) creditDemander.getExpectation(StaticValues.EXPECTATIONS_EBITDAMINUSCAPEX);
+			expEBITDA=exp.getExpectation();	
+		}else {
+			exp = (AdaptiveExpectationDoubleExponentialSmoothing) creditDemander.getExpectation(StaticValues.EXPECTATIONS_EBITDA);
+			expEBITDA=exp.getExpectation();
+		}
+		
+	
 		double demandedLoanInterestPaymentPerPeriod=creditSupplier1.getInterestRate(loansId, creditDemander, demanded, creditDemander1.decideLoanLength(StaticValues.SM_LOAN))*demanded;
 		double demandedLoanPaymentsPerPeriod=demandedLoanInterestPaymentPerPeriod+demanded/creditDemander1.decideLoanLength(StaticValues.SM_LOAN);
 		double bankRiskAversion=creditSupplier1.getRiskAversion(creditDemander);

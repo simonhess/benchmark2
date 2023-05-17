@@ -106,7 +106,7 @@ public class RealCapitalDemandAdaptiveNPV extends AbstractStrategy implements
 		
 		double wacc = equityRatio*costOfEquity+(1-equityRatio)*avInterest;
 
-		double desInv = desiredCapacity-currentCapacity;
+		double desInv = desiredCapacity-residualCapacity;
 		
 		AdaptiveExpectationDoubleExponentialSmoothing expUFCFCapRatio = (AdaptiveExpectationDoubleExponentialSmoothing) investor.getExpectation(StaticValues.EXPECTATIONS_UNLEVEREDFREECASHFLOWPERCAPACITY);
 		
@@ -119,8 +119,7 @@ public class RealCapitalDemandAdaptiveNPV extends AbstractStrategy implements
 			NPV += expUFCF/Math.pow((1+wacc), i);
 		}
 		
-		
-		if (desiredCapacity>currentCapacity&&NPV>0){
+		if (desInv>this.investment&&NPV>0){
 			this.investment+=adaptiveParameter*distribution.nextDouble();
 		}else{
 			this.investment-=adaptiveParameter*distribution.nextDouble();

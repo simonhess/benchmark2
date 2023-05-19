@@ -914,11 +914,19 @@ public class CapitalFirm extends AbstractFirm implements GoodSupplier,
 		double normalUnitCosts = 0;
 		
 		double expSales = this.getExpectation(StaticValues.EXPECTATIONS_REALSALES).getExpectation();
-		double requiredWorkers = expSales/ this.getLaborProductivity();
 		
-		// Calculate normal unit costs with expected sales as reference variable
+		double output=0;
+		double requiredWorkers = 0;
+		// Calculate normal unit costs with expected sales as reference variable when desired output is zero
+		if(this.getDesiredOutput()>0) {
+			requiredWorkers = this.getRequiredWorkers();
+			output = desiredOutput;
+		}else {
+			requiredWorkers = expSales/ this.getLaborProductivity();
+			output = expSales;
+		}
 		
-		normalUnitCosts = (this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*requiredWorkers+this.debtInterests)/ expSales;
+		normalUnitCosts = (this.getExpectation(StaticValues.EXPECTATIONS_WAGES).getExpectation()*requiredWorkers+this.debtInterests)/ output;
 		
 		return normalUnitCosts;
 		

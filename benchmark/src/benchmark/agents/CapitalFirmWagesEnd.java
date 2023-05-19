@@ -221,7 +221,8 @@ public class CapitalFirmWagesEnd extends CapitalFirm implements GoodSupplier,
 		double expRealSales=realSalesExp.getExpectation();
 		CapitalGood inventories = (CapitalGood)this.getItemStockMatrix(true, StaticValues.SM_CAPGOOD); 
 		//double uc=inventories.getUnitCost();
-		double uc=this.getPriceLowerBound();
+		//double uc2=this.getPriceLowerBound();
+		double uc=(this.getWageBill()+this.debtInterests)/this.desiredOutput;
 		int inv = (int)inventories.getQuantity();
 		int nbWorkers = this.getRequiredWorkers();
 		double expWages = wageExp.getExpectation();

@@ -227,7 +227,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 		double expRealSales=realSalesExp.getExpectation();
 		ConsumptionGood inventories = (ConsumptionGood)this.getItemStockMatrix(true, StaticValues.SM_CONSGOOD); 
 		//double uc=inventories.getUnitCost();
-		double uc=this.getPriceLowerBound();
+		//double uc2=this.getPriceLowerBound();
 		//int inv = (int)inventories.getQuantity();
 		//double expRevenues=nomSalesExp.getExpectation();
 		double expRevenues = expRealSales*this.getPrice();
@@ -247,6 +247,8 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 			if(cap.getAge()>=0 && cap.getAge()<cap.getCapitalAmortization())
 				capitalAmortization+=cap.getQuantity()*cap.getPrice()/cap.getCapitalAmortization();
 		}
+		
+		double uc = (capitalAmortization+this.getWageBill()+this.debtInterests)/desiredOutput;
 		
 		double expectedProfits=expRevenues-(nbWorkers*expWages)+this.interestReceived-this.debtInterests+(shareInvenstories*expRealSales)*uc-lNomInv-capitalAmortization;
 		double expectedTaxes=Math.max(0, expectedProfits*profitTaxRate);

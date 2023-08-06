@@ -125,10 +125,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="capitalMarketTic1" />
 				<ref bean="rdDecisionTic" />
 				<ref bean="investmentDemandTic" />
-				<ref bean="creditSupplyTic" />
-				<ref bean="depSupplyTic" />
 				<ref bean="depInterestTic" />
 				<ref bean="reservesInterestTic" />
+				<ref bean="depSupplyTic" />
+				<ref bean="creditSupplyTic" />
 				<ref bean="creditDemandTic" />
 				<ref bean="creditMarketTic" />
 				<ref bean="productionTic" />
@@ -3423,7 +3423,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 			<util:constant static-field="benchmark.StaticValues.MKT_CREDIT" />
 		</property>
 		<!-- <property name="adaptiveParameter" value="1"/> -->
-		<property name="adaptiveParameter" value="0.001" />
+		<property name="adaptiveParameter" value="0.01" />
 		<property name="markup" value="0.0025" />
 		<property name="liabilitiesId">
 			<list>

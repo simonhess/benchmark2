@@ -3423,7 +3423,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 			<util:constant static-field="benchmark.StaticValues.MKT_CREDIT" />
 		</property>
 		<!-- <property name="adaptiveParameter" value="1"/> -->
-		<property name="adaptiveParameter" value="0.01" />
+		<property name="adaptiveParameter" value="0.001" />
 		<property name="markup" value="0.0025" />
 		<property name="liabilitiesId">
 			<list>

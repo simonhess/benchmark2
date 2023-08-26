@@ -59,6 +59,7 @@ DividendsStrategy {
 	static int currentRound;
 	static double receiversTotalNW;
 	static HashMap<Long, Double> receiversNW = new HashMap<Long, Double>();
+	double excessEquityDecayRate;
 
 	/* (non-Javadoc)
 	 * @see jmab.strategies.DividendsStrategy#payDividends()
@@ -93,9 +94,7 @@ DividendsStrategy {
 				
 				// Calculate get the actual capital ratio without profits
 				
-				double actualCapitalRatio;
-				
-				double actualCapital = bank.getNetWealth()-profits;
+				double actualCapital = bank.getPassedValue(StaticValues.LAG_NETWEALTH, 1);
 				
 				double outstandingLoans=0;
 				for (Item i:bank.getItemsStockMatrix(true, StaticValues.SM_LOAN)){
@@ -105,46 +104,24 @@ DividendsStrategy {
 				for (Item i:bank.getItemsStockMatrix(true, StaticValues.SM_INTERBANK)){
 					outstandingInterbankLoans+=i.getValue();
 				}
-				//ALE HAI AGGIUNTO QUESTO IL 24/1/2015
-				if (Math.floor(outstandingLoans)==0){
-					actualCapitalRatio=0;
-				}
-				else {
-					// consider current netwealth minus profits when calculating current capital (adequacy) ratio
-					actualCapitalRatio=(bank.getNetWealth()-profits)/(outstandingLoans+outstandingInterbankLoans*1);
-				}
-				
-				// Get target ratio
-				
-				double requiredEquityForDepositInsurance = bank.getNumericBalanceSheet()[1][StaticValues.SM_DEP]* bank.getDISReserveRatio();
-				
-				double depositInsuranceCapitalRatio=0;
-				
-				if(bank.getNumericBalanceSheet()[0][StaticValues.SM_LOAN]!=0) {
-					depositInsuranceCapitalRatio = requiredEquityForDepositInsurance/ (bank.getNumericBalanceSheet()[0][StaticValues.SM_LOAN]+outstandingInterbankLoans);
-				}
-				
-				
-				
-				BigDecimal bd = BigDecimal.valueOf(depositInsuranceCapitalRatio);
-			    bd = bd.setScale(4, RoundingMode.HALF_UP);
-			    depositInsuranceCapitalRatio = bd.doubleValue();
-				
-				double targetedCapitalRatio = bank.getTargetedCapitalAdequacyRatio()+depositInsuranceCapitalRatio; 
-				
-				double targetCapital = targetedCapitalRatio*(outstandingLoans+outstandingInterbankLoans);
-				
-				
 
-				if (targetedCapitalRatio >= actualCapitalRatio) {
+				
+				// Get target capital
+				
+				double requiredEquityForDepositInsurance = bank.getNumericBalanceSheet()[1][StaticValues.SM_DEP]* bank.getDISReserveRatio();	
+				
+				double targetCapital = bank.getTargetedCapitalAdequacyRatio()*(bank.getLoansRiskWeight()*outstandingLoans
+						+bank.getInterbankLoansRiskWeight()*outstandingInterbankLoans)+requiredEquityForDepositInsurance;
+
+				if (actualCapital <= targetCapital) {
 					
 					double div = Math.max(0, profits-(targetCapital-actualCapital));
 					//div=profits;
 					bank.setDividends(div);
 				}
-				else if (actualCapitalRatio > targetedCapitalRatio) {
+				else if (actualCapital > targetCapital) {
 
-					double div = profits+(actualCapital-targetCapital)*0.25;
+					double div = profits+(actualCapital-targetCapital)*excessEquityDecayRate;
 					//div=profits;
 					bank.setDividends(div);
 				}
@@ -288,6 +265,16 @@ DividendsStrategy {
 	public void setDepositId(int depositId) {
 		this.depositId = depositId;
 	}
+
+	public double getExcessEquityDecayRate() {
+		return excessEquityDecayRate;
+	}
+
+
+	public void setExcessEquityDecayRate(double excessEquityDecayRate) {
+		this.excessEquityDecayRate = excessEquityDecayRate;
+	}
+
 
 	/**
 	 * Generate the byte array structure of the strategy. The structure is as follow:

@@ -109,6 +109,9 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	private double riskAversionMarkUp;
 	private double interBankRiskPremium;
 	private double DISReserveRatio;
+	
+	private double loansRiskWeight;
+	private double interbankLoansRiskWeight;
 
 	/* (non-Javadoc)
 	 * @see jmab.agents.MacroAgent#onRoundFinished(net.sourceforge.jabm.event.RoundFinishedEvent)
@@ -238,7 +241,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			}
 			else {
 				this.capitalRatio=this.getPassedValue(StaticValues.LAG_NETWEALTH, 1)/outstandingLoans;
-				this.CapitalAdequacyRatio=this.getPassedValue(StaticValues.LAG_NETWEALTH, 1)/(outstandingLoans+outstandingInterbankLoans*0);
+				this.CapitalAdequacyRatio=this.getPassedValue(StaticValues.LAG_NETWEALTH, 1)/(outstandingLoans*this.getLoansRiskWeight()+outstandingInterbankLoans*this.getInterbankLoansRiskWeight());
 				BigDecimal bd = BigDecimal.valueOf(this.CapitalAdequacyRatio);
 			    bd = bd.setScale(4, RoundingMode.HALF_UP);
 			    this.CapitalAdequacyRatio = bd.doubleValue();
@@ -1609,5 +1612,21 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 
 	public void setNetLiquidityRatio(double netLiquidityRatio) {
 		this.netLiquidityRatio = netLiquidityRatio;
+	}
+
+	public double getLoansRiskWeight() {
+		return loansRiskWeight;
+	}
+
+	public void setLoansRiskWeight(double loansRiskWeight) {
+		this.loansRiskWeight = loansRiskWeight;
+	}
+
+	public double getInterbankLoansRiskWeight() {
+		return interbankLoansRiskWeight;
+	}
+
+	public void setInterbankLoansRiskWeight(double interbankLoansRiskWeight) {
+		this.interbankLoansRiskWeight = interbankLoansRiskWeight;
 	}
 }

@@ -45,11 +45,8 @@ public class InterbankAskPerfectCompetition extends AbstractStrategy implements 
 			for(Item i:bank.getItemsStockMatrix(false, StaticValues.SM_DEP)){
 				depositsValue+=i.getValue();
 				}
-			double reservesValue=0;
-			for(Item i:bank.getItemsStockMatrix(true, StaticValues.SM_RESERVES)){
-				reservesValue+=i.getValue();
-				}
-			totalReserves+=reservesValue;
+			//totalReserves+=reservesValue;
+			totalReserves+=bank.getNetLiquidity();
 			totalRequiredReserves+=depositsValue*bank.getTargetedLiquidityRatio();
 			}
 		
@@ -59,7 +56,7 @@ public class InterbankAskPerfectCompetition extends AbstractStrategy implements 
 		
 		double targetLiquidityCoverageRatio =0;
 		if(totalRequiredReserves==0) {
-			targetLiquidityCoverageRatio=1;
+			targetLiquidityCoverageRatio=0;
 		}else {
 			targetLiquidityCoverageRatio = Math.max(0,totalReserves/totalRequiredReserves);
 		}

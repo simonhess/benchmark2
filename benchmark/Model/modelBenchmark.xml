@@ -122,6 +122,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="consumptionPriceTic" />
 				<ref bean="cbPolicyTic" />
 				<ref bean="banksUpdateCBInterestRatesTic" />
+				<ref bean="banksUpdateIBInterestRateTic" />
 				<ref bean="capitalMarketTic1" />
 				<ref bean="rdDecisionTic" />
 				<ref bean="investmentDemandTic" />
@@ -890,6 +891,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<bean id="banksUpdateCBInterestRatesTic" class="jmab.events.MacroTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_BANKSUPDATECBINTERESTRATES" />
+		</property>
+	</bean>
+	<bean id="banksUpdateIBInterestRateTic" class="jmab.events.MacroTicEvent">
+		<property name="tic">
+			<util:constant static-field="benchmark.StaticValues.TIC_BANKSUPDATEIBINTERESTRATE" />
 		</property>
 	</bean>
 	<bean id="reservesInterestTic" class="jmab.events.MacroTicEvent">
@@ -3121,6 +3127,8 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKINTERESTS" />
 				<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKDEMANDSUPPLY" />
 				<util:constant static-field="benchmark.StaticValues.TIC_BANKSUPDATECBINTERESTRATES" />
+				<util:constant static-field="benchmark.StaticValues.TIC_BANKSUPDATEIBINTERESTRATE" />
+				
 			</list>
 		</property>
 		<property name="expectations"> 
@@ -3419,7 +3427,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="banksBankSpecificLoanInterestStrategy" scope="prototype"
-		parent="strategy" class="benchmark.strategies.AdaptiveMarkupOnAdvancesRateExpectedVsActualValue">
+		parent="strategy" class="benchmark.strategies.AdaptiveMarkupOnIBRateExpectedVsActualValue">
 		<property name="distribution" ref="logNormal1" />
 		<property name="mktId">
 			<util:constant static-field="benchmark.StaticValues.MKT_CREDIT" />
@@ -3970,8 +3978,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="governmentBondsInterestStrategy" scope="prototype" parent="strategy"
-		class="benchmark.strategies.BondInterestRateStrategyAdvRate">
-		<property name="cbId"><util:constant static-field="benchmark.StaticValues.CB_ID" /> </property>
+		class="benchmark.strategies.BondInterestRateStrategyIBRate">
 	</bean>
 	
 	<bean id="governmentDistributeCBProfitsStrategy" scope="prototype" parent="strategy"

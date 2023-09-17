@@ -250,6 +250,9 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		case StaticValues.TIC_BANKSUPDATECBINTERESTRATES:
 			this.updateCentralBankInterestRates();
 			break;
+		case StaticValues.TIC_BANKSUPDATEIBINTERESTRATE:
+			determineInterbankAsk();
+			break;
 		case StaticValues.TIC_DEPINTERESTS:
 			payDepositInterests();
 			break;
@@ -289,7 +292,6 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 			payInterbankInterests();
 			break;
 		case StaticValues.TIC_INTERBANKDEMANDSUPPLY:
-			determineInterbankAsk();
 			determineInterbankSupplyOrDemand();
 			break;
 		}
@@ -901,8 +903,34 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 					interestPay += liability.getInterestRate()*liability.getValue();
 					totValue +=liability.getValue();
 				}
+				
+				
+				SimulationController controller = (SimulationController)this.getScheduler();
+				MacroPopulation macroPop = (MacroPopulation) controller.getPopulation();
+				Population banks = macroPop.getPopulation(StaticValues.BANKS_ID);
+				double totalReserves = 0;
+				double totalDeposits=0;
+				
+				for (Agent b:banks.getAgents()){
+					Bank bank = (Bank) b;
+					
+					for(Item i:bank.getItemsStockMatrix(false, StaticValues.SM_DEP)){
+						totalDeposits+=i.getValue();
+						}
+					//totalReserves+=reservesValue;
+					totalReserves+=bank.getNetLiquidity();
+	
+					}
+				
+				double avgNetLiquidityRatio =0;
+				if(totalDeposits==0) {
+					avgNetLiquidityRatio=0;
+				}else {
+					avgNetLiquidityRatio = totalReserves/totalDeposits;
+				}
 			
-			return this.advancesInterestRate-Math.max(0,Math.round(this.targetedLiquidityRatio * 100.0) / 100.0-Math.round(Math.max(0, this.netLiquidityRatio) * 100.0) / 100.0)*(this.advancesInterestRate+this.reserveInterestRate);
+				return this.interbankAsk-Math.max(0,Math.round(this.targetedLiquidityRatio * 1000.0) / 1000.0-Math.round(Math.max(0, avgNetLiquidityRatio) * 1000.0) / 1000.0)*(this.advancesInterestRate+this.reserveInterestRate)-(Math.max(0, avgNetLiquidityRatio) * 1000.0/1000.0)*(this.interbankAsk-this.reserveInterestRate);
+				
 		case StaticValues.MKT_INTERBANK:
 			return this.advancesInterestRate;
 		}

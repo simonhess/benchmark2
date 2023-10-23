@@ -71,7 +71,7 @@ public class ExpectedReturnCreditSupplyWithECFAndECL extends AbstractStrategy im
 		}
 		int duration=((CreditDemander)creditDemander).decideLoanLength(loansId);
 		double interest=creditSupplier.getInterestRate(loansId, creditDemander, required, duration);
-		double advancesInterestRate = creditSupplier.getAdvancesInterestRate();
+		double interbankRate = creditSupplier.getInterbankAsk();
 		double amount=0;
 		for(int i=0; i<101; i++){
 			//if(required>0) return required;
@@ -87,9 +87,9 @@ public class ExpectedReturnCreditSupplyWithECFAndECL extends AbstractStrategy im
 			double ECL = 0;
 			
 			for (int t=1; t<=duration; t++){
-				ECF += (1-probability)*(periodicRePayment+residualDebt*interest)/Math.pow((1+advancesInterestRate), t);
+				ECF += (1-probability)*(periodicRePayment+residualDebt*interest)/Math.pow((1+interbankRate), t);
 	
-				ECL+=probability*(residualDebt*(1-expectedShareRecovered)/Math.pow((1+advancesInterestRate), t));
+				ECL+=probability*(residualDebt*(1-expectedShareRecovered)/Math.pow((1+interbankRate), t));
 				residualDebt-=periodicRePayment;
 			}
 			

@@ -1985,10 +1985,10 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <property name="bsAdv" value="2412.58360960885"/>
 <property name="bsBonds" value="26916.6214811214"/>
 <property name="bsCash" value="0"/>
-<property name="bsProfits" value="85.1652687786227"/>
+<property name="bsProfits" value="85.1652687786228"/>
 <property name="bsRes" value="2412.58360960885"/>
 <property name="bsTax" value="15.3297483801521"/>
-<property name="bsDiv" value="56.0249362722038"/>
+<property name="bsDiv" value="56.0249362722039"/>
 <property name="bsNW" value="1855.22180096135"/>
 <property name="bsProfitShareAsDividends" value="0.802241265655847"/>
 <property name="riskAversionK" value="7.19722457733622"/>
@@ -2038,7 +2038,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <property name="csShareOfExpIncomeAsDeposit" value="1"/>
 <property name="csEBITDAminusCAPEX" value="5380.04476350838"/>
 <property name="ksEBITDA" value="459.575376242384"/>
-
 
 
 <property name="avpAllProdComputer" ref="AveragePriceAllProducersComputer"/>
@@ -4193,6 +4192,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<property name="staticAdvancesRate" value="0.015"/>
 	</bean> 
 -->	
+
 	
 	<bean id="reservesInterestRateStrategy" scope="prototype"
 		parent="strategy" class="benchmark.strategies.ReservesStatic">

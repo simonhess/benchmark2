@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.Item;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.Item;
 import net.sourceforge.jabm.EventScheduler;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
@@ -110,7 +110,7 @@ IlliquidityStrategy {
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.SingleStrategy#getBytes()
+	 * @see jmab2.strategies.SingleStrategy#getBytes()
 	 */
 	@Override
 	public byte[] getBytes() {
@@ -119,7 +119,7 @@ IlliquidityStrategy {
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.SingleStrategy#populateFromBytes(byte[], jmab.population.MacroPopulation)
+	 * @see jmab2.strategies.SingleStrategy#populateFromBytes(byte[], jmab2.population.MacroPopulation)
 	 */
 	@Override
 	public void populateFromBytes(byte[] content, MacroPopulation pop) {

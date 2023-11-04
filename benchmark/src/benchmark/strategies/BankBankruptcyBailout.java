@@ -17,10 +17,10 @@ package benchmark.strategies;
 import java.nio.ByteBuffer;
 
 import benchmark.agents.Bank;
-import jmab.expectations.Expectation;
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.Item;
-import jmab.strategies.BankruptcyStrategy;
+import jmab2.expectations.Expectation;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.BankruptcyStrategy;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**
@@ -75,7 +75,7 @@ public class BankBankruptcyBailout extends AbstractStrategy implements
 
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.BankruptcyStrategy#bankrupt()
+	 * @see jmab2.strategies.BankruptcyStrategy#bankrupt()
 	 */
 	@Override
 	public void bankrupt() {

@@ -24,13 +24,13 @@ import benchmark.StaticValues;
 import benchmark.agents.CentralBank;
 import benchmark.agents.Government;
 import benchmark.agents.Households;
-import jmab.agents.AbstractBank;
-import jmab.agents.AbstractFirm;
-import jmab.agents.ProfitsTaxPayer;
-import jmab.agents.SimpleAbstractAgent;
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.Item;
-import jmab.strategies.TaxPayerStrategy;
+import jmab2.agents.AbstractBank;
+import jmab2.agents.AbstractFirm;
+import jmab2.agents.ProfitsTaxPayer;
+import jmab2.agents.SimpleAbstractAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.TaxPayerStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -50,7 +50,7 @@ public class ProfitsWealthTaxStrategySeigniorage extends ProfitsWealthTaxStrateg
 	private int[] liquidAssetsId;
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.TaxPayerStrategy#computeTaxes()
+	 * @see jmab2.strategies.TaxPayerStrategy#computeTaxes()
 	 */
 	@Override
 	public double computeTaxes() {
@@ -202,7 +202,7 @@ public class ProfitsWealthTaxStrategySeigniorage extends ProfitsWealthTaxStrateg
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.TaxPayerStrategy#updateRates(double)
+	 * @see jmab2.strategies.TaxPayerStrategy#updateRates(double)
 	 */
 	@Override
 	public void updateRates(double multiplier) {

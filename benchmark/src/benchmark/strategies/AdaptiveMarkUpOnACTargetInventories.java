@@ -29,20 +29,20 @@ import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.Government;
 import benchmark.expectations.AdaptiveExpectationTargetInventories;
 import benchmark.expectations.AdaptiveExpectationWithDelta;
-import jmab.agents.AbstractFirm;
-import jmab.agents.GoodDemander;
-import jmab.agents.MacroAgent;
-import jmab.agents.PriceSetterWithTargets;
-import jmab.expectations.Expectation;
-import jmab.expectations.PassedValues;
-import jmab.population.MacroPopulation;
-import jmab.simulations.AbstractMacroSimulation;
-import jmab.simulations.MacroSimulation;
-import jmab.stockmatrix.AbstractGood;
-import jmab.stockmatrix.ConsumptionGood;
-import jmab.stockmatrix.Item;
-import jmab.strategies.MarkupPricingStrategy;
-import jmab.strategies.TargetExpectedInventoriesOutputStrategy;
+import jmab2.agents.AbstractFirm;
+import jmab2.agents.GoodDemander;
+import jmab2.agents.MacroAgent;
+import jmab2.agents.PriceSetterWithTargets;
+import jmab2.expectations.Expectation;
+import jmab2.expectations.PassedValues;
+import jmab2.population.MacroPopulation;
+import jmab2.simulations.AbstractMacroSimulation;
+import jmab2.simulations.MacroSimulation;
+import jmab2.stockmatrix.AbstractGood;
+import jmab2.stockmatrix.ConsumptionGood;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.MarkupPricingStrategy;
+import jmab2.strategies.TargetExpectedInventoriesOutputStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -152,7 +152,7 @@ MarkupPricingStrategy {
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.PricingStrategy#computePriceForSpecificBuyer(jmab.agents.GoodDemander, double, boolean)
+	 * @see jmab2.strategies.PricingStrategy#computePriceForSpecificBuyer(jmab2.agents.GoodDemander, double, boolean)
 	 */
 	@Override
 	public double computePriceForSpecificBuyer(GoodDemander buyer,

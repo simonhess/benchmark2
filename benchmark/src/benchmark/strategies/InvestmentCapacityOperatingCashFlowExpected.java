@@ -19,10 +19,10 @@ import java.util.List;
 
 import benchmark.StaticValues;
 import benchmark.agents.ConsumptionFirm;
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.CapitalGood;
-import jmab.stockmatrix.Item;
-import jmab.strategies.InvestmentStrategy;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.CapitalGood;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.InvestmentStrategy;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**
@@ -145,7 +145,7 @@ public class InvestmentCapacityOperatingCashFlowExpected extends AbstractStrateg
 	
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.InvestmentStrategy#computeDesiredGrowth()
+	 * @see jmab2.strategies.InvestmentStrategy#computeDesiredGrowth()
 	 */
 	@Override
 	public double computeDesiredGrowth() {

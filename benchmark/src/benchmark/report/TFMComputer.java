@@ -27,13 +27,13 @@ import benchmark.agents.GovernmentAntiCyclical;
 import benchmark.agents.GovernmentAntiCyclicalWithInvestment;
 import benchmark.agents.Households;
 import benchmark.strategies.FixedShareOfProfitsToPopulationAsShareOfWealthDividends;
-import jmab.population.MacroPopulation;
-import jmab.report.AbstractMicroComputer;
-import jmab.report.MicroMultipleVariablesComputer;
-import jmab.simulations.MacroSimulation;
-import jmab.stockmatrix.CapitalGood;
-import jmab.stockmatrix.ConsumptionGood;
-import jmab.stockmatrix.Item;
+import jmab2.population.MacroPopulation;
+import jmab2.report.AbstractMicroComputer;
+import jmab2.report.MicroMultipleVariablesComputer;
+import jmab2.simulations.MacroSimulation;
+import jmab2.stockmatrix.CapitalGood;
+import jmab2.stockmatrix.ConsumptionGood;
+import jmab2.stockmatrix.Item;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -52,7 +52,7 @@ public class TFMComputer extends AbstractMicroComputer implements
 	private int centralBankId;
 	
 	/* (non-Javadoc)
-	 * @see jmab.report.MicroMultipleVariablesComputer#computeVariables(jmab.simulations.MacroSimulation)
+	 * @see jmab2.report.MicroMultipleVariablesComputer#computeVariables(jmab2.simulations.MacroSimulation)
 	 */
 	
 	
@@ -60,7 +60,7 @@ public class TFMComputer extends AbstractMicroComputer implements
 	 * TFM flows: Consumption, wages (CF, KF, G), Dole, Inv, Capital Amortization, Taxes (HH,CF, KF, B), Deposits Interests (HH,CF,KF)
 	 * Bonds interests (B, CB), loans interests (CF, KF), Retained Earnings (CF, KF, B), Dividends (CF,KF,B), CB Profits
 	 * 
-	 * (non-Javadoc)@see jmab.report.MicroMultipleVariablesComputer#computeVariables(jmab.simulations.MacroSimulation)
+	 * (non-Javadoc)@see jmab2.report.MicroMultipleVariablesComputer#computeVariables(jmab2.simulations.MacroSimulation)
 	 */
 	
 	@Override

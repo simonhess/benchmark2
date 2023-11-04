@@ -14,11 +14,11 @@
  */
 package benchmark.agents;
 
-import jmab.agents.DepositDemander;
-import jmab.agents.GoodDemander;
-import jmab.agents.IncomeTaxPayer;
-import jmab.agents.LaborSupplier;
-import jmab.agents.WageSetterWithTargets;
+import jmab2.agents.DepositDemander;
+import jmab2.agents.GoodDemander;
+import jmab2.agents.IncomeTaxPayer;
+import jmab2.agents.LaborSupplier;
+import jmab2.agents.WageSetterWithTargets;
 
 
 /**

@@ -16,10 +16,10 @@ package benchmark.strategies;
 
 import java.nio.ByteBuffer;
 
-import jmab.agents.InterestRateSetterWithTargets;
-import jmab.agents.MacroAgent;
-import jmab.population.MacroPopulation;
-import jmab.strategies.InterestRateStrategy;
+import jmab2.agents.InterestRateSetterWithTargets;
+import jmab2.agents.MacroAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.strategies.InterestRateStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -42,7 +42,7 @@ public class AdaptiveInterestRateAverageThreshold extends AbstractStrategy imple
 	private int mktId;
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.InterestRateStrategy#computeInterestRate(jmab.agents.MacroAgent, double, int)
+	 * @see jmab2.strategies.InterestRateStrategy#computeInterestRate(jmab2.agents.MacroAgent, double, int)
 	 */
 	@Override
 	public double computeInterestRate(MacroAgent creditDemander, double amount,

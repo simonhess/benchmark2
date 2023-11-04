@@ -9,16 +9,16 @@ import benchmark.mixing.DynamicRandomRobinInterbankMixer;
 
 import java.util.List;
 
-import jmab.agents.CreditDemander;
-import jmab.agents.CreditSupplier;
-import jmab.agents.LiabilitySupplier;
-import jmab.agents.MacroAgent;
-import jmab.mechanisms.AbstractCreditMechanism;
-import jmab.mechanisms.Mechanism;
-import jmab.simulations.MarketSimulation;
-import jmab.simulations.SimpleMarketSimulation;
-import jmab.stockmatrix.Item;
-import jmab.stockmatrix.Loan;
+import jmab2.agents.CreditDemander;
+import jmab2.agents.CreditSupplier;
+import jmab2.agents.LiabilitySupplier;
+import jmab2.agents.MacroAgent;
+import jmab2.mechanisms.AbstractCreditMechanism;
+import jmab2.mechanisms.Mechanism;
+import jmab2.simulations.MarketSimulation;
+import jmab2.simulations.SimpleMarketSimulation;
+import jmab2.stockmatrix.Item;
+import jmab2.stockmatrix.Loan;
 
 /**
  * @author Joeri Schasfoort
@@ -88,7 +88,7 @@ public class Interbankcreditmechanism extends AbstractCreditMechanism implements
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.mechanisms.Mechanism#execute(jmab.agents.MacroAgent, java.util.List, int)
+	 * @see jmab2.mechanisms.Mechanism#execute(jmab2.agents.MacroAgent, java.util.List, int)
 	 */
 	@Override
 	public void execute(MacroAgent buyer, List<MacroAgent> seller, int idMarket) {

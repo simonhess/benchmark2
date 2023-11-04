@@ -1,8 +1,7 @@
 package benchmark.strategies;
 
 import benchmark.agents.CentralBank;
-import jmab.population.MacroPopulation;
-
+import jmab2.population.MacroPopulation;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**

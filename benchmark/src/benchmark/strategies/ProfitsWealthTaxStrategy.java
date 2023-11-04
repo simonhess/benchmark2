@@ -18,12 +18,12 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import jmab.agents.AbstractBank;
-import jmab.agents.ProfitsTaxPayer;
-import jmab.agents.SimpleAbstractAgent;
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.Item;
-import jmab.strategies.TaxPayerStrategy;
+import jmab2.agents.AbstractBank;
+import jmab2.agents.ProfitsTaxPayer;
+import jmab2.agents.SimpleAbstractAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.TaxPayerStrategy;
 import net.sourceforge.jabm.agent.Agent;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
@@ -41,7 +41,7 @@ public class ProfitsWealthTaxStrategy extends AbstractStrategy implements TaxPay
 	private int[] liquidAssetsId;
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.TaxPayerStrategy#computeTaxes()
+	 * @see jmab2.strategies.TaxPayerStrategy#computeTaxes()
 	 */
 	@Override
 	public double computeTaxes() {
@@ -154,7 +154,7 @@ public class ProfitsWealthTaxStrategy extends AbstractStrategy implements TaxPay
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.TaxPayerStrategy#updateRates(double)
+	 * @see jmab2.strategies.TaxPayerStrategy#updateRates(double)
 	 */
 	@Override
 	public void updateRates(double multiplier) {

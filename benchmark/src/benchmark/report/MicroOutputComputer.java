@@ -18,11 +18,11 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import benchmark.StaticValues;
-import jmab.agents.AbstractFirm;
-import jmab.population.MacroPopulation;
-import jmab.report.AbstractMicroComputer;
-import jmab.report.MicroMultipleVariablesComputer;
-import jmab.simulations.MacroSimulation;
+import jmab2.agents.AbstractFirm;
+import jmab2.population.MacroPopulation;
+import jmab2.report.AbstractMicroComputer;
+import jmab2.report.MicroMultipleVariablesComputer;
+import jmab2.simulations.MacroSimulation;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -34,7 +34,7 @@ public class MicroOutputComputer extends AbstractMicroComputer implements MicroM
 	private int populationId;
 
 	/* (non-Javadoc)
-	 * @see jmab.report.MicroMultipleVariablesComputer#computeVariables(jmab.simulations.MacroSimulation)
+	 * @see jmab2.report.MicroMultipleVariablesComputer#computeVariables(jmab2.simulations.MacroSimulation)
 	 */
 	@Override
 	public Map<Long, Double> computeVariables(MacroSimulation sim) {

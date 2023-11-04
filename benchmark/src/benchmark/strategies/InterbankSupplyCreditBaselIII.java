@@ -4,9 +4,9 @@ import benchmark.agents.Bank;
 
 import java.util.List;
 
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.Item;
-import jmab.strategies.SupplyCreditStrategy;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.SupplyCreditStrategy;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 @SuppressWarnings("serial")

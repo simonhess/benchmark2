@@ -15,11 +15,11 @@
 package benchmark.agents;
 
 import benchmark.StaticValues;
-import jmab.agents.BondSupplier;
-import jmab.agents.LaborDemander;
-import jmab.agents.MacroAgent;
-import jmab.events.MacroTicEvent;
-import jmab.stockmatrix.Deposit;
+import jmab2.agents.BondSupplier;
+import jmab2.agents.LaborDemander;
+import jmab2.agents.MacroAgent;
+import jmab2.events.MacroTicEvent;
+import jmab2.stockmatrix.Deposit;
 import net.sourceforge.jabm.agent.AgentList;
 
 /**
@@ -32,7 +32,7 @@ public class Government2WagesEnd extends Government implements LaborDemander, Bo
 
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.SimpleAbstractAgent#onTicArrived(AgentTicEvent)
+	 * @see jmab2.agents.SimpleAbstractAgent#onTicArrived(AgentTicEvent)
 	 */
 	@Override
 	protected void onTicArrived(MacroTicEvent event) {

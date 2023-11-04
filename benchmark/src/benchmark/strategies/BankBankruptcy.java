@@ -20,11 +20,11 @@ import java.util.List;
 
 import benchmark.StaticValues;
 import benchmark.agents.Bank;
-import jmab.agents.AbstractBank;
-import jmab.agents.MacroAgent;
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.Item;
-import jmab.strategies.BankruptcyStrategy;
+import jmab2.agents.AbstractBank;
+import jmab2.agents.MacroAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.BankruptcyStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -42,7 +42,7 @@ public class BankBankruptcy extends AbstractStrategy implements
 	private int liabilityHaircutId; 
 	
 	/* (non-Javadoc)
-	 * @see jmab.strategies.BankruptcyStrategy#bankrupt()
+	 * @see jmab2.strategies.BankruptcyStrategy#bankrupt()
 	 */
 	@Override
 	public void bankrupt() {

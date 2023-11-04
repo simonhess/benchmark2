@@ -23,20 +23,20 @@ import benchmark.StaticValues;
 import benchmark.agents.CapitalFirm;
 import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.Households;
-import jmab.agents.AbstractFirm;
-import jmab.agents.CreditSupplier;
-import jmab.agents.LiabilitySupplier;
-import jmab.agents.MacroAgent;
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.CapitalGood;
-import jmab.stockmatrix.Cash;
-import jmab.stockmatrix.ConsumptionGood;
-import jmab.stockmatrix.Deposit;
-import jmab.stockmatrix.Item;
-import jmab.stockmatrix.Loan;
-import jmab.strategies.AdaptiveMarkUpOnAC;
-import jmab.strategies.BankruptcyStrategy;
-import jmab.strategies.MarkupPricingStrategy;
+import jmab2.agents.AbstractFirm;
+import jmab2.agents.CreditSupplier;
+import jmab2.agents.LiabilitySupplier;
+import jmab2.agents.MacroAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.CapitalGood;
+import jmab2.stockmatrix.Cash;
+import jmab2.stockmatrix.ConsumptionGood;
+import jmab2.stockmatrix.Deposit;
+import jmab2.stockmatrix.Item;
+import jmab2.stockmatrix.Loan;
+import jmab2.strategies.AdaptiveMarkUpOnAC;
+import jmab2.strategies.BankruptcyStrategy;
+import jmab2.strategies.MarkupPricingStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -70,7 +70,7 @@ public class FirmBankruptcyFireSales extends AbstractStrategy implements
 
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.BankruptcyStrategy#bankrupt()
+	 * @see jmab2.strategies.BankruptcyStrategy#bankrupt()
 	 */
 	@Override
 	public void bankrupt() {

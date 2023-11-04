@@ -16,8 +16,8 @@ package benchmark.strategies;
 
 import java.nio.ByteBuffer;
 
-import jmab.population.MacroPopulation;
-import jmab.strategies.AbstractSwitchingStrategy;
+import jmab2.population.MacroPopulation;
+import jmab2.strategies.AbstractSwitchingStrategy;
 
 /**
  * @author Simon Hess

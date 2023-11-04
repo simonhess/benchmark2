@@ -25,28 +25,28 @@ import benchmark.StaticValues;
 import cern.jet.random.engine.RandomEngine;
 import benchmark.report.TotalCreditComputer;
 import benchmark.strategies.FixedShareOfProfitsToPopulationAsShareOfWealthDividends;
-import jmab.agents.BondDemander;
-import jmab.agents.BondSupplier;
-import jmab.agents.LaborDemander;
-import jmab.agents.LaborSupplier;
-import jmab.agents.LiabilitySupplier;
-import jmab.agents.MacroAgent;
-import jmab.agents.SimpleAbstractAgent;
-import jmab.agents.TaxPayer;
-import jmab.events.MacroTicEvent;
-import jmab.population.MacroPopulation;
-import jmab.report.AveragePriceComputer;
 import benchmark.report.AveragePriceAllProducersComputer;
 import benchmark.report.NominalGDPComputer;
-import jmab.report.UnemploymentRateComputer;
-import jmab.simulations.MacroSimulation;
-import jmab.stockmatrix.Bond;
-import jmab.stockmatrix.CapitalGood;
-import jmab.stockmatrix.ConsumptionGood;
-import jmab.stockmatrix.Deposit;
-import jmab.stockmatrix.Item;
-import jmab.strategies.InterestRateStrategy;
-import jmab.strategies.SelectWorkerStrategy;
+import jmab2.agents.BondDemander;
+import jmab2.agents.BondSupplier;
+import jmab2.agents.LaborDemander;
+import jmab2.agents.LaborSupplier;
+import jmab2.agents.LiabilitySupplier;
+import jmab2.agents.MacroAgent;
+import jmab2.agents.SimpleAbstractAgent;
+import jmab2.agents.TaxPayer;
+import jmab2.events.MacroTicEvent;
+import jmab2.population.MacroPopulation;
+import jmab2.report.AveragePriceComputer;
+import jmab2.report.UnemploymentRateComputer;
+import jmab2.simulations.MacroSimulation;
+import jmab2.stockmatrix.Bond;
+import jmab2.stockmatrix.CapitalGood;
+import jmab2.stockmatrix.ConsumptionGood;
+import jmab2.stockmatrix.Deposit;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.InterestRateStrategy;
+import jmab2.strategies.SelectWorkerStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -95,7 +95,7 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.MacroAgent#onRoundFinished(net.sourceforge.jabm.event.RoundFinishedEvent)
+	 * @see jmab2.agents.MacroAgent#onRoundFinished(net.sourceforge.jabm.event.RoundFinishedEvent)
 	 */
 	@Override
 	public void onRoundFinished(RoundFinishedEvent event) {
@@ -104,7 +104,7 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.MacroAgent#initialiseCounterpart(net.sourceforge.jabm.agent.Agent, int)
+	 * @see jmab2.agents.MacroAgent#initialiseCounterpart(net.sourceforge.jabm.agent.Agent, int)
 	 */
 	@Override
 	public void initialiseCounterpart(Agent counterpart, int marketID) {
@@ -113,7 +113,7 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.LaborDemander#getPayingStocks(int, jmab.goods.Item)
+	 * @see jmab2.agents.LaborDemander#getPayingStocks(int, jmab.goods.Item)
 	 */
 	@Override
 	public List<Item> getPayingStocks(int idMarket, Item payableStock) {
@@ -129,7 +129,7 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.LaborDemander#addEmployee(jmab.agents.LaborSupplier)
+	 * @see jmab2.agents.LaborDemander#addEmployee(jmab2.agents.LaborSupplier)
 	 */
 	@Override
 	public void addEmployee(LaborSupplier worker) {
@@ -139,7 +139,7 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.LaborDemander#getEmployees()
+	 * @see jmab2.agents.LaborDemander#getEmployees()
 	 */
 	@Override
 	public List<MacroAgent> getEmployees() {
@@ -147,7 +147,7 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.SimpleAbstractAgent#onTicArrived(AgentTicEvent)
+	 * @see jmab2.agents.SimpleAbstractAgent#onTicArrived(AgentTicEvent)
 	 */
 	@Override
 	protected void onTicArrived(MacroTicEvent event) {
@@ -605,7 +605,7 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.BondSupplier#getPayableStock(int)
+	 * @see jmab2.agents.BondSupplier#getPayableStock(int)
 	 */
 	@Override
 	public Item getPayableStock(int idBondSM) {
@@ -613,7 +613,7 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.BondSupplier#getSupply()
+	 * @see jmab2.agents.BondSupplier#getSupply()
 	 */
 	@Override
 	public long getBondSupply() {
@@ -635,7 +635,7 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.LaborDemander#getWageBill()
+	 * @see jmab2.agents.LaborDemander#getWageBill()
 	 */
 	@Override
 	public double getWageBill() {

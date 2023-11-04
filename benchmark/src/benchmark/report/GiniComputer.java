@@ -20,9 +20,9 @@ import java.util.TreeMap;
 import benchmark.agents.Households;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
-import jmab.population.MacroPopulation;
-import jmab.report.MacroVariableComputer;
-import jmab.simulations.MacroSimulation;
+import jmab2.population.MacroPopulation;
+import jmab2.report.MacroVariableComputer;
+import jmab2.simulations.MacroSimulation;
 
 /**
  * @author Alessandro Caiani and Antoine Godin
@@ -32,7 +32,7 @@ public class GiniComputer implements MacroVariableComputer {
 	private int householdId;
 
 	/* (non-Javadoc)
-	 * @see jmab.report.VariableComputer#computeVariable(jmab.simulations.MacroSimulation)
+	 * @see jmab2.report.VariableComputer#computeVariable(jmab2.simulations.MacroSimulation)
 	 */
 	@Override
 	public double computeVariable(MacroSimulation sim) {

@@ -3,12 +3,12 @@ package benchmark.strategies;
 import java.util.List;
 
 import benchmark.agents.Bank;
-import jmab.agents.MacroAgent;
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.Deposit;
-import jmab.stockmatrix.Item;
-import jmab.stockmatrix.Loan;
-import jmab.strategies.InterestRateStrategy;
+import jmab2.agents.MacroAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.Deposit;
+import jmab2.stockmatrix.Item;
+import jmab2.stockmatrix.Loan;
+import jmab2.strategies.InterestRateStrategy;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**
@@ -25,7 +25,7 @@ public class InterbankAsFunctionOfLoanRateStrategy extends AbstractStrategy impl
 	
 	// 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.InterestRateStrategy#computeInterestRate(jmab.agents.MacroAgent, double, int)
+	 * @see jmab2.strategies.InterestRateStrategy#computeInterestRate(jmab2.agents.MacroAgent, double, int)
 	 */
 	@Override
 	public double computeInterestRate(MacroAgent creditDemander, double amount,

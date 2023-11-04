@@ -14,11 +14,11 @@
  */
 package benchmark.report;
 
-import jmab.agents.AbstractFirm;
-import jmab.population.MacroPopulation;
-import jmab.report.MacroVariableComputer;
-import jmab.simulations.MacroSimulation;
-import jmab.stockmatrix.AbstractGood;
+import jmab2.agents.AbstractFirm;
+import jmab2.population.MacroPopulation;
+import jmab2.report.MacroVariableComputer;
+import jmab2.simulations.MacroSimulation;
+import jmab2.stockmatrix.AbstractGood;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -32,7 +32,7 @@ public class AveragePriceAllProducersComputer implements MacroVariableComputer {
 	private int[] salesIds;
 
 	/* (non-Javadoc)
-	 * @see jmab.report.VariableComputer#computeVariable(jmab.simulations.MacroSimulation)
+	 * @see jmab2.report.VariableComputer#computeVariable(jmab2.simulations.MacroSimulation)
 	 */
 	@Override
 	public double computeVariable(MacroSimulation sim) {

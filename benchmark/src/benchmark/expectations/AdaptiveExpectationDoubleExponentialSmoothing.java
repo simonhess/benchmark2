@@ -16,7 +16,7 @@ package benchmark.expectations;
 
 import java.nio.ByteBuffer;
 
-import jmab.expectations.Expectation;
+import jmab2.expectations.Expectation;
 
 /**
  * @author Alessandro Caiani and Antoine Godin
@@ -42,7 +42,7 @@ public class AdaptiveExpectationDoubleExponentialSmoothing implements Expectatio
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#getWeights()
+	 * @see jmab2.expectations.Expectation#getWeights()
 	 */
 	@Override
 	public double[][] getWeights() {
@@ -50,7 +50,7 @@ public class AdaptiveExpectationDoubleExponentialSmoothing implements Expectatio
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#setWeights(double[][])
+	 * @see jmab2.expectations.Expectation#setWeights(double[][])
 	 */
 	@Override
 	public void setWeights(double[][] weights) {
@@ -58,7 +58,7 @@ public class AdaptiveExpectationDoubleExponentialSmoothing implements Expectatio
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#getPassedValues()
+	 * @see jmab2.expectations.Expectation#getPassedValues()
 	 */
 	@Override
 	public double[][] getPassedValues() {
@@ -66,7 +66,7 @@ public class AdaptiveExpectationDoubleExponentialSmoothing implements Expectatio
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#setPassedValues(double[][])
+	 * @see jmab2.expectations.Expectation#setPassedValues(double[][])
 	 */
 	@Override
 	public void setPassedValues(double[][] passedValues) {
@@ -74,7 +74,7 @@ public class AdaptiveExpectationDoubleExponentialSmoothing implements Expectatio
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#getNumberPeriod()
+	 * @see jmab2.expectations.Expectation#getNumberPeriod()
 	 */
 	@Override
 	public int getNumberPeriod() {
@@ -82,7 +82,7 @@ public class AdaptiveExpectationDoubleExponentialSmoothing implements Expectatio
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#setNumberPeriod(int)
+	 * @see jmab2.expectations.Expectation#setNumberPeriod(int)
 	 */
 	
 	@Override
@@ -121,12 +121,12 @@ public class AdaptiveExpectationDoubleExponentialSmoothing implements Expectatio
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#getAdaptiveParam()
+	 * @see jmab2.expectations.Expectation#getAdaptiveParam()
 	 */
 	
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#updateExpectation()
+	 * @see jmab2.expectations.Expectation#updateExpectation()
 	 */
 	@Override
 	public void updateExpectation() {
@@ -140,7 +140,7 @@ public class AdaptiveExpectationDoubleExponentialSmoothing implements Expectatio
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#getExpectation()
+	 * @see jmab2.expectations.Expectation#getExpectation()
 	 */
 	@Override
 	public double getExpectation() {
@@ -155,7 +155,7 @@ public class AdaptiveExpectationDoubleExponentialSmoothing implements Expectatio
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#addObservation(double[])
+	 * @see jmab2.expectations.Expectation#addObservation(double[])
 	 */
 	@Override
 	

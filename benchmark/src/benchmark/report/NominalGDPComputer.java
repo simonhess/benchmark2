@@ -17,14 +17,14 @@ package benchmark.report;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import jmab.agents.LaborDemander;
-import jmab.agents.LaborSupplier;
-import jmab.agents.MacroAgent;
-import jmab.population.MacroPopulation;
-import jmab.report.MacroVariableComputer;
-import jmab.simulations.MacroSimulation;
-import jmab.stockmatrix.AbstractGood;
-import jmab.stockmatrix.Item;
+import jmab2.agents.LaborDemander;
+import jmab2.agents.LaborSupplier;
+import jmab2.agents.MacroAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.report.MacroVariableComputer;
+import jmab2.simulations.MacroSimulation;
+import jmab2.stockmatrix.AbstractGood;
+import jmab2.stockmatrix.Item;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -48,7 +48,7 @@ public class NominalGDPComputer implements MacroVariableComputer {
 	private int realSaleId;//This is the id of the lagged value of real sales
 
 	/* (non-Javadoc)
-	 * @see jmab.report.VariableComputer#computeVariable(jmab.simulations.MacroSimulation)
+	 * @see jmab2.report.VariableComputer#computeVariable(jmab2.simulations.MacroSimulation)
 	 */
 	@Override
 	public double computeVariable(MacroSimulation sim) {

@@ -24,13 +24,13 @@ import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.Households;
 import cern.jet.random.Uniform;
 import cern.jet.random.engine.RandomEngine;
-import jmab.agents.LiabilitySupplier;
-import jmab.agents.MacroAgent;
-import jmab.expectations.Expectation;
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.Item;
-import jmab.stockmatrix.Loan;
-import jmab.strategies.BankruptcyStrategy;
+import jmab2.agents.LiabilitySupplier;
+import jmab2.agents.MacroAgent;
+import jmab2.expectations.Expectation;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.Item;
+import jmab2.stockmatrix.Loan;
+import jmab2.strategies.BankruptcyStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -92,7 +92,7 @@ public class BankBankruptcyDepositInsurance extends AbstractStrategy implements
 
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.BankruptcyStrategy#bankrupt()
+	 * @see jmab2.strategies.BankruptcyStrategy#bankrupt()
 	 */
 	@Override
 	public void bankrupt() {

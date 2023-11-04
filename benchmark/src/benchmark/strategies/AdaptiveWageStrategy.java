@@ -16,9 +16,9 @@ package benchmark.strategies;
 
 import java.nio.ByteBuffer;
 
-import jmab.agents.WageSetterWithTargets;
-import jmab.population.MacroPopulation;
-import jmab.strategies.WageStrategy;
+import jmab2.agents.WageSetterWithTargets;
+import jmab2.population.MacroPopulation;
+import jmab2.strategies.WageStrategy;
 import net.sourceforge.jabm.distribution.AbstractDelegatedDistribution;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
@@ -37,7 +37,7 @@ public class AdaptiveWageStrategy extends AbstractStrategy implements
 	protected AbstractDelegatedDistribution distribution;
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.WageStrategy#computeWage()
+	 * @see jmab2.strategies.WageStrategy#computeWage()
 	 */
 	@Override
 	public double computeWage() {

@@ -23,37 +23,37 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import jmab.agents.AbstractBank;
-import jmab.agents.BaselIIIAgent;
-import jmab.agents.BondDemander;
-import jmab.agents.BondSupplier;
-import jmab.agents.CreditDemander;
-import jmab.agents.CreditSupplier;
-import jmab.agents.DepositDemander;
-import jmab.agents.DepositSupplier;
-import jmab.agents.InterestRateSetterWithTargets;
-import jmab.agents.MacroAgent;
-import jmab.agents.ProfitsTaxPayer;
-import jmab.events.MacroTicEvent;
-import jmab.expectations.Expectation;
-import jmab.population.MacroPopulation;
-import jmab.simulations.MacroSimulation;
-import jmab.simulations.TwoStepMarketSimulation;
-import jmab.stockmatrix.Bond;
-import jmab.stockmatrix.Cash;
-import jmab.stockmatrix.Deposit;
-import jmab.stockmatrix.InterestBearingItem;
-import jmab.stockmatrix.Item;
-import jmab.stockmatrix.Loan;
-import jmab.strategies.BankruptcyStrategy;
-import jmab.strategies.BondDemandStrategy;
-import jmab.strategies.DividendsStrategy;
-import jmab.strategies.FinanceStrategy;
-import jmab.strategies.InterestRateStrategy;
-import jmab.strategies.SelectLenderStrategy;
-import jmab.strategies.SpecificCreditSupplyStrategy;
-import jmab.strategies.SupplyCreditStrategy;
-import jmab.strategies.TaxPayerStrategy;
+import jmab2.agents.AbstractBank;
+import jmab2.agents.BaselIIIAgent;
+import jmab2.agents.BondDemander;
+import jmab2.agents.BondSupplier;
+import jmab2.agents.CreditDemander;
+import jmab2.agents.CreditSupplier;
+import jmab2.agents.DepositDemander;
+import jmab2.agents.DepositSupplier;
+import jmab2.agents.InterestRateSetterWithTargets;
+import jmab2.agents.MacroAgent;
+import jmab2.agents.ProfitsTaxPayer;
+import jmab2.events.MacroTicEvent;
+import jmab2.expectations.Expectation;
+import jmab2.population.MacroPopulation;
+import jmab2.simulations.MacroSimulation;
+import jmab2.simulations.TwoStepMarketSimulation;
+import jmab2.stockmatrix.Bond;
+import jmab2.stockmatrix.Cash;
+import jmab2.stockmatrix.Deposit;
+import jmab2.stockmatrix.InterestBearingItem;
+import jmab2.stockmatrix.Item;
+import jmab2.stockmatrix.Loan;
+import jmab2.strategies.BankruptcyStrategy;
+import jmab2.strategies.BondDemandStrategy;
+import jmab2.strategies.DividendsStrategy;
+import jmab2.strategies.FinanceStrategy;
+import jmab2.strategies.InterestRateStrategy;
+import jmab2.strategies.SelectLenderStrategy;
+import jmab2.strategies.SpecificCreditSupplyStrategy;
+import jmab2.strategies.SupplyCreditStrategy;
+import jmab2.strategies.TaxPayerStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -114,7 +114,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	private double interbankLoansRiskWeight;
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.MacroAgent#onRoundFinished(net.sourceforge.jabm.event.RoundFinishedEvent)
+	 * @see jmab2.agents.MacroAgent#onRoundFinished(net.sourceforge.jabm.event.RoundFinishedEvent)
 	 */
 	@Override
 	public void onRoundFinished(RoundFinishedEvent event) {
@@ -123,7 +123,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.MacroAgent#initialiseCounterpart(net.sourceforge.jabm.agent.Agent, int)
+	 * @see jmab2.agents.MacroAgent#initialiseCounterpart(net.sourceforge.jabm.agent.Agent, int)
 	 */
 	@Override
 	public void initialiseCounterpart(Agent counterpart, int marketID) {
@@ -132,7 +132,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.TaxPayer#payTaxes(jmab.goods.Item)
+	 * @see jmab2.agents.TaxPayer#payTaxes(jmab.goods.Item)
 	 */
 	@Override
 	public void payTaxes(Item account) {
@@ -154,7 +154,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.CreditSupplier#getInterestRate(jmab.agents.MacroAgent, double, int)
+	 * @see jmab2.agents.CreditSupplier#getInterestRate(jmab2.agents.MacroAgent, double, int)
 	 */
 	@Override
 	public double getInterestRate(int idLoanSM, MacroAgent creditDemander, double amount,
@@ -172,7 +172,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.CreditSupplier#getLoanSupply(jmab.agents.MacroAgent, double)
+	 * @see jmab2.agents.CreditSupplier#getLoanSupply(jmab2.agents.MacroAgent, double)
 	 */
 	@Override
 	public double getLoanSupply(int loansId, MacroAgent creditDemander, double required) {
@@ -188,7 +188,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.CreditSupplier#getDepositInterestRate(jmab.agents.MacroAgent, double)
+	 * @see jmab2.agents.CreditSupplier#getDepositInterestRate(jmab2.agents.MacroAgent, double)
 	 */
 	@Override
 	public double getDepositInterestRate(MacroAgent creditDemander,
@@ -197,7 +197,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.SimpleAbstractAgent#onTicArrived(jmab.events.AgentTicEvent)
+	 * @see jmab2.agents.SimpleAbstractAgent#onTicArrived(jmab2.events.AgentTicEvent)
 	 */
 	@Override
 	protected void onTicArrived(MacroTicEvent event) {
@@ -655,7 +655,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.CreditDemander#getLoanRequirement()
+	 * @see jmab2.agents.CreditDemander#getLoanRequirement()
 	 */
 	@Override
 	public double getLoanRequirement(int idLoanSM) {
@@ -669,7 +669,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.CreditDemander#decideLoanLength()
+	 * @see jmab2.agents.CreditDemander#decideLoanLength()
 	 */
 	@Override
 	public int decideLoanLength(int idLoanSM) {
@@ -683,7 +683,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.CreditDemander#decideLoanAmortization()
+	 * @see jmab2.agents.CreditDemander#decideLoanAmortization()
 	 */
 	@Override
 	public int decideLoanAmortizationType(int idLoanSM) {
@@ -725,7 +725,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.BondDemander#getBondsDemand(double)
+	 * @see jmab2.agents.BondDemander#getBondsDemand(double)
 	 */
 	@Override
 	public long getBondsDemand(double price, BondSupplier issuer) {
@@ -740,7 +740,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	 * there is enough money on the reserve account. Thus allow cash to go negative if needed. Anyway the reserve market
 	 * afterwards will make sure there is no negative values for cash and reserves.
 	 * TODO: CHECK THIS
-	 * @see jmab.agents.BondDemander#getPayingStocks(int, jmab.stockmatrix.Item)
+	 * @see jmab2.agents.BondDemander#getPayingStocks(int, jmab2.stockmatrix.Item)
 	 */
 	@Override
 	public List<Item> getPayingStocks(int idBondSM, Item payableStock) {
@@ -750,7 +750,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.CreditDemander#setLoanRequirement(double)
+	 * @see jmab2.agents.CreditDemander#setLoanRequirement(double)
 	 */
 	@Override
 	public void setLoanRequirement(int idLoanSM, double d) {
@@ -765,7 +765,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.CreditSupplier#getTotalLoansSupply()
+	 * @see jmab2.agents.CreditSupplier#getTotalLoansSupply()
 	 */
 	@Override
 	public double getTotalLoansSupply(int loansId) {
@@ -779,7 +779,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.CreditSupplier#setTotalLoansSupply(double)
+	 * @see jmab2.agents.CreditSupplier#setTotalLoansSupply(double)
 	 */
 	@Override
 	public void setTotalLoansSupply(int loansId, double d) {
@@ -794,7 +794,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.InterestRateSetterWithTargets#getInterestRate()
+	 * @see jmab2.agents.InterestRateSetterWithTargets#getInterestRate()
 	 */
 	@Override
 	public double getInterestRate(int mktId) {
@@ -810,7 +810,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.InterestRateSetterWithTargets#getInterestRateLowerBound()
+	 * @see jmab2.agents.InterestRateSetterWithTargets#getInterestRateLowerBound()
 	 */
 	@Override
 	public double getInterestRateLowerBound(int mktId) {
@@ -827,7 +827,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.InterestRateSetterWithTargets#getReferenceVariableForInterestRate()
+	 * @see jmab2.agents.InterestRateSetterWithTargets#getReferenceVariableForInterestRate()
 	 */
 	@Override
 	public double getReferenceVariableForInterestRate(int mktId) {
@@ -879,7 +879,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 */
 	/* (non-Javadoc)
-	 * @see jmab.agents.InterestRateSetterWithTargets#getInterestRateUpperBound(int)
+	 * @see jmab2.agents.InterestRateSetterWithTargets#getInterestRateUpperBound(int)
 	 */
 	@Override
 	public double getInterestRateUpperBound(int mktId) {
@@ -1052,7 +1052,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.ProfitsTaxPayer#getProfits()
+	 * @see jmab2.agents.ProfitsTaxPayer#getProfits()
 	 */
 	@Override
 	public double getPreTaxProfits() {
@@ -1155,7 +1155,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.BondDemander#setBondInterestsReceived(double)
+	 * @see jmab2.agents.BondDemander#setBondInterestsReceived(double)
 	 */
 	@Override
 	public void setBondInterestsReceived(double interests) {

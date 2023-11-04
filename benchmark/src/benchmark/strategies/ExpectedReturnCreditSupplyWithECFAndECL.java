@@ -17,13 +17,13 @@ package benchmark.strategies;
 import java.nio.ByteBuffer;
 
 import benchmark.agents.Bank;
-import jmab.agents.AbstractBank;
-import jmab.agents.CreditDemander;
-import jmab.agents.MacroAgent;
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.Item;
-import jmab.strategies.DefaultProbilityComputer;
-import jmab.strategies.SpecificCreditSupplyStrategy;
+import jmab2.agents.AbstractBank;
+import jmab2.agents.CreditDemander;
+import jmab2.agents.MacroAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.DefaultProbilityComputer;
+import jmab2.strategies.SpecificCreditSupplyStrategy;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**
@@ -44,7 +44,7 @@ public class ExpectedReturnCreditSupplyWithECFAndECL extends AbstractStrategy im
 	private boolean binaryDecision;
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.SpecificCreditSupplyStrategy#computeSpecificSupply(jmab.agents.MacroAgent, double)
+	 * @see jmab2.strategies.SpecificCreditSupplyStrategy#computeSpecificSupply(jmab2.agents.MacroAgent, double)
 	 */
 	@Override
 	public double computeSpecificSupply(MacroAgent creditDemander,

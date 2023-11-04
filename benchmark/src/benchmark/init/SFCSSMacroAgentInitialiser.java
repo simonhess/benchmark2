@@ -41,37 +41,37 @@ import benchmark.strategies.IncomeWealthTaxStrategy;
 import benchmark.strategies.InvestmentCapacityOperatingCashFlowExpected;
 import benchmark.strategies.ProfitsWealthTaxStrategy;
 import benchmark.strategies.RealLumpyCapitalDemandAdaptiveNPV;
-import jmab.agents.CreditSupplier;
-import jmab.agents.DepositSupplier;
-import jmab.agents.GoodSupplier;
-import jmab.agents.MacroAgent;
-import jmab.agents.SimpleAbstractAgent;
-import jmab.expectations.Expectation;
-import jmab.expectations.PassedValues;
-import jmab.expectations.TreeMapPassedValues;
-import jmab.init.AbstractMacroAgentInitialiser;
-import jmab.init.MacroAgentInitialiser;
-import jmab.population.MacroPopulation;
-import jmab.simulations.AbstractMacroSimulation;
-import jmab.simulations.MacroSimulation;
-import jmab.stockmatrix.Bond;
-import jmab.stockmatrix.CapitalGood;
-import jmab.stockmatrix.Cash;
-import jmab.stockmatrix.ConsumptionGood;
-import jmab.stockmatrix.Deposit;
-import jmab.stockmatrix.Item;
-import jmab.stockmatrix.Loan;
-import jmab.strategies.AdaptiveMarkUpOnAC;
-import jmab.strategies.BestQualityPriceCapitalSupplierWithSwitching;
-import jmab.strategies.CheapestGoodSupplierWithSwitching;
-import jmab.strategies.CheapestLenderWithSwitching;
 import benchmark.strategies.ConsumptionFixedPropensitiesOOIWWithPersistency;
-import jmab.strategies.MostPayingDepositWithSwitching;
-import jmab.strategies.TargetExpectedInventoriesOutputStrategy;
-import jmab.strategies.TaxPayerStrategy;
-import jmab.strategies.DividendsStrategy;
-import jmab.strategies.MarkupInterestRateStrategy;
-import jmab.strategies.MarkupPricingStrategy;
+import jmab2.agents.CreditSupplier;
+import jmab2.agents.DepositSupplier;
+import jmab2.agents.GoodSupplier;
+import jmab2.agents.MacroAgent;
+import jmab2.agents.SimpleAbstractAgent;
+import jmab2.expectations.Expectation;
+import jmab2.expectations.PassedValues;
+import jmab2.expectations.TreeMapPassedValues;
+import jmab2.init.AbstractMacroAgentInitialiser;
+import jmab2.init.MacroAgentInitialiser;
+import jmab2.population.MacroPopulation;
+import jmab2.simulations.AbstractMacroSimulation;
+import jmab2.simulations.MacroSimulation;
+import jmab2.stockmatrix.Bond;
+import jmab2.stockmatrix.CapitalGood;
+import jmab2.stockmatrix.Cash;
+import jmab2.stockmatrix.ConsumptionGood;
+import jmab2.stockmatrix.Deposit;
+import jmab2.stockmatrix.Item;
+import jmab2.stockmatrix.Loan;
+import jmab2.strategies.AdaptiveMarkUpOnAC;
+import jmab2.strategies.BestQualityPriceCapitalSupplierWithSwitching;
+import jmab2.strategies.CheapestGoodSupplierWithSwitching;
+import jmab2.strategies.CheapestLenderWithSwitching;
+import jmab2.strategies.DividendsStrategy;
+import jmab2.strategies.MarkupInterestRateStrategy;
+import jmab2.strategies.MarkupPricingStrategy;
+import jmab2.strategies.MostPayingDepositWithSwitching;
+import jmab2.strategies.TargetExpectedInventoriesOutputStrategy;
+import jmab2.strategies.TaxPayerStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 import cern.jet.random.Uniform;
@@ -203,7 +203,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 	private AveragePriceAllProducersComputer avpAllProdComputer;
 
 	/* (non-Javadoc)
-	 * @see jmab.init.MacroAgentInitialiser#initialise(jmab.population.MacroPopulation)
+	 * @see jmab2.init.MacroAgentInitialiser#initialise(jmab2.population.MacroPopulation)
 	 */
 	@Override
 	public void initialise(MacroPopulation population, MacroSimulation sim) {	

@@ -22,15 +22,15 @@ import benchmark.StaticValues;
 import benchmark.agents.CapitalFirm;
 import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.Government;
-import jmab.agents.MacroAgent;
-import jmab.expectations.Expectation;
-import jmab.expectations.PassedValues;
-import jmab.population.MacroPopulation;
-import jmab.simulations.AbstractMacroSimulation;
-import jmab.simulations.MacroSimulation;
-import jmab.stockmatrix.AbstractGood;
-import jmab.stockmatrix.ConsumptionGood;
-import jmab.strategies.TargetExpectedInventoriesOutputStrategy;
+import jmab2.agents.MacroAgent;
+import jmab2.expectations.Expectation;
+import jmab2.expectations.PassedValues;
+import jmab2.population.MacroPopulation;
+import jmab2.simulations.AbstractMacroSimulation;
+import jmab2.simulations.MacroSimulation;
+import jmab2.stockmatrix.AbstractGood;
+import jmab2.stockmatrix.ConsumptionGood;
+import jmab2.strategies.TargetExpectedInventoriesOutputStrategy;
 import net.sourceforge.jabm.EventScheduler;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
@@ -81,7 +81,7 @@ public class AdaptiveExpectationTargetInventories implements Expectation {
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#getWeights()
+	 * @see jmab2.expectations.Expectation#getWeights()
 	 */
 	@Override
 	public double[][] getWeights() {
@@ -89,7 +89,7 @@ public class AdaptiveExpectationTargetInventories implements Expectation {
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#setWeights(double[][])
+	 * @see jmab2.expectations.Expectation#setWeights(double[][])
 	 */
 	@Override
 	public void setWeights(double[][] weights) {
@@ -97,7 +97,7 @@ public class AdaptiveExpectationTargetInventories implements Expectation {
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#getPassedValues()
+	 * @see jmab2.expectations.Expectation#getPassedValues()
 	 */
 	@Override
 	public double[][] getPassedValues() {
@@ -105,7 +105,7 @@ public class AdaptiveExpectationTargetInventories implements Expectation {
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#setPassedValues(double[][])
+	 * @see jmab2.expectations.Expectation#setPassedValues(double[][])
 	 */
 	@Override
 	public void setPassedValues(double[][] passedValues) {
@@ -113,7 +113,7 @@ public class AdaptiveExpectationTargetInventories implements Expectation {
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#getNumberPeriod()
+	 * @see jmab2.expectations.Expectation#getNumberPeriod()
 	 */
 	@Override
 	public int getNumberPeriod() {
@@ -121,7 +121,7 @@ public class AdaptiveExpectationTargetInventories implements Expectation {
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#setNumberPeriod(int)
+	 * @see jmab2.expectations.Expectation#setNumberPeriod(int)
 	 */
 	
 	@Override
@@ -160,12 +160,12 @@ public class AdaptiveExpectationTargetInventories implements Expectation {
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#getAdaptiveParam()
+	 * @see jmab2.expectations.Expectation#getAdaptiveParam()
 	 */
 	
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#updateExpectation()
+	 * @see jmab2.expectations.Expectation#updateExpectation()
 	 */
 	@Override
 	public void updateExpectation() {
@@ -196,7 +196,7 @@ public class AdaptiveExpectationTargetInventories implements Expectation {
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#getExpectation()
+	 * @see jmab2.expectations.Expectation#getExpectation()
 	 */
 	@Override
 	public double getExpectation() {
@@ -204,7 +204,7 @@ public class AdaptiveExpectationTargetInventories implements Expectation {
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.expectations.Expectation#addObservation(double[])
+	 * @see jmab2.expectations.Expectation#addObservation(double[])
 	 */
 	@Override
 	

@@ -10,14 +10,14 @@ import benchmark.agents.Government;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import jmab.agents.AbstractFirm;
-import jmab.agents.LaborDemander;
-import jmab.agents.LaborSupplier;
-import jmab.agents.MacroAgent;
-import jmab.population.MacroPopulation;
-import jmab.simulations.MacroSimulation;
-import jmab.stockmatrix.AbstractGood;
-import jmab.stockmatrix.Item;
+import jmab2.agents.AbstractFirm;
+import jmab2.agents.LaborDemander;
+import jmab2.agents.LaborSupplier;
+import jmab2.agents.MacroAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.simulations.MacroSimulation;
+import jmab2.stockmatrix.AbstractGood;
+import jmab2.stockmatrix.Item;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -172,7 +172,7 @@ public class MonetaryTaylor extends AbstractStrategy implements
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.SingleStrategy#populateFromBytes(byte[], jmab.population.MacroPopulation)
+	 * @see jmab2.strategies.SingleStrategy#populateFromBytes(byte[], jmab2.population.MacroPopulation)
 	 */
 	@Override
 	public void populateFromBytes(byte[] content, MacroPopulation pop) {

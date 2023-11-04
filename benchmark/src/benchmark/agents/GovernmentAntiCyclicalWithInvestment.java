@@ -24,27 +24,27 @@ import java.util.List;
 import benchmark.StaticValues;
 import benchmark.strategies.ShockStrategy;
 import cern.jet.random.engine.RandomEngine;
-import jmab.agents.BondSupplier;
-import jmab.agents.GoodDemander;
-import jmab.agents.LaborDemander;
-import jmab.agents.LaborSupplier;
-import jmab.agents.LiabilitySupplier;
-import jmab.agents.MacroAgent;
-import jmab.events.MacroTicEvent;
-import jmab.population.MacroPopulation;
-import jmab.population.MarketPopulation;
-import jmab.simulations.MacroSimulation;
-import jmab.simulations.SimpleMarketSimulation;
-import jmab.simulations.TwoStepMarketSimulation;
-import jmab.stockmatrix.Bond;
-import jmab.stockmatrix.Deposit;
-import jmab.stockmatrix.Item;
-import jmab.strategies.ConsumptionStrategy;
-import jmab.strategies.InterestRateStrategy;
-import jmab.strategies.InvestmentStrategy;
-import jmab.strategies.RealCapitalDemandStrategy;
-import jmab.strategies.SelectSellerStrategy;
-import jmab.strategies.SelectWorkerStrategy;
+import jmab2.agents.BondSupplier;
+import jmab2.agents.GoodDemander;
+import jmab2.agents.LaborDemander;
+import jmab2.agents.LaborSupplier;
+import jmab2.agents.LiabilitySupplier;
+import jmab2.agents.MacroAgent;
+import jmab2.events.MacroTicEvent;
+import jmab2.population.MacroPopulation;
+import jmab2.population.MarketPopulation;
+import jmab2.simulations.MacroSimulation;
+import jmab2.simulations.SimpleMarketSimulation;
+import jmab2.simulations.TwoStepMarketSimulation;
+import jmab2.stockmatrix.Bond;
+import jmab2.stockmatrix.Deposit;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.ConsumptionStrategy;
+import jmab2.strategies.InterestRateStrategy;
+import jmab2.strategies.InvestmentStrategy;
+import jmab2.strategies.RealCapitalDemandStrategy;
+import jmab2.strategies.SelectSellerStrategy;
+import jmab2.strategies.SelectWorkerStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -69,7 +69,7 @@ public class GovernmentAntiCyclicalWithInvestment extends GovernmentAntiCyclical
 
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.SimpleAbstractAgent#onTicArrived(AgentTicEvent)
+	 * @see jmab2.agents.SimpleAbstractAgent#onTicArrived(AgentTicEvent)
 	 */
 	@Override
 	protected void onTicArrived(MacroTicEvent event) {

@@ -23,15 +23,15 @@ import benchmark.agents.Bank;
 import benchmark.agents.CapitalFirm;
 import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.Households;
-import jmab.agents.AbstractFirm;
-import jmab.agents.LiabilitySupplier;
-import jmab.agents.AbstractBank;
-import jmab.agents.MacroAgent;
-import jmab.population.MacroPopulation;
-import jmab.simulations.MacroSimulation;
-import jmab.stockmatrix.Deposit;
-import jmab.stockmatrix.Item;
-import jmab.strategies.DividendsStrategy;
+import jmab2.agents.AbstractBank;
+import jmab2.agents.AbstractFirm;
+import jmab2.agents.LiabilitySupplier;
+import jmab2.agents.MacroAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.simulations.MacroSimulation;
+import jmab2.stockmatrix.Deposit;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.DividendsStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -55,7 +55,7 @@ DividendsStrategy {
 	static HashMap<Long, Double> receiversNW = new HashMap<Long, Double>();
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.DividendsStrategy#payDividends()
+	 * @see jmab2.strategies.DividendsStrategy#payDividends()
 	 */
 	@Override
 	public void payDividends() {

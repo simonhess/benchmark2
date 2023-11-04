@@ -17,14 +17,14 @@ package benchmark.report;
 import java.util.List;
 
 import benchmark.agents.Bank;
-import jmab.agents.MacroAgent;
-import jmab.population.MacroPopulation;
-import jmab.report.MacroVariableComputer;
-import jmab.simulations.MacroSimulation;
-import jmab.stockmatrix.Deposit;
-import jmab.stockmatrix.InterestBearingItem;
-import jmab.stockmatrix.Item;
-import jmab.stockmatrix.Loan;
+import jmab2.agents.MacroAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.report.MacroVariableComputer;
+import jmab2.simulations.MacroSimulation;
+import jmab2.stockmatrix.Deposit;
+import jmab2.stockmatrix.InterestBearingItem;
+import jmab2.stockmatrix.Item;
+import jmab2.stockmatrix.Loan;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -39,7 +39,7 @@ public class AverageInterbankInterestRateComputer implements MacroVariableComput
 	private int stockId;
 
 	/* (non-Javadoc)
-	 * @see jmab.report.VariableComputer#computeVariable(jmab.simulations.MacroSimulation)
+	 * @see jmab2.report.VariableComputer#computeVariable(jmab2.simulations.MacroSimulation)
 	 */
 	@Override
 	public double computeVariable(MacroSimulation sim) {

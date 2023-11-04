@@ -14,10 +14,10 @@
  */
 package benchmark.report;
 
-import jmab.agents.MacroAgent;
-import jmab.population.MacroPopulation;
-import jmab.report.MacroVariableComputer;
-import jmab.simulations.MacroSimulation;
+import jmab2.agents.MacroAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.report.MacroVariableComputer;
+import jmab2.simulations.MacroSimulation;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -31,7 +31,7 @@ public class BankruptcyComputer implements MacroVariableComputer {
 	private int populationId; // the ID of the population on which we want to compute the number of bankruptcies (banks, types of firms etc.)
 	
 	/* (non-Javadoc)
-	 * @see jmab.report.VariableComputer#computeVariable(jmab.simulations.MacroSimulation)
+	 * @see jmab2.report.VariableComputer#computeVariable(jmab2.simulations.MacroSimulation)
 	 */
 	
 

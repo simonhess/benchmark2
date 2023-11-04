@@ -24,16 +24,16 @@ import java.util.List;
 import benchmark.StaticValues;
 import benchmark.strategies.CentralBankProfitDistributionStrategy;
 import cern.jet.random.engine.RandomEngine;
-import jmab.agents.BondSupplier;
-import jmab.agents.LaborDemander;
-import jmab.agents.LaborSupplier;
-import jmab.agents.LiabilitySupplier;
-import jmab.agents.MacroAgent;
-import jmab.events.MacroTicEvent;
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.Deposit;
-import jmab.stockmatrix.Item;
-import jmab.strategies.InterestRateStrategy;
+import jmab2.agents.BondSupplier;
+import jmab2.agents.LaborDemander;
+import jmab2.agents.LaborSupplier;
+import jmab2.agents.LiabilitySupplier;
+import jmab2.agents.MacroAgent;
+import jmab2.events.MacroTicEvent;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.Deposit;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.InterestRateStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -72,7 +72,7 @@ public class GovernmentAntiCyclical extends Government implements LaborDemander,
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.SimpleAbstractAgent#onTicArrived(AgentTicEvent)
+	 * @see jmab2.agents.SimpleAbstractAgent#onTicArrived(AgentTicEvent)
 	 */
 	@Override
 	protected void onTicArrived(MacroTicEvent event) {

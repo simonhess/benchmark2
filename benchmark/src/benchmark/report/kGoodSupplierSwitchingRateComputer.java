@@ -22,11 +22,11 @@ import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.Households;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
-import jmab.population.MacroPopulation;
-import jmab.report.MacroVariableComputer;
-import jmab.simulations.MacroSimulation;
-import jmab.strategies.BestQualityPriceCapitalSupplierWithSwitching;
-import jmab.strategies.CheapestGoodSupplierWithSwitching;
+import jmab2.population.MacroPopulation;
+import jmab2.report.MacroVariableComputer;
+import jmab2.simulations.MacroSimulation;
+import jmab2.strategies.BestQualityPriceCapitalSupplierWithSwitching;
+import jmab2.strategies.CheapestGoodSupplierWithSwitching;
 
 /**
  * @author Alessandro Caiani and Antoine Godin
@@ -38,7 +38,7 @@ public class kGoodSupplierSwitchingRateComputer implements MacroVariableComputer
 
 
 	/* (non-Javadoc)
-	 * @see jmab.report.VariableComputer#computeVariable(jmab.simulations.MacroSimulation)
+	 * @see jmab2.report.VariableComputer#computeVariable(jmab2.simulations.MacroSimulation)
 	 */
 	@Override
 	public double computeVariable(MacroSimulation sim) {

@@ -22,12 +22,12 @@ import benchmark.StaticValues;
 import benchmark.agents.CentralBank;
 import benchmark.agents.Government;
 import benchmark.agents.Households;
-import jmab.agents.IncomeTaxPayer;
-import jmab.agents.LiabilitySupplier;
-import jmab.agents.SimpleAbstractAgent;
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.Item;
-import jmab.strategies.TaxPayerStrategy;
+import jmab2.agents.IncomeTaxPayer;
+import jmab2.agents.LiabilitySupplier;
+import jmab2.agents.SimpleAbstractAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.TaxPayerStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
@@ -45,7 +45,7 @@ public class IncomeWealthTaxStrategySeigniorage extends IncomeWealthTaxStrategy 
 	private double minIncomeTaxRate;
 	
 	/* (non-Javadoc)
-	 * @see jmab.strategies.TaxPayerStrategy#computeTaxes()
+	 * @see jmab2.strategies.TaxPayerStrategy#computeTaxes()
 	 */
 	@Override
 	public double computeTaxes() {
@@ -91,7 +91,7 @@ public class IncomeWealthTaxStrategySeigniorage extends IncomeWealthTaxStrategy 
 	}
 	
 	/* (non-Javadoc)
-	 * @see jmab.strategies.TaxPayerStrategy#updateRates(double)
+	 * @see jmab2.strategies.TaxPayerStrategy#updateRates(double)
 	 */
 	@Override
 	public void updateRates(double multiplier) {

@@ -21,14 +21,14 @@ import benchmark.agents.Bank;
 import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.Government;
 import benchmark.expectations.AdaptiveExpectationDoubleExponentialSmoothing;
-import jmab.agents.CreditDemander;
-import jmab.agents.MacroAgent;
-import jmab.expectations.Expectation;
-import jmab.population.MacroPopulation;
-import jmab.simulations.MacroSimulation;
-import jmab.stockmatrix.Item;
-import jmab.stockmatrix.Loan;
-import jmab.strategies.DefaultProbilityComputer;
+import jmab2.agents.CreditDemander;
+import jmab2.agents.MacroAgent;
+import jmab2.expectations.Expectation;
+import jmab2.population.MacroPopulation;
+import jmab2.simulations.MacroSimulation;
+import jmab2.stockmatrix.Item;
+import jmab2.stockmatrix.Loan;
+import jmab2.strategies.DefaultProbilityComputer;
 import net.sourceforge.jabm.SimulationController;
 
 
@@ -43,7 +43,7 @@ public class DeterministicLogisticDSCRComputer implements
 	private int loansId;
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.DefaultProbilityComputer#getDefaultProbability(jmab.agents.MacroAgent, jmab.agents.MacroAgent)
+	 * @see jmab2.strategies.DefaultProbilityComputer#getDefaultProbability(jmab2.agents.MacroAgent, jmab2.agents.MacroAgent)
 	 */
 	@Override
 	public double getDefaultProbability(MacroAgent creditDemander,
@@ -141,7 +141,7 @@ public class DeterministicLogisticDSCRComputer implements
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.DefaultProbilityComputer#getBytes()
+	 * @see jmab2.strategies.DefaultProbilityComputer#getBytes()
 	 */
 	@Override
 	public byte[] getBytes() {
@@ -149,7 +149,7 @@ public class DeterministicLogisticDSCRComputer implements
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.DefaultProbilityComputer#populateFromBytes(byte[], jmab.population.MacroPopulation)
+	 * @see jmab2.strategies.DefaultProbilityComputer#populateFromBytes(byte[], jmab2.population.MacroPopulation)
 	 */
 	@Override
 	public void populateFromBytes(byte[] content, MacroPopulation pop) {}

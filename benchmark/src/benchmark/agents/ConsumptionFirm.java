@@ -27,46 +27,46 @@ import benchmark.StaticValues;
 import benchmark.expectations.NoExpectation;
 import benchmark.strategies.InvestmentCapacityOperatingCashFlowExpected;
 import benchmark.strategies.RealLumpyCapitalDemandAdaptiveNPV;
-import jmab.agents.AbstractFirm;
-import jmab.agents.CreditDemander;
-import jmab.agents.DepositDemander;
-import jmab.agents.FinanceAgent;
-import jmab.agents.GoodDemander;
-import jmab.agents.GoodSupplier;
-import jmab.agents.InvestmentAgent;
-import jmab.agents.LaborDemander;
-import jmab.agents.LaborSupplier;
-import jmab.agents.LiabilitySupplier;
-import jmab.agents.MacroAgent;
-import jmab.agents.PriceSetterWithTargets;
-import jmab.agents.ProfitsTaxPayer;
-import jmab.events.MacroTicEvent;
-import jmab.expectations.Expectation;
-import jmab.expectations.PassedValues;
-import jmab.expectations.TreeMapPassedValues;
-import jmab.population.MacroPopulation;
-import jmab.simulations.AbstractMacroSimulation;
-import jmab.simulations.MacroSimulation;
-import jmab.simulations.TwoStepMarketSimulation;
-import jmab.stockmatrix.CapitalGood;
-import jmab.stockmatrix.Cash;
-import jmab.stockmatrix.ConsumptionGood;
-import jmab.stockmatrix.Deposit;
-import jmab.stockmatrix.Item;
-import jmab.stockmatrix.Loan;
-import jmab.strategies.AdaptiveMarkUpOnAC;
-import jmab.strategies.BankruptcyStrategy;
-import jmab.strategies.DividendsStrategy;
-import jmab.strategies.FinanceStrategy;
-import jmab.strategies.InvestmentStrategy;
-import jmab.strategies.PricingStrategy;
-import jmab.strategies.ProductionStrategy;
-import jmab.strategies.RealCapitalDemandStrategy;
-import jmab.strategies.SelectDepositSupplierStrategy;
-import jmab.strategies.SelectLenderStrategy;
-import jmab.strategies.SelectSellerStrategy;
-import jmab.strategies.SelectWorkerStrategy;
-import jmab.strategies.TaxPayerStrategy;
+import jmab2.agents.AbstractFirm;
+import jmab2.agents.CreditDemander;
+import jmab2.agents.DepositDemander;
+import jmab2.agents.FinanceAgent;
+import jmab2.agents.GoodDemander;
+import jmab2.agents.GoodSupplier;
+import jmab2.agents.InvestmentAgent;
+import jmab2.agents.LaborDemander;
+import jmab2.agents.LaborSupplier;
+import jmab2.agents.LiabilitySupplier;
+import jmab2.agents.MacroAgent;
+import jmab2.agents.PriceSetterWithTargets;
+import jmab2.agents.ProfitsTaxPayer;
+import jmab2.events.MacroTicEvent;
+import jmab2.expectations.Expectation;
+import jmab2.expectations.PassedValues;
+import jmab2.expectations.TreeMapPassedValues;
+import jmab2.population.MacroPopulation;
+import jmab2.simulations.AbstractMacroSimulation;
+import jmab2.simulations.MacroSimulation;
+import jmab2.simulations.TwoStepMarketSimulation;
+import jmab2.stockmatrix.CapitalGood;
+import jmab2.stockmatrix.Cash;
+import jmab2.stockmatrix.ConsumptionGood;
+import jmab2.stockmatrix.Deposit;
+import jmab2.stockmatrix.Item;
+import jmab2.stockmatrix.Loan;
+import jmab2.strategies.AdaptiveMarkUpOnAC;
+import jmab2.strategies.BankruptcyStrategy;
+import jmab2.strategies.DividendsStrategy;
+import jmab2.strategies.FinanceStrategy;
+import jmab2.strategies.InvestmentStrategy;
+import jmab2.strategies.PricingStrategy;
+import jmab2.strategies.ProductionStrategy;
+import jmab2.strategies.RealCapitalDemandStrategy;
+import jmab2.strategies.SelectDepositSupplierStrategy;
+import jmab2.strategies.SelectLenderStrategy;
+import jmab2.strategies.SelectSellerStrategy;
+import jmab2.strategies.SelectWorkerStrategy;
+import jmab2.strategies.TaxPayerStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -156,7 +156,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.MacroAgent#onRoundFinished(net.sourceforge.jabm.event.RoundFinishedEvent)
+	 * @see jmab2.agents.MacroAgent#onRoundFinished(net.sourceforge.jabm.event.RoundFinishedEvent)
 	 */
 	@Override
 	public void onRoundFinished(RoundFinishedEvent event) {
@@ -165,7 +165,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	}
     
 	/* (non-Javadoc)
-	 * @see jmab.agents.MacroAgent#initialiseCounterpart(net.sourceforge.jabm.agent.Agent, int)
+	 * @see jmab2.agents.MacroAgent#initialiseCounterpart(net.sourceforge.jabm.agent.Agent, int)
 	 */
 	@Override
 	public void initialiseCounterpart(Agent counterpart, int marketID) {
@@ -817,7 +817,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.GoodDemander#getPayingStocks(int, jmab.goods.Item)
+	 * @see jmab2.agents.GoodDemander#getPayingStocks(int, jmab.goods.Item)
 	 */
 	@Override
 	public List<Item> getPayingStocks(int idMarket, Item payableStock) {
@@ -869,7 +869,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.DepositDemander#getCashAmount()
+	 * @see jmab2.agents.DepositDemander#getCashAmount()
 	 */
 	
 	@Override
@@ -919,7 +919,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.CreditDemander#getLoanRequirement()
+	 * @see jmab2.agents.CreditDemander#getLoanRequirement()
 	 */
 	@Override
 	public double getLoanRequirement(int idLoanSM) {
@@ -927,7 +927,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.CreditDemander#setLoanRequirement(double)
+	 * @see jmab2.agents.CreditDemander#setLoanRequirement(double)
 	 */
 	@Override
 	public void setLoanRequirement(int idLoanSM, double amount) {
@@ -945,7 +945,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.GoodDemander#setDemand(double)
+	 * @see jmab2.agents.GoodDemander#setDemand(double)
 	 */
 	@Override
 	public void setDemand(double d, int idGood) {
@@ -965,7 +965,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.PriceSetterWithTargets#getPrice()
+	 * @see jmab2.agents.PriceSetterWithTargets#getPrice()
 	 * Needed to implement the PriceSetterWithTargets Interface which is necessary to use the 
 	 * AdpativePriceOnAC pricing strategy.
 	 */
@@ -976,7 +976,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.PriceSetterWithTargets#getPriceLowerBound()
+	 * @see jmab2.agents.PriceSetterWithTargets#getPriceLowerBound()
 	 * Needed to implement the PriceSetterWithTargets Interface which is necessary to use the 
 	 * AdpativePriceOnAC pricing strategy.
 	 */
@@ -1062,7 +1062,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.PriceSetterWithTargets#getReferenceVariableForPrice()
+	 * @see jmab2.agents.PriceSetterWithTargets#getReferenceVariableForPrice()
 	 * Needed to implement the PriceSetterWithTargets Interface which is necessary to use the 
 	 * AdpativePriceOnAC pricing strategy.
 	 */
@@ -1076,7 +1076,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.ProfitsTaxPayer#getProfits()
+	 * @see jmab2.agents.ProfitsTaxPayer#getProfits()
 	 */
 	@Override
 	public double getPreTaxProfits() {
@@ -1087,7 +1087,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	}
 	
 	/* (non-Javadoc)
-	 * @see jmab.agents.FinanceAgent#getReferenceVariableForFinance()
+	 * @see jmab2.agents.FinanceAgent#getReferenceVariableForFinance()
 	 */
 	@Override
 	public double getReferenceVariableForFinance() {
@@ -1097,7 +1097,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.InvestmentAgent#getDesiredCapacityGrowth()
+	 * @see jmab2.agents.InvestmentAgent#getDesiredCapacityGrowth()
 	 */
 	@Override
 	public double getDesiredCapacityGrowth() {
@@ -1105,7 +1105,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 	}
 	
 	/* (non-Javadoc)
-	 * @see jmab.agents.DepositDemander#interestPaid(double)
+	 * @see jmab2.agents.DepositDemander#interestPaid(double)
 	 */
 	@Override
 	public void interestPaid(double interests) {

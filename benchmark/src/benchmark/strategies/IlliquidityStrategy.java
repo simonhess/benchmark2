@@ -3,7 +3,7 @@
  */
 package benchmark.strategies;
 
-import jmab.strategies.SingleStrategy;
+import jmab2.strategies.SingleStrategy;
 
 /**
  * @author Joeri Schasfoort

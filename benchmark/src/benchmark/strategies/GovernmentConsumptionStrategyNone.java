@@ -18,10 +18,10 @@ import java.nio.ByteBuffer;
 
 import benchmark.StaticValues;
 import benchmark.agents.GovernmentAntiCyclicalWithInvestment;
-import jmab.agents.AbstractHousehold;
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.Deposit;
-import jmab.strategies.ConsumptionStrategy;
+import jmab2.agents.AbstractHousehold;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.Deposit;
+import jmab2.strategies.ConsumptionStrategy;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**
@@ -33,7 +33,7 @@ public class GovernmentConsumptionStrategyNone extends AbstractStrategy
 		implements ConsumptionStrategy {
 	
 	/* (non-Javadoc)
-	 * @see jmab.strategies.ConsumptionStrategy#computeRealConsumptionDemand()
+	 * @see jmab2.strategies.ConsumptionStrategy#computeRealConsumptionDemand()
 	 */
 	@Override
 	public double computeRealConsumptionDemand() {

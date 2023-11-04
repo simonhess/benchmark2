@@ -20,10 +20,10 @@ import java.util.TreeMap;
 
 import benchmark.StaticValues;
 import benchmark.agents.ConsumptionFirm;
-import jmab.population.MacroPopulation;
-import jmab.report.AbstractMicroComputer;
-import jmab.report.MicroMultipleVariablesComputer;
-import jmab.simulations.MacroSimulation;
+import jmab2.population.MacroPopulation;
+import jmab2.report.AbstractMicroComputer;
+import jmab2.report.MicroMultipleVariablesComputer;
+import jmab2.simulations.MacroSimulation;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -35,7 +35,7 @@ public class MicroCapacityComputer extends AbstractMicroComputer implements Micr
 
 	private int consumptionFirmsId;
 	/* (non-Javadoc)
-	 * @see jmab.report.MicroMultipleVariablesComputer#computeVariables(jmab.simulations.MacroSimulation)
+	 * @see jmab2.report.MicroMultipleVariablesComputer#computeVariables(jmab2.simulations.MacroSimulation)
 	 */
 	
 	

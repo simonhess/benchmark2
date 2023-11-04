@@ -19,12 +19,12 @@ import java.util.List;
 
 import benchmark.StaticValues;
 import benchmark.agents.Bank;
-import jmab.agents.MacroAgent;
-import jmab.mixing.AbstractMarketMixer;
-import jmab.mixing.MarketMixer;
-import jmab.population.MarketPopulation;
-import jmab.simulations.MacroSimulation;
-import jmab.simulations.MarketSimulation;
+import jmab2.agents.MacroAgent;
+import jmab2.mixing.AbstractMarketMixer;
+import jmab2.mixing.MarketMixer;
+import jmab2.population.MarketPopulation;
+import jmab2.simulations.MacroSimulation;
+import jmab2.simulations.MarketSimulation;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
 import net.sourceforge.jabm.agent.AgentList;
@@ -108,7 +108,7 @@ public class DynamicRandomRobinInterbankMixer extends AbstractMarketMixer implem
 	}
 	
 	/* (non-Javadoc)
-	 * @see jmab.mixing.AbstractMacroMIxer#invokeAgentInteractions(net.sourceforge.jabm.Population, net.sourceforge.jabm.SimulationController)
+	 * @see jmab2.mixing.AbstractMacroMIxer#invokeAgentInteractions(net.sourceforge.jabm.Population, net.sourceforge.jabm.SimulationController)
 	 */
 	@Override
 	public void invokeAgentInteractions(MarketPopulation population,

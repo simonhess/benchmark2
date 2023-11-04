@@ -10,7 +10,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 <!-- Top level bean defining the simulation experiment to be run -->
-<bean id="macroSimulation" class="jmab.simulations.OrderedEventsSimulation"
+<bean id="macroSimulation" class="jmab2.simulations.OrderedEventsSimulation"
 		scope="simulation">
 		<property name="passedValues">
 			<map>
@@ -330,76 +330,76 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="macroAgentInitialiser"
-	    class="jmab.init.RandomMarketInitialiser">
+	    class="jmab2.init.RandomMarketInitialiser">
 	</bean>
 	
-	<bean id="pastUnemployment" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastUnemployment" class="jmab2.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"/>
 	</bean>
-	<bean id="pastAggCredit" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastAggCredit" class="jmab2.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
-	<bean id="pastNomGDP" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastNomGDP" class="jmab2.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
-	<bean id="pastRealGDP" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastRealGDP" class="jmab2.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
-	<bean id="pastInflation" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastInflation" class="jmab2.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
-	<bean id="pastBadDebts" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastBadDebts" class="jmab2.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"/>
 	</bean>
-	<bean id="pastPotGDP" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastPotGDP" class="jmab2.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
-	<bean id="pastCPrice" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastCPrice" class="jmab2.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
-	<bean id="pastKPrice" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastKPrice" class="jmab2.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="20"></property>
 	</bean>
-	<bean id="pastAllPrice" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastAllPrice" class="jmab2.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
 	
-	<bean id="pastGovTax" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastGovTax" class="jmab2.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
 	
-	<bean id="pastAVCPrice" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastAVCPrice" class="jmab2.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
 	
-	<bean id="pastAVKPrice" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastAVKPrice" class="jmab2.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
 	
-	<bean id="pastAVcFirmCostOfEquity" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastAVcFirmCostOfEquity" class="jmab2.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
 
-	<bean id="pastNonBankMoneySupply" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastNonBankMoneySupply" class="jmab2.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
 	
-	<bean id="pastAVcFirmEquityRatio" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastAVcFirmEquityRatio" class="jmab2.expectations.TreeMapPassedValues"
 		scope="simulation">
 		<property name="nbLags" value="4"></property>
 	</bean>
@@ -407,7 +407,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <!-- Here we create the market simulations for each market -->
 
 <!-- The capital good market simulation -->
-	<bean id="capitalGoodMarket" class="jmab.simulations.BrochureMarket" scope="simulation">
+	<bean id="capitalGoodMarket" class="jmab2.simulations.BrochureMarket" scope="simulation">
 		<property name="transaction" ref="capitalMktTransactionMechanism"/>
 		<property name="sellersId">
 			<list>
@@ -433,27 +433,27 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 
 
-	<bean id="capitalMarketInitialiser" class="jmab.init.RandomMarketInitialiser"
+	<bean id="capitalMarketInitialiser" class="jmab2.init.RandomMarketInitialiser"
 		scope="simulation">
 		<property name="marketId"><util:constant static-field="benchmark.StaticValues.MKT_CAPGOOD" /></property>
 		<property name="prng" ref="prng" />
 	</bean>
 
 <!-- The market mixer for the capital good market -->
-	<bean id="capitalMarketMixer" class="jmab.mixing.BrochureSelectionRandomRobinBuyerMixer"
+	<bean id="capitalMarketMixer" class="jmab2.mixing.BrochureSelectionRandomRobinBuyerMixer"
 		scope="simulation">
 		<property name="prng" ref="prng" />
 		<property name="nbSellers" value="4" />
 	</bean>
 
 <!-- The transaction mechanism for the capital good market -->
-	<bean id="capitalMktTransactionMechanism" class="jmab.mechanisms.AtOnceMechanism"
+	<bean id="capitalMktTransactionMechanism" class="jmab2.mechanisms.AtOnceMechanism"
 		scope="simulation">
 		<property name="idGoodSM"><util:constant static-field="benchmark.StaticValues.SM_CAPGOOD" /></property>
 	</bean>
 	
 	
-	<bean id="consumptionMarket" class="jmab.simulations.SimpleMarketSimulation" scope="simulation">
+	<bean id="consumptionMarket" class="jmab2.simulations.SimpleMarketSimulation" scope="simulation">
 		<property name="transaction" ref="consumptionMktTransactionMechanism"/>
 		<property name="sellersId">
 			<list>
@@ -474,25 +474,25 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="nbRuns" value="100"/>
 	</bean>
 
-	<bean id="consumptionMarketInitialiser" class="jmab.init.RandomMarketInitialiser"
+	<bean id="consumptionMarketInitialiser" class="jmab2.init.RandomMarketInitialiser"
 		scope="simulation">
 		<property name="marketId"><util:constant static-field="benchmark.StaticValues.MKT_CONSGOOD" /></property>
 		<property name="prng" ref="prng" />
 	</bean>
 
-	<bean id="consumptionMarketMixer" class="jmab.mixing.SelectionRandomRobinBuyerMixer"
+	<bean id="consumptionMarketMixer" class="jmab2.mixing.SelectionRandomRobinBuyerMixer"
 		scope="simulation">
 		<property name="prng" ref="prng" />
 		<property name="nbSellers" value="5"/>
 	</bean>
 
-	<bean id="consumptionMktTransactionMechanism" class="jmab.mechanisms.AtOnceMechanism"
+	<bean id="consumptionMktTransactionMechanism" class="jmab2.mechanisms.AtOnceMechanism"
 		scope="simulation">
 		<property name="idGoodSM"><util:constant static-field="benchmark.StaticValues.SM_CONSGOOD" /></property>
 	</bean>
 	
 	
-	<bean id="creditMarket" class="jmab.simulations.SimpleCreditMarketSimulation" scope="simulation">
+	<bean id="creditMarket" class="jmab2.simulations.SimpleCreditMarketSimulation" scope="simulation">
 		<property name="transaction" ref="creditMktTransactionMechanism"/>
 		<property name="sellersId">
 			<list>
@@ -513,13 +513,13 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="nbRuns" value="10"/>
 	</bean>
 
-	<bean id="creditMarketInitialiser" class="jmab.init.RandomMarketInitialiser"
+	<bean id="creditMarketInitialiser" class="jmab2.init.RandomMarketInitialiser"
 		scope="simulation">
 		<property name="marketId"><util:constant static-field="benchmark.StaticValues.MKT_CREDIT" /></property>
 		<property name="prng" ref="prng" />
 	</bean>
 
-	<bean id="creditMarketMixer" class="jmab.mixing.SelectionRandomRobinBuyerMixer"
+	<bean id="creditMarketMixer" class="jmab2.mixing.SelectionRandomRobinBuyerMixer"
 		scope="simulation">
 		<property name="prng" ref="prng" />
 		<property name="nbSellers" value="4"/>
@@ -527,14 +527,14 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 
 
 <!-- PROBLEMA: IN TRANSCATION MECHANISM VA SPECIFICATA ANCHE LA MARKET SIMULATION: CIRCOLARITA'! MA A COSA CI SERVE QUEL FIELD? MAI USATO -->
-	<bean id="creditMktTransactionMechanism" class="jmab.mechanisms.ConstrainedCreditMechanism"
+	<bean id="creditMktTransactionMechanism" class="jmab2.mechanisms.ConstrainedCreditMechanism"
 		scope="simulation">
 		<property name="idDepositsSM"><util:constant static-field="benchmark.StaticValues.SM_DEP" /></property>
 		<property name="idLoansSM"><util:constant static-field="benchmark.StaticValues.SM_LOAN" /></property>
 	</bean>
 	
 	<!-- The labor market simulation -->
-	<bean id="laborMarket" class="jmab.simulations.SimpleMarketSimulation" scope="simulation">
+	<bean id="laborMarket" class="jmab2.simulations.SimpleMarketSimulation" scope="simulation">
 		<property name="transaction" ref="laborMktTransactionMechanism"/>
 		<property name="sellersId">
 			<list>
@@ -556,26 +556,26 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="nbRuns" value="8000"/>
 	</bean>
 
-	<bean id="laborMarketInitialiser" class="jmab.init.RandomMarketInitialiser"
+	<bean id="laborMarketInitialiser" class="jmab2.init.RandomMarketInitialiser"
 		scope="simulation">
 		<property name="marketId"><util:constant static-field="benchmark.StaticValues.MKT_LABOR" /></property>
 		<property name="prng" ref="prng" />
 	</bean>
 
 <!-- The market mixer for the labor market -->
-	<bean id="laborMarketMixer" class="jmab.mixing.SelectionRandomRobinBuyerMixer"
+	<bean id="laborMarketMixer" class="jmab2.mixing.SelectionRandomRobinBuyerMixer"
 		scope="simulation">
 		<property name="prng" ref="prng" />
 		<property name="nbSellers" value="10"/>
 	</bean>
 
 <!-- The transaction mechanism for the capital good market: PROBLEMA CIRCOLARITA' VD SOPRA -->
-	<bean id="laborMktTransactionMechanism" class="jmab.mechanisms.UnconstrainedLaborMechanism"
+	<bean id="laborMktTransactionMechanism" class="jmab2.mechanisms.UnconstrainedLaborMechanism"
 		scope="simulation">
 	</bean>
 	
 <!-- The mkt simulation for the deposits market-->
-	<bean id="depositMarket" class="jmab.simulations.SimpleMarketSimulation" scope="simulation">
+	<bean id="depositMarket" class="jmab2.simulations.SimpleMarketSimulation" scope="simulation">
 		<property name="transaction" ref="depositMktTransactionMechanism"/>
 		<property name="sellersId">
 			<list>
@@ -598,19 +598,19 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="nbRuns" value="1"/>
 	</bean>
 
-	<bean id="depositMarketInitialiser" class="jmab.init.RandomMarketInitialiser"
+	<bean id="depositMarketInitialiser" class="jmab2.init.RandomMarketInitialiser"
 		scope="simulation">
 		<property name="marketId"><util:constant static-field="benchmark.StaticValues.MKT_DEPOSIT" /></property>
 		<property name="prng" ref="prng" />
 	</bean>
 
-	<bean id="depositMarketMixer" class="jmab.mixing.SelectionRandomRobinBuyerMixer"
+	<bean id="depositMarketMixer" class="jmab2.mixing.SelectionRandomRobinBuyerMixer"
 		scope="simulation">
 		<property name="prng" ref="prng" />
 		<property name="nbSellers" value="4"/>
 	</bean>
 
-	<bean id="depositMktTransactionMechanism" class="jmab.mechanisms.DepositMechanism"
+	<bean id="depositMktTransactionMechanism" class="jmab2.mechanisms.DepositMechanism"
 		scope="simulation">
 		<property name="idCashSM"><util:constant static-field="benchmark.StaticValues.SM_CASH" /></property>
 		<property name="idDepositsSM"><util:constant static-field="benchmark.StaticValues.SM_DEP" /></property>
@@ -619,7 +619,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	
 	<!-- The bond market  -->
-	<bean id="bondMarket" class="jmab.simulations.BrochureMarket" scope="simulation">
+	<bean id="bondMarket" class="jmab2.simulations.BrochureMarket" scope="simulation">
 		<property name="transaction" ref="bondMktTransactionMechanism"/>
 		<property name="sellersId">
 			<list>
@@ -640,20 +640,20 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="nbRuns" value="1"/>
 	</bean>
 
-	<bean id="bondMarketInitialiser" class="jmab.init.RandomMarketInitialiser"
+	<bean id="bondMarketInitialiser" class="jmab2.init.RandomMarketInitialiser"
 		scope="simulation">
 		<property name="marketId"><util:constant static-field="benchmark.StaticValues.MKT_BONDS" /></property>
 		<property name="prng" ref="prng" />
 	</bean>
 
 <!-- The market mixer for the bond market -->
-	<bean id="bondMarketMixer" class="jmab.mixing.BrochureRandomRobinBuyerMixer"
+	<bean id="bondMarketMixer" class="jmab2.mixing.BrochureRandomRobinBuyerMixer"
 		scope="simulation">
 		<property name="prng" ref="prng" />
 	</bean>
 	
 	<!-- Interbank market beans -->
-	<bean id="interbankMarket" class="jmab.simulations.SimpleMarketSimulation"
+	<bean id="interbankMarket" class="jmab2.simulations.SimpleMarketSimulation"
 		scope="simulation">
 		<property name="transaction" ref="interbankMktTransactionMechanism"></property>
 		<property name="marketId">
@@ -668,7 +668,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="nbRuns" value="10"></property>
 	</bean>
 
-	<bean id="interbankMarketInitialiser" class="jmab.init.RandomMarketInitialiser"
+	<bean id="interbankMarketInitialiser" class="jmab2.init.RandomMarketInitialiser"
 		scope="simulation">
 		<property name="marketId">
 			<util:constant static-field="benchmark.StaticValues.MKT_INTERBANK" />
@@ -692,13 +692,13 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 
 <!-- The transaction mechanism for the bond good market -->
-	<bean id="bondMktTransactionMechanism" class="jmab.mechanisms.BondMechanism"
+	<bean id="bondMktTransactionMechanism" class="jmab2.mechanisms.BondMechanism"
 		scope="simulation">
 		<property name="idBondSM"><util:constant static-field="benchmark.StaticValues.SM_BONDS" /></property>
 	</bean>
 	
 	<!-- The reserve market to finance bonds' purchases  -->
-<bean id="reservesMarketBonds" class="jmab.simulations.SimpleMarketSimulation" scope="simulation">
+<bean id="reservesMarketBonds" class="jmab2.simulations.SimpleMarketSimulation" scope="simulation">
 		<property name="transaction" ref="reserveMktTransactionMechanism"/>
 		<property name="sellersId">
 			<list>
@@ -718,26 +718,26 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="nbRuns" value="1"/>
 	</bean>
 
-	<bean id="reserveMarketInitialiser" class="jmab.init.RandomMarketInitialiser"
+	<bean id="reserveMarketInitialiser" class="jmab2.init.RandomMarketInitialiser"
 		scope="prototype">
 		<property name="marketId"><util:constant static-field="benchmark.StaticValues.MKT_ADVANCES" /></property>
 		<property name="prng" ref="prng" />
 	</bean>
 
 <!-- The market mixer -->
-	<bean id="reserveMarketMixer" class="jmab.mixing.RandomRobinBuyerMixer"
+	<bean id="reserveMarketMixer" class="jmab2.mixing.RandomRobinBuyerMixer"
 		scope="prototype">
 		<property name="prng" ref="prng" />
 	</bean>
 
 <!-- The transaction mechanism for the reserves market: PROBLEMA CIRCOLARITA' VD SOPRA -->
-	<bean id="reserveMktTransactionMechanism" class="jmab.mechanisms.ReservesMechanism"
+	<bean id="reserveMktTransactionMechanism" class="jmab2.mechanisms.ReservesMechanism"
 		scope="prototype">
 		<property name="idAdvancesSM"><util:constant static-field="benchmark.StaticValues.SM_ADVANCES" /></property>
 		<property name="idDepositsCBSM"><util:constant static-field="benchmark.StaticValues.SM_RESERVES" /></property>
 	</bean>
 	
-	<bean id="reservesMarketBasel" class="jmab.simulations.SimpleMarketSimulation" scope="simulation">
+	<bean id="reservesMarketBasel" class="jmab2.simulations.SimpleMarketSimulation" scope="simulation">
 		<property name="transaction" ref="reserveMktTransactionMechanism"/>
 		<property name="sellersId">
 			<list>
@@ -757,314 +757,314 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="nbRuns" value="1"/>
 	</bean>
 
-	<bean id="computeExpectationsTic" class="jmab.events.MacroTicEvent">
+	<bean id="computeExpectationsTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_COMPUTEEXPECTATIONS" /></property>
 	</bean>
-	<bean id="capitalPriceTic" class="jmab.events.MacroTicEvent">
+	<bean id="capitalPriceTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CAPITALPRICE" /></property>
 	</bean>
-	<bean id="consumptionPriceTic" class="jmab.events.MacroTicEvent">
+	<bean id="consumptionPriceTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CONSUMPTIONPRICE" /></property>
 	</bean>
-	<bean id="capitalMarketTic1" class="jmab.events.MarketTicEvent">
+	<bean id="capitalMarketTic1" class="jmab2.events.MarketTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CAPITALMARKET1" /></property>
 	</bean>
-	<bean id="rdDecisionTic" class="jmab.events.MacroTicEvent">
+	<bean id="rdDecisionTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_RDDECISION" /></property>
 	</bean>
-	<bean id="investmentDemandTic" class="jmab.events.MacroTicEvent">
+	<bean id="investmentDemandTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_INVESTMENTDEMAND" /></property>
 	</bean>
-	<bean id="creditSupplyTic" class="jmab.events.MacroTicEvent">
+	<bean id="creditSupplyTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CREDITSUPPLY" /></property>
 	</bean>
-	<bean id="depInterestTic" class="jmab.events.MacroTicEvent">
+	<bean id="depInterestTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_DEPINTERESTS" /></property>
 	</bean>
-	<bean id="creditDemandTic" class="jmab.events.MacroTicEvent">
+	<bean id="creditDemandTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CREDITDEMAND" /></property>
 	</bean>
-	<bean id="creditMarketTic" class="jmab.events.MarketTicEvent">
+	<bean id="creditMarketTic" class="jmab2.events.MarketTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CREDITMARKET" /></property>
 	</bean>
-	<bean id="laborSupplyTic" class="jmab.events.MacroTicEvent">
+	<bean id="laborSupplyTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_LABORSUPPLY" /></property>
 	</bean>
-	<bean id="laborDemandTic" class="jmab.events.MacroTicEvent">
+	<bean id="laborDemandTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_LABORDEMAND" /></property>
 	</bean>
-	<bean id="governmentLaborTic" class="jmab.events.MacroTicEvent">
+	<bean id="governmentLaborTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_GOVERNMENTLABOR" /></property>
 	</bean>
-	<bean id="unemploymentBenefitAmountTic" class="jmab.events.MacroTicEvent">
+	<bean id="unemploymentBenefitAmountTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_UNEMPLOYMENTBENEFITAMOUNT" /></property>
 	</bean>
-	<bean id="laborMarketTic" class="jmab.events.MarketTicEvent">
+	<bean id="laborMarketTic" class="jmab2.events.MarketTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_LABORMARKET" /></property>
 	</bean>
-	<bean id="productionTic" class="jmab.events.MacroTicEvent">
+	<bean id="productionTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_PRODUCTION" /></property>
 	</bean>
-	<bean id="rdOutcomeTic" class="jmab.events.MacroTicEvent">
+	<bean id="rdOutcomeTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_RDOUTCOME" /></property>
 	</bean>
-	<bean id="consumptionDemandTic" class="jmab.events.MacroTicEvent">
+	<bean id="consumptionDemandTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CONSUMPTIONDEMAND" /></property>
 	</bean>
-	<bean id="consumptionMarketTic" class="jmab.events.MarketTicEvent">
+	<bean id="consumptionMarketTic" class="jmab2.events.MarketTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CONSUMPTIONMARKET" /></property>
 	</bean>
-	<bean id="capitalMarketTic2" class="jmab.events.MarketTicEvent">
+	<bean id="capitalMarketTic2" class="jmab2.events.MarketTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CAPITALMARKET2" /></property>
 	</bean>
-	<bean id="payWageTic" class="jmab.events.MarketTicEvent">
+	<bean id="payWageTic" class="jmab2.events.MarketTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_WAGEPAYMENT" /></property>
 	</bean>
-	<bean id="creditInterestsTic" class="jmab.events.MacroTicEvent">
+	<bean id="creditInterestsTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CREDINTERESTS" /></property>
 	</bean>
-	<bean id="taxesTic" class="jmab.events.MacroTicEvent">
+	<bean id="taxesTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_TAXES" /></property>
 	</bean>
-	<bean id="dividendsTic" class="jmab.events.MacroTicEvent">
+	<bean id="dividendsTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_DIVIDENDS" /></property>
 	</bean>
-	<bean id="bondInterestTic" class="jmab.events.MacroTicEvent">
+	<bean id="bondInterestTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BONDINTERESTS" /></property>
 	</bean>
-	<bean id="depDemandTic" class="jmab.events.MacroTicEvent">
+	<bean id="depDemandTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_DEPOSITDEMAND" /></property>
 	</bean>
-	<bean id="depSupplyTic" class="jmab.events.MacroTicEvent">
+	<bean id="depSupplyTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_DEPOSITSUPPLY" /></property>
 	</bean>
-	<bean id="depMarketTic" class="jmab.events.MarketTicEvent">
+	<bean id="depMarketTic" class="jmab2.events.MarketTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_DEPOSITMARKET" /></property>
 	</bean>
-	<bean id="advInterestTic" class="jmab.events.MacroTicEvent">
+	<bean id="advInterestTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_ADVINTERESTS" /></property>
 	</bean>
-	<bean id="interbankInterestTic" class="jmab.events.MacroTicEvent">
+	<bean id="interbankInterestTic" class="jmab2.events.MacroTicEvent">
 		<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_INTERBANKINTERESTS" /></property>
 	</bean>
-	<bean id="bankruptcyTic" class="jmab.events.MacroTicEvent">
+	<bean id="bankruptcyTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKRUPTCY" /></property>
 	</bean>
-	<bean id="bankruptcyTic2" class="jmab.events.MacroTicEvent">
+	<bean id="bankruptcyTic2" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKRUPTCY2" /></property>
 	</bean>
-	<bean id="bondSupplyTic" class="jmab.events.MacroTicEvent">
+	<bean id="bondSupplyTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BONDSUPPLY" /></property>
 	</bean>
-	<bean id="bondMarket1Tic" class="jmab.events.MarketTicEvent">
+	<bean id="bondMarket1Tic" class="jmab2.events.MarketTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BONDMARKET1" /></property>
 	</bean>
-	<bean id="bondDemandTic" class="jmab.events.MacroTicEvent">
+	<bean id="bondDemandTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BONDDEMAND" /></property>
 	</bean>
 	<!-- 2 New Interbank tics (Joeri)-->
-	<bean id="interbankDemandSupplyTic" class="jmab.events.MacroTicEvent">
+	<bean id="interbankDemandSupplyTic" class="jmab2.events.MacroTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKDEMANDSUPPLY" />
 		</property>
 	</bean>
-	<bean id="interbankMarketTic" class="jmab.events.MarketTicEvent">
+	<bean id="interbankMarketTic" class="jmab2.events.MarketTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKMARKET" />
 		</property>
 	</bean>
-	<bean id="reservesDemandBondTic" class="jmab.events.MacroTicEvent">
+	<bean id="reservesDemandBondTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_RESERVEDEMANDBOND" /></property>
 	</bean>
-	<bean id="reservesMarketBondTic" class="jmab.events.MarketTicEvent">
+	<bean id="reservesMarketBondTic" class="jmab2.events.MarketTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_RESERVEMARKETBOND" /></property>
 	</bean>
-	<bean id="cbBondsPurchasesTic" class="jmab.events.MacroTicEvent">
+	<bean id="cbBondsPurchasesTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CBBONDSPURCHASES" /></property>
 	</bean>
 	<!-- New CBPolicy TIC (Joeri) -->
-	<bean id="cbPolicyTic" class="jmab.events.MacroTicEvent">
+	<bean id="cbPolicyTic" class="jmab2.events.MacroTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_CBPOLICY" />
 		</property>
 	</bean>
-	<bean id="banksUpdateCBInterestRatesTic" class="jmab.events.MacroTicEvent">
+	<bean id="banksUpdateCBInterestRatesTic" class="jmab2.events.MacroTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_BANKSUPDATECBINTERESTRATES" />
 		</property>
 	</bean>
-	<bean id="banksUpdateIBInterestRateTic" class="jmab.events.MacroTicEvent">
+	<bean id="banksUpdateIBInterestRateTic" class="jmab2.events.MacroTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_BANKSUPDATEIBINTERESTRATE" />
 		</property>
 	</bean>
-	<bean id="reservesInterestTic" class="jmab.events.MacroTicEvent">
+	<bean id="reservesInterestTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_RESINTERESTS" /></property>
 	</bean>
-	<bean id="bondMarket2Tic" class="jmab.events.MarketTicEvent">
+	<bean id="bondMarket2Tic" class="jmab2.events.MarketTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BONDMARKET2" /></property>
 	</bean>
-	<bean id="reservesDemandBaselTic" class="jmab.events.MacroTicEvent">
+	<bean id="reservesDemandBaselTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_RESERVEDEMANDBASEL" /></property>
 	</bean>
-	<bean id="reservesMarketBaselTic" class="jmab.events.MarketTicEvent">
+	<bean id="reservesMarketBaselTic" class="jmab2.events.MarketTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_RESERVEMARKETBASEL" /></property>
 	</bean>
-	<bean id="updateExpectationsTic" class="jmab.events.MacroTicEvent">
+	<bean id="updateExpectationsTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_UPDATEEXPECTATIONS" /></property>
 	</bean>
-	<bean id="computeAggregatesTic" class="jmab.events.MacroTicEvent">
+	<bean id="computeAggregatesTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_COMPUTEAGGREGATES" /></property>
 	</bean>
-	<bean id="populationHandlerTic" class="jmab.events.MacroTicEvent">
+	<bean id="populationHandlerTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_POPULATIONHANDLER" /></property>
 	</bean>
 	
-	<bean id="ShockTic" class="jmab.events.MacroTicEvent">
+	<bean id="ShockTic" class="jmab2.events.MacroTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_SHOCK" /></property>
 	</bean>
 	
-	<bean id="serializationTic" class="jmab.events.SerializationTicEvent">
+	<bean id="serializationTic" class="jmab2.events.SerializationTicEvent">
 		<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_SERIALIZATION" /></property>
 		<property name="round" value="250"/>
 		<property name="fileName" value="data/Serialization.dat"/>
 	</bean>
 	
 	<!-- Macro Variable Tic Events -->
-	<bean id="nominalGDPReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="nominalGDPReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_GDPREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.GDPREPORT_ID" /></property>
 	<property name="variableName" value="Nominal GDP"/>
 	<property name="computer" ref="nominalGDPComputer"/>
 	</bean>
 	
-	<bean id="realGDPReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="realGDPReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_REALGDPREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.REALGDPREPORT_ID" /></property>
 	<property name="variableName" value="Real GDP"/>
 	<property name="computer" ref="realGDPComputer"/>
 	</bean>
 	
-	<bean id="cAvPriceReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="cAvPriceReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AVCPRICEREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AVCPRICEREPORT_ID" /></property>
 	<property name="variableName" value="cAvPrice"/>
 	<property name="computer" ref="cAvPriceComputer"/>
 	</bean>
 	
-	<bean id="kAvPriceReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="kAvPriceReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AVKPRICEREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AVKPRICEREPORT_ID" /></property>
 	<property name="variableName" value="kAvPrice"/>
 	<property name="computer" ref="kAvPriceComputer"/>
 	</bean>
 	
-	<bean id="loanAvInterestReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="loanAvInterestReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AVLOANINTERESTREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AVLOANINTERESTREPORT_ID" /></property>
 	<property name="variableName" value="loanAvInterest"/>
 	<property name="computer" ref="loanAvInterestComputer"/>
 	</bean>
 	
-	<bean id="depAvInterestReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="depAvInterestReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AVDEPINTERESTREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AVDEPINTERESTREPORT_ID" /></property>
 	<property name="variableName" value="depAvInterest"/>
 	<property name="computer" ref="depAvInterestComputer"/>
 	</bean>
 	
-	<bean id="interbankAvInterestReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="interbankAvInterestReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AVINTERBANKINTERESTREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AVINTERBANKINTERESTREPORT_ID" /></property>
 	<property name="variableName" value="interbankAvInterest"/>
 	<property name="computer" ref="interbankAvInterestComputer"/>
 	</bean>
 	
-	<bean id="loanAvInterestAskReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="loanAvInterestAskReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AVLOANINTERESTASKREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AVLOANINTERESTASKREPORT_ID" /></property>
 	<property name="variableName" value="loanAvInterestAsk"/>
 	<property name="computer" ref="loanAvInterestAskComputer"/>
 	</bean>
 	
-	<bean id="depAvInterestBidReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="depAvInterestBidReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AVDEPINTERESTBIDREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AVDEPINTERESTBIDREPORT_ID" /></property>
 	<property name="variableName" value="depAvInterestBid"/>
 	<property name="computer" ref="depAvInterestBidComputer"/>
 	</bean>
 	
-	<bean id="avWageReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="avWageReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AVWAGEREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AVWAGEREPORT_ID" /></property>
 	<property name="variableName" value="avWage"/>
 	<property name="computer" ref="avWageComputer"/>
 	</bean>
 	
-	<bean id="avNetIncomeReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="avNetIncomeReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AVNETINCOMEREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AVNETINCOMEREPORT_ID" /></property>
 	<property name="variableName" value="avNetIncome"/>
 	<property name="computer" ref="avNetIncomeComputer"/>
 	</bean>
 	
-	<bean id="avNominalConsumptionReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="avNominalConsumptionReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AVNOMINALCONSUMPTIONREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AVNOMINALCONSUMPTIONREPORT_ID" /></property>
 	<property name="variableName" value="avNominalConsumption"/>
 	<property name="computer" ref="avNominalConsumptionComputer"/>
 	</bean>
 	
-	<bean id="giniReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="giniReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_GINIREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.GINIREPORT_ID" /></property>
 	<property name="variableName" value="gini"/>
 	<property name="computer" ref="giniComputer"/>
 	</bean>
 	
-	<bean id="cGoodSupplierSwitchingRateReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="cGoodSupplierSwitchingRateReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CGOODSUPPLIERSWITCHINGRATEREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CGOODSUPPLIERSWITCHINGRATEREPORT_ID" /></property>
 	<property name="variableName" value="cGoodSupplierSwitchingRate"/>
 	<property name="computer" ref="cGoodSupplierSwitchingRateComputer"/>
 	</bean>
 	
-	<bean id="kGoodSupplierSwitchingRateReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="kGoodSupplierSwitchingRateReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KGOODSUPPLIERSWITCHINGRATEREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KGOODSUPPLIERSWITCHINGRATEREPORT_ID" /></property>
 	<property name="variableName" value="kGoodSupplierSwitchingRate"/>
 	<property name="computer" ref="kGoodSupplierSwitchingRateComputer"/>
 	</bean>
 	
-	<bean id="hhBailoutCostStdDevReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="hhBailoutCostStdDevReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_HHBAILOUTCOSTSTDDEVREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.HHBAILOUTCOSTSTDDEVREPORT_ID" /></property>
 	<property name="variableName" value="hhBailoutCostStdDev"/>
 	<property name="computer" ref="hhBailoutCostStdDevComputer"/>
 	</bean>
 	
-	<bean id="hhAvBailoutCostReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="hhAvBailoutCostReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_HHAVBAILOUTCOSTREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.HHAVBAILOUTCOSTREPORT_ID" /></property>
 	<property name="variableName" value="hhAvBailoutCost"/>
 	<property name="computer" ref="hhAvBailoutCostComputer"/>
 	</bean>
 	
-	<bean id="avAllPriceReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="avAllPriceReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AVALLPRICEREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AVALLPRICEREPORT_ID" /></property>
 	<property name="variableName" value="avAllPrice"/>
 	<property name="computer" ref="AveragePriceAllProducersComputer"/>
 	</bean>
 	
-	<bean id="cbAdvancesRateReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cbAdvancesRateReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CBADVRATEREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CBADVRATEREPORT_ID" /></property>
 	<property name="variableName" value="cbAdvRate"/>
 	<property name="computer" ref="cbAdvancesInterestComputer"/>
 	</bean>
 	
-	<bean id="cbReservesRateReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cbReservesRateReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CBRESRATEREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CBRESRATEREPORT_ID" /></property>
 	<property name="variableName" value="cbResRate"/>
@@ -1073,35 +1073,35 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	
 	<!-- Macro Variable Tic Events -->
-	<bean id="nominalInvReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="nominalInvReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_INVREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.INVREPORT_ID" /></property>
 	<property name="variableName" value="Investment GDP"/>
 	<property name="computer" ref="nominalInvComputer"/>
 	</bean>
 	
-	<bean id="unemploymentReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="unemploymentReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_UNEMPLOYMENTREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.UNEMPLOYMENTREPORT_ID" /></property>
 	<property name="variableName" value="Unemployment Rate"/>
 	<property name="computer" ref="unemploymentComputer"/>
 	</bean>
 	
-	<bean id="cFirmsBankruptcyReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="cFirmsBankruptcyReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CFIRMSBANKRUPTCYREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CFIRMSBANKRUPTCYREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms' Bankruptcy"/>
 	<property name="computer" ref="cFirmsBankruptcyComputer"/>
 	</bean>
 	
-	<bean id="kFirmsBankruptcyReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="kFirmsBankruptcyReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KFIRMSBANKRUPTCYREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KFIRMSBANKRUPTCYREPORT_ID" /></property>
 	<property name="variableName" value="Capital Firms' Bankruptcy"/>
 	<property name="computer" ref="kFirmsBankruptcyComputer"/>
 	</bean>
 	
-	<bean id="banksBankruptcyReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="banksBankruptcyReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSBANKRUPTCYREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSBANKRUPTCYREPORT_ID" /></property>
 	<property name="variableName" value="Banks' Bankruptcy"/>
@@ -1118,7 +1118,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="avInterbankRateReportTic" />
 				<ref bean="aggInterbankCreditReportTic" />
 	 -->
-	 <bean id="microInterbankReportTic" class="jmab.events.MacroVariableTicEvent">
+	 <bean id="microInterbankReportTic" class="jmab2.events.MacroVariableTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_MICROINTERBANKREPORT" />
 		</property>
@@ -1128,7 +1128,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="variableName" value="Banks' Bankruptcy"></property>
 		<property name="computer" ref="banksBankruptcyComputer"></property>
 	</bean>
-	<bean id="microInterbankDegreeReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="microInterbankDegreeReportTic" class="jmab2.events.MacroVariableTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_MICROINTERBANKDEGREEREPORT" />
 		</property>
@@ -1138,7 +1138,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="variableName" value="Banks' Bankruptcy"></property>
 		<property name="computer" ref="banksBankruptcyComputer"></property>
 	</bean>
-	 <bean id="interbankInterestToPayReportTic" class="jmab.events.MacroVariableTicEvent">
+	 <bean id="interbankInterestToPayReportTic" class="jmab2.events.MacroVariableTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKINTERESTSTOPAYREPORT" />
 		</property>
@@ -1148,7 +1148,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="variableName" value="Banks' Bankruptcy"></property>
 		<property name="computer" ref="banksBankruptcyComputer"></property>
 	</bean>
-	 <bean id="interbankDebtServiceReportTic" class="jmab.events.MacroVariableTicEvent">
+	 <bean id="interbankDebtServiceReportTic" class="jmab2.events.MacroVariableTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKDEBTSERVICEREPORT" />
 		</property>
@@ -1158,7 +1158,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="variableName" value="Banks' Bankruptcy"></property>
 		<property name="computer" ref="banksBankruptcyComputer"></property>
 	</bean>
-	 <bean id="interbankPositionReportTic" class="jmab.events.MacroVariableTicEvent">
+	 <bean id="interbankPositionReportTic" class="jmab2.events.MacroVariableTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKPOSITIONREPORT" />
 		</property>
@@ -1168,7 +1168,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="variableName" value="Banks' Bankruptcy"></property>
 		<property name="computer" ref="banksBankruptcyComputer"></property>
 	</bean>
-	 <bean id="avInterbankRateReportTic" class="jmab.events.MacroVariableTicEvent">
+	 <bean id="avInterbankRateReportTic" class="jmab2.events.MacroVariableTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_AVINTERBANKRATEREPORT" />
 		</property>
@@ -1178,7 +1178,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="variableName" value="Banks' Bankruptcy"></property>
 		<property name="computer" ref="banksBankruptcyComputer"></property>
 	</bean>
-	 <bean id="aggInterbankCreditReportTic" class="jmab.events.MacroVariableTicEvent">
+	 <bean id="aggInterbankCreditReportTic" class="jmab2.events.MacroVariableTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_AGGINTERBANKCREDITREPORT" />
 		</property>
@@ -1190,14 +1190,14 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	<!-- End of interbank reporters TODO finish name= etc -->
 
-	<bean id="cFirmsAggregateDebtReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="cFirmsAggregateDebtReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CAGGREGATEDEBTREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CAGGREGATEDEBTREPORT" /></property>
 	<property name="variableName" value="Consumption Firms' Aggregate Outstanding Debt"/>
 	<property name="computer" ref="cAggregateDebtComputer"/>
 	</bean>
 	
-	<bean id="kFirmsAggregateDebtReportTic" class="jmab.events.MacroVariableTicEvent">
+	<bean id="kFirmsAggregateDebtReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KAGGREGATEDEBTREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KAGGREGATEDEBTREPORT" /></property>
 	<property name="variableName" value="Capital Firms' Aggregate Outstanding Debt"/>
@@ -1206,7 +1206,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	
 	<!-- cFirm contrained credit report -->
-		<bean id="cAggConsCreditReportTic" class="jmab.events.MacroVariableTicEvent">
+		<bean id="cAggConsCreditReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CAGGCONSCREDITREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CAGGCONSCREDITREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms' constrained credit"/>
@@ -1214,7 +1214,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<!-- kFirm contrained credit report -->
-		<bean id="kAggConsCreditReportTic" class="jmab.events.MacroVariableTicEvent">
+		<bean id="kAggConsCreditReportTic" class="jmab2.events.MacroVariableTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KAGGCONSCREDITREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KAGGCONSCREDITREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms' constrained credit"/>
@@ -1224,182 +1224,182 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 
 	
 	<!-- Micro Variables Tic Events -->
-	<bean id="microLoansKfirmsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microLoansKfirmsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_MICROLOANSKREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.MICROLOANSKREPORT_ID" /></property>
 	<property name="variableName" value="K Firms Outstanding Loans"/>
 	<property name="computer" ref="microLoansKComputer"/>
 	</bean>
 	
-	<bean id="microLoansCfirmsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microLoansCfirmsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_MICROLOANSCREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.MICROLOANSCREPORT_ID" /></property>
 	<property name="variableName" value="C Firms Outstanding Loans"/>
 	<property name="computer" ref="microLoansCComputer"/>
 	</bean>
 	
-	<bean id="microRealSalesKfirmsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microRealSalesKfirmsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KREALSALESREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KREALSALESREPORT_ID" /></property>
 	<property name="variableName" value="K Firms Real Sales"/>
 	<property name="computer" ref="microRealSalesKComputer"/>
 	</bean>
 	
-	<bean id="microRealSalesCfirmsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microRealSalesCfirmsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CREALSALESREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CREALSALESREPORT_ID" /></property>
 	<property name="variableName" value="C Firms Real Sales"/>
 	<property name="computer" ref="microRealSalesCComputer"/>
 	</bean>
 	
-	<bean id="microNominalSalesKfirmsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microNominalSalesKfirmsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KNOMINALSALESREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KNOMINALSALESREPORT_ID" /></property>
 	<property name="variableName" value="K Firms Nominal Sales"/>
 	<property name="computer" ref="microNominalSalesKComputer"/>
 	</bean>
 	
-	<bean id="microNominalSalesCfirmsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microNominalSalesCfirmsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CNOMINALSALESREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CNOMINALSALESREPORT_ID" /></property>
 	<property name="variableName" value="C Firms Nominal Sales"/>
 	<property name="computer" ref="microNominalSalesCComputer"/>
 	</bean>
 	
-	<bean id="microOutputKfirmsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microOutputKfirmsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KOUTPUTREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KOUTPUTREPORT_ID" /></property>
 	<property name="variableName" value="K Firms Output"/>
 	<property name="computer" ref="microOutputKComputer"/>
 	</bean>
 	
-	<bean id="microOutputCfirmsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microOutputCfirmsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_COUTPUTREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.COUTPUTREPORT_ID" /></property>
 	<property name="variableName" value="C Firms Output"/>
 	<property name="computer" ref="microOutputCComputer"/>
 	</bean>
 	
-	<bean id="microCreditObtainedKfirmsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microCreditObtainedKfirmsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KCREDITOBTAINEDREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KCREDITOBTAINEDREPORT_ID" /></property>
 	<property name="variableName" value="K Firms Credit Obtained"/>
 	<property name="computer" ref="microCreditObtainedKComputer"/>
 	</bean>
 	
-	<bean id="microCreditObtainedCfirmsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microCreditObtainedCfirmsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CCREDITOBTAINEDREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CCREDITOBTAINEDREPORT_ID" /></property>
 	<property name="variableName" value="C Firms CreditObtained"/>
 	<property name="computer" ref="microCreditObtainedCComputer"/>
 	</bean>
 	
-	<bean id="microRealConsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microRealConsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_MICROREALCONSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.MICROREALCONSREPORT_ID" /></property>
 	<property name="variableName" value="Households Real Consumption"/>
 	<property name="computer" ref="microRealConsComputer"/>
 	</bean>
 	
-	<bean id="microRealDesConsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microRealDesConsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_MICROREALDESCONSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.MICROREALDESCONSREPORT_ID" /></property>
 	<property name="variableName" value="Households Real Desired Consumption"/>
 	<property name="computer" ref="microRealDesConsComputer"/>
 	</bean>
 	
-	<bean id="cOperatingCashFlowReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cOperatingCashFlowReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_OPERATINGCASHFLOWREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.COPERATINGCASHFLOWREPORT_ID" /></property>
 	<property name="variableName" value="C Firms Operating Cash Flow"/>
 	<property name="computer" ref="cOperatingCashFlowComputer"/>
 	</bean>
 	
-	<bean id="kOperatingCashFlowReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="kOperatingCashFlowReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_OPERATINGCASHFLOWREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KOPERATINGCASHFLOWREPORT_ID" /></property>
 	<property name="variableName" value="K Firms Operating Cash Flow"/>
 	<property name="computer" ref="kOperatingCashFlowComputer"/>
 	</bean>
 	
-	<bean id="cExpAvVarCostsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cExpAvVarCostsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CEXPAVVARCOSTSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CEXPAVVARCOSTSREPORT_ID" /></property>
 	<property name="variableName" value="C Firms Operating ExpAvVarCosts"/>
 	<property name="computer" ref="microExpAvVarCostsCComputer"/>
 	</bean>
 	
-	<bean id="kExpAvVarCostsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="kExpAvVarCostsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KEXPAVVARCOSTSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KEXPAVVARCOSTSREPORT_ID" /></property>
 	<property name="variableName" value="K Firms Operating ExpAvVarCosts"/>
 	<property name="computer" ref="microExpAvVarCostsKComputer"/>
 	</bean>
 	
-	<bean id="microNominalConsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microNominalConsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_MICRONOMINALCONSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.MICRONOMINALCONSREPORT_ID" /></property>
 	<property name="variableName" value="Households Nominal Consumption"/>
 	<property name="computer" ref="microNominalConsComputer"/>
 	</bean>
 	
-	<bean id="microRealInvReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microRealInvReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_MICROREALINVREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.MICROREALINVREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Real Investment"/>
 	<property name="computer" ref="microRealInvComputer"/>
 	</bean>
 	
-	<bean id="microRealDesInvReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microRealDesInvReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_MICROREALDESINVREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.MICROREALDESINVREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Real Desired Investment"/>
 	<property name="computer" ref="microRealDesInvComputer"/>
 	</bean>
 	
-	<bean id="microNominalInvReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microNominalInvReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_MICRONOMINALINVREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.MICRONOMINALINVREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms NominalInvestment"/>
 	<property name="computer" ref="microNominalInvComputer"/>
 	</bean>
 	
-	<bean id="microRealCInventReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microRealCInventReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_MICROREALCINVENTREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.MICROREALCINVENTREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Real Inventories"/>
 	<property name="computer" ref="microRealCInventComputer"/>
 	</bean>
 	
-	<bean id="microRealKInventReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microRealKInventReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_MICROREALKINVENTREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.MICROREALKINVENTREPORT_ID" /></property>
 	<property name="variableName" value="Capital Firms Real Inventories"/>
 	<property name="computer" ref="microRealKInventComputer"/>
 	</bean>
 	
-	<bean id="microCGrowthReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microCGrowthReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_MICROCGROWTHREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.MICROCGROWTHREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Growth"/>
 	<property name="computer" ref="microCGrowthComputer"/>
 	</bean>
 	
-	<bean id="microCreditDegreeReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microCreditDegreeReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_MICROCREDITDEGREEREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.MICROCREDITDEGREEREPORT_ID" /></property>
 	<property name="variableName" value="Credit Network Degrees Distribution"/>
 	<property name="computer" ref="creditNetworkDegreeComputer"/>
 	</bean>
 	
-	<bean id="microBankCreditReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microBankCreditReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSCREDITDEGREEREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.MICROBANKCREDITREPORT_ID" /></property>
 	<property name="variableName" value="Banks' Outstanding Credit"/>
 	<property name="computer" ref="microBankCreditComputer"/>
 	</bean>
 	
-	<bean id="aggHHBSReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="aggHHBSReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AGGHHBSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AGGHHBSREPORT_ID" /></property>
 	<property name="variableName" value="Aggregate Households Balance Sheet"/>
@@ -1407,217 +1407,217 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 
-	<bean id="aggCFBSReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="aggCFBSReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AGGCFBSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AGGCFBSREPORT_ID" /></property>
 	<property name="variableName" value="Aggregate Consumption Firms Balance Sheet"/>
 	<property name="computer" ref="aggCFBSComputer"/>
 	</bean>
 	
-	<bean id="aggKFBSReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="aggKFBSReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AGGKFBSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AGGKFBSREPORT_ID" /></property>
 	<property name="variableName" value="Aggregate Capital Firms Balance Sheet"/>
 	<property name="computer" ref="aggKFBSComputer"/>
 	</bean>
 	
-	<bean id="aggBBSReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="aggBBSReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AGGBBSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AGGBBSREPORT_ID" /></property>
 	<property name="variableName" value="Aggregate Banks Balance Sheet"/>
 	<property name="computer" ref="aggBBSComputer"/>
 	</bean>
 	
-	<bean id="aggGBSReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="aggGBSReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AGGGBSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AGGGBSREPORT_ID" /></property>
 	<property name="variableName" value="Aggregate Government Balance Sheet"/>
 	<property name="computer" ref="aggGBSComputer"/>
 	</bean>
 	
-	<bean id="aggCBBSReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="aggCBBSReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_AGGCBBSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.AGGCBBSREPORT_ID" /></property>
 	<property name="variableName" value="Aggregate Central Banks Balance Sheet"/>
 	<property name="computer" ref="aggCBBSComputer"/>
 	</bean>
 	
-	<bean id="realCDesOutputReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="realCDesOutputReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_REALCDESOUTPUTREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.REALCDESOUTPUTREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Desired Output"/>
 	<property name="computer" ref="realCDesOutputComputer"/>
 	</bean>
 	
-	<bean id="realKDesOutputReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="realKDesOutputReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_REALKDESOUTPUTREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.REALKDESOUTPUTREPORT_ID" /></property>
 	<property name="variableName" value="Capital Firms Desired Output"/>
 	<property name="computer" ref="realKDesOutputComputer"/>
 	</bean>
 	
-	<bean id="cEmployeeReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cEmployeeReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CEMPLOYEEREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CEMPLOYEEREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Employees Number"/>
 	<property name="computer" ref="cEmployeeComputer"/>
 	</bean>
 
-	<bean id="kEmployeeReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="kEmployeeReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KEMPLOYEEREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KEMPLOYEEREPORT_ID" /></property>
 	<property name="variableName" value="Capital Firms Employees Number"/>
 	<property name="computer" ref="kEmployeeComputer"/>
 	</bean>
 		
-	<bean id="banksProfitsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="banksProfitsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSPROFITSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSPROFITSREPORT_ID" /></property>
 	<property name="variableName" value="Banks Profits"/>
 	<property name="computer" ref="banksProfitsComputer"/>
 	</bean>
 	
-	<bean id="banksCreditExcessReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="banksCreditExcessReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSCREDITEXCESSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSCREDITEXCESSREPORT_ID" /></property>
 	<property name="variableName" value="Banks Credit Excess"/>
 	<property name="computer" ref="banksCreditExcessComputer"/>
 	</bean>
 	
-	<bean id="banksSpecificInterestReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="banksSpecificInterestReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSSPECIFICINTERESTREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSSPECIFICINTERESTREPORT_ID" /></property>
 	<property name="variableName" value="Banks Specific Interest"/>
 	<property name="computer" ref="banksSpecificInterestComputer"/>
 	</bean>
 	
-	<bean id="banksCRReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="banksCRReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSCRREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSCRREPORT_ID" /></property>
 	<property name="variableName" value="Banks CR"/>
 	<property name="computer" ref="banksCRComputer"/>
 	</bean>
 	
-	<bean id="banksCARReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="banksCARReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSCARREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSCARREPORT_ID" /></property>
 	<property name="variableName" value="Banks CAR"/>
 	<property name="computer" ref="banksCARComputer"/>
 	</bean>
 	
-	<bean id="banksLossReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="banksLossReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSLOSSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSLOSSREPORT_ID" /></property>
 	<property name="variableName" value="Banks Loss Due to Bad Debt"/>
 	<property name="computer" ref="banksLossComputer"/>
 	</bean>
 	
-	<bean id="banksLRReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="banksLRReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSLRREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSLRREPORT_ID" /></property>
 	<property name="variableName" value="Banks LR"/>
 	<property name="computer" ref="banksLRComputer"/>
 	</bean>
 	
-	<bean id="banksTaxesReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="banksTaxesReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSTAXESREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSTAXESREPORT_ID" /></property>
 	<property name="variableName" value="Banks Taxes"/>
 	<property name="computer" ref="microTaxesBanksComputer"/>
 	</bean>
 	
-	<bean id="banksMarkupReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="banksMarkupReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSMARKUPREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSMARKUPREPORT_ID" /></property>
 	<property name="variableName" value="Banks Markup"/>
 	<property name="computer" ref="microBanksMarkupComputer"/>
 	</bean>
 	
-	<bean id="cFirmsMarkupReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cFirmsMarkupReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CMARKUPREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CMARKUPREPORT_ID" /></property>
 	<property name="variableName" value="cFirms Markup"/>
 	<property name="computer" ref="microCMarkupComputer"/>
 	</bean>
 	
-	<bean id="kFirmsMarkupReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="kFirmsMarkupReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KMARKUPREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KMARKUPREPORT_ID" /></property>
 	<property name="variableName" value="kFirm Markup"/>
 	<property name="computer" ref="microKMarkupComputer"/>
 	</bean>
 	
-	<bean id="hhTaxesReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="hhTaxesReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_HHTAXESREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.HHTAXESREPORT_ID" /></property>
 	<property name="variableName" value="HHs Taxes"/>
 	<property name="computer" ref="microTaxesHHComputer"/>
 	</bean>
 	
-	<bean id="cFirmsTaxesReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cFirmsTaxesReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CFIRMSTAXESREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CFIRMSTAXESREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Taxes"/>
 	<property name="computer" ref="microTaxesCComputer"/>
 	</bean>
 	
-	<bean id="kFirmsTaxesReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="kFirmsTaxesReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KFIRMSTAXESREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KFIRMSTAXESREPORT_ID" /></property>
 	<property name="variableName" value="Capital Firms Taxes"/>
 	<property name="computer" ref="microTaxesKComputer"/>
 	</bean>
 	
-	<bean id="cFirmsBailoutCostReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cFirmsBailoutCostReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CBAILOUTCOSTREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CBAILOUTCOSTREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Bailout Costs"/>
 	<property name="computer" ref="microBailoutCostCComputer"/>
 	</bean>
 	
-	<bean id="kFirmsBailoutCostReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="kFirmsBailoutCostReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KBAILOUTCOSTREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KBAILOUTCOSTREPORT_ID" /></property>
 	<property name="variableName" value="Capital Firms Bailout Costs"/>
 	<property name="computer" ref="microBailoutCostKComputer"/>
 	</bean>
 	
-	<bean id="banksBailoutCostReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="banksBailoutCostReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSBAILOUTCOSTREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSBAILOUTCOSTREPORT_ID" /></property>
 	<property name="variableName" value="Banks Bailout Costs"/>
 	<property name="computer" ref="microBailoutCostBanksComputer"/>
 	</bean>
 	
-	<bean id="hhDepositsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="hhDepositsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_HHDEPOSITSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.HHDEPOSTSREPORT_ID" /></property>
 	<property name="variableName" value="HHs Deposits"/>
 	<property name="computer" ref="hhDepositsComputer"/>
 	</bean>
 	
-	<bean id="banksDepositInterestReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="banksDepositInterestReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSDEPOSITINTERESTREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSDEPOSITINTERESTREPORT_ID" /></property>
 	<property name="variableName" value="Banks Deposit Interest"/>
 	<property name="computer" ref="banksDepositInterestComputer"/>
 	</bean>
 	
-	<bean id="banksDepositsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="banksDepositsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSDEPOSITSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSDEPOSITSREPORT_ID" /></property>
 	<property name="variableName" value="Banks Deposits"/>
 	<property name="computer" ref="banksDepositsComputer"/>
 	</bean>
 	
-	<bean id="banksCreditSupplyReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="banksCreditSupplyReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSCREDITSUPPLYREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSCREDITSUPPLYREPORT_ID" /></property>
 	<property name="variableName" value="Banks Credit Supply"/>
 	<property name="computer" ref="banksCreditSupplyComputer"/>
 	</bean>
 	
-		<bean id="microTotalInterBankLoansReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+		<bean id="microTotalInterBankLoansReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_MICROTOTINTERBANKSUPPLYREPORT" />
 		</property>
@@ -1628,7 +1628,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="computer" ref="microTotalInterBankLoansComputer"></property>
 	</bean>
 	
-	<bean id="microTotalInterBankCreditObtainedReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microTotalInterBankCreditObtainedReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_MICROTOTINTERBANKCREDITOBTAINEDREPORT" />
 		</property>
@@ -1639,7 +1639,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="computer" ref="microTotalInterBankCreditObtainedComputer"></property>
 	</bean>
 	
-	<bean id="microAverageInterBankAskRateReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microAverageInterBankAskRateReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_MICROAVINTERBANKRATEREPORT" />
 		</property>
@@ -1650,7 +1650,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="computer" ref="microAverageInterBankAskRateComputer"></property>
 	</bean>
 	
-	<bean id="microTotalInterBankConstrainedCreditReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microTotalInterBankConstrainedCreditReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_MICROTOTCONSTRAINEDINTERBANKCREDITREPORT" />
 		</property>
@@ -1661,7 +1661,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="computer" ref="microTotalInterBankConstrainedCreditComputer"></property>
 	</bean>
 	
-	<bean id="microTotalInterBankDebtServiceReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microTotalInterBankDebtServiceReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_INTERBANKDEBTSERVICEREPORT" />
 		</property>
@@ -1672,7 +1672,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="computer" ref="microTotalInterBankDebtServiceComputer"></property>
 	</bean>
 	
-		<bean id="microInterbankRateEventReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+		<bean id="microInterbankRateEventReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_MICROINTERBANKRATEREPORT" />
 		</property>
@@ -1683,7 +1683,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="computer" ref="microInterbankRateComputer"></property>
 	</bean>
 
-	<bean id="microInterbankDemandEventReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microInterbankDemandEventReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_MICROINTERBANKDEMANDREPORT" />
 		</property>
@@ -1694,7 +1694,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="computer" ref="microInterbankDemandComputer"></property>
 	</bean>
 
-	<bean id="microInterbankSupplyEventReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="microInterbankSupplyEventReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 		<property name="tic">
 			<util:constant static-field="benchmark.StaticValues.TIC_MICROINTERBANKSUPPLYREPORT" />
 		</property>
@@ -1706,28 +1706,28 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	
-	<bean id="govWageBillReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="govWageBillReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_GOVWAGEBILLREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.GOVWAGEBILLREPORT_ID" /></property>
 	<property name="variableName" value="Government Wage Bill"/>
 	<property name="computer" ref="govWageBillComputer"/>
 	</bean>
 	
-	<bean id="govDoleReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="govDoleReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_GOVDOLEEXPENDITUREREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.GOVDOLEEXPENDITUREREPORT_ID" /></property>
 	<property name="variableName" value="Government Dole Expenditure"/>
 	<property name="computer" ref="govDoleComputer"/>
 	</bean>
 	
-	<bean id="govInterestsBondsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="govInterestsBondsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_GOVINTERESTSBONDSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.GOVINTERESTSBONDS_ID" /></property>
 	<property name="variableName" value="Government Interests Bonds Expenditure"/>
 	<property name="computer" ref="govInterestsBondsComputer"/>
 	</bean>
 	
-	<bean id="govCBProfitsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="govCBProfitsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_GOVCBPROFITSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.GOVCBPROFITSREPORT_ID" /></property>
 	<property name="variableName" value="Government Profits From CB"/>
@@ -1735,7 +1735,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 <!-- NOT USED ANYMORE	
-	<bean id="banksTargetCarReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="banksTargetCarReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSTARGETCARREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSTARGETCARREPORT_ID" /></property>
 	<property name="variableName" value="Banks Target CAR"/>
@@ -1743,42 +1743,42 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 -->
 	
-	<bean id="cFirmsProfitsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cFirmsProfitsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CFIRMSPROFITSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CFIRMSPROFITSREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Profits"/>
 	<property name="computer" ref="cFirmsProfitsComputer"/>
 	</bean>
 	
-	<bean id="kFirmsProfitsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="kFirmsProfitsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KFIRMSPROFITSREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KFIRMSPROFITSREPORT_ID" /></property>
 	<property name="variableName" value="Capital Firms Profits"/>
 	<property name="computer" ref="kFirmsProfitsComputer"/>
 	</bean>
 	
-	<bean id="hhWageReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="hhWageReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_HHWAGEREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.HHWAGEREPORT_ID" /></property>
 	<property name="variableName" value="Households Wage"/>
 	<property name="computer" ref="hhWageComputer"/>
 	</bean>
 	
-	<bean id="hhNetIncomeReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="hhNetIncomeReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_HHNETINCOMEREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.HHNETINCOMEREPORT_ID" /></property>
 	<property name="variableName" value="Households Net Income"/>
 	<property name="computer" ref="hhNetIncomeComputer"/>
 	</bean>
 	
-	<bean id="cFirmsPricesReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cFirmsPricesReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CFIRMSPRICESREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CFIRMSPRICESREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Prices"/>
 	<property name="computer" ref="cFirmsPricesComputer"/>
 	</bean>
 	
-	<bean id="kFirmsPricesReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="kFirmsPricesReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KFIRMSPRICESREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KFIRMSPRICESREPORT_ID" /></property>
 	<property name="variableName" value="Capital Firms Prices"/>
@@ -1786,14 +1786,14 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 
 <!-- NOT USED ANYMORE
-	<bean id="cFirmsTargLevReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cFirmsTargLevReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CFIRMSTARGLEVREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CFIRMSTARGLEVREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Targeted Leverage"/>
 	<property name="computer" ref="cFirmsTargLevComputer"/>
 	</bean>
 
-	<bean id="kFirmsTargLevReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="kFirmsTargLevReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KFIRMSTARGLEVREPORT" /></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KFIRMSTARGLEVREPORT_ID" /></property>
 	<property name="variableName" value="Capital Firms Targeted Leverage"/>
@@ -1801,154 +1801,154 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 -->
 	
-	<bean id="cFirmsIRReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cFirmsIRReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CFIRMSIRREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CFIRMSIRREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Interests Received"/>
 	<property name="computer" ref="cFirmsIRComputer"/>
 	</bean>
 	
-	<bean id="kFirmsIRReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="kFirmsIRReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KFIRMSIRREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KFIRMSIRREPORT_ID" /></property>
 	<property name="variableName" value="Capital Firms Interests Received"/>
 	<property name="computer" ref="kFirmsIRComputer"/>
 	</bean>
 	
-	<bean id="hhIRReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="hhIRReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_HHIRREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.HHIRREPORT_ID" /></property>
 	<property name="variableName" value="Households Interests Received"/>
 	<property name="computer" ref="hhIRComputer"/>
 	</bean>
 	
-	<bean id="cFirmsIPReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cFirmsIPReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CFIRMSINTERESTSTOPAYREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CFIRMSINTERESTSTOPAYREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Interests to Pay"/>
 	<property name="computer" ref="cFirmsIPComputer"/>
 	</bean>
 	
-	<bean id="kFirmsIPReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="kFirmsIPReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KFIRMSINTERESTSTOPAYREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KFIRMSINTERESTSTOPAYREPORT_ID" /></property>
 	<property name="variableName" value="Capital Firms Interests to Pay"/>
 	<property name="computer" ref="kFirmsIPComputer"/>
 	</bean>
 	
-	<bean id="cFirmsDebtServiceReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cFirmsDebtServiceReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CFIRMSDEBTSERVICEREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CFIRMSDEBTSERVICEREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Debt Service"/>
 	<property name="computer" ref="cFirmsDebtServiceComputer"/>
 	</bean>
 	
-	<bean id="kFirmsDebtServiceReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="kFirmsDebtServiceReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CFIRMSDEBTSERVICEREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KFIRMSDEBTSERVICEREPORT_ID" /></property>
 	<property name="variableName" value="Capital Firms Debt Service"/>
 	<property name="computer" ref="kFirmsDebtServiceComputer"/>
 	</bean>
 	
-	<bean id="cFirmsLevReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cFirmsLevReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CFIRMSLEVREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CFIRMSLEVREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Targeted Leverage"/>
 	<property name="computer" ref="cFirmsLevComputer"/>
 	</bean>
 	
-	<bean id="kFirmsLevReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="kFirmsLevReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KFIRMSLEVREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KFIRMSLEVREPORT_ID" /></property>
 	<property name="variableName" value="Capital Firms Targeted Leverage"/>
 	<property name="computer" ref="kFirmsLevComputer"/>
 	</bean>
 	
-	<bean id="cFirmsConsCredReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cFirmsConsCredReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CFIRMSCONSCREDREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CFIRMSCONSCREDREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Constrained Credit"/>
 	<property name="computer" ref="cFirmsConsCredComputer"/>
 	</bean>
 	
-	<bean id="kFirmsConsCredReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="kFirmsConsCredReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KFIRMSCONSCREDREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KFIRMSCONSCREDREPORT_ID" /></property>
 	<property name="variableName" value="Capital Firms Constrained Credit"/>
 	<property name="computer" ref="kFirmsConsCredComputer"/>
 	</bean>
 	
-	<bean id="kFirmsDividendsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="kFirmsDividendsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KDIVIDENDSREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KDIVIDENDSREPORT_ID" /></property>
 	<property name="variableName" value="Capital Firms Dividends"/>
 	<property name="computer" ref="microDividendsKComputer"/>
 	</bean>
 	
-	<bean id="cFirmsDividendsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cFirmsDividendsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CDIVIDENDSREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CDIVIDENDSREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Dividends"/>
 	<property name="computer" ref="microDividendsCComputer"/>
 	</bean>
 	
-	<bean id="banksDividendsReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="banksDividendsReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BANKSDIVIDENDSREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BANKSDIVIDENDSREPORT_ID" /></property>
 	<property name="variableName" value="Banks Dividends"/>
 	<property name="computer" ref="microDividendsBanksComputer"/>
 	</bean>
 	
-	<bean id="cFirmsWageBillReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cFirmsWageBillReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CFIRMSWAGEBILLREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.CFIRMSWAGEBILLREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms Wage Bill"/>
 	<property name="computer" ref="cFirmsWageBillComputer"/>
 	</bean>
 	
-	<bean id="kFirmsWageBillReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="kFirmsWageBillReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_KFIRMSWAGEBILLREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.KFIRMSWAGEBILLREPORT_ID" /></property>
 	<property name="variableName" value="Capital Firms Wage Bill"/>
 	<property name="computer" ref="kFirmsWageBillComputer"/>
 	</bean>
 	
-	<bean id="bMaxExposureReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="bMaxExposureReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BMAXEXPOSUREREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.BMAXEXPOSUREREPORT_ID" /></property>
 	<property name="variableName" value="Banks Maximum Exposure"/>
 	<property name="computer" ref="bMaxExposureComputer"/>
 	</bean>
 	
-	<bean id="cCapacityReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cCapacityReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CCAPACITYREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.MICROCCAPACITYREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms' Capacity"/>
 	<property name="computer" ref="microCCapacityComputer"/>
 	</bean>
 	
-	<bean id="cCapacityUtilizationReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="cCapacityUtilizationReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_CCAPACITYUTILIZATIONREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.MICROCCAPACITYUTILIZATIONREPORT_ID" /></property>
 	<property name="variableName" value="Consumption Firms' Capacity Utilization Rate"/>
 	<property name="computer" ref="microCCapacityUtilizationComputer"/>
 	</bean>
 	
-	<bean id="TFMReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="TFMReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_TFMREPORT"/></property>
 	<property name="variableId"><util:constant static-field="benchmark.StaticValues.TFMREPORT_ID" /></property>
 	<property name="variableName" value="TFM"/>
 	<property name="computer" ref="TFMComputer"/>
 	</bean>
 	
-	<bean id="BSNetworkReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="BSNetworkReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 		<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_BSNETREPORT"/></property>
 		<property name="variableId"><util:constant static-field="benchmark.StaticValues.BSNETREPORT_ID" /></property>
 		<property name="variableName" value="BSNET"/>
 		<property name="computer" ref="BSNetworkComputer"/>
 	</bean>
 	
-	<bean id="FlowNetworkReportTic" class="jmab.events.MicroMultiVariablesTicEvent">
+	<bean id="FlowNetworkReportTic" class="jmab2.events.MicroMultiVariablesTicEvent">
 		<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_FLOWNETREPORT"/></property>
 		<property name="variableId"><util:constant static-field="benchmark.StaticValues.FLOWNETREPORT_ID" /></property>
 		<property name="variableName" value="FLOWNET"/>
@@ -2045,7 +2045,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	
 	<!-- The object containing all the populations of the simulation experiments -->
-	<bean id="macroPopulation" class="jmab.population.MacroPopulation"
+	<bean id="macroPopulation" class="jmab2.population.MacroPopulation"
 		scope="simulation">
 		<property name="populations">
 			<list>
@@ -2402,96 +2402,96 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
     </property>
 	</bean>
 	
-	<bean id="pastInventories" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastInventories" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastNominalInventories" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastNominalInventories" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastRealSales" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastRealSales" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastNominalSales" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastNominalSales" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastProduction" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastProduction" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastPrice" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastPrice" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastCapacity" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastCapacity" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastCapitalValue" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastCapitalValue" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
 	
-	<bean id="pastWealth" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastWealth" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastProfitsPreTax" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastProfitsPreTax" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastProfitsAfterTax" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastProfitsAfterTax" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
-	<bean id="pastOperatingCashFlow" class="jmab.expectations.TreeMapPassedValues"
-		scope="prototype">
-		<property name="nbLags" value="4"/>
-	</bean>
-	
-	<bean id="pastUnleveredFreeCashFlow" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastOperatingCashFlow" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastEBITDA" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastUnleveredFreeCashFlow" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastEBITDAminusCAPEX" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastEBITDA" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-		<bean id="pastDebtInterest" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastEBITDAminusCAPEX" class="jmab2.expectations.TreeMapPassedValues"
+		scope="prototype">
+		<property name="nbLags" value="4"/>
+	</bean>
+	
+		<bean id="pastDebtInterest" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="20"/>
 	</bean>
 
-	<bean id="pastTaxes" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastTaxes" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
-	<bean id="pastDefaulted" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastDefaulted" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastCapitalAmortization" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastCapitalAmortization" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
@@ -2502,7 +2502,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="capitalMacroStrategy" scope="prototype"
-		class="jmab.strategies.MacroMultipleStrategy">
+		class="jmab2.strategies.MacroMultipleStrategy">
 		<property name="strategies">
 		<map>
 				<entry value-ref="capitalProductionStrategy"> 
@@ -2571,7 +2571,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="switchingStrategy1" scope="prototype"
-		class="jmab.strategies.SwitchingStrategySimple">
+		class="jmab2.strategies.SwitchingStrategySimple">
 		<property name="prng" ref="prng" />
 		<property name="thresholdMean" value="0.15"/> 	
 		<!--property name="lambda" value="0"/-->
@@ -2579,7 +2579,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="switchingStrategy2" scope="prototype"
-		class="jmab.strategies.SwitchingStrategySimple">
+		class="jmab2.strategies.SwitchingStrategySimple">
 		<property name="prng" ref="prng" />
 	    <property name="thresholdMean" value="0.2"/> 
 <!-- 		<property name="lambda" value="1"/>  -->
@@ -2587,7 +2587,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="switchingStrategy3" scope="prototype"
-		class="jmab.strategies.SwitchingStrategySimple">
+		class="jmab2.strategies.SwitchingStrategySimple">
 		<property name="prng" ref="prng" />
         <property name="thresholdMean" value="0.2"/> 
 <!-- 		<property name="lambda" value="0"/> -->
@@ -2595,7 +2595,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="switchingStrategy4" scope="prototype"
-		class="jmab.strategies.SwitchingStrategySimple">
+		class="jmab2.strategies.SwitchingStrategySimple">
 		<property name="prng" ref="prng" />
 		<property name="thresholdMean" value="0.20"/>
 		<!--<property name="thresholdMean" value="0.075"/>-->
@@ -2617,30 +2617,30 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<!--  Hereunder we define the beans representing the specific strategies of capital firms -->
 	<bean id="capitalProductionStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.TargetExpectedInventoriesOutputStrategy">
+		class="jmab2.strategies.TargetExpectedInventoriesOutputStrategy">
 		<property name="inventoryShare" value="0.1"/>
 		<property name="inventorySMId"  ><util:constant static-field="benchmark.StaticValues.SM_CAPGOOD" /> </property>
 		<property name="salesExpId"  ><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_REALSALES" /> </property>
 	</bean>
 	
 	<bean id="capitalBorrowingStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.CheapestLenderWithSwitching">
+		class="jmab2.strategies.CheapestLenderWithSwitching">
 		<property name="strategy" ref="switchingStrategy6" />
 		<property name="idLoanSM"><util:constant static-field="benchmark.StaticValues.SM_LOAN" /> </property>
 	</bean>
 	
 	<bean id="capitalDepositStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.MostPayingDepositWithSwitching">
+		class="jmab2.strategies.MostPayingDepositWithSwitching">
 		<property name="strategy" ref="switchingStrategy5" />
 		<!-- <property name="distribution" ref="logNormal1"/> -->
 	</bean>
 	
 	<bean id="capitalLaborStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.SelectCheapestWorkerStrategy">
+		class="jmab2.strategies.SelectCheapestWorkerStrategy">
 	</bean>
 	
 	<bean id="capitalRDInvestmentStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.RandDInvestmentSharePastSales">
+		class="jmab2.strategies.RandDInvestmentSharePastSales">
 		<property name="researchShare" value="0.0"/>
 		<property name="pastNominalSalesId"><util:constant static-field="benchmark.StaticValues.LAG_NOMINALSALES" /> </property>
 	</bean>
@@ -2650,7 +2650,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="capitalRDOutcomeStrategy" scope="prototype" parent="strategy"
-	class="jmab.strategies.RandDOutcomeBetaDistribution">
+	class="jmab2.strategies.RandDOutcomeBetaDistribution">
 	<property name="expParameter" value="0.05"/>
 	<property name="alphaBetaDistribution" value="2"/>
 	<property name="betaBetaDistribution" value="5"/>
@@ -2658,13 +2658,13 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="capitalUpdateProductivity" scope="prototype" parent="strategy"
-	class="jmab.strategies.UpdateInventoriesProductivityWithCost">
+	class="jmab2.strategies.UpdateInventoriesProductivityWithCost">
 	<property name="inventoriesLostShare" value="0"/>
 	</bean>
 	
 <!-- OLD FINANCING STRATEGY BASED ON DYNAMIC TRADEOFF
 	<bean id="capitalFinanceStrategy" scope="prototype" parent="strategy"
-	class="jmab.strategies.DynamicTradeOffFinance2_0">
+	class="jmab2.strategies.DynamicTradeOffFinance2_0">
 	<property name="leverageTarget" value="0.3"/>
 	<property name="pastSalesId"><util:constant static-field="benchmark.StaticValues.LAG_NOMINALSALES"/></property>
 	<property name="loansId" ><util:constant static-field="benchmark.StaticValues.SM_LOAN" /> </property>
@@ -2673,7 +2673,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="adaptiveParameter" value="0.5" />
 	</bean>
 -->	
-	<bean id="capitalFinanceStrategy" scope="prototype" parent="strategy" class="jmab.strategies.PeckingOrderTheory">
+	<bean id="capitalFinanceStrategy" scope="prototype" parent="strategy" class="jmab2.strategies.PeckingOrderTheory">
 		<property name="stocksId">
 			<list>
 				<util:constant static-field="benchmark.StaticValues.SM_DEP"/>
@@ -2868,7 +2868,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="consumptionMacroStrategy" scope="prototype"
-		class="jmab.strategies.MacroMultipleStrategy">
+		class="jmab2.strategies.MacroMultipleStrategy">
 		<property name="strategies">
 		<map>
 				<entry value-ref="consumptionProductionStrategy"> 
@@ -2938,30 +2938,30 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<!--  Hereunder we define the beans representing the specific strategies of consumption firms -->
 	<bean id="consumptionProductionStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.TargetExpectedInventoriesOutputStrategy">
+		class="jmab2.strategies.TargetExpectedInventoriesOutputStrategy">
 		<property name="inventoryShare" value="0.1"/>
 		<property name="inventorySMId"  ><util:constant static-field="benchmark.StaticValues.SM_CONSGOOD" /> </property>
 		<property name="salesExpId"  ><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_REALSALES" /> </property>
 	</bean>
 	
 	<bean id="consumptionBorrowingStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.CheapestLenderWithSwitching">
+		class="jmab2.strategies.CheapestLenderWithSwitching">
 		<property name="strategy" ref="switchingStrategy6" />
 		<property name="idLoanSM"><util:constant static-field="benchmark.StaticValues.SM_LOAN" /> </property>
 	</bean>
 	
 	<bean id="consumptionDepositStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.MostPayingDepositWithSwitching">
+		class="jmab2.strategies.MostPayingDepositWithSwitching">
 		<property name="strategy" ref="switchingStrategy5" />
 		<!-- <property name="distribution" ref="logNormal1"/> -->
 	</bean>
 	
 	<bean id="consumptionLaborStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.SelectCheapestWorkerStrategy">
+		class="jmab2.strategies.SelectCheapestWorkerStrategy">
 	</bean>
 	
 	<bean id="consumptionBuyingStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.BestQualityPriceCapitalSupplierWithSwitching">
+		class="jmab2.strategies.BestQualityPriceCapitalSupplierWithSwitching">
 		<property name="productionStockId"><util:constant static-field="benchmark.StaticValues.SM_CAPGOOD" /> </property>
 		<property name="wagesExpectationsId"><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_WAGES" /> </property>
 		<property name="strategy" ref="switchingStrategy5"/>
@@ -2990,7 +2990,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 <!-- OLD FINANCE STRATEGY BASED ON DYNAMIC TRADEOFF	
 	<bean id="consumptionFinanceStrategy" scope="prototype" parent="strategy"
-	class="jmab.strategies.DynamicTradeOffFinance2_0">
+	class="jmab2.strategies.DynamicTradeOffFinance2_0">
 	<property name="leverageTarget" value="0.55"/>
 	<property name="pastSalesId" ><util:constant static-field="benchmark.StaticValues.LAG_NOMINALSALES" /> </property>
 	<property name="loansId" ><util:constant static-field="benchmark.StaticValues.SM_LOAN" /> </property>
@@ -3000,7 +3000,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 -->
 	
-	<bean id="consumptionFinanceStrategy" scope="prototype" parent="strategy" class="jmab.strategies.PeckingOrderTheory">
+	<bean id="consumptionFinanceStrategy" scope="prototype" parent="strategy" class="jmab2.strategies.PeckingOrderTheory">
 		<property name="stocksId">
 			<list>
 				<util:constant static-field="benchmark.StaticValues.SM_DEP"/>
@@ -3020,7 +3020,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<!--
 	<bean id="consumptionPricingStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.AdaptiveReturnOnAC">
+		class="jmab2.strategies.AdaptiveReturnOnAC">
 		<property name="adaptiveParameter" value="1" />
 		<property name="distribution" ref="foldedNormal1" />
 		<property name="threshold" value="0.1"></property>
@@ -3210,7 +3210,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="interbankLoansRiskWeight" value="0.00" />
 	</bean>
 	
-	<bean id="expDeposits" class="jmab.expectations.SimpleAdaptiveExpectation"
+	<bean id="expDeposits" class="jmab2.expectations.SimpleAdaptiveExpectation"
 		scope="prototype">
 		<property name="numberPeriod" value="4"/>
 		<property name="nbVariables" value="1"/>
@@ -3259,68 +3259,68 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 
 	
-	<bean id="pastResidualCredit" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastResidualCredit" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastBadDebt" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastBadDebt" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastBankProfitPreTax" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastBankProfitPreTax" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastBankProfitAfterTax" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastBankProfitAfterTax" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 
-	<bean id="pastBankNetWealth" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastBankNetWealth" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastBankTotCreditSupply" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastBankTotCreditSupply" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastLoanInterest" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastLoanInterest" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastDepInterest" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastDepInterest" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="pastTotInterbankSupply" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastTotInterbankSupply" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"></property>
 	</bean>
 
-	<bean id="pastTotInterbankDemand" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastTotInterbankDemand" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"></property>
 	</bean>
 
-	<bean id="pastInterbankInterest" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastInterbankInterest" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"></property>
 	</bean>
 	
-	<bean id="pastDeposits" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastDeposits" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"></property>
 	</bean>
 	
 	<bean id="banksMacroStrategy" scope="prototype"
-		class="jmab.strategies.MacroMultipleStrategy">
+		class="jmab2.strategies.MacroMultipleStrategy">
 		<property name="strategies">
 		<map>
 				<entry value-ref="banksTaxesStrategy"> 
@@ -3418,7 +3418,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	-->
 	
 	<bean id="banksBorrowingStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.CheapestLender">
+		class="jmab2.strategies.CheapestLender">
 	</bean>
 	
 	<bean id="banksLendingStrategy" scope="prototype" parent="strategy"
@@ -3455,7 +3455,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<!-- BLR RESERVE REQUIREMENT-->
 	<bean id="banksAdvancesStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.BaselIIIReserveRequirementsBLR">
+		class="jmab2.strategies.BaselIIIReserveRequirementsBLR">
 		<property name="reserveIds">
 			<list>
 				<util:constant static-field="benchmark.StaticValues.SM_CASH" />
@@ -3470,7 +3470,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="banksFinanceStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.PeckingOrderTheory">
+		class="jmab2.strategies.PeckingOrderTheory">
 		<property name="stocksId">
 			<list>
 				<util:constant static-field="benchmark.StaticValues.SM_RESERVES" />
@@ -3510,7 +3510,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 <!-- Old credit supply with CAR
 	<bean id="banksTotalCreditSupplyStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.SupplyCreditAdaptiveCARTarget">
+		class="jmab2.strategies.SupplyCreditAdaptiveCARTarget">
 		<property name="loansId"><util:constant static-field="benchmark.StaticValues.SM_LOAN" /> </property>
 		<property name="loansId"><util:constant static-field="benchmark.StaticValues.LAG_NONPERFORMINGLOANS" /> </property>
 		<property name="loansId"><util:constant static-field="benchmark.StaticValues.LAG_BANKTOTLOANSUPPLY" /> </property>
@@ -3568,7 +3568,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="loansId"><util:constant static-field="benchmark.StaticValues.SM_LOAN" /> </property>	
 	</bean>
 
-	<bean id="bankruptcyLossCompuyer" scope="prototype"	class="jmab.strategies.FixedShareOfColateralLossComputer">	
+	<bean id="bankruptcyLossCompuyer" scope="prototype"	class="jmab2.strategies.FixedShareOfColateralLossComputer">	
 		<property name="shareLoss" value="0.5"/>
 	</bean>
 	
@@ -3759,25 +3759,25 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
     </property>
 	</bean>
 	
-	<bean id="pastNetWealth" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastNetWealth" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
-	<bean id="pastEmployed" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastEmployed" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
-	<bean id="pastIncome" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastIncome" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
-	<bean id="pastCons" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastCons" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
 		<bean id="householdsMacroStrategy" scope="prototype"
-		class="jmab.strategies.MacroMultipleStrategy">
+		class="jmab2.strategies.MacroMultipleStrategy">
 		<property name="strategies">
 		<map>
 				<entry value-ref="householdsConsumptionStrategy"> 
@@ -3821,12 +3821,12 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="householdsBuyingStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.CheapestGoodSupplierWithSwitching">
+		class="jmab2.strategies.CheapestGoodSupplierWithSwitching">
 		<property name="strategy" ref="switchingStrategy5" />
 	</bean>
 	
 	<bean id="householdsDepositsStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.MostPayingDepositWithSwitching">
+		class="jmab2.strategies.MostPayingDepositWithSwitching">
 		<property name="strategy" ref="switchingStrategy5" />
 		<!-- <property name="distribution" ref="logNormal1"/> -->
 	</bean>
@@ -3932,7 +3932,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="governmentMacroStrategy" scope="prototype"
-		class="jmab.strategies.MacroMultipleStrategy">
+		class="jmab2.strategies.MacroMultipleStrategy">
 		<property name="strategies">
 		<map>
 				<entry value-ref="governmentLaborStrategy"> 
@@ -3972,7 +3972,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<!-- Hereunder we define the strategies of the governemnt -->
 	<bean id="governmentLaborStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.SelectRandomWorkerStrategy">
+		class="jmab2.strategies.SelectRandomWorkerStrategy">
 		<property name="prng" ref="prng"/>
 	</bean>
 	
@@ -3985,7 +3985,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="governmentBuyingStrategy" scope="prototype" parent="strategy"
-		class="jmab.strategies.CheapestGoodSupplier">
+		class="jmab2.strategies.CheapestGoodSupplier">
 	</bean>
 	
 	<bean id="governmentConsumptionStrategy" scope="prototype" parent="strategy"
@@ -4081,12 +4081,12 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<!-- From CentralBank class -->
 	</bean>
 	
-	<bean id="pastResInterest" class="jmab.expectations.TreeMapPassedValues"
+	<bean id="pastResInterest" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"/>
 	</bean>
 	
-	<bean id="expUnemployment" class="jmab.expectations.SimpleAdaptiveExpectation"
+	<bean id="expUnemployment" class="jmab2.expectations.SimpleAdaptiveExpectation"
 		scope="prototype">
 		<property name="numberPeriod" value="4" />
 		<property name="nbVariables" value="1" />
@@ -4110,7 +4110,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	
-	<bean id="expNaturalRate" class="jmab.expectations.SimpleAdaptiveExpectation"
+	<bean id="expNaturalRate" class="jmab2.expectations.SimpleAdaptiveExpectation"
 		scope="prototype">
 		<property name="numberPeriod" value="4" />
 		<property name="nbVariables" value="1" />
@@ -4133,7 +4133,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		</property>
 	</bean>
 	
-	<bean id="expPotentialGDP" class="jmab.expectations.SimpleAdaptiveExpectation"
+	<bean id="expPotentialGDP" class="jmab2.expectations.SimpleAdaptiveExpectation"
 		scope="prototype">
 		<property name="numberPeriod" value="4" />
 		<property name="nbVariables" value="1" />
@@ -4158,7 +4158,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	
 	<bean id="centralBankMacroStrategy" scope="prototype"
-		class="jmab.strategies.MacroMultipleStrategy">
+		class="jmab2.strategies.MacroMultipleStrategy">
 		<property name="strategies">
 		<map>
 		<entry value-ref="advancesInterestRateStrategy">
@@ -4199,32 +4199,32 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<property name="staticReservesRate" value="0.0"/>
 	</bean>
 	
-	<bean id="foldedNormal1" class="jmab.distribution.FoldedNormalDistribution">
+	<bean id="foldedNormal1" class="jmab2.distribution.FoldedNormalDistribution">
 				<property name="mean" value="0.0" />
 				<property name="stdev" value="0.0094" />
 				<property name="prng" ref="prng" />
 	</bean>
 	
-	<bean id="foldedNormal2" class="jmab.distribution.FoldedNormalDistribution">
+	<bean id="foldedNormal2" class="jmab2.distribution.FoldedNormalDistribution">
 				<property name="mean" value="0.0" />
 				<property name="stdev" value="0.0094" />
 				<property name="prng" ref="prng" />
 	</bean>
 	
-	<bean id="logNormal1" class="jmab.distribution.LognormalDistribution">
+	<bean id="logNormal1" class="jmab2.distribution.LognormalDistribution">
 				<property name="prng" ref="prng" />
 				<property name="lognormalMean" value="0.0075" />
 				<property name="lognormalStDev" value="0.005" />
 	</bean>
 	
-	<bean id="logNormal2" class="jmab.distribution.LognormalDistribution">
+	<bean id="logNormal2" class="jmab2.distribution.LognormalDistribution">
 				<property name="prng" ref="prng" />
 				<property name="lognormalMean" value="0.0075" />
 				<property name="lognormalStDev" value="0.005" />
 	</bean>
 	
 	
-	<bean id="microSimpleCSVReportTic" class="jmab.events.MicroSimpleCSVReportTic">
+	<bean id="microSimpleCSVReportTic" class="jmab2.events.MicroSimpleCSVReportTic">
 	<property name="tic"><util:constant static-field="benchmark.StaticValues.TIC_MICROSIMPLECSVREPORT" /></property>
 	<property name="simulationController" ref="simulationController" />
 	<property name="reports">
@@ -4257,7 +4257,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<!-- cFirms Real Sales Expectation report -->
 	
-	<bean id="cFirmsRealSalesExpReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="cFirmsRealSalesExpReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="cFirmsRealSalesExpComputer"/>
 	<property name="CSVreportVariable" ref="cFirmsRealSalesExpCSVReportVariables"/>
 	</bean>
@@ -4267,20 +4267,20 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="ExpId"><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_REALSALES"/></property>
 	</bean>
 	
-	<bean id="cFirmsRealSalesExpCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="cFirmsRealSalesExpCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="cFirmsRealSalesExpReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="cFirmsRealSalesExp" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="cFirmsRealSalesExpReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="cFirmsRealSalesExpReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 	<!-- kFirms Real Sales Expectation report -->
 	
-	<bean id="kFirmsRealSalesExpReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="kFirmsRealSalesExpReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="kFirmsRealSalesExpComputer"/>
 	<property name="CSVreportVariable" ref="kFirmsRealSalesExpCSVReportVariables"/>
 	</bean>
@@ -4290,45 +4290,45 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="ExpId"><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_REALSALES"/></property>
 	</bean>
 	
-	<bean id="kFirmsRealSalesExpCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="kFirmsRealSalesExpCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="kFirmsRealSalesExpReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="kFirmsRealSalesExp" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="kFirmsRealSalesExpReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="kFirmsRealSalesExpReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 	
 	<!-- cFirms EBITDA report -->
 	
-	<bean id="cFirmsEBITDAminusCAPEXReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="cFirmsEBITDAminusCAPEXReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="cFirmsEBITDAminusCAPEXComputer"/>
 	<property name="CSVreportVariable" ref="cFirmsEBITDAminusCAPEXCSVReportVariables"/>
 	</bean>
 	
-	<bean id="cFirmsEBITDAminusCAPEXComputer" class="jmab.report.MicroLaggedValueComputer">
+	<bean id="cFirmsEBITDAminusCAPEXComputer" class="jmab2.report.MicroLaggedValueComputer">
 	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/></property>
 	<property name="lagId"><util:constant static-field="benchmark.StaticValues.LAG_EBITDAMINUSCAPEX"/></property>
 	<property name="lagNb" value="0" />
 	</bean>
 	
-	<bean id="cFirmsEBITDAminusCAPEXCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="cFirmsEBITDAminusCAPEXCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="cFirmsEBITDAminusCAPEXReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="cFirmsEBITDAminusCAPEX" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="cFirmsEBITDAminusCAPEXReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="cFirmsEBITDAminusCAPEXReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 		<!-- cFirms EBITDA Expectation report -->
 	
-	<bean id="cFirmsExpEBITDAminusCAPEXReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="cFirmsExpEBITDAminusCAPEXReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="cFirmsExpEBITDAminusCAPEXComputer"/>
 	<property name="CSVreportVariable" ref="cFirmsExpEBITDAminusCAPEXCSVReportVariables"/>
 	</bean>
@@ -4338,45 +4338,45 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="ExpId"><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_EBITDAMINUSCAPEX"/></property>
 	</bean>
 	
-	<bean id="cFirmsExpEBITDAminusCAPEXCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="cFirmsExpEBITDAminusCAPEXCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="cFirmsExpEBITDAminusCAPEXReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="cFirmsExpEBITDAminusCAPEX" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="cFirmsExpEBITDAminusCAPEXReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="cFirmsExpEBITDAminusCAPEXReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 	
 	<!-- kFirms EBITDA report -->
 	
-		<bean id="kFirmsEBITDAReport" class="jmab.report.MicroSimpleCSVReport">
+		<bean id="kFirmsEBITDAReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="kFirmsEBITDAComputer"/>
 	<property name="CSVreportVariable" ref="kFirmsEBITDACSVReportVariables"/>
 	</bean>
 	
-	<bean id="kFirmsEBITDAComputer" class="jmab.report.MicroLaggedValueComputer">
+	<bean id="kFirmsEBITDAComputer" class="jmab2.report.MicroLaggedValueComputer">
 	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID"/></property>
 	<property name="lagId"><util:constant static-field="benchmark.StaticValues.LAG_EBITDA"/></property>
 	<property name="lagNb" value="0" />
 	</bean>
 	
-	<bean id="kFirmsEBITDACSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="kFirmsEBITDACSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="kFirmsEBITDAReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="kFirmsEBITDA" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="kFirmsEBITDAReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="kFirmsEBITDAReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 	<!-- kFirms EBITDA Expectation report -->
 	
-	<bean id="kFirmsExpEBITDAReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="kFirmsExpEBITDAReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="kFirmsExpEBITDAComputer"/>
 	<property name="CSVreportVariable" ref="kFirmsExpEBITDACSVReportVariables"/>
 	</bean>
@@ -4386,21 +4386,21 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="ExpId"><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_EBITDA"/></property>
 	</bean>
 	
-	<bean id="kFirmsExpEBITDACSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="kFirmsExpEBITDACSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="kFirmsExpEBITDAReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="kFirmsExpEBITDA" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="kFirmsExpEBITDAReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="kFirmsExpEBITDAReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 	
 			<!-- cFirms UFCF per Capacity Expectation report -->
 	
-	<bean id="cFirmsExpUFCFperCapacityReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="cFirmsExpUFCFperCapacityReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="cFirmsExpUFCFperCapacityComputer"/>
 	<property name="CSVreportVariable" ref="cFirmsExpUFCFperCapacityCSVReportVariables"/>
 	</bean>
@@ -4410,44 +4410,44 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="ExpId"><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_UNLEVEREDFREECASHFLOWPERCAPACITY"/></property>
 	</bean>
 	
-	<bean id="cFirmsExpUFCFperCapacityCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="cFirmsExpUFCFperCapacityCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="cFirmsExpUFCFperCapacityReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="cFirmsExpUFCFperCapacity" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="cFirmsExpUFCFperCapacityReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="cFirmsExpUFCFperCapacityReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 	<!-- cFirms UFCF report -->
 	
-	<bean id="cFirmsUFCFReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="cFirmsUFCFReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="cFirmsUFCFComputer"/>
 	<property name="CSVreportVariable" ref="cFirmsUFCFCSVReportVariables"/>
 	</bean>
 	
-	<bean id="cFirmsUFCFComputer" class="jmab.report.MicroLaggedValueComputer">
+	<bean id="cFirmsUFCFComputer" class="jmab2.report.MicroLaggedValueComputer">
 	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/></property>
 	<property name="lagId"><util:constant static-field="benchmark.StaticValues.LAG_UNLEVEREDFREECASHFLOW"/></property>
 	<property name="lagNb" value="0" />
 	</bean>
 	
-	<bean id="cFirmsUFCFCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="cFirmsUFCFCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="cFirmsUFCFReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="cFirmsUFCF" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="cFirmsUFCFReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="cFirmsUFCFReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 	<!-- cFirms Bank Dep report -->
 	
-	<bean id="banksDepositsStockReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="banksDepositsStockReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="banksDepositsStockComputer"/>
 	<property name="CSVreportVariable" ref="banksDepositsStockCSVReportVariables"/>
 	</bean>
@@ -4458,20 +4458,20 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="asset" value="false" />
 	</bean>
 	
-	<bean id="banksDepositsStockCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="banksDepositsStockCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="banksDepositsStockReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="banksDepositsStock" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="banksDepositsStockReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="banksDepositsStockReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 	<!-- cFirms Bank Bond report -->
 	
-	<bean id="banksBondsReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="banksBondsReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="banksBondsComputer"/>
 	<property name="CSVreportVariable" ref="banksBondsCSVReportVariables"/>
 	</bean>
@@ -4482,20 +4482,20 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="asset" value="true" />
 	</bean>
 	
-	<bean id="banksBondsCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="banksBondsCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="banksBondsReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="banksBonds" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="banksBondsReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="banksBondsReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 	<!-- cFirms Investment target report -->
 	
-	<bean id="cFirmsInvestmentTargetReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="cFirmsInvestmentTargetReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="cFirmsInvestmentTargetComputer"/>
 	<property name="CSVreportVariable" ref="cFirmsInvestmentTargetCSVReportVariables"/>
 	</bean>
@@ -4504,71 +4504,71 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/></property>
 	</bean>
 	
-	<bean id="cFirmsInvestmentTargetCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="cFirmsInvestmentTargetCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="cFirmsInvestmentTargetReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="cFirmsInvestmentTarget" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="cFirmsInvestmentTargetReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="cFirmsInvestmentTargetReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 	<!-- cFirms remaining credit demand report -->
 	
-	<bean id="cFirmsRemainingCreditDemandReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="cFirmsRemainingCreditDemandReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="cFirmsRemainingCreditDemandComputer"/>
 	<property name="CSVreportVariable" ref="cFirmsRemainingCreditDemandCSVReportVariables"/>
 	</bean>
 	
-	<bean id="cFirmsRemainingCreditDemandComputer" class="jmab.report.MicroAgentsConstrainedCreditComputer">
+	<bean id="cFirmsRemainingCreditDemandComputer" class="jmab2.report.MicroAgentsConstrainedCreditComputer">
 	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/></property>
 	<property name="idLoanSM"><util:constant static-field="benchmark.StaticValues.SM_LOAN"/></property>
 </bean>
 	
-	<bean id="cFirmsRemainingCreditDemandCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="cFirmsRemainingCreditDemandCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="cFirmsRemainingCreditDemandReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="cFirmsRemainingCreditDemand" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="cFirmsRemainingCreditDemandReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="cFirmsRemainingCreditDemandReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 		<!-- kFirms remaining credit demand report -->
 	
-	<bean id="kFirmsRemainingCreditDemandReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="kFirmsRemainingCreditDemandReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="kFirmsRemainingCreditDemandComputer"/>
 	<property name="CSVreportVariable" ref="kFirmsRemainingCreditDemandCSVReportVariables"/>
 	</bean>
 	
-	<bean id="kFirmsRemainingCreditDemandComputer" class="jmab.report.MicroAgentsConstrainedCreditComputer">
+	<bean id="kFirmsRemainingCreditDemandComputer" class="jmab2.report.MicroAgentsConstrainedCreditComputer">
 	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID"/></property>
 	<property name="idLoanSM"><util:constant static-field="benchmark.StaticValues.SM_LOAN"/></property>
 </bean>
 	
-	<bean id="kFirmsRemainingCreditDemandCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="kFirmsRemainingCreditDemandCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="kFirmsRemainingCreditDemandReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="kFirmsRemainingCreditDemand" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="kFirmsRemainingCreditDemandReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="kFirmsRemainingCreditDemandReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 			<!-- cFirms lev report -->
 	
-	<bean id="cFirmsLeverageReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="cFirmsLeverageReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="cFirmsLeverageComputer"/>
 	<property name="CSVreportVariable" ref="cFirmsLeverageCSVReportVariables"/>
 	</bean>
 	
-	<bean id="cFirmsLeverageComputer" class="jmab.report.MicroFirmsLeverageComputer">
+	<bean id="cFirmsLeverageComputer" class="jmab2.report.MicroFirmsLeverageComputer">
 	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/></property>
 	<property name="liabilityIds">
 		<list>
@@ -4577,25 +4577,25 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</property>
 </bean>
 	
-	<bean id="cFirmsLeverageCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="cFirmsLeverageCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="cFirmsLeverageReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="cFirmsLeverage" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="cFirmsLeverageReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="cFirmsLeverageReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 				<!-- kFirms lev report -->
 	
-	<bean id="kFirmsLeverageReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="kFirmsLeverageReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="kFirmsLeverageComputer"/>
 	<property name="CSVreportVariable" ref="kFirmsLeverageCSVReportVariables"/>
 	</bean>
 	
-	<bean id="kFirmsLeverageComputer" class="jmab.report.MicroFirmsLeverageComputer">
+	<bean id="kFirmsLeverageComputer" class="jmab2.report.MicroFirmsLeverageComputer">
 	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID"/></property>
 	<property name="liabilityIds">
 		<list>
@@ -4604,20 +4604,20 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</property>
 </bean>
 	
-	<bean id="kFirmsLeverageCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="kFirmsLeverageCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="kFirmsLeverageReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="kFirmsLeverage" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="kFirmsLeverageReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="kFirmsLeverageReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 				<!-- cFirms div report -->
 	
-	<bean id="cFirmsDividendsReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="cFirmsDividendsReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="cFirmsDividendsComputer"/>
 	<property name="CSVreportVariable" ref="cFirmsDividendsCSVReportVariables"/>
 	</bean>
@@ -4626,20 +4626,20 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CONSUMPTIONFIRMS_ID"/></property>
 	</bean>
 	
-	<bean id="cFirmsDividendsCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="cFirmsDividendsCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="cFirmsDividendsReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="cFirmsDividends" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="cFirmsDividendsReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="cFirmsDividendsReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 					<!-- kFirms div report -->
 	
-	<bean id="kFirmsDividendsReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="kFirmsDividendsReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="kFirmsDividendsComputer"/>
 	<property name="CSVreportVariable" ref="kFirmsDividendsCSVReportVariables"/>
 	</bean>
@@ -4648,20 +4648,20 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="populationId"><util:constant static-field="benchmark.StaticValues.CAPITALFIRMS_ID"/></property>
 	</bean>
 	
-	<bean id="kFirmsDividendsCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="kFirmsDividendsCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="kFirmsDividendsReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="kFirmsDividends" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="kFirmsDividendsReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="kFirmsDividendsReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 					<!-- Banks div report -->
 	
-	<bean id="banksDividendsReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="banksDividendsReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="banksDividendsComputer"/>
 	<property name="CSVreportVariable" ref="banksDividendsCSVReportVariables"/>
 	</bean>
@@ -4670,20 +4670,20 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="populationId"><util:constant static-field="benchmark.StaticValues.BANKS_ID"/></property>
 	</bean>
 	
-	<bean id="banksDividendsCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="banksDividendsCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="banksDividendsReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="banksDividends" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="banksDividendsReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="banksDividendsReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 			<!-- cb unemployment Expectation report -->
 	
-	<bean id="cbExpUnemploymentReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="cbExpUnemploymentReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="cbExpUnemploymentComputer"/>
 	<property name="CSVreportVariable" ref="cbExpUnemploymentCSVReportVariables"/>
 	</bean>
@@ -4693,20 +4693,20 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="ExpId"><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_UNEMPLOYMENT"/></property>
 	</bean>
 	
-	<bean id="cbExpUnemploymentCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="cbExpUnemploymentCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="cbExpUnemploymentReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="cbExpUnemployment" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="cbExpUnemploymentReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="cbExpUnemploymentReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="1"/>
 	</bean>
 	
 				<!-- banks Loans Granted report -->
 	
-	<bean id="banksLoansGrantedReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="banksLoansGrantedReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="banksLoansGrantedComputer"/>
 	<property name="CSVreportVariable" ref="banksLoansGrantedCSVReportVariables"/>
 	</bean>
@@ -4716,20 +4716,20 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="loansId"><util:constant static-field="benchmark.StaticValues.SM_LOAN" /> </property>
 	</bean>
 	
-	<bean id="banksLoansGrantedCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="banksLoansGrantedCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="banksLoansGrantedReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="banksLoansGranted" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="banksLoansGrantedReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="banksLoansGrantedReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 				<!-- banks real loans granted Expectation report -->
 	
-	<bean id="banksExpRealLoansGrantedReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="banksExpRealLoansGrantedReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="banksExpRealLoansGrantedComputer"/>
 	<property name="CSVreportVariable" ref="banksExpRealLoansGrantedCSVReportVariables"/>
 	</bean>
@@ -4739,20 +4739,20 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="ExpId"><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_REALNEWLOANS"/></property>
 	</bean>
 	
-	<bean id="banksExpRealLoansGrantedCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="banksExpRealLoansGrantedCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="banksExpRealLoansGrantedReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="banksExpRealLoansGranted" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="banksExpRealLoansGrantedReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="banksExpRealLoansGrantedReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	
 					<!-- banks after tax profit expectation report -->
 	
-	<bean id="banksExpProfitAfterTaxReport" class="jmab.report.MicroSimpleCSVReport">
+	<bean id="banksExpProfitAfterTaxReport" class="jmab2.report.MicroSimpleCSVReport">
 	<property name="computer" ref="banksExpProfitAfterTaxComputer"/>
 	<property name="CSVreportVariable" ref="banksExpProfitAfterTaxCSVReportVariables"/>
 	</bean>
@@ -4762,14 +4762,14 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	<property name="ExpId"><util:constant static-field="benchmark.StaticValues.EXPECTATIONS_PROFITAFTERTAX"/></property>
 	</bean>
 	
-	<bean id="banksExpProfitAfterTaxCSVReportVariables" class="jmab.report.MacroCSVReportVariables">
+	<bean id="banksExpProfitAfterTaxCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
 	<property name="reportVariables" ref="banksExpProfitAfterTaxReportVariables"/>
 	<property name="fileNamePrefix" ref="fileNamePrefix" />
 	<property name="fileNameSuffix" value="banksExpProfitAfterTax" />
 	<property name="passThrough" value="true" />
 	</bean>
 	
-	<bean id="banksExpProfitAfterTaxReportVariables" class="jmab.report.MicroMultiVariablesReport">
+	<bean id="banksExpProfitAfterTaxReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 	

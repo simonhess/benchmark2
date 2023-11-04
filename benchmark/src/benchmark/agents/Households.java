@@ -22,31 +22,31 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import jmab.agents.AbstractHousehold;
-import jmab.agents.BondDemander;
-import jmab.agents.BondSupplier;
-import jmab.agents.DepositDemander;
-import jmab.agents.GoodDemander;
-import jmab.agents.IncomeTaxPayer;
-import jmab.agents.LaborSupplier;
-import jmab.agents.LiabilitySupplier;
-import jmab.agents.MacroAgent;
-import jmab.agents.WageSetterWithTargets;
-import jmab.events.MacroTicEvent;
-import jmab.population.MacroPopulation;
-import jmab.simulations.MacroSimulation;
-import jmab.simulations.TwoStepMarketSimulation;
-import jmab.stockmatrix.Cash;
-import jmab.stockmatrix.ConsumptionGood;
-import jmab.stockmatrix.Deposit;
-import jmab.stockmatrix.Item;
-import jmab.strategies.BondDemandStrategy;
-import jmab.strategies.CheapestGoodSupplierWithSwitching;
-import jmab.strategies.ConsumptionStrategy;
-import jmab.strategies.SelectDepositSupplierStrategy;
-import jmab.strategies.SelectSellerStrategy;
-import jmab.strategies.TaxPayerStrategy;
-import jmab.strategies.WageStrategy;
+import jmab2.agents.AbstractHousehold;
+import jmab2.agents.BondDemander;
+import jmab2.agents.BondSupplier;
+import jmab2.agents.DepositDemander;
+import jmab2.agents.GoodDemander;
+import jmab2.agents.IncomeTaxPayer;
+import jmab2.agents.LaborSupplier;
+import jmab2.agents.LiabilitySupplier;
+import jmab2.agents.MacroAgent;
+import jmab2.agents.WageSetterWithTargets;
+import jmab2.events.MacroTicEvent;
+import jmab2.population.MacroPopulation;
+import jmab2.simulations.MacroSimulation;
+import jmab2.simulations.TwoStepMarketSimulation;
+import jmab2.stockmatrix.Cash;
+import jmab2.stockmatrix.ConsumptionGood;
+import jmab2.stockmatrix.Deposit;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.BondDemandStrategy;
+import jmab2.strategies.CheapestGoodSupplierWithSwitching;
+import jmab2.strategies.ConsumptionStrategy;
+import jmab2.strategies.SelectDepositSupplierStrategy;
+import jmab2.strategies.SelectSellerStrategy;
+import jmab2.strategies.TaxPayerStrategy;
+import jmab2.strategies.WageStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -86,7 +86,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	private double liquidAssetsSum;
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.MacroAgent#onRoundFinished(net.sourceforge.jabm.event.RoundFinishedEvent)
+	 * @see jmab2.agents.MacroAgent#onRoundFinished(net.sourceforge.jabm.event.RoundFinishedEvent)
 	 */
 	@Override
 	public void onRoundFinished(RoundFinishedEvent event) {
@@ -95,7 +95,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.MacroAgent#initialiseCounterpart(net.sourceforge.jabm.agent.Agent, int)
+	 * @see jmab2.agents.MacroAgent#initialiseCounterpart(net.sourceforge.jabm.agent.Agent, int)
 	 */
 	@Override
 	public void initialiseCounterpart(Agent counterpart, int marketID) {
@@ -133,7 +133,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.DepositDemander#getDepositAmount()
+	 * @see jmab2.agents.DepositDemander#getDepositAmount()
 	 */
 	@Override
 	public double getDepositAmount() {
@@ -141,7 +141,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.DepositDemander#getCashAmount()
+	 * @see jmab2.agents.DepositDemander#getCashAmount()
 	 */
 	@Override
 	public double getCashAmount() {
@@ -196,7 +196,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.LaborSupplier#getPayableStock(int)
+	 * @see jmab2.agents.LaborSupplier#getPayableStock(int)
 	 */
 	@Override
 	public Item getPayableStock(int idMarket) {
@@ -246,7 +246,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.SimpleAbstractAgent#onTicArrived(int)
+	 * @see jmab2.agents.SimpleAbstractAgent#onTicArrived(int)
 	 */
 	@Override
 	protected void onTicArrived(MacroTicEvent event) {
@@ -398,7 +398,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.GoodDemander#getPayingStocks(int, jmab.goods.Item)
+	 * @see jmab2.agents.GoodDemander#getPayingStocks(int, jmab.goods.Item)
 	 */
 	@Override
 	public List<Item> getPayingStocks(int idGood, Item payableStock) {
@@ -423,7 +423,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.GoodDemander#getDemand()
+	 * @see jmab2.agents.GoodDemander#getDemand()
 	 */
 	@Override
 	public double getDemand(int idMarket) {
@@ -431,7 +431,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.GoodDemander#setDemand(double)
+	 * @see jmab2.agents.GoodDemander#setDemand(double)
 	 */
 	@Override
 	public void setDemand(double demand, int idMarket) {
@@ -439,7 +439,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.TaxPayer#payTaxes(jmab.goods.Item)
+	 * @see jmab2.agents.TaxPayer#payTaxes(jmab.goods.Item)
 	 */
 	@Override
 	public void payTaxes(Item account) {
@@ -477,7 +477,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.AbstractHousehold#getIncome()
+	 * @see jmab2.agents.AbstractHousehold#getIncome()
 	 */
 	@Override
 	public double getNetIncome() {
@@ -497,7 +497,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.WageSetterWithTargets#getWageLowerBound()
+	 * @see jmab2.agents.WageSetterWithTargets#getWageLowerBound()
 	 */
 	@Override
 	public double getWageLowerBound() {
@@ -506,7 +506,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.WageSetterWithTargets#getWageUpperBound()
+	 * @see jmab2.agents.WageSetterWithTargets#getWageUpperBound()
 	 */
 	@Override
 	public double getWageUpperBound() {
@@ -515,7 +515,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.WageSetterWithTargets#getReferenceVariableForWage()
+	 * @see jmab2.agents.WageSetterWithTargets#getReferenceVariableForWage()
 	 */
 	@Override
 	public double getMicroReferenceVariableForWage() {
@@ -541,7 +541,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.WageSetterWithTargets#getMacroReferenceVariableForWage()
+	 * @see jmab2.agents.WageSetterWithTargets#getMacroReferenceVariableForWage()
 	 */
 	@Override
 	public double getMacroReferenceVariableForWage() {
@@ -563,7 +563,7 @@ public class Households extends AbstractHousehold implements GoodDemander, Labor
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.DepositDemander#interestPaid(double)
+	 * @see jmab2.agents.DepositDemander#interestPaid(double)
 	 */
 	@Override
 	public void interestPaid(double interests) {

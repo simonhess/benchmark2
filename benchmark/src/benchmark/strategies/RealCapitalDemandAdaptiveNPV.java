@@ -23,14 +23,14 @@ import benchmark.agents.CapitalFirm;
 import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.Government;
 import benchmark.expectations.AdaptiveExpectationDoubleExponentialSmoothing;
-import jmab.agents.InvestmentAgent;
-import jmab.agents.MacroAgent;
-import jmab.expectations.Expectation;
-import jmab.population.MacroPopulation;
-import jmab.simulations.MacroSimulation;
-import jmab.stockmatrix.CapitalGood;
-import jmab.stockmatrix.Item;
-import jmab.strategies.RealCapitalDemandStrategy;
+import jmab2.agents.InvestmentAgent;
+import jmab2.agents.MacroAgent;
+import jmab2.expectations.Expectation;
+import jmab2.population.MacroPopulation;
+import jmab2.simulations.MacroSimulation;
+import jmab2.stockmatrix.CapitalGood;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.RealCapitalDemandStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -52,7 +52,7 @@ public class RealCapitalDemandAdaptiveNPV extends AbstractStrategy implements
 	double investment;
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.RealCapitalDemandStrategy#computeRealCapitalDemand(jmab.agents.MacroAgent)
+	 * @see jmab2.strategies.RealCapitalDemandStrategy#computeRealCapitalDemand(jmab2.agents.MacroAgent)
 	 */
 	@Override
 	public double computeRealCapitalDemand(MacroAgent seller) {

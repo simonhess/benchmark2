@@ -17,13 +17,13 @@ package benchmark.strategies;
 import java.nio.ByteBuffer;
 import java.util.List;
 
-import jmab.agents.InvestmentAgent;
-import jmab.agents.MacroAgent;
-import jmab.population.MacroPopulation;
-import jmab.simulations.MacroSimulation;
-import jmab.stockmatrix.CapitalGood;
-import jmab.stockmatrix.Item;
-import jmab.strategies.RealCapitalDemandStrategy;
+import jmab2.agents.InvestmentAgent;
+import jmab2.agents.MacroAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.simulations.MacroSimulation;
+import jmab2.stockmatrix.CapitalGood;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.RealCapitalDemandStrategy;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
@@ -40,7 +40,7 @@ public class RealCapitalDemandAdaptive extends AbstractStrategy implements
 	double investment;
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.RealCapitalDemandStrategy#computeRealCapitalDemand(jmab.agents.MacroAgent)
+	 * @see jmab2.strategies.RealCapitalDemandStrategy#computeRealCapitalDemand(jmab2.agents.MacroAgent)
 	 */
 	@Override
 	public double computeRealCapitalDemand(MacroAgent seller) {

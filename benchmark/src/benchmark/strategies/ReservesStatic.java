@@ -1,7 +1,7 @@
 package benchmark.strategies;
 
-import jmab.population.MacroPopulation;
-import jmab.simulations.MacroSimulation;
+import jmab2.population.MacroPopulation;
+import jmab2.simulations.MacroSimulation;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 

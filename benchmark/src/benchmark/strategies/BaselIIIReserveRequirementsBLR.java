@@ -17,10 +17,10 @@ package benchmark.strategies;
 import java.nio.ByteBuffer;
 import java.util.List;
 
-import jmab.agents.MacroAgent;
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.Item;
-import jmab.strategies.FinanceStrategy;
+import jmab2.agents.MacroAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.FinanceStrategy;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**
@@ -38,7 +38,7 @@ public class BaselIIIReserveRequirementsBLR extends AbstractStrategy implements
 	private int[] reserveIds; //in the simplest case only loans (bonds, reserves and cash are weighted 0)
 	
 	/* (non-Javadoc)
-	 * @see jmab.strategies.FinanceStrategy#computeCreditDemand(double)
+	 * @see jmab2.strategies.FinanceStrategy#computeCreditDemand(double)
 	 */
 	@Override
 	public double computeCreditDemand(double expectedFinancialRequirement) {

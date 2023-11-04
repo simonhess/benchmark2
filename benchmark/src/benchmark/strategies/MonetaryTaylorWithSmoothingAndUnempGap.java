@@ -11,16 +11,16 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import jmab.agents.AbstractFirm;
-import jmab.agents.LaborDemander;
-import jmab.agents.LaborSupplier;
-import jmab.agents.MacroAgent;
-import jmab.expectations.PassedValues;
-import jmab.population.MacroPopulation;
-import jmab.simulations.AbstractMacroSimulation;
-import jmab.simulations.MacroSimulation;
-import jmab.stockmatrix.AbstractGood;
-import jmab.stockmatrix.Item;
+import jmab2.agents.AbstractFirm;
+import jmab2.agents.LaborDemander;
+import jmab2.agents.LaborSupplier;
+import jmab2.agents.MacroAgent;
+import jmab2.expectations.PassedValues;
+import jmab2.population.MacroPopulation;
+import jmab2.simulations.AbstractMacroSimulation;
+import jmab2.simulations.MacroSimulation;
+import jmab2.stockmatrix.AbstractGood;
+import jmab2.stockmatrix.Item;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -171,7 +171,7 @@ public class MonetaryTaylorWithSmoothingAndUnempGap extends AbstractStrategy imp
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.SingleStrategy#populateFromBytes(byte[], jmab.population.MacroPopulation)
+	 * @see jmab2.strategies.SingleStrategy#populateFromBytes(byte[], jmab2.population.MacroPopulation)
 	 */
 	@Override
 	public void populateFromBytes(byte[] content, MacroPopulation pop) {

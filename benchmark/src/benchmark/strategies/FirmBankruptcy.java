@@ -18,17 +18,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import benchmark.StaticValues;
-import jmab.agents.AbstractFirm;
-import jmab.agents.CreditSupplier;
-import jmab.agents.LaborSupplier;
-import jmab.agents.LiabilitySupplier;
-import jmab.agents.MacroAgent;
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.Cash;
-import jmab.stockmatrix.Deposit;
-import jmab.stockmatrix.Item;
-import jmab.stockmatrix.Loan;
-import jmab.strategies.BankruptcyStrategy;
+import jmab2.agents.AbstractFirm;
+import jmab2.agents.CreditSupplier;
+import jmab2.agents.LaborSupplier;
+import jmab2.agents.LiabilitySupplier;
+import jmab2.agents.MacroAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.Cash;
+import jmab2.stockmatrix.Deposit;
+import jmab2.stockmatrix.Item;
+import jmab2.stockmatrix.Loan;
+import jmab2.strategies.BankruptcyStrategy;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**
@@ -40,7 +40,7 @@ public class FirmBankruptcy extends AbstractStrategy implements
 		BankruptcyStrategy {
 	
 	/* (non-Javadoc)
-	 * @see jmab.strategies.BankruptcyStrategy#bankrupt()
+	 * @see jmab2.strategies.BankruptcyStrategy#bankrupt()
 	 */
 	@Override
 	public void bankrupt() {
@@ -117,7 +117,7 @@ public class FirmBankruptcy extends AbstractStrategy implements
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.SingleStrategy#getBytes()
+	 * @see jmab2.strategies.SingleStrategy#getBytes()
 	 */
 	@Override
 	public byte[] getBytes() {
@@ -125,7 +125,7 @@ public class FirmBankruptcy extends AbstractStrategy implements
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.SingleStrategy#populateFromBytes(byte[], jmab.population.MacroPopulation)
+	 * @see jmab2.strategies.SingleStrategy#populateFromBytes(byte[], jmab2.population.MacroPopulation)
 	 */
 	@Override
 	public void populateFromBytes(byte[] content, MacroPopulation pop) {}

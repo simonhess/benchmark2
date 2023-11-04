@@ -19,20 +19,20 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.List;
 
-import jmab.agents.AbstractBank;
-import jmab.agents.BondDemander;
-import jmab.agents.BondSupplier;
-import jmab.agents.CreditSupplier;
-import jmab.agents.DepositDemander;
-import jmab.agents.DepositSupplier;
-import jmab.agents.InterestRateSetterWithTargets;
-import jmab.agents.MacroAgent;
-import jmab.events.MacroTicEvent;
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.Bond;
-import jmab.stockmatrix.Deposit;
-import jmab.stockmatrix.Item;
-import jmab.stockmatrix.Loan;
+import jmab2.agents.AbstractBank;
+import jmab2.agents.BondDemander;
+import jmab2.agents.BondSupplier;
+import jmab2.agents.CreditSupplier;
+import jmab2.agents.DepositDemander;
+import jmab2.agents.DepositSupplier;
+import jmab2.agents.InterestRateSetterWithTargets;
+import jmab2.agents.MacroAgent;
+import jmab2.events.MacroTicEvent;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.Bond;
+import jmab2.stockmatrix.Deposit;
+import jmab2.stockmatrix.Item;
+import jmab2.stockmatrix.Loan;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -94,7 +94,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.MacroAgent#onRoundFinished(net.sourceforge.jabm.event.RoundFinishedEvent)
+	 * @see jmab2.agents.MacroAgent#onRoundFinished(net.sourceforge.jabm.event.RoundFinishedEvent)
 	 */
 	@Override
 	public void onRoundFinished(RoundFinishedEvent event) {
@@ -103,7 +103,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.MacroAgent#initialiseCounterpart(net.sourceforge.jabm.agent.Agent, int)
+	 * @see jmab2.agents.MacroAgent#initialiseCounterpart(net.sourceforge.jabm.agent.Agent, int)
 	 */
 	@Override
 	public void initialiseCounterpart(Agent counterpart, int marketID) {
@@ -112,7 +112,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.CreditSupplier#getInterestRate(jmab.agents.MacroAgent, double, int)
+	 * @see jmab2.agents.CreditSupplier#getInterestRate(jmab2.agents.MacroAgent, double, int)
 	 */
 	@Override
 	public double getInterestRate(int idLoanSM, MacroAgent creditDemander, double amount,
@@ -121,7 +121,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.CreditSupplier#getLoanSupply(jmab.agents.MacroAgent, double)
+	 * @see jmab2.agents.CreditSupplier#getLoanSupply(jmab2.agents.MacroAgent, double)
 	 */
 	@Override
 	public double getLoanSupply(int loansId, MacroAgent creditDemander, double required) {
@@ -129,7 +129,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.CreditSupplier#getDepositInterestRate(jmab.agents.MacroAgent, double)
+	 * @see jmab2.agents.CreditSupplier#getDepositInterestRate(jmab2.agents.MacroAgent, double)
 	 */
 	@Override
 	public double getDepositInterestRate(MacroAgent creditDemander,
@@ -139,7 +139,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.SimpleAbstractAgent#onTicArrived(jmab.events.AgentTicEvent)
+	 * @see jmab2.agents.SimpleAbstractAgent#onTicArrived(jmab2.events.AgentTicEvent)
 	 */
 	@Override
 	protected void onTicArrived(MacroTicEvent event) {
@@ -272,7 +272,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.CreditSupplier#getTotalLoansSupply()
+	 * @see jmab2.agents.CreditSupplier#getTotalLoansSupply()
 	 */
 	@Override
 	public double getTotalLoansSupply(int loansId) {
@@ -280,13 +280,13 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.CreditSupplier#setTotalLoansSupply(double)
+	 * @see jmab2.agents.CreditSupplier#setTotalLoansSupply(double)
 	 */
 	@Override
 	public void setTotalLoansSupply(int loansId, double d) {}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.SimpleAbstractAgent#onAgentArrival(net.sourceforge.jabm.event.AgentArrivalEvent)
+	 * @see jmab2.agents.SimpleAbstractAgent#onAgentArrival(net.sourceforge.jabm.event.AgentArrivalEvent)
 	 */
 	@Override
 	public void onAgentArrival(AgentArrivalEvent event) {
@@ -332,7 +332,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.BondDemander#getBondsDemand(double, jmab.agents.BondSupplier)
+	 * @see jmab2.agents.BondDemander#getBondsDemand(double, jmab2.agents.BondSupplier)
 	 */
 	@Override
 	public long getBondsDemand(double price, BondSupplier issuer) {
@@ -341,7 +341,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.BondDemander#getPayingStocks(int, jmab.goods.Item)
+	 * @see jmab2.agents.BondDemander#getPayingStocks(int, jmab.goods.Item)
 	 */
 	@Override
 	public List<Item> getPayingStocks(int idBondSM, Item payableStock) {
@@ -350,7 +350,7 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.agents.BondDemander#setBondInterestsReceived(double)
+	 * @see jmab2.agents.BondDemander#setBondInterestsReceived(double)
 	 */
 	@Override
 	public void setBondInterestsReceived(double interests) {

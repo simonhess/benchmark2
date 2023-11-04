@@ -16,9 +16,9 @@ package benchmark.strategies;
 
 
 
-import jmab.agents.BondSupplier;
-import jmab.population.MacroPopulation;
-import jmab.strategies.BondDemandStrategy;
+import jmab2.agents.BondSupplier;
+import jmab2.population.MacroPopulation;
+import jmab2.strategies.BondDemandStrategy;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**
@@ -30,7 +30,7 @@ public class BondDemandStrategyNone extends AbstractStrategy implements BondDema
 	
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.BondDemandStrategy#BondDemand(double)
+	 * @see jmab2.strategies.BondDemandStrategy#BondDemand(double)
 	 */
 	@Override
 	public long bondDemand(BondSupplier supplier) {

@@ -17,10 +17,10 @@ package benchmark.population;
 import java.util.List;
 
 import benchmark.StaticValues;
-import jmab.agents.MacroAgent;
-import jmab.events.MacroTicEvent;
-import jmab.population.AbstractPopulationHandler;
-import jmab.population.PopulationHandler;
+import jmab2.agents.MacroAgent;
+import jmab2.events.MacroTicEvent;
+import jmab2.population.AbstractPopulationHandler;
+import jmab2.population.PopulationHandler;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.agent.Agent;
 
@@ -35,7 +35,7 @@ public class NoEntryPopulationHandler extends AbstractPopulationHandler implemen
 	
 
 	/* (non-Javadoc)
-	 * @see jmab.population.PopulationHandler#initialiseAgent(net.sourceforge.jabm.agent.Agent, net.sourceforge.jabm.agent.Agent)
+	 * @see jmab2.population.PopulationHandler#initialiseAgent(net.sourceforge.jabm.agent.Agent, net.sourceforge.jabm.agent.Agent)
 	 */
 	@Override
 	public void initialiseAgent(Agent newAgent, Agent oldAgent) {
@@ -44,7 +44,7 @@ public class NoEntryPopulationHandler extends AbstractPopulationHandler implemen
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.population.AbstractPopulationHandler#handleAgent(net.sourceforge.jabm.agent.Agent, int, java.util.List, int)
+	 * @see jmab2.population.AbstractPopulationHandler#handleAgent(net.sourceforge.jabm.agent.Agent, int, java.util.List, int)
 	 */
 	@Override
 	protected void handleAgent(Agent agent, int id, List<Agent> agents,
@@ -54,7 +54,7 @@ public class NoEntryPopulationHandler extends AbstractPopulationHandler implemen
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.population.AbstractPopulationHandler#onTicArrived(jmab.events.MacroTicEvent)
+	 * @see jmab2.population.AbstractPopulationHandler#onTicArrived(jmab2.events.MacroTicEvent)
 	 */
 	@Override
 	protected void onTicArrived(MacroTicEvent event) {

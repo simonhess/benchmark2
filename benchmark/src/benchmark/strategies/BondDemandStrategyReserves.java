@@ -16,11 +16,11 @@ package benchmark.strategies;
 
 import java.util.List;
 
-import jmab.agents.BondSupplier;
-import jmab.agents.MacroAgent;
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.Item;
-import jmab.strategies.BondDemandStrategy;
+import jmab2.agents.BondSupplier;
+import jmab2.agents.MacroAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.Item;
+import jmab2.strategies.BondDemandStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -37,7 +37,7 @@ public class BondDemandStrategyReserves extends AbstractStrategy implements Bond
 	
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.BondDemandStrategy#BondDemand(double)
+	 * @see jmab2.strategies.BondDemandStrategy#BondDemand(double)
 	 */
 	@Override
 	public long bondDemand(BondSupplier supplier) {

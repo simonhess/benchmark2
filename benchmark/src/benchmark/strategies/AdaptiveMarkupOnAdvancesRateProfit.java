@@ -22,14 +22,14 @@ import java.util.List;
 import benchmark.StaticValues;
 import benchmark.agents.Bank;
 import benchmark.agents.Government;
-import jmab.agents.MacroAgent;
-import jmab.population.MacroPopulation;
-import jmab.simulations.MacroSimulation;
-import jmab.stockmatrix.InterestBearingItem;
-import jmab.stockmatrix.Item;
-import jmab.stockmatrix.Loan;
-import jmab.strategies.InterestRateStrategy;
-import jmab.strategies.MarkupInterestRateStrategy;
+import jmab2.agents.MacroAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.simulations.MacroSimulation;
+import jmab2.stockmatrix.InterestBearingItem;
+import jmab2.stockmatrix.Item;
+import jmab2.stockmatrix.Loan;
+import jmab2.strategies.InterestRateStrategy;
+import jmab2.strategies.MarkupInterestRateStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -51,7 +51,7 @@ MarkupInterestRateStrategy {
 	private int mktId;
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.InterestRateStrategy#computeInterestRate(jmab.agents.MacroAgent, double, int)
+	 * @see jmab2.strategies.InterestRateStrategy#computeInterestRate(jmab2.agents.MacroAgent, double, int)
 	 * 
 	 * This strategy computes the banks interest rate on loans based on the profits of the past two periods. If profits from the last period
 	 * are greater than the those from the period before that the bank computes its new markup by adding a random amount to the average markup of all banks.

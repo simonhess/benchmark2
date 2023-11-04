@@ -18,11 +18,11 @@ import java.nio.ByteBuffer;
 
 import benchmark.StaticValues;
 import benchmark.agents.Households;
-import jmab.agents.AbstractFirm;
-import jmab.agents.AbstractHousehold;
-import jmab.population.MacroPopulation;
-import jmab.simulations.MacroSimulation;
-import jmab.strategies.ConsumptionStrategy;
+import jmab2.agents.AbstractFirm;
+import jmab2.agents.AbstractHousehold;
+import jmab2.population.MacroPopulation;
+import jmab2.simulations.MacroSimulation;
+import jmab2.strategies.ConsumptionStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -121,7 +121,7 @@ public class ConsumptionFixedPropensitiesOOIWWithPersistency extends AbstractStr
 
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.ConsumptionStrategy#computeRealConsumptionDemand()
+	 * @see jmab2.strategies.ConsumptionStrategy#computeRealConsumptionDemand()
 	 */
 	@Override
 	public double computeRealConsumptionDemand() {

@@ -5,9 +5,9 @@ package benchmark.strategies;
 
 import benchmark.StaticValues;
 import benchmark.agents.Bank;
-import jmab.agents.MacroAgent;
-import jmab.population.MacroPopulation;
-import jmab.strategies.InterestRateStrategy;
+import jmab2.agents.MacroAgent;
+import jmab2.population.MacroPopulation;
+import jmab2.strategies.InterestRateStrategy;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -63,7 +63,7 @@ public class InterbankAskCBMarkUp extends AbstractStrategy implements InterestRa
 	
 	
 	/* (non-Javadoc)
-	 * @see jmab.strategies.SingleStrategy#getBytes()
+	 * @see jmab2.strategies.SingleStrategy#getBytes()
 	 */
 	@Override
 	public byte[] getBytes() {
@@ -72,7 +72,7 @@ public class InterbankAskCBMarkUp extends AbstractStrategy implements InterestRa
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.SingleStrategy#populateFromBytes(byte[], jmab.population.MacroPopulation)
+	 * @see jmab2.strategies.SingleStrategy#populateFromBytes(byte[], jmab2.population.MacroPopulation)
 	 */
 	@Override
 	public void populateFromBytes(byte[] content, MacroPopulation pop) {

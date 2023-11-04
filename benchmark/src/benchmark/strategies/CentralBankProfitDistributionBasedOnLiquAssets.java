@@ -23,10 +23,9 @@ import benchmark.agents.CentralBank;
 import benchmark.agents.ConsumptionFirm;
 import benchmark.agents.GovernmentAntiCyclical;
 import benchmark.agents.Households;
-import jmab.agents.LiabilitySupplier;
-
-import jmab.population.MacroPopulation;
-import jmab.stockmatrix.Item;
+import jmab2.agents.LiabilitySupplier;
+import jmab2.population.MacroPopulation;
+import jmab2.stockmatrix.Item;
 import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.agent.Agent;
@@ -42,7 +41,7 @@ import net.sourceforge.jabm.strategy.AbstractStrategy;
 public class CentralBankProfitDistributionBasedOnLiquAssets extends AbstractStrategy implements CentralBankProfitDistributionStrategy {
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.DividendsStrategy#payDividends()
+	 * @see jmab2.strategies.DividendsStrategy#payDividends()
 	 */
 	public void distributeCBProfits() {
 		GovernmentAntiCyclical government = (GovernmentAntiCyclical)this.agent;

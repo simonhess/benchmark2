@@ -17,8 +17,8 @@ package benchmark.strategies;
 import java.util.ArrayList;
 
 import benchmark.agents.Bank;
-import jmab.population.MacroPopulation;
-import jmab.strategies.SingleStrategy;
+import jmab2.population.MacroPopulation;
+import jmab2.strategies.SingleStrategy;
 import net.sourceforge.jabm.EventScheduler;
 import net.sourceforge.jabm.agent.Agent;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
@@ -70,7 +70,7 @@ public class PriciestBorrower extends AbstractStrategy implements SingleStrategy
 	}
 	
 	/* (non-Javadoc)
-	 * @see jmab.strategies.SingleStrategy#getBytes()
+	 * @see jmab2.strategies.SingleStrategy#getBytes()
 	 */
 	@Override
 	public byte[] getBytes() {
@@ -78,7 +78,7 @@ public class PriciestBorrower extends AbstractStrategy implements SingleStrategy
 	}
 
 	/* (non-Javadoc)
-	 * @see jmab.strategies.SingleStrategy#populateFromBytes(byte[], jmab.population.MacroPopulation)
+	 * @see jmab2.strategies.SingleStrategy#populateFromBytes(byte[], jmab2.population.MacroPopulation)
 	 */
 	@Override
 	public void populateFromBytes(byte[] content, MacroPopulation pop) {

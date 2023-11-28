@@ -3955,11 +3955,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark2.StaticValues.STRATEGY_BUYING" />
 					</key> 
 				</entry>
-				<entry value-ref="governmentConsumptionStrategy"> 
-					<key>
-						<util:constant static-field="benchmark2.StaticValues.STRATEGY_CONSUMPTION" />
-					</key> 
-				</entry>
 				<entry value-ref="governmentShockStrategy"> 
 					<key>
 						<util:constant static-field="benchmark2.StaticValues.STRATEGY_SHOCK" />
@@ -3986,10 +3981,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	
 	<bean id="governmentBuyingStrategy" scope="prototype" parent="strategy"
 		class="jmab2.strategies.CheapestGoodSupplier">
-	</bean>
-	
-	<bean id="governmentConsumptionStrategy" scope="prototype" parent="strategy"
-		class="benchmark2.strategies.GovernmentCBProfitConsumptionStrategy">
 	</bean>
 	
 	<bean id="governmentShockStrategy" scope="prototype" parent="strategy"

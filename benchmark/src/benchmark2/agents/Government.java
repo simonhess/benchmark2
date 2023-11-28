@@ -118,13 +118,9 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 	@Override
 	public List<Item> getPayingStocks(int idMarket, Item payableStock) {
 		List<Item> result = new ArrayList<Item>();
-		if (idMarket == StaticValues.MKT_CAPGOOD || idMarket == StaticValues.MKT_CONSGOOD) {
-		List<Item>depositAccounts = this.getItemsStockMatrix(true, StaticValues.SM_RESERVES);
-		result.add(depositAccounts.get(1));
-		}
-		else {
+
 		result.add(this.getItemStockMatrix(true, StaticValues.SM_RESERVES));
-		}
+
 		return result;
 	}
 

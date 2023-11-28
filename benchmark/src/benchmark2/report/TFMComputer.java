@@ -24,7 +24,6 @@ import benchmark2.agents.CapitalFirm;
 import benchmark2.agents.CentralBank;
 import benchmark2.agents.ConsumptionFirm;
 import benchmark2.agents.GovernmentAntiCyclical;
-import benchmark2.agents.GovernmentAntiCyclicalWithInvestment;
 import benchmark2.agents.Households;
 import benchmark2.strategies.FixedShareOfProfitsToPopulationAsShareOfWealthDividends;
 import jmab2.population.MacroPopulation;

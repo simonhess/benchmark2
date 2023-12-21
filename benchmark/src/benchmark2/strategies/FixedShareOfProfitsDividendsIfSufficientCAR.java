@@ -67,8 +67,8 @@ DividendsStrategy {
 	@Override
 	public void payDividends() {
 		MacroAgent dividendPayer = (MacroAgent)this.agent;
-		double profits = dividendPayer.getPassedValue(profitsLagId, 0);	
-		if (profits>0){
+		double profits = Math.max(0, dividendPayer.getPassedValue(profitsLagId, 0));
+
 			Population receivers = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(receiversId);
 			double totalNW = 0;
 			int round = ((MacroSimulation)((SimulationController)this.scheduler).getSimulation()).getRound();
@@ -126,7 +126,8 @@ DividendsStrategy {
 					bank.setDividends(div);
 				}
 				
-				
+				if(bank.getDividends()>0) {
+					
 				for(Agent rec:receivers.getAgents()){
 					Households receiver =(Households) rec; 
 					double nw = receiversNW.get(receiver.getAgentId());
@@ -140,6 +141,8 @@ DividendsStrategy {
 					
 					payingSupplier.transfer(payerDep, Payablestock,toPay);
 					receiver.setDividendsReceived(receiver.getDividendsReceived()+toPay);
+				}
+				
 				}
 
 			}
@@ -155,7 +158,7 @@ DividendsStrategy {
 					liquidity += item.getValue();
 				}
 				
-				if (liquidity>profits*profitShare){
+				if (liquidity>profits*profitShare&&profits>0){
 					Item targetStock = null;
 					if (firm instanceof ConsumptionFirm) {
 						targetStock = firm.getPayableStock(StaticValues.MKT_CONSGOOD);
@@ -182,13 +185,6 @@ DividendsStrategy {
 				}
 				
 			}
-		}else {
-			if (dividendPayer instanceof Bank){
-	
-				Bank bank= (Bank) dividendPayer;
-				bank.setDividends(0);
-			}
-		}
 		
 
 	}

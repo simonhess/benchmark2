@@ -96,15 +96,8 @@ public class BankBankruptcyBailin extends AbstractStrategy implements
 	@Override
 	public void bankrupt() {
 		Bank bank = (Bank) getAgent();
-		Population banks = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.BANKS_ID);
-		double tot=0;
-		for (Agent b:banks.getAgents()){
-			Bank bank1 = (Bank) b;
-			if (bank1.getAgentId()!=bank.getAgentId())
-			tot+=bank1.getCapitalRatio();
-			}
-		Uniform distribution = new Uniform(0,0.1,prng);
-		double car=tot/(banks.getSize()-1)+distribution.nextDouble();
+		double car= bank.getTargetedCapitalAdequacyRatio();
+				//tot/(banks.getSize()-1)+distribution.nextDouble();
 		List<Item> loans=bank.getItemsStockMatrix(true, StaticValues.SM_LOAN);
 		double loansValue=0;
 		for (Item a:loans){
@@ -120,98 +113,84 @@ public class BankBankruptcyBailin extends AbstractStrategy implements
 		Population cFirms = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.CONSUMPTIONFIRMS_ID);
 		Population kFirms = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.CAPITALFIRMS_ID);
 		
-		// If bank does not hold enough deposits, get bailed out from all households and firms. Recapitalize bank by all households.
-		if (-nw> totDeposits) {
-			
-			// Calculate net wealth of households and firms and raise taxes that net wealth of bank reaches 0
-			double totalNW = 0;
-			for (Agent receiver : hhs.getAgents()) {
-				totalNW += ((MacroAgent) receiver).getNetWealth();
-			}
-			for (Agent receiver : cFirms.getAgents()) {
-				totalNW += ((MacroAgent) receiver).getNetWealth();
-			}
-			for (Agent receiver : kFirms.getAgents()) {
-				totalNW += ((MacroAgent) receiver).getNetWealth();
-			}
-
-			Item targetStock = bank.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-
-			for (Agent rec : hhs.getAgents()) {
-				Households receiver = (Households) rec;
-				double hhnw = receiver.getNetWealth();
-				double toPay = hhnw * (nw) / totalNW * -1;
-
-				Item payablestock = receiver.getPayableStock(StaticValues.MKT_LABOR);
-				List<Item> payingStocks = receiver.getPayingStocks(0, payablestock);
-				receiver.reallocateLiquidity(toPay, payingStocks, payablestock);
-
-				LiabilitySupplier libHolder = (LiabilitySupplier) payablestock.getLiabilityHolder();
-				
-				receiver.setBailoutcost(toPay);
-				libHolder.transfer(payablestock, targetStock, toPay);
-			}
-			
-			for (Agent rec : cFirms.getAgents()) {
-				ConsumptionFirm receiver = (ConsumptionFirm) rec;
-				double hhnw = receiver.getNetWealth();
-				double toPay = hhnw * (nw) / totalNW * -1;
-
-				Item payablestock = receiver.getPayableStock(StaticValues.MKT_CONSGOOD);
-				List<Item> payingStocks = receiver.getPayingStocks(StaticValues.MKT_LABOR, null);
-				receiver.reallocateLiquidity(toPay, payingStocks, payablestock);
-
-				LiabilitySupplier libHolder = (LiabilitySupplier) payablestock.getLiabilityHolder();
-
-				libHolder.transfer(payablestock, targetStock, toPay);
-			}
-			
-			for (Agent rec : kFirms.getAgents()) {
-				CapitalFirm receiver = (CapitalFirm) rec;
-				double hhnw = receiver.getNetWealth();
-				double toPay = hhnw * (nw) / totalNW * -1;
-
-				Item payablestock = receiver.getPayableStock(StaticValues.MKT_CAPGOOD);
-				List<Item> payingStocks = receiver.getPayingStocks(StaticValues.MKT_LABOR, null);
-				receiver.reallocateLiquidity(toPay, payingStocks, payablestock);
-
-				LiabilitySupplier libHolder = (LiabilitySupplier) payablestock.getLiabilityHolder();
-
-				libHolder.transfer(payablestock, targetStock, toPay);
-			}
-			
-			// Recapitalize banks by households
-			
-			totalNW = 0;
-			for (Agent receiver : hhs.getAgents()) {
-				totalNW += ((MacroAgent) receiver).getNetWealth();
-			}
-
-			for (Agent rec : hhs.getAgents()) {
-				Households receiver = (Households) rec;
-				double hhnw = receiver.getNetWealth();
-				double toPay = hhnw * (targetNW) / totalNW;
-
-				Item payablestock = receiver.getPayableStock(StaticValues.MKT_LABOR);
-				List<Item> payingStocks = receiver.getPayingStocks(0, payablestock);
-				receiver.reallocateLiquidity(toPay, payingStocks, payablestock);
-
-				LiabilitySupplier libHolder = (LiabilitySupplier) payablestock.getLiabilityHolder();
-
-				libHolder.transfer(payablestock, targetStock, toPay);
-			}
-		// If bank has enough deposits get bail in from depositors. Recapitalize bank by all households.
-		}else {
-//		numberBailouts+=1;
+		
+		double fundsToSpend = Math.min(-nw, totDeposits);
+		
+		if(fundsToSpend>0) {
+		
 		for (Item deposit:bank.getItemsStockMatrix(false, depositId)){
-			double bailoutcost = -(deposit.getValue()*(nw)/totDeposits);
-			deposit.setValue(deposit.getValue()+(deposit.getValue()*(nw)/totDeposits));
+			double bailoutcost = (deposit.getValue()*(fundsToSpend)/totDeposits);
+			deposit.setValue(deposit.getValue()-(deposit.getValue()*(fundsToSpend)/totDeposits));
 			if(deposit.getAssetHolder() instanceof Households) {
 				Households hh = (Households)deposit.getAssetHolder();
 				hh.setBailoutcost(bailoutcost);
 			}
 		}
 		
+		}
+		
+		double capitalAfterBailin = bank.getNetWealth();
+		// If bank did not receive enough capital from depositors, get bailed out from all households and firms. 
+		if(capitalAfterBailin<0) {
+			// Calculate net wealth of households and firms and raise taxes that net wealth of bank reaches 0
+						double totalNW = 0;
+						for (Agent receiver : hhs.getAgents()) {
+							totalNW += ((MacroAgent) receiver).getNetWealth();
+						}
+						for (Agent receiver : cFirms.getAgents()) {
+							totalNW += ((MacroAgent) receiver).getNetWealth();
+						}
+						for (Agent receiver : kFirms.getAgents()) {
+							totalNW += ((MacroAgent) receiver).getNetWealth();
+						}
+
+						Item targetStock = bank.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+
+						for (Agent rec : hhs.getAgents()) {
+							Households receiver = (Households) rec;
+							double hhnw = receiver.getNetWealth();
+							double toPay = hhnw * (capitalAfterBailin) / totalNW * -1;
+
+							Item payablestock = receiver.getPayableStock(StaticValues.MKT_LABOR);
+							List<Item> payingStocks = receiver.getPayingStocks(0, payablestock);
+							receiver.reallocateLiquidity(toPay, payingStocks, payablestock);
+
+							LiabilitySupplier libHolder = (LiabilitySupplier) payablestock.getLiabilityHolder();
+							
+							receiver.setBailoutcost(toPay);
+							libHolder.transfer(payablestock, targetStock, toPay);
+						}
+						
+						for (Agent rec : cFirms.getAgents()) {
+							ConsumptionFirm receiver = (ConsumptionFirm) rec;
+							double hhnw = receiver.getNetWealth();
+							double toPay = hhnw * (capitalAfterBailin) / totalNW * -1;
+
+							Item payablestock = receiver.getPayableStock(StaticValues.MKT_CONSGOOD);
+							List<Item> payingStocks = receiver.getPayingStocks(StaticValues.MKT_LABOR, null);
+							receiver.reallocateLiquidity(toPay, payingStocks, payablestock);
+
+							LiabilitySupplier libHolder = (LiabilitySupplier) payablestock.getLiabilityHolder();
+
+							libHolder.transfer(payablestock, targetStock, toPay);
+						}
+						
+						for (Agent rec : kFirms.getAgents()) {
+							CapitalFirm receiver = (CapitalFirm) rec;
+							double hhnw = receiver.getNetWealth();
+							double toPay = hhnw * (capitalAfterBailin) / totalNW * -1;
+
+							Item payablestock = receiver.getPayableStock(StaticValues.MKT_CAPGOOD);
+							List<Item> payingStocks = receiver.getPayingStocks(StaticValues.MKT_LABOR, null);
+							receiver.reallocateLiquidity(toPay, payingStocks, payablestock);
+
+							LiabilitySupplier libHolder = (LiabilitySupplier) payablestock.getLiabilityHolder();
+
+							libHolder.transfer(payablestock, targetStock, toPay);
+						}
+		}
+		
+		// Recapitalize banks by households
 		Item targetStock = bank.getItemStockMatrix(true, StaticValues.SM_RESERVES);
 		
 		double totalNW = 0;
@@ -232,7 +211,7 @@ public class BankBankruptcyBailin extends AbstractStrategy implements
 			
 			libHolder.transfer(payablestock, targetStock,toPay);
 		}
-		}
+	
 		totDeposits= bank.getNumericBalanceSheet()[1][depositId];
 		
 		Expectation exp =bank.getExpectation(depositExpectationId);

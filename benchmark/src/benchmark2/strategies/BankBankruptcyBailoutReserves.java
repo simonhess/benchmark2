@@ -96,15 +96,7 @@ public class BankBankruptcyBailoutReserves extends AbstractStrategy implements
 	@Override
 	public void bankrupt() {
 		Bank bank = (Bank) getAgent();
-		Population banks = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.BANKS_ID);
-		double tot=0;
-		for (Agent b:banks.getAgents()){
-			Bank bank1 = (Bank) b;
-			if (bank1.getAgentId()!=bank.getAgentId())
-			tot+=bank1.getCapitalRatio();
-			}
-		Uniform distribution = new Uniform(0,0.1,prng);
-		double car=tot/(banks.getSize()-1)+distribution.nextDouble();
+		double car=bank.getTargetedCapitalAdequacyRatio();
 		List<Item> loans=bank.getItemsStockMatrix(true, StaticValues.SM_LOAN);
 		double loansValue=0;
 		for (Item a:loans){

@@ -53,8 +53,14 @@ public class FullBondDemandStrategyDeposits extends AbstractStrategy implements 
 		
 		double thisBankDeposits =bank.getPassedValue(StaticValues.LAG_DEPOSITS, 1);
 		
-		double bondDemand = (supplier.getBondSupply()*thisBankDeposits/totalDeposits*totalDeposits/nonBankMoneySupply)
-				+(supplier.getBondSupply()*(1-(totalDeposits/nonBankMoneySupply))/(double)banks.getSize());
+		double bondDemand = 0; 
+		
+		if(totalDeposits==0) {
+			bondDemand = (supplier.getBondSupply()*(1-(totalDeposits/nonBankMoneySupply))/(double)banks.getSize());
+		}else {
+			bondDemand = (supplier.getBondSupply()*thisBankDeposits/totalDeposits*totalDeposits/nonBankMoneySupply)
+					+(supplier.getBondSupply()*(1-(totalDeposits/nonBankMoneySupply))/(double)banks.getSize());
+		}
 		
 		return (long) Math.ceil(bondDemand);
 

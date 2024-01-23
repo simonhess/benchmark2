@@ -530,4 +530,13 @@ public class CentralBank extends AbstractBank implements CreditSupplier, Deposit
 		return 0;
 	}
 	
+	public double getTotInterestsReserves() {
+		return totInterestsReserves;
+	}
+
+	public void setTotInterestsReserves(double totInterestsReserves) {
+		this.totInterestsReserves = totInterestsReserves;
+	}
+
+	
 }

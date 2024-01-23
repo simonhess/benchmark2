@@ -370,6 +370,18 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 		for (Agent i:hhpop){
 			hhs.add((BondDemander)i); // Cast Bank Agents to BondDemanders
 		}
+		
+		// set BondInterestRecieved of all banks which hold no bonds to zero
+		for (BondDemander i:banks){
+			i.setBondInterestsReceived(0);
+		}
+		for (BondDemander i:hhs){
+			i.setBondInterestsReceived(0);
+		}
+		
+		CentralBank cbank = (CentralBank) populations.getPopulation(StaticValues.CB_ID).getAgentList().get(0);
+		cbank.setBondInterestsReceived(0);
+		
 		double interestsBonds=0;
 		for(Item b:bonds){
 			Bond bond=(Bond)b;
@@ -415,10 +427,7 @@ public class Government extends SimpleAbstractAgent implements LaborDemander, Bo
 				}
 			}
 		}
-		// set BondInterestRecieved of all banks which hold no bonds to zero
-		for (BondDemander i:banks){
-			i.setBondInterestsReceived(0.00);
-		}
+		
 		totInterestsBonds=interestsBonds;
 	}
 

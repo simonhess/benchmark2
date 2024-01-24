@@ -3192,6 +3192,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark2.StaticValues.LAG_DEPOSITS" />
 					</key>
 				</entry>
+				<entry value-ref="pastDepositUpperBound">
+					<key>
+						<util:constant static-field="benchmark2.StaticValues.LAG_DEPOSITUPPERBOUND" />
+					</key>
+				</entry>
 			
 		</map>
 		</property>
@@ -3315,6 +3320,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="pastDeposits" class="jmab2.expectations.TreeMapPassedValues"
+		scope="prototype">
+		<property name="nbLags" value="4"></property>
+	</bean>
+	
+	<bean id="pastDepositUpperBound" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"></property>
 	</bean>

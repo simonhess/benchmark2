@@ -843,6 +843,7 @@ public class SFCSSMacroAgentInitialiser extends AbstractMacroAgentInitialiser im
 			b.addValue(StaticValues.LAG_TOTINTERBANKSUPPLY,0);
 			b.addValue(StaticValues.LAG_TOTINTERBANKDEMAND,0);
 			b.addValue(StaticValues.LAG_DEPOSITS,(csDep+ksDep+hhsDep)/bSize);
+			b.addValue(StaticValues.LAG_DEPOSITUPPERBOUND,iDep);
 			Map<Integer, PassedValues> passedValues = b.getPassedValues();
 			passedValues.get(StaticValues.LAG_PROFITAFTERTAX).addObservation(b.getPassedValue(StaticValues.LAG_PROFITAFTERTAX, 0)/(1+gr), sim.getRound()-1);
 			passedValues.get(StaticValues.LAG_PROFITAFTERTAX).addObservation(passedValues.get(StaticValues.LAG_PROFITAFTERTAX).getObservation(-1)/(1+gr), sim.getRound()-2);

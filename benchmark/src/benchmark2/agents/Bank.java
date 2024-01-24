@@ -621,6 +621,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 	private void determineDepositInterestRate() {
 		InterestRateStrategy strategy = (InterestRateStrategy)this.getStrategy(StaticValues.STRATEGY_DEPOSITINTERESTRATE);
 		this.depositInterestRate=strategy.computeInterestRate(null, 0, 0);
+		this.addValue(StaticValues.LAG_DEPOSITUPPERBOUND, this.getInterestRateUpperBound(StaticValues.MKT_DEPOSIT));
 		this.setActive(true, StaticValues.MKT_DEPOSIT);
 	}
 

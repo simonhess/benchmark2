@@ -299,6 +299,8 @@ public interface StaticValues {
 	public static int LAG_AVCFIRMEQUITYRATIO=47;
 	public static int LAG_EBITDAMINUSCAPEX=48;
 	
+	public static int LAG_DEPOSITUPPERBOUND=49;
+	
 	public static int SM_CASH=0;
 	public static int SM_DEP=1;
 	public static int SM_CONSGOOD=2;

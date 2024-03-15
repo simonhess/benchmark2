@@ -157,7 +157,7 @@ public class BankBankruptcyBailin extends AbstractStrategy implements
 
 							LiabilitySupplier libHolder = (LiabilitySupplier) payablestock.getLiabilityHolder();
 							
-							receiver.setBailoutcost(toPay);
+							receiver.setBailoutcost(receiver.getBailoutcost()+toPay);
 							libHolder.transfer(payablestock, targetStock, toPay);
 						}
 						

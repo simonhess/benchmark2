@@ -123,13 +123,13 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 				<ref bean="cbPolicyTic" />
 				<ref bean="banksUpdateCBInterestRatesTic" />
 				<ref bean="banksUpdateIBInterestRateTic" />
+				<ref bean="depSupplyTic" />
+				<ref bean="creditSupplyTic" />
 				<ref bean="capitalMarketTic1" />
 				<ref bean="rdDecisionTic" />
 				<ref bean="investmentDemandTic" />
 				<ref bean="depInterestTic" />
 				<ref bean="reservesInterestTic" />
-				<ref bean="depSupplyTic" />
-				<ref bean="creditSupplyTic" />
 				<ref bean="creditDemandTic" />
 				<ref bean="creditMarketTic" />
 				<ref bean="productionTic" />

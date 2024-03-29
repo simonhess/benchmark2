@@ -20,10 +20,14 @@ import benchmark2.StaticValues;
 import benchmark2.agents.Bank;
 import jmab2.expectations.Expectation;
 import jmab2.population.MacroPopulation;
+import jmab2.simulations.MacroSimulation;
+import jmab2.stockmatrix.Deposit;
 import jmab2.stockmatrix.InterestBearingItem;
 import jmab2.stockmatrix.Item;
 import jmab2.stockmatrix.Loan;
 import jmab2.strategies.SupplyCreditStrategy;
+import jmab2.strategies.TaxPayerStrategy;
+import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
 /**
@@ -41,14 +45,6 @@ public class SupplyCreditCAR extends AbstractStrategy implements
 	public double computeCreditSupply() {
 		
 		Bank b = (Bank) this.getAgent();
-		
-		Expectation exp = b.getExpectation(StaticValues.EXPECTATIONS_PROFITAFTERTAX);
-		double expAfterTaxProfits=exp.getExpectation();
-		
-		double expNW = b.getPassedValue(StaticValues.LAG_NETWEALTH, 1)+expAfterTaxProfits;
-		
-		
-		
 		
 		// Calculate principal payment
 		
@@ -81,6 +77,36 @@ public class SupplyCreditCAR extends AbstractStrategy implements
 				loanSum+=loan.getValue();
 			}
 		}	
+		
+		List<List<Item>> assets=b.getAssetStock();
+		List<List<Item>> liabilities=b.getLiabilityStock();
+		
+		double expInterestRecieved = 0;
+		double expInterestPaid = 0;
+		
+		for(List<Item> list: assets) {
+			for(Item item: list) {
+				if(item instanceof InterestBearingItem) {
+				InterestBearingItem iItem = (InterestBearingItem) item;
+				expInterestRecieved+=iItem.getValue()*iItem.getInterestRate();
+				}
+			}
+		}
+		
+		for(List<Item> list: liabilities) {
+			for(Item item: list) {
+				if(item instanceof InterestBearingItem) {
+				InterestBearingItem iItem = (InterestBearingItem) item;
+				expInterestPaid+=iItem.getValue()*iItem.getInterestRate();
+				}
+			}
+		}
+		
+		double expProfits = expInterestRecieved-expInterestPaid;
+		ProfitsWealthTaxStrategy strategy = (ProfitsWealthTaxStrategy) b.getStrategy(StaticValues.STRATEGY_TAXES);
+		double expAfterTaxProfits = expProfits-Math.max(0, expProfits*strategy.getProfitTaxRate());
+		
+		double expNW = b.getPassedValue(StaticValues.LAG_NETWEALTH, 1)+expAfterTaxProfits;
 		
 		double maxLoans = expNW/b.getTargetedCapitalAdequacyRatio();
 		double maxLoansSupply=maxLoans-loanSum+principalSum;

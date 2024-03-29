@@ -236,7 +236,6 @@ public interface StaticValues {
 	public static int EXPECTATIONS_POTENTIALGDP = 6;
 	public static int EXPECTATIONS_EBITDA = 7;
 	public static int EXPECTATIONS_UNLEVEREDFREECASHFLOWPERCAPACITY = 8;
-	public static int EXPECTATIONS_PROFITAFTERTAX = 9;
 	public static int EXPECTATIONS_REALNEWLOANS = 10;
 	public static int EXPECTATIONS_UNEMPLOYMENT = 11;
 	public static int EXPECTATIONS_EBITDAMINUSCAPEX = 12;

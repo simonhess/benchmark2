@@ -6392,7 +6392,6 @@
 				<ref bean="cbExpUnemploymentReport" />
 				<ref bean="banksLoansGrantedReport" />
 				<ref bean="banksExpRealLoansGrantedReport" />
-				<ref bean="banksExpProfitAfterTaxReport" />
 			</list>
 		</property>
 	</bean>
@@ -6889,29 +6888,6 @@
 	</bean>
 	
 	<bean id="banksExpRealLoansGrantedReportVariables" class="jmab2.report.MicroMultiVariablesReport">
-	<property name="numberOfSeries" value="100"/>
-	</bean>
-	
-					<!-- banks after tax profit expectation report -->
-	
-	<bean id="banksExpProfitAfterTaxReport" class="jmab2.report.MicroSimpleCSVReport">
-	<property name="computer" ref="banksExpProfitAfterTaxComputer"/>
-	<property name="CSVreportVariable" ref="banksExpProfitAfterTaxCSVReportVariables"/>
-	</bean>
-	
-	<bean id="banksExpProfitAfterTaxComputer" class="benchmark2.report.MicroExpectationComputer">
-	<property name="populationId"><util:constant static-field="benchmark2.StaticValues.BANKS_ID"/></property>
-	<property name="ExpId"><util:constant static-field="benchmark2.StaticValues.EXPECTATIONS_PROFITAFTERTAX"/></property>
-	</bean>
-	
-	<bean id="banksExpProfitAfterTaxCSVReportVariables" class="jmab2.report.MacroCSVReportVariables">
-	<property name="reportVariables" ref="banksExpProfitAfterTaxReportVariables"/>
-	<property name="fileNamePrefix" ref="fileNamePrefix" />
-	<property name="fileNameSuffix" value="banksExpProfitAfterTax" />
-	<property name="passThrough" value="true" />
-	</bean>
-	
-	<bean id="banksExpProfitAfterTaxReportVariables" class="jmab2.report.MicroMultiVariablesReport">
 	<property name="numberOfSeries" value="100"/>
 	</bean>
 

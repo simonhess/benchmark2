@@ -441,7 +441,6 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 		this.addValue(StaticValues.LAG_PROFITAFTERTAX,profitsAfterTax);
 		double[] afterTaxProfit = new double[1];
 		afterTaxProfit[0] = profitsAfterTax;
-		this.getExpectation(StaticValues.EXPECTATIONS_PROFITAFTERTAX).addObservation(afterTaxProfit);
 		DividendsStrategy strategy=(DividendsStrategy)this.getStrategy(StaticValues.STRATEGY_DIVIDENDS);
 		strategy.payDividends();
 	}

@@ -2203,32 +2203,6 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
     </property>
 	</bean>
 	
-	<bean id="expProfitAfterTax" class="benchmark2.expectations.AdaptiveExpectationDoubleExponentialSmoothing"
-		scope="prototype">
-		<property name="numberPeriod" value="4"/>
-		<property name="nbVariables" value="1"/>
-		<property name="adaptiveParam" value="0"/>
-		<property name="alpha" value="0.05"/>
-		<property name="beta" value="0.05"/>
-		<property name="trend" value="0.0075"/>
-		<property name="weights">
-			<array>
-				<array>
-					<value>1.0</value>
-				</array>
-				<array>
-					<value>0.0</value>
-				</array>
-				<array>
-					<value>0.0</value>
-				</array>
-				<array>
-					<value>0.0</value>
-				</array>
-        </array>
-    </property>
-	</bean> 
-	
 	<bean id="expEBITDA" class="benchmark2.expectations.AdaptiveExpectationDoubleExponentialSmoothing"
 		scope="prototype">
 		<property name="numberPeriod" value="4"/>
@@ -3134,10 +3108,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		<map>
 			<entry value-ref="expDeposits"> 
 				<key>
-				<util:constant static-field="benchmark2.StaticValues.EXPECTATIONS_DEPOSITS"/></key></entry>
-			<entry value-ref="expProfitAfterTax"> 
-				<key>
-				<util:constant static-field="benchmark2.StaticValues.EXPECTATIONS_PROFITAFTERTAX"/></key></entry>	
+				<util:constant static-field="benchmark2.StaticValues.EXPECTATIONS_DEPOSITS"/></key></entry>	
 			<entry value-ref="expRealNewLoans"> 
 				<key>
 				<util:constant static-field="benchmark2.StaticValues.EXPECTATIONS_REALNEWLOANS"/></key></entry>		

@@ -113,14 +113,14 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 		</property>
 		<property name="events">
 			<list>
-				<ref bean="computeExpectationsTic" />	
+				<ref bean="computeExpectationsTic" />
+				<ref bean="depInterestTic" />
+				<ref bean="reservesInterestTic" />		
 				<ref bean="cbPolicyTic" />
 				<ref bean="banksUpdateCBInterestRatesTic" />
 				<ref bean="banksUpdateIBInterestRateTic" />
 				<ref bean="creditSupplyTic" />
 				<ref bean="depSupplyTic" />
-				<ref bean="depInterestTic" />
-				<ref bean="reservesInterestTic" />	
 				<ref bean="laborDemandTic" />
 				<ref bean="laborSupplyTic" />		
 				<ref bean="governmentLaborTic" />
@@ -3164,6 +3164,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 						<util:constant static-field="benchmark2.StaticValues.LAG_DEPOSITS" />
 					</key>
 				</entry>
+				<entry value-ref="pastReserves">
+					<key>
+						<util:constant static-field="benchmark2.StaticValues.LAG_RESERVES" />
+					</key>
+				</entry>
 				<entry value-ref="pastDepositUpperBound">
 					<key>
 						<util:constant static-field="benchmark2.StaticValues.LAG_DEPOSITUPPERBOUND" />
@@ -3292,6 +3297,11 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 	</bean>
 	
 	<bean id="pastDeposits" class="jmab2.expectations.TreeMapPassedValues"
+		scope="prototype">
+		<property name="nbLags" value="4"></property>
+	</bean>
+	
+	<bean id="pastReserves" class="jmab2.expectations.TreeMapPassedValues"
 		scope="prototype">
 		<property name="nbLags" value="4"></property>
 	</bean>

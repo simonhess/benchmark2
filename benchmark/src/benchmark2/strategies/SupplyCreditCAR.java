@@ -18,15 +18,18 @@ import java.util.List;
 
 import benchmark2.StaticValues;
 import benchmark2.agents.Bank;
+import benchmark2.agents.CentralBank;
 import jmab2.expectations.Expectation;
 import jmab2.population.MacroPopulation;
 import jmab2.simulations.MacroSimulation;
+import jmab2.stockmatrix.Bond;
 import jmab2.stockmatrix.Deposit;
 import jmab2.stockmatrix.InterestBearingItem;
 import jmab2.stockmatrix.Item;
 import jmab2.stockmatrix.Loan;
 import jmab2.strategies.SupplyCreditStrategy;
 import jmab2.strategies.TaxPayerStrategy;
+import net.sourceforge.jabm.Population;
 import net.sourceforge.jabm.SimulationController;
 import net.sourceforge.jabm.strategy.AbstractStrategy;
 
@@ -86,25 +89,33 @@ public class SupplyCreditCAR extends AbstractStrategy implements
 		
 		for(List<Item> list: assets) {
 			for(Item item: list) {
-				if(item instanceof InterestBearingItem) {
+				if(item instanceof Loan || item instanceof Bond) {
 				InterestBearingItem iItem = (InterestBearingItem) item;
 				expInterestRecieved+=iItem.getValue()*iItem.getInterestRate();
 				}
 			}
 		}
 		
+		SimulationController controller = (SimulationController)this.getScheduler();
+		MacroPopulation macroPop = (MacroPopulation) controller.getPopulation();
+		Population pop = macroPop.getPopulation(StaticValues.CB_ID);
+		CentralBank CB= (CentralBank)pop.getAgentList().get(0);
+		expInterestRecieved+=b.getPassedValue(StaticValues.LAG_RESERVES, 1)*CB.getPassedValue(StaticValues.LAG_RESERVESINTEREST, 1);
+		
 		for(List<Item> list: liabilities) {
 			for(Item item: list) {
-				if(item instanceof InterestBearingItem) {
+				if(item instanceof Loan || item instanceof Bond) {
 				InterestBearingItem iItem = (InterestBearingItem) item;
 				expInterestPaid+=iItem.getValue()*iItem.getInterestRate();
 				}
 			}
 		}
 		
+		expInterestPaid+=b.getPassedValue(StaticValues.LAG_DEPOSITS, 1)*b.getPassedValue(StaticValues.LAG_DEPOSITINTEREST, 1);
+		
 		double expProfits = expInterestRecieved-expInterestPaid;
 		ProfitsWealthTaxStrategy strategy = (ProfitsWealthTaxStrategy) b.getStrategy(StaticValues.STRATEGY_TAXES);
-		double expAfterTaxProfits = expProfits-Math.max(0, expProfits*strategy.getProfitTaxRate());
+		double expAfterTaxProfits = expProfits-Math.max(0, expProfits*strategy.getProfitTaxRate());	
 		
 		double expNW = b.getPassedValue(StaticValues.LAG_NETWEALTH, 1)+expAfterTaxProfits;
 		

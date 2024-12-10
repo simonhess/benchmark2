@@ -935,7 +935,7 @@ public class Bank extends AbstractBank implements CreditSupplier, CreditDemander
 					avgNetLiquidityRatio = totalReserves/totalDeposits;
 				}
 			
-				return this.interbankAsk-Math.max(0,Math.round(this.targetedLiquidityRatio * 1000.0) / 1000.0-Math.round(Math.max(0, avgNetLiquidityRatio) * 1000.0) / 1000.0)*(this.advancesInterestRate+this.reserveInterestRate)-(Math.max(0, avgNetLiquidityRatio) * 1000.0/1000.0)*(this.interbankAsk-this.reserveInterestRate);
+				return this.interbankAsk-Math.max(0,Math.round(this.targetedLiquidityRatio * 1000.0) / 1000.0-Math.round(Math.max(0, avgNetLiquidityRatio) * 1000.0) / 1000.0)*(this.advancesInterestRate-this.reserveInterestRate)-(Math.max(0, avgNetLiquidityRatio) * 1000.0/1000.0)*(this.interbankAsk-this.reserveInterestRate);
 				
 		case StaticValues.MKT_INTERBANK:
 			return this.advancesInterestRate;

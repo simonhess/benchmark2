@@ -1964,7 +1964,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <property name="hhWage" value="5"/>
 <property name="gr" value="0.0075"/>
 <property name="hhsSize" value="8000"/>
-<property name="propensityOOW" value="0.1"/>
+<property name="propensityOOW" value="0.01"/>
 <property name="csEmpl" value="5000"/>
 <property name="ksEmpl" value="1000"/>
 <property name="inventoryShare" value="0.1"/>
@@ -1982,19 +1982,19 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <property name="csMarkup" value="0.165"/>
 <property name="ksMarkup" value="0.075"/>
 <property name="bsMarkup" value="0.0025"/>
-<property name="bsAdv" value="3388.23751527413"/>
-<property name="bsBonds" value="46429.6995944271"/>
+<property name="bsAdv" value="12361.3410476764"/>
+<property name="bsBonds" value="225891.770242472"/>
 <property name="bsCash" value="0"/>
 <property name="bsProfits" value="85.1652687786228"/>
-<property name="bsRes" value="3388.23751527413"/>
+<property name="bsRes" value="12361.3410476764"/>
 <property name="bsTax" value="15.3297483801521"/>
-<property name="bsDiv" value="56.0249362722039"/>
+<property name="bsDiv" value="56.0249362722037"/>
 <property name="bsNW" value="1855.22180096135"/>
-<property name="bsProfitShareAsDividends" value="0.802241265655847"/>
+<property name="bsProfitShareAsDividends" value="0.802241265655844"/>
 <property name="riskAversionK" value="7.19722457733622"/>
 <property name="riskAversionC" value="7.19722457733622"/>
 <property name="cbBonds" value="0"/>
-<property name="cbProfits" value="50.4452235524685"/>
+<property name="cbProfits" value="184.039817086993"/>
 <property name="seigniorage" value="0"/>
 <property name="csOutput" value="32000"/>
 <property name="cPrice" value="1.10590501343438"/>
@@ -2008,17 +2008,17 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <property name="csTax" value="969.90864683273"/>
 <property name="csDiv" value="3976.62545201419"/>
 <property name="targetCashFlow" value="0.175105939700728"/>
-<property name="unemploymentBenefit" value="0.459704224406776"/>
+<property name="unemploymentBenefit" value="0.226748651930949"/>
 <property name="gEmpl" value="1360"/>
 <property name="gRes" value="0"/>
-<property name="gBonds" value="46429.6995944271"/>
-<property name="hhsDep" value="37764.7503054827"/>
-<property name="hhsNI" value="35637.5948123116"/>
-<property name="hhsTax" value="7499.97247921682"/>
+<property name="gBonds" value="225891.770242472"/>
+<property name="hhsDep" value="217226.820953527"/>
+<property name="hhsNI" value="36973.5407476569"/>
+<property name="hhsTax" value="7956.86598910489"/>
 <property name="hhsNomCons" value="35388.9604299002"/>
 <property name="hhsRealCons" value="32000"/>
 <property name="propensityOOI" value="0.9"/>
-<property name="hhsNW" value="37764.7503054827"/>
+<property name="hhsNW" value="217226.820953527"/>
 <property name="iLoans" value="0.0175"/>
 <property name="iReserves" value="0"/>
 <property name="ksOutput" value="2000"/>
@@ -2038,6 +2038,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 <property name="csShareOfExpIncomeAsDeposit" value="1"/>
 <property name="csEBITDAminusCAPEX" value="5380.04476350838"/>
 <property name="ksEBITDA" value="459.575376242384"/>
+
 
 
 

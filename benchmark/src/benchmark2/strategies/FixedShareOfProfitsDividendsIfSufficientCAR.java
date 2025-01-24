@@ -121,7 +121,7 @@ DividendsStrategy {
 				}
 				else if (actualCapital > targetCapital) {
 
-					double div =  Math.max(0,profits)+(actualCapital-targetCapital)*excessEquityDecayRate;
+					double div = profits+(actualCapital-targetCapital)*excessEquityDecayRate;
 					//div=profits;
 					bank.setDividends(div);
 				}

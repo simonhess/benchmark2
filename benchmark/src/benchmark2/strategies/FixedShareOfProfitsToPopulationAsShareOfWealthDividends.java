@@ -136,6 +136,14 @@ DividendsStrategy {
 				}
 				
 			}
+		}else {
+			if (dividendPayer instanceof Bank){
+				Bank bank= (Bank) dividendPayer;
+				bank.setDividends(0);
+			}else {
+				AbstractFirm firm= (AbstractFirm) dividendPayer;
+				firm.setDividends(0);
+			}
 		}
 
 

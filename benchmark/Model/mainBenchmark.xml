@@ -184,7 +184,7 @@ Caiani, A., Godin, A., Caverzasi, E., Ricetti, L., Russo, A., Gallegati, M., Kin
 
 	<bean id="fileNamePrefix" class="net.sourceforge.jabm.util.MutableStringWrapper"
 		scope="singleton">
-		<constructor-arg value="data/" />
+		<constructor-arg value="data/experiment1/" />
 	</bean>
 
 </beans>

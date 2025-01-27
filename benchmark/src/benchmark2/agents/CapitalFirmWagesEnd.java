@@ -234,11 +234,11 @@ public class CapitalFirmWagesEnd extends CapitalFirm implements GoodSupplier,
 		double profitShare=strategyDiv.getProfitShare();
 		//double expRevenues = nomSalesExp.getExpectation();
 		double expRevenues = expRealSales*this.getPrice();
-		double expectedProfits=expRevenues-(nbWorkers*expWages)+this.interestReceived-this.debtInterests+(shareInvenstories*expRealSales)*uc-lNomInv;
+		double expectedProfits=expRevenues-(nbWorkers*expWages)+this.interestReceived-this.debtInterests-this.reservesInterestsReceived+(shareInvenstories*expRealSales)*uc-lNomInv;
 		double expectedTaxes=Math.max(0, expectedProfits*profitTaxRate);
 		double expectedDividends=Math.max(0,expectedProfits*(1-profitTaxRate)*profitShare);
-		double expectedFinancialRequirement=(nbWorkers*expWages)+(Math.floor(this.amountResearch/expWages))*expWages +
-				this.debtBurden - this.interestReceived + expectedDividends+expectedTaxes-expRevenues+ this.shareOfExpIncomeAsDeposit*(nbWorkers*expWages);
+		double expectedFinancialRequirement=(Math.floor(this.amountResearch/expWages))*expWages +
+				this.debtBurden - this.interestReceived - this.reservesInterestsReceived + expectedDividends+expectedTaxes-expRevenues+ this.shareOfExpIncomeAsDeposit*(nbWorkers*expWages);
 		expectedFinancialRequirement=Math.max(expectedFinancialRequirement,Math.ceil(nbWorkers*expWages));
 		this.creditDemanded = strategy.computeCreditDemand(expectedFinancialRequirement);
 		if(creditDemanded>0)

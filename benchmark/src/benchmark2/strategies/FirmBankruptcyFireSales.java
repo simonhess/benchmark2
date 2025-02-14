@@ -220,31 +220,34 @@ public class FirmBankruptcyFireSales extends AbstractStrategy implements
 				for(Agent h:households.getAgents()){
 					totalHouseholdsWealth+=((MacroAgent)h).getNetWealth();
 				}
-				for (Agent h:households.getAgents()){
-					MacroAgent hh = (MacroAgent) h;
-					for(int i=0;i<loans.size();i++){
-						Loan loan = (Loan) loans.get(i);
-						//each owner (household contribute according to his share of net-wealth, each creditor is refunded according to his share of credit.
-						double amountToPay=ownersDisbursment*hh.getNetWealth()/totalHouseholdsWealth*(banksLosses[i])/totalBanksLoss;
-						CreditSupplier lendingBank= (CreditSupplier) loan.getAssetHolder();
-						Deposit depositHH =(Deposit)hh.getItemStockMatrix(true, StaticValues.SM_DEP);
-						Households hhs = (Households) hh;
-						hhs.reallocateLiquidity(amountToPay, hhs.getPayingStocks(0, depositHH), depositHH);
-						if (depositHH.getLiabilityHolder()==lendingBank){
-							depositHH.setValue(depositHH.getValue()-amountToPay);
+				if(totalBanksLoss>0) {
+					for (Agent h:households.getAgents()){
+						MacroAgent hh = (MacroAgent) h;
+						for(int i=0;i<loans.size();i++){
+							Loan loan = (Loan) loans.get(i);
+							//each owner (household contribute according to his share of net-wealth, each creditor is refunded according to his share of credit.
+							double amountToPay=ownersDisbursment*hh.getNetWealth()/totalHouseholdsWealth*(banksLosses[i])/totalBanksLoss;
+							CreditSupplier lendingBank= (CreditSupplier) loan.getAssetHolder();
+							Deposit depositHH =(Deposit)hh.getItemStockMatrix(true, StaticValues.SM_DEP);
+							Households hhs = (Households) hh;
+							hhs.reallocateLiquidity(amountToPay, hhs.getPayingStocks(0, depositHH), depositHH);
+							if (depositHH.getLiabilityHolder()==lendingBank){
+								depositHH.setValue(depositHH.getValue()-amountToPay);
+							}
+							else{
+								depositHH.setValue(depositHH.getValue()-amountToPay);
+								Item dBankReserve= (Item) depositHH.getLiabilityHolder().getItemStockMatrix(true,StaticValues.SM_RESERVES);
+								dBankReserve.setValue(dBankReserve.getValue()-amountToPay);
+								Item lendingBankReserves= (Item) lendingBank.getItemStockMatrix(true, StaticValues.SM_RESERVES);
+								lendingBankReserves.setValue(lendingBankReserves.getValue()+amountToPay);
+							}
+							loan.setValue(loan.getValue()-amountToPay);
+							banksLosses[i]-=amountToPay;
+							totalBanksLoss-=amountToPay;
 						}
-						else{
-							depositHH.setValue(depositHH.getValue()-amountToPay);
-							Item dBankReserve= (Item) depositHH.getLiabilityHolder().getItemStockMatrix(true,StaticValues.SM_RESERVES);
-							dBankReserve.setValue(dBankReserve.getValue()-amountToPay);
-							Item lendingBankReserves= (Item) lendingBank.getItemStockMatrix(true, StaticValues.SM_RESERVES);
-							lendingBankReserves.setValue(lendingBankReserves.getValue()+amountToPay);
-						}
-						loan.setValue(loan.getValue()-amountToPay);
-						banksLosses[i]-=amountToPay;
-						totalBanksLoss-=amountToPay;
-					}
+					}	
 				}
+				
 				
 			} 
 			//all banks recover the same share of their outstanding credit as the total available funds are residualDeposits plus K

@@ -132,7 +132,7 @@ public class CapitalFirmWagesEnd extends CapitalFirm implements GoodSupplier,
 			if(wageBill>targetStock.getValue()){
 				neededDiscount = targetStock.getValue()/wageBill;
 			}
-			if(Math.round(neededDiscount)<Math.round(this.minWageDiscount)){
+			if(neededDiscount<this.minWageDiscount){
 				int currentWorkers = this.employees.size();
 				AgentList emplPop = new AgentList();
 				for(MacroAgent ag : this.employees)

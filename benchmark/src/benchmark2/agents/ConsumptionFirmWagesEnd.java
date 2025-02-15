@@ -138,7 +138,7 @@ LaborDemander, DepositDemander, PriceSetterWithTargets, ProfitsTaxPayer, Finance
 				//System.out.println("discount");
 				neededDiscount = targetStock.getValue()/wageBill;
 			}
-			if(Math.round(neededDiscount)<Math.round(this.minWageDiscount)){
+			if(neededDiscount<this.minWageDiscount){
 				int currentWorkers = this.employees.size();
 				AgentList emplPop = new AgentList();
 				for(MacroAgent ag : this.employees)

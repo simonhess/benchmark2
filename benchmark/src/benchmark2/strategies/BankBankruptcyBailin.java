@@ -109,24 +109,40 @@ public class BankBankruptcyBailin extends AbstractStrategy implements
 		bank.setBailoutCost(targetNW-nw);
 		double totDeposits= bank.getNumericBalanceSheet()[1][depositId];
 		
+		double IBLoansTotalValue=0;
+		loans = bank.getItemsStockMatrix(false, StaticValues.SM_INTERBANK);
+		
+		for (Item i:loans){
+			IBLoansTotalValue+=i.getValue();
+		}
+		
+		double totLiabilitiesValue = totDeposits+IBLoansTotalValue;
+		
 		Population hhs = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.HOUSEHOLDS_ID);
 		Population cFirms = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.CONSUMPTIONFIRMS_ID);
 		Population kFirms = ((MacroPopulation)((SimulationController)this.scheduler).getPopulation()).getPopulation(StaticValues.CAPITALFIRMS_ID);
 		
 		
-		double fundsToSpend = Math.min(-nw, totDeposits);
+		double fundsToSpend = Math.min(-nw, totLiabilitiesValue);
 		
-		if(fundsToSpend>0) {
+		if(Math.round(fundsToSpend)>0) {
 		
 		for (Item deposit:bank.getItemsStockMatrix(false, depositId)){
 			double bailoutcost = (deposit.getValue()*(fundsToSpend)/totDeposits);
-			deposit.setValue(deposit.getValue()-(deposit.getValue()*(fundsToSpend)/totDeposits));
+			deposit.setValue(deposit.getValue()-(deposit.getValue()*(fundsToSpend)/totLiabilitiesValue));
 			if(deposit.getAssetHolder() instanceof Households) {
 				Households hh = (Households)deposit.getAssetHolder();
 				hh.setBailoutcost(bailoutcost);
 			}
 		}
 		
+		if(Math.round(IBLoansTotalValue)>0) {
+			for (Item i:loans){
+				Loan l= (Loan)i;
+				l.setValue(l.getValue()-(l.getValue()*(fundsToSpend)/totLiabilitiesValue));
+				l.setInitialAmount(l.getValue());
+			}
+		}
 		}
 		
 		double capitalAfterBailin = bank.getNetWealth();

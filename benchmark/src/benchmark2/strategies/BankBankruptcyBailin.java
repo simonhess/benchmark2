@@ -153,12 +153,14 @@ public class BankBankruptcyBailin extends AbstractStrategy implements
 						for (Agent receiver : hhs.getAgents()) {
 							totalNW += ((MacroAgent) receiver).getNetWealth();
 						}
+						/*
 						for (Agent receiver : cFirms.getAgents()) {
 							totalNW += ((MacroAgent) receiver).getNetWealth();
 						}
 						for (Agent receiver : kFirms.getAgents()) {
 							totalNW += ((MacroAgent) receiver).getNetWealth();
 						}
+						*/
 
 						Item targetStock = bank.getItemStockMatrix(true, StaticValues.SM_RESERVES);
 
@@ -176,7 +178,7 @@ public class BankBankruptcyBailin extends AbstractStrategy implements
 							receiver.setBailoutcost(receiver.getBailoutcost()+toPay);
 							libHolder.transfer(payablestock, targetStock, toPay);
 						}
-						
+						/*
 						for (Agent rec : cFirms.getAgents()) {
 							ConsumptionFirm receiver = (ConsumptionFirm) rec;
 							double hhnw = receiver.getNetWealth();
@@ -204,6 +206,7 @@ public class BankBankruptcyBailin extends AbstractStrategy implements
 
 							libHolder.transfer(payablestock, targetStock, toPay);
 						}
+						*/
 		}
 		
 		// Recapitalize banks by households

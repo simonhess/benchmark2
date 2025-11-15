@@ -1,0 +1,3 @@
+[submodule "submodules/module_jmab2"]
+	path = submodules/module_jmab2
+	url = https://github.com/simonhess/jmab2.git

@@ -1,27 +1,29 @@
-# Java Macro Agent-Based (JMAB) toolkit - "Benchmark" model
-
-Copyright (c) 2016 Alessandro Caiani and Antoine Godin
+# Java Macro Agent-Based (JMAB) toolkit - "Benchmark" model Version 2.0 
 
 ##Overview
 
-The folder contains the model-specific code empolyed for the model presented in the working paper available <a href="http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2664125"> here</a> , the summary tables of the experiments discussed in the paper, and additional materials to run simulations by your own and analyze results.
+This project is a complete overhaul of the <a href="https://github.com/S120/benchmark">JMAB benchmark model</a> by Caiani et al. (2016, Journal of Economic Dynamics and Control (69), pp. 375–408).
 
-The code requires and builds upon the JMAB platform (<a href="https://github.com/S120/jmab">JMAB project</a>): a Java framework for building macro stock-flow consistent agent-based simulation models. A simulation model is constructed using <a href="http://martinfowler.com/articles/injection.html">dependency injection</a> by creating a <a href="https://blog.mafr.de/2007/11/01/configuration-with-spring-beans/">Spring beans</a> configuration file which specifies which classes to use in the simulation and the values of any attributes (parameters). The Spring configuration file is specified using the system property jabm.config.
+The original model shows fundamental problems in every agent behavior:
+- Agents use exponential smoothing to calculate their expectations despite not being suitable for the model.
+- Firms ignore the prices of competitors in their own price calculation.
+- The investment of firms create feedback-loops which prevents the model from reaching a steady state.
+- Loan interest setting of banks make them constantly go bankrupt.
+- Loan approval decision of banks ignore their funding costs.
+- Probability of default is set too high and does not consider capital expenditure of consumption firms.
+- Deposit interest setting of banks is counter empirical and reduces their profits.
+- Several errors in the calibration.
 
-The main application class is DesktopSimulationManager
+As result the model produces unplausible outputs, reaches no steady-state, and always crashes after 1000 periods.
 
-##Additional Contents
+The improved version JMAB 2.0 model in this repository fixes all these shortcomings and produces only plausible results. Among the improvements are: 
 
-The folder "paper" contains:
-- The pdf document of the working paper presenting the model
-
-- The Summary Tables with the quasi-SS characterization in the Baseline Scenario and the Sensitivity Experiments discusses in the working paper available <a href="http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2664125"> here</a> 
-
-- The Summary Tables of the Cross Correlation Analysis in the Baseline and in Each Sensitivity
-
-- All the Plots Produced in the Experiments. In the case of the sensitivity experiments lighter grey lines correspond to higher values of the parameter.
-
-- The Executable Files to run simulations of the benchmark model by your own (in both the Baseline and Sensitivity Scenarios) and the R Scripts required to transform and analyze the results, and plot the figures. (See Read Me doc. in the “Launch Simulations” Folder)
+- Expectations: Firms use a simpler and more suitable method (rule based expectation) to calculate expectations. Other agents use double exponential smoothing.
+- Pricing: Firms consider the prices of their competitors, which makes their marketshares more homogenous.
+- Investment: The investment of firms is rougly fixed and is only slowly adjusted, which significantly reduces volatility.
+- Loan and deposit mechanisms: Banks set their loans interest rates based on funding costs and demand. The deposit interest setting was overhauled and is in line with empirical data.
+- Loan approval: Banks now consider funding costs and calculate the probability of default of firms using the Debt Service Coverage Ratio.
+- Execution time: JMAB 2.0 runs about 5 times faster then the original one.
 
 ##Prerequisites
 
@@ -31,23 +33,51 @@ Note that on Mac OS, you will need to use the Oracle version of Java instead of 
 
 ##Installation
 
-The project archive can be imported directly into the Eclipse IDE as an existing project.
+This repository can be directly imported in Eclipse with the URI: https://github.com/simonhess/benchmark2.git and the "Clone Submodules" option being on.
 
-##Running the examples from the Eclipse IDE
+Alternatively, clone this repository recursively and import it in Eclipse as an local Git repository:
 
-The distribution archive can be imported directly into the Eclipse IDE by using the File/Import menu item. Create a launch configuration in the benchmark project with the main class benchmark.Main and specify which configuration file you want to use by setting the system property jabm.config using the JVM argument -D , for example
+```
+git clone --recursive https://github.com/simonhess/benchmark2.git
+```
 
--Djabm.config=model/mainBaseline.xml
+##Use the model
+
+Use Eclipse and run the Main.java class in the /src/benchmark2 folder with the VM arguments "-Djabm.config=Model/mainBenchmark.xml -Xmx4G -Xms4G" . In order to do so open the "Run configurations..." menu in Eclipse in the dropdown menu of the Run-Button, go to the arguments tab and add the arguments in the VM arguments section.
+
+##Replicate the JMAB 2.0 paper results
+
+To replicate the results of the JMAB 2.0 paper perform the following steps:
+
+1. Change the number of simulations in the /Model/mainBenchmark.xml file to 100:
+
+```
+<property name="numSimulations" value="100"/>	
+```
+
+2. Run the simulation (Needs about 13 hrs) with the VM arguments "-Djabm.config=Model/mainBenchmark.xml -Xmx4G -Xms4G".
+
+3. Clone the JMAB 1.0 data and unzip all files in the benchmark2_supp_data/JMAB1_data to retrieve the JMAB 1.0 data R workspace.
+
+```
+git clone https://github.com/simonhess/benchmark2_supp_data.git
+```
+4. Remove the comment symbol "#" in the following lines in the /data/BaselineAnalysisWithComparison.R file (Lines 11-13):
+
+```
+#source("MergeMonteCarloSim.R")
+#generateMergedCSV(folder)
+#generateSums(folder)
+```
+
+5. Run the BaselineAnalysisWithComparison.R file to create the plots.
+
+The plots will be created in the /data folder.
+
+##Custom calibration
+
+To change the calibration of the model edit the .ipynb file in the "/Calibration" folder and execute the file with the SageMath Software (<a href="https://www.sagemath.org/">). The calibration should print a calibration xml block into the .ipynb file which can be copied into the /Model/modelBenchmark.xml file.
 
 ##Documentation
 
 The folder documentation in the <a href="https://github.com/S120/jmab">JMAB project</a> contains a user guide.
-
-The folder paper contains the last working paper version of the model description, plus the data generated by the simulation used for the paper, and the corresponding graphs. It also contains a jar that can be used to run the simulation directly from the console
-
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

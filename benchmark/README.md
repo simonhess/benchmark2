@@ -2,7 +2,7 @@
 
 ##Overview
 
-This project is a complete overhaul of the <a href="https://github.com/S120/benchmark">JMAB benchmark model</a> by Caiani et al. (2016, Journal of Economic Dynamics and Control (69), pp. 375–408).
+This project is a complete overhaul of the <a href="https://github.com/S120/benchmark">JMAB benchmark model</a> by Caiani et al. (2016, Journal of Economic Dynamics and Control (69), pp. 375–408), published in <a href="https://www.sciencedirect.com/science/article/abs/pii/S0165188915301020">https://www.sciencedirect.com/science/article/abs/pii/S0165188915301020</a>.
 
 The original model shows fundamental problems in every agent behavior:
 - Agents use exponential smoothing to calculate their expectations despite not being suitable for the model.
@@ -76,7 +76,7 @@ The plots will be created in the /data folder.
 
 ##Custom calibration
 
-To change the calibration of the model edit the .ipynb file in the "/Calibration" folder and execute the file with the SageMath Software (<a href="https://www.sagemath.org/">). The calibration should print a calibration xml block into the .ipynb file which can be copied into the /Model/modelBenchmark.xml file.
+To change the calibration of the model edit the .ipynb file in the "/Calibration" folder and execute the file with the (<a href="https://www.sagemath.org/">SageMath Software</a>). The calibration should print a calibration xml block into the .ipynb file which can be copied into the /Model/modelBenchmark.xml file.
 
 ##Documentation
 

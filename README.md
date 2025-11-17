@@ -49,22 +49,22 @@ Use Eclipse and run the Main.java class in the /src/benchmark2 folder with the V
 
 To replicate the results of the JMAB 2.0 paper perform the following steps:
 
-### 1. Change the number of simulations in the /Model/mainBenchmark.xml file to 100:
+1. Change the number of simulations in the /Model/mainBenchmark.xml file to 100:
 
 ```
 <property name="numSimulations" value="100"/>	
 ```
 
-### 2. Run the simulation (Needs about 13 hrs) with the VM arguments "-Djabm.config=Model/mainBenchmark.xml -Xmx4G -Xms4G".
+2. Run the simulation (Needs about 13 hrs) with the VM arguments "-Djabm.config=Model/mainBenchmark.xml -Xmx4G -Xms4G".
 
-### 3. Clone the JMAB 1.0 data and unzip all files in the benchmark2_supp_data/JMAB1_data to retrieve the JMAB 1.0 data R workspace.
+3. Clone the JMAB 1.0 data and unzip all files in the benchmark2_supp_data/JMAB1_data to retrieve the JMAB 1.0 data R workspace.
 
 ```
 git clone https://github.com/simonhess/benchmark2_supp_data.git
 ```
-### 4. Import the JMAB 1.0 data R workspace in R studio.
+4. Import the JMAB 1.0 data R workspace in R studio.
 
-### 5. Open the file /data/BaselineAnalysisWithComparison.R in R studio and remove the comment symbol "#" in the following lines (Lines 11-13):
+5. Open the file /data/BaselineAnalysisWithComparison.R in R studio and remove the comment symbol "#" in the following lines (Lines 11-13):
 
 ```
 #source("MergeMonteCarloSim.R")
@@ -72,7 +72,7 @@ git clone https://github.com/simonhess/benchmark2_supp_data.git
 #generateSums(folder)
 ```
 
-### 6. Run the BaselineAnalysisWithComparison.R file to create the plots.
+6. Run the BaselineAnalysisWithComparison.R file to create the plots.
 
 The plots will be created in the /data folder.
 

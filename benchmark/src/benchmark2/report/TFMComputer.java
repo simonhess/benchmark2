@@ -228,7 +228,7 @@ public class TFMComputer extends AbstractMicroComputer implements
 		fCB = cb.getCBProfits();
 		
 		//Residuals
-		consCF = consHH;
+		consCF = consHH+consG;
 		wHH=wCF+wKF+wG;
 		doleHH=doleG;
 		tG=tHH+tCF+tKF+tB;
@@ -273,7 +273,7 @@ public class TFMComputer extends AbstractMicroComputer implements
 		result.put((long) StaticValues.TFM_WG, wG);
 		result.put((long) StaticValues.TFM_DOLEG, doleG);
 		result.put((long) StaticValues.TFM_TG, tG);
-		result.put((long) StaticValues.TFM_TG, consG);
+		result.put((long) StaticValues.TFM_CONSG, consG);
 		result.put((long) StaticValues.TFM_IBG, iBG);
 		result.put((long) StaticValues.TFM_FCBG, fCBG);
 		result.put((long) StaticValues.TFM_IBCB, iBCB);

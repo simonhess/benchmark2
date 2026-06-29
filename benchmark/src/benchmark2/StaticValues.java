@@ -564,6 +564,7 @@ public interface StaticValues {
 	public static int TFM_IRKF=42;
 	public static int TFM_IRB=43;
 	public static int TFM_IRCB=44;
+	public static int TFM_CONSG=45;
 	
 
 }

@@ -115,6 +115,7 @@ public class TFMComputer extends AbstractMicroComputer implements
 		double tG = 0;
 		double iBG = 0;
 		double fCBG = 0;
+		double consG = 0;
 		
 		//CB flows
 		double iBCB = 0;
@@ -216,6 +217,12 @@ public class TFMComputer extends AbstractMicroComputer implements
 		wG = gov.getWageBill();
 		doleG = unemployed*(wCF+wKF+wG)/(hhpop.getSize()-unemployed)*gov.getUnemploymentBenefit();
 		
+		List<Item>loans=gov.getItemsStockMatrix(true, StaticValues.SM_CONSGOOD);
+		for (Item j:loans){
+			ConsumptionGood good= (ConsumptionGood)j;
+			consG +=good.getValue();
+		}
+		
 		CentralBank cb = (CentralBank) cbpop.getAgentList().get(0);
 		iBCB = cb.getBondInterestsReceived();
 		fCB = cb.getCBProfits();
@@ -266,6 +273,7 @@ public class TFMComputer extends AbstractMicroComputer implements
 		result.put((long) StaticValues.TFM_WG, wG);
 		result.put((long) StaticValues.TFM_DOLEG, doleG);
 		result.put((long) StaticValues.TFM_TG, tG);
+		result.put((long) StaticValues.TFM_TG, consG);
 		result.put((long) StaticValues.TFM_IBG, iBG);
 		result.put((long) StaticValues.TFM_FCBG, fCBG);
 		result.put((long) StaticValues.TFM_IBCB, iBCB);
